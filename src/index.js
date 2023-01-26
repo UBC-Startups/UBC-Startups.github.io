@@ -2,16 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 
-import Head from './components/head'
+import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <>
-    <Head title="UBC Startups"/>
-    {/* <NavigationBar /> */}
-    {/* <Footer /> */}
-    <h1>Hello, World!</h1>
-  </>
+  <App/>
 );
 
 

@@ -6,7 +6,7 @@ const WhatWeOfferContent = styled.div`
     background: #FFFFFF;
     box-shadow: 20px 20px 80px rgba(0, 0, 0, 0.1);
     border-radius: 24px;
-    height: 400px;
+    height: 380px;
     width: 300px;
 `
 
@@ -14,6 +14,7 @@ const WWOTitle = styled.h2`
     text-align: center;
     font-size: 2.5em;
     margin-top: -50px;
+    height: 2.5em;
 `
 
 const WWODescription = styled.p`

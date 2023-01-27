@@ -10,12 +10,13 @@ const HeroContent = styled.div`;
     margin: 0 auto;
     margin-top: 160px;
     display: block;
+    height: 90vh;
 `
 
 const HeroImage = styled.div`
     background-image: url(${logo});
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -26,6 +27,9 @@ const HeroImage = styled.div`
 const HeroTitle = styled.h1`
     font-family: 'Abril Fatface';
     text-align: center;
+    font-size: 3em;
+    margin-top: 0px;
+    margin-bottom: -2.5px;
 `
 
 const HeroDes = styled.p`

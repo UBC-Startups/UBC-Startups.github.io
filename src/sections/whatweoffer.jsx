@@ -13,7 +13,7 @@ const WhatWeOfferContainer = styled.div`
     margin: 0 auto;
     // margin-top: 160px;
     display: block;
-    margin-bottom: 100px;
+    margin-bottom: 40px;
 `
 
 const WWOTitle = styled.h1`

@@ -3,9 +3,16 @@ import styled from "styled-components";
 
 import TeamMember from "../components/teamMember";
 
-import InternshipsImage from "../images/InternshipsImg.svg"
-import NetworkingImage from "../images/NetworkingImg.svg"
-import ResourcesImage from "../images/ResourcesImg.svg"
+import arnavImg from "../images/teamPhotos/arnav.png"
+import jeffreyImg from "../images/teamPhotos/jeffrey.png"
+import karamImg from "../images/teamPhotos/karam.png"
+import donaldImg from "../images/teamPhotos/donald.png"
+import saumyaaImg from "../images/teamPhotos/saumyaa.png"
+
+import sophieImg from "../images/teamPhotos/sophie.png"
+import juliaImg from "../images/teamPhotos/julia.png"
+import preritImg from "../images/teamPhotos/prerit.png"
+
 
 const MeetOurTeamContainer = styled.div`
     height: auto;
@@ -41,39 +48,39 @@ const MeetOurTeam = () => {
             <TeamSectionText>Co-founders</TeamSectionText>
             <MOTContainer>
                 <TeamMember
-                    image={InternshipsImage}
+                    image={arnavImg}
                     name="Arnav Agrawal"
                     position="Co-founder"
                     role="Operations Lead"
-                    linkedIn="https://youtube.com/"
+                    linkedIn="https://www.linkedin.com/in/arnavagrawal29/"
                 />
                <TeamMember
-                    image={InternshipsImage}
+                    image={donaldImg}
                     name="Donald Lee"
                     position="Co-founder"
                     role="Technology Lead"
-                    linkedIn="https://youtube.com/"
+                    linkedIn="https://www.linkedin.com/in/donald-k-lee/"
                 />
                <TeamMember
-                    image={InternshipsImage}
+                    image={karamImg}
                     name="Karam Veer Kanwar"
                     position="Co-founder"
                     role="Director"
-                    linkedIn="https://youtube.com/"
+                    linkedIn="https://www.linkedin.com/in/kkanwar/"
                 />
                <TeamMember
-                    image={InternshipsImage}
+                    image={jeffreyImg}
                     name="Jeffrey Low"
                     position="Co-founder"
                     role="Director"
-                    linkedIn="https://youtube.com/"
+                    linkedIn="https://www.linkedin.com/in/jeffrey-low/"
                 />
                <TeamMember
-                    image={InternshipsImage}
+                    image={saumyaaImg}
                     name="Saumyaa Gandhi"
                     position="Co-founder"
                     role="Marketing Lead"
-                    linkedIn="https://youtube.com/"
+                    linkedIn="https://www.linkedin.com/in/saumyaagandhi/"
                 />
             </MOTContainer>
 
@@ -81,21 +88,21 @@ const MeetOurTeam = () => {
 
             <MOTContainer>
                 <TeamMember
-                    image={InternshipsImage}
+                    image={preritImg}
                     name="Prerit Khivesara"
                     position="Social Media Engagement"
                     role="Coordinator"
-                    linkedIn="https://youtube.com/"
+                    linkedIn="https://www.linkedin.com/in/preritkhi/"
                 />
                <TeamMember
-                    image={InternshipsImage}
+                    image={juliaImg}
                     name="Julia Avsec"
                     position="Human Resources"
                     role="Director"
-                    linkedIn="https://youtube.com/"
+                    linkedIn="https://www.linkedin.com/in/julia-avsec-66b377253/"
                 />
                <TeamMember
-                    image={InternshipsImage}
+                    image={sophieImg}
                     name="Sophie Hu"
                     position="Social Media Engagement"
                     role="Coordinator"

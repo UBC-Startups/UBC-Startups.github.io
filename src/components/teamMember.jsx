@@ -44,7 +44,8 @@ const TMLinkedIn = styled.a`
     display: block;
     margin: 0 auto;
     width: 160px;
-
+    cursor: pointer;
+    
     &:hover {
         // background: red;
     }
@@ -57,9 +58,11 @@ const TMImage = styled.img`
     display: block;
     margin: 0 auto;
     margin-bottom: -40px;
+    width: 180px;
+    height: auto;
 `
 
-const TeamMember = ({image, name, position, role, linkedin}) => {
+const TeamMember = ({image, name, position, role, linkedIn}) => {
 
     return (
         <TeamMemberContainer>
@@ -67,7 +70,7 @@ const TeamMember = ({image, name, position, role, linkedin}) => {
             <TMName>{name}</TMName>
             <TMPosition>{position}</TMPosition>
             <TMRole>{role}</TMRole>
-            <TMLinkedIn href={linkedin} target="_blank">LinkedIn</TMLinkedIn>
+            <TMLinkedIn href={linkedIn} target="_blank">LinkedIn</TMLinkedIn>
         </TeamMemberContainer>
     )
 }

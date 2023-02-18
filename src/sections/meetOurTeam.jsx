@@ -8,7 +8,7 @@ import NetworkingImage from "../images/NetworkingImg.svg"
 import ResourcesImage from "../images/ResourcesImg.svg"
 
 const MeetOurTeamContainer = styled.div`
-    height: 100vh;
+    height: auto;
 `
 
 const MOTTitle = styled.h1`
@@ -44,14 +44,14 @@ const MeetOurTeam = () => {
                     image={InternshipsImage}
                     name="Arnav Agrawal"
                     position="Co-founder"
-                    role="Operations"
+                    role="Operations Lead"
                     linkedIn="https://youtube.com/"
                 />
                <TeamMember
                     image={InternshipsImage}
                     name="Donald Lee"
                     position="Co-founder"
-                    role="Technology"
+                    role="Technology Lead"
                     linkedIn="https://youtube.com/"
                 />
                <TeamMember
@@ -72,7 +72,7 @@ const MeetOurTeam = () => {
                     image={InternshipsImage}
                     name="Saumyaa Gandhi"
                     position="Co-founder"
-                    role="Marketing"
+                    role="Marketing Lead"
                     linkedIn="https://youtube.com/"
                 />
             </MOTContainer>
@@ -91,7 +91,7 @@ const MeetOurTeam = () => {
                     image={InternshipsImage}
                     name="Julia Avsec"
                     position="Human Resources"
-                    role="Coordinator"
+                    role="Director"
                     linkedIn="https://youtube.com/"
                 />
                <TeamMember

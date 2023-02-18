@@ -8,7 +8,7 @@ import WhatWeOffer from "../sections/whatweoffer";
 import OurEvents from "../sections/ourEvents";
 import AboutUs from "../sections/aboutUs";
 import MeetOurTeam from "../sections/meetOurTeam";
-
+import Footer from "../sections/footer";
 
 const HomePage = () => {
     return (
@@ -21,8 +21,8 @@ const HomePage = () => {
           <OurEvents />
           <AboutUs />
           <MeetOurTeam />
-
-          {/* <Footer /> */}
+          {/* <Resources /> */}
+          <Footer />
         </>
     )
 }

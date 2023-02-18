@@ -57,7 +57,7 @@ const WWOContent = ({image, title, description, url}) => {
             <WWOImage src={image} />
             <WWOTitle>{title}</WWOTitle>
             <WWODescription>{description}</WWODescription>
-            <WWOLearnMore href={url} target="_blank">Learn More</WWOLearnMore>
+            {/* <WWOLearnMore href={url} target="_blank">Learn More</WWOLearnMore> */}
         </WhatWeOfferContent>
     )
 }

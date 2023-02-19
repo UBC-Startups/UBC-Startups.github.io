@@ -106,7 +106,7 @@ const MeetOurTeam = () => {
                     name="Sophie Hu"
                     position="Social Media Engagement"
                     role="Coordinator"
-                    linkedIn="https://youtube.com/"
+                    linkedIn="https://www.linkedin.com/in/sophie-hu-181b3b258"
                 />
             </MOTContainer>
 

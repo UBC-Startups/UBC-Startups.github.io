@@ -29,16 +29,37 @@ const NavBarLi = styled.li`
     margin: 10px 20px;
     font-family: 'Inter', sans-serif;
     font-size: 1em;
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover {
+        color: #656464;
+        text-decoration: underline;
+    }
+`
+
+const NavBarA = styled.a`
+    text-decoration: none;
+    color: #000;
+    &:hover {
+        color: #656464;
+        text-decoration: underline;
+    }
 `
 
 const NavigationBar = () => {
+    function scrollTo(section) {
+        const element = document.getElementById(section);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
     return (
         <NavBarDiv>
             <NavBarUl>
-                <NavBarLi>About Us</NavBarLi>
-                <NavBarLi>Events</NavBarLi>
-                <NavBarLi>LinkedIn</NavBarLi>
-                <NavBarLi>Instagram</NavBarLi>
+                <NavBarLi onClick={() => scrollTo("aboutUs")}>About Us</NavBarLi>
+                <NavBarLi onClick={() => scrollTo("events")}>Events</NavBarLi>
+                <NavBarLi><NavBarA href="https://www.linkedin.com/company/ubc-startups/" target="_blank">LinkedIn</NavBarA></NavBarLi>
+                <NavBarLi><NavBarA href="https://www.instagram.com/ubcstartups/" target="_blank">Instagram</NavBarA></NavBarLi>
             </NavBarUl>
         </NavBarDiv>
     )

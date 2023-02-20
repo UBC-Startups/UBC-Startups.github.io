@@ -36,6 +36,11 @@ const FilterOption = styled.li`
     margin: 0px 20px;
     cursor: pointer;
     z-index: 2;
+    transition: 0.3s;
+    &:hover {
+        background: #faa1a1;
+        color: #fff;
+    }
 `
 
 // const breatheAnimation = keyframes`
@@ -99,7 +104,7 @@ const OurEvents = () => {
         animation-iteration-count: infinite;
     `
     return (
-        <OurEventsContainer>
+        <OurEventsContainer id="events">
             <OurEventsTitle>Our Events</OurEventsTitle>
 
             <FilterOptionsContainer>

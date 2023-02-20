@@ -65,14 +65,14 @@ const MeetOurTeam = () => {
                     image={karamImg}
                     name="Karam Veer Kanwar"
                     position="Co-founder"
-                    role="Director"
+                    role="Corporate Relations Lead"
                     linkedIn="https://www.linkedin.com/in/kkanwar/"
                 />
                <TeamMember
                     image={jeffreyImg}
                     name="Jeffrey Low"
                     position="Co-founder"
-                    role="Director"
+                    role="Community Relations Lead"
                     linkedIn="https://www.linkedin.com/in/jeffrey-low/"
                 />
                <TeamMember
@@ -98,7 +98,7 @@ const MeetOurTeam = () => {
                     image={juliaImg}
                     name="Julia Avsec"
                     position="Human Resources"
-                    role="Director"
+                    role="Coordinator"
                     linkedIn="https://www.linkedin.com/in/julia-avsec-66b377253/"
                 />
                <TeamMember

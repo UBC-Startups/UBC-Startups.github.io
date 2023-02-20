@@ -46,12 +46,16 @@ const AboutImage = styled.div`
 
 const AboutUs = () => {
     return (
-        <AboutUsContainer>
+        <AboutUsContainer id="aboutUs">
             <AUTitle>About Us</AUTitle>
             <AUContent>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque posuere eget tortor nec faucibus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sodales mauris eros, non placerat nisi feugiat et. Nunc laoreet metus ultrices dolor auctor, non gravida nisi lacinia. Quisque a pellentesque elit, eu iaculis turpis. Vivamus id dolor vitae nulla sollicitudin lacinia. Duis pharetra, risus non scelerisque molestie, magna magna elementum lacus, in facilisis lorem urna sed nulla. Aliquam tempus pellentesque eros malesuada euismod. Fusce placerat justo et iaculis lobortis.
+                UBC Startups is a platform dedicated to supporting and fostering entrepreneurship within the University of British Columbia community. Our mission is to provide students, alumni, and faculty with the resources, network, and support they need to turn their innovative ideas into successful ventures.
                 <br/><br/>
-                Duis tempus imperdiet mattis. Ut ultrices malesuada nisi. Duis hendrerit, enim sed auctor ultrices, est eros congue orci, rutrum tempus odio metus et justo. Integer malesuada arcu non arcu eleifend ullamcorper. Aliquam at urna libero
+                With a focus on interdisciplinary collaboration, we bring together individuals from diverse backgrounds to collaborate, learn, and grow as entrepreneurs. From hosting workshops and events to connecting members with mentors and investors, UBC Startups is committed to providing a comprehensive ecosystem for entrepreneurship at UBC.
+                <br/><br/>
+                Our team is comprised of passionate individuals who have a wealth of experience in entrepreneurship, innovation, and business. We are dedicated to creating a vibrant startup community at UBC and helping entrepreneurs take their ideas to the next level.
+                <br/><br/>
+                Join us today and become a part of a growing community of innovative thinkers and doers at UBC!
             </AUContent>
 
             <AboutImageContainer>

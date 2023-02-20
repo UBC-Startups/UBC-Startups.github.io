@@ -47,7 +47,7 @@ const TMLinkedIn = styled.a`
     cursor: pointer;
     
     &:hover {
-        // background: red;
+        background: #baeeff;
     }
 
 `

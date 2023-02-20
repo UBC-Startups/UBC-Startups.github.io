@@ -42,13 +42,13 @@ const WhatWeOffer = () => {
                 <WWOContent
                     image={InternshipsImage}
                     title="Internship Opportunities"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla dapibus velit, non condimentum sem tincidunt id."
+                    description="UBC Startups offers a range of internship opportunities for students looking to gain real-world experience in the startup world. Our internships provide hands-on experience in areas such as marketing, operations, and business development. You'll work closely with startups in our network, gaining valuable insight into the inner workings of startups and the entrepreneurial process. The internships are designed to be both challenging and rewarding, offering opportunities for skill development, networking, and personal growth. If you're a student seeking a unique and enriching internship, apply through UBC Startups and take your first steps towards a successful career in the startup world!"
                     url="https://youtube.com/"
                 />
                 <WWOContent
                     image={NetworkingImage}
                     title="Networking Events"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla dapibus velit, non condimentum sem tincidunt id."
+                    description="UBC Startups is proud to offer a dynamic and inclusive networking events program to connect entrepreneurs, investors, and industry experts. Our events are designed to foster meaningful relationships and facilitate the exchange of ideas and resources. Whether you're looking to pitch your startup, find a co-founder, or simply connect with like-minded individuals, we have something for everyone. From coffee chats and startup showcases, to pitch competitions and investor dinners, our events are opportunities to learn, grow, and succeed. Join us at our next event and take the first step towards building your entrepreneurial community."
                     url="https://youtube.com/"
                 />
                 <WWOContent

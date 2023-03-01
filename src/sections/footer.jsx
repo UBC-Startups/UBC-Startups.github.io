@@ -22,6 +22,10 @@ const FooterColumn = styled.div`
     float: left;
     position: relative;
     height: auto;
+    @media (max-width: 1000px) {
+        float: none;
+        width: 100% !important;
+      }
 `
 
 const FooterColumnUl = styled.ul`
@@ -37,17 +41,29 @@ const FooterColumnLiTitle = styled.li`
     color: #000000;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     margin-bottom: 5px;
+    @media (max-width: 1000px) {
+        text-align: center;
+        margin-top: 20px;
+    }
 `
 
 const FooterColumnLi = styled.li`
     font-family: 'Inter';
     font-size: 1em;
     color: #656464;
+    @media (max-width: 1000px) {
+        text-align: center;
+        margin: 10px 0;
+    }
 `
 
 const FooterLogo = styled.img`
     width: 80px;
     height: auto;
+    @media (max-width: 1000px) {
+        display: block;
+        margin: 0 auto;
+    }
 `
 
 const FooterColumnA = styled.a`

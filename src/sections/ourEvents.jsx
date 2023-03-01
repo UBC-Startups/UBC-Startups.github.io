@@ -23,39 +23,6 @@ const FilterOptionsContainer = styled.ul`
     padding: 0;
 `
 
-const FilterOption = styled.li`
-    text-transform: uppercase;
-    color: #656464;
-    padding: 10px 5px;
-    width: 200px;
-    text-align: center;
-    background: #FFDCDC;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
-    display: inline-block;
-    margin: 0px 20px;
-    cursor: pointer;
-    z-index: 2;
-    transition: 0.3s;
-    &:hover {
-        background: #faa1a1;
-        color: #fff;
-    }
-`
-
-// const breatheAnimation = keyframes`
-//     0% { transform: translateX(0px); }
-//     100% { transform: translateX(-750px); } 
-// `
-// - 250 * numberOfEvents
-
-// const EventsContainer = styled.div`
-//     width: 10000px;
-//     display: inline-block;
-//     animation-name: ${breatheAnimation};
-//     animation-duration: 15s;
-//     animation-iteration-count: infinite;
-// `
 
 const OurEvents = () => {
     const [category, setCategory] = useState("all");
@@ -91,17 +58,60 @@ const OurEvents = () => {
             eventsToDisplay++;
         }
     }
-
-    const breatheAnimation = keyframes`
+    const FilterOption = styled.li`
+        text-transform: uppercase;
+        color: #656464;
+        padding: 10px 5px;
+        width: 200px;
+        text-align: center;
+        background: #FFDCDC;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 30px;
+        display: inline-block;
+        margin: 0px 20px;
+        cursor: pointer;
+        z-index: 2;
+        transition: 0.3s;
+        @media (max-width: 800px) {
+            display: block;
+            margin: 12.5px auto;
+        }
+        &:nth-child(1) {
+            background: ${() => category==="all" ? '#faa1a1' : '#FFDCDC'};
+            color: ${() => category==="all" ? '#fff' : '#656464'};
+        }
+        &:nth-child(2) {
+            background: ${() => category==="upcoming" ? '#faa1a1' : '#FFDCDC'};
+            color: ${() => category==="upcoming" ? '#fff' : '#656464'};
+        }
+        &:nth-child(3) {
+            background: ${() => category==="prev" ? '#faa1a1' : '#FFDCDC'};
+            color: ${() => category==="prev" ? '#fff' : '#656464'};
+        }
+        &:hover {
+            background: #faa1a1;
+            color: #fff;
+        }
+    `
+    const moveEventsAni = keyframes`
         0% { transform: translateX(0px); }
         100% { transform: translateX(${-250 * eventsToDisplay}px); } 
+    `
+    const moveEventsMobileAni = keyframes`
+        0% { transform: translateX(0px); }
+        100% { transform: translateX(${-600 * eventsToDisplay}px); } 
     `
     const EventsContainer = styled.div`
         width: 10000px;
         display: inline-block;
-        animation-name: ${breatheAnimation};
+        animation-name: ${moveEventsAni};
         animation-duration: ${5 * eventsToDisplay}s;
         animation-iteration-count: infinite;
+
+        @media (max-width: 768px) {
+            animation-name: ${moveEventsMobileAni};
+            animation-duration: ${6 * eventsToDisplay}s;
+        }
     `
     return (
         <OurEventsContainer id="events">

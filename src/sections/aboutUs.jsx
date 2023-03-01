@@ -6,7 +6,7 @@ import AboutImage2 from "../images/AboutImage2.jpg"
 
 const AboutUsContainer = styled.div`
     box-shadow: 20px 20px 80px rgba(0, 0, 0, 0.1);
-    width: 90vw;
+    width: 80%;
     height: auto; 
     border-radius: 30px;
     display: block;
@@ -42,6 +42,13 @@ const AboutImage = styled.div`
     background-image: no-repeat;
     border-radius: 40px;
     position: relative;
+
+    @media (max-width: 768px) {
+        display: block;
+        width: 100%;
+        margin-bottom: 20px;
+        float: none !important;
+      }
 `
 
 const AboutUs = () => {

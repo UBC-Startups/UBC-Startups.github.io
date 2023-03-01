@@ -11,8 +11,20 @@ const HeroContent = styled.div`;
     margin-top: 160px;
     display: block;
     height: 90vh;
+    @media (max-width: 480px) {
+        margin-top: 300px;
+        margin-bottom: -180px;
+      }
 `
-
+const HeroShapes = styled.img`
+    position: absolute;
+    top: 0;
+    width: 100%;
+    @media (max-width: 480px) {
+        height: 100vh;
+        width: 100%;
+      }
+`
 const HeroImage = styled.div`
     background-image: url(${logo});
     width: 100px;
@@ -55,15 +67,9 @@ const Dots = styled.div`
 `
 
 const Hero = () => {
-    const shapeDesignStyles = {
-        position: "absolute",
-        top: "0",
-        width: "100%",
-      };
-
     return (
         <>
-            <img style={shapeDesignStyles} src={shapeDesign} />
+            <HeroShapes src={shapeDesign} />
             <HeroContent>
                 <HeroImage />
                 <HeroTitle>UBC Startups</HeroTitle>

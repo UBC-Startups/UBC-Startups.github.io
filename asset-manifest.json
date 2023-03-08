@@ -1,7 +1,8 @@
 {
   "files": {
-    "main.js": "/static/js/main.c896bf83.js",
+    "main.js": "/static/js/main.eca5d70c.js",
     "static/js/787.b23f9d23.chunk.js": "/static/js/787.b23f9d23.chunk.js",
+    "static/media/tempHIMMIImage.jpg": "/static/media/tempHIMMIImage.dc11300bc64c7ee34838.jpg",
     "static/media/ResourcesImg.svg": "/static/media/ResourcesImg.e799eeef95c3e68dbb0ccd463fbe3856.svg",
     "static/media/InternshipsImg.svg": "/static/media/InternshipsImg.6d4f32148b7e47a6d4dd96d934545acd.svg",
     "static/media/NetworkingImg.svg": "/static/media/NetworkingImg.4497dc5b46929204b3658e8dc6bb61c8.svg",
@@ -14,14 +15,15 @@
     "static/media/saumyaa.png": "/static/media/saumyaa.af8a1c12b33cb3bbc294.png",
     "static/media/prerit.png": "/static/media/prerit.6397c0faa24a26a3eca7.png",
     "static/media/Logo.svg": "/static/media/Logo.b58f8104d3e4cc97a0e044668644b4f0.svg",
+    "static/media/25under25.jpg": "/static/media/25under25.a022bc1ffc4ba57cdb13.jpg",
     "static/media/AboutImage2.jpg": "/static/media/AboutImage2.53dde60aed181679c1dc.jpg",
     "static/media/AboutImage1.jpg": "/static/media/AboutImage1.9c71596360cc89b42813.jpg",
     "static/media/HeroShapeDesign.svg": "/static/media/HeroShapeDesign.034aeb94c18b8d5993908d43d315d043.svg",
     "index.html": "/index.html",
-    "main.c896bf83.js.map": "/static/js/main.c896bf83.js.map",
+    "main.eca5d70c.js.map": "/static/js/main.eca5d70c.js.map",
     "787.b23f9d23.chunk.js.map": "/static/js/787.b23f9d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.c896bf83.js"
+    "static/js/main.eca5d70c.js"
   ]
 }

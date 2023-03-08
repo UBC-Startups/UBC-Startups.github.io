@@ -13,14 +13,14 @@ const EventBoxContainer = styled.div`
 
 const EventCoverImageContainer = styled.div`
     width: 100%;
-    height: 150px;
+    height: 130px;
 `
 
 const EventBoxCoverImage = styled.img`
     position: relative;
     width: 100%;
     height: auto;
-    top: -80px;
+    top: -100px;
 `
 const EventBoxContentContainer = styled.div`
     position: relative;
@@ -66,6 +66,7 @@ const TextContainer = styled.div`
     display: inline-block;
     width: 480px;
     float: right;
+    padding-right: 15px;
 `
 
 const Title = styled.p`

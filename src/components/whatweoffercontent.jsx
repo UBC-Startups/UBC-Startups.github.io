@@ -14,12 +14,14 @@ const WhatWeOfferContent = styled.div`
 const WWOTitle = styled.h2`
     text-align: center;
     font-size: 2.5em;
-    margin-top: -50px;
+    margin-top: -60px;
     height: 2.5em;
+    margin-bottom: 0px;
 `
 
 const WWODescription = styled.p`
     text-align: center;
+    padding: 0 10px;
 `
 
 const WWOLearnMore = styled.a`

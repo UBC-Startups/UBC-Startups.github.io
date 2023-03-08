@@ -74,11 +74,11 @@ const Hero = () => {
                 <HeroImage />
                 <HeroTitle>UBC Startups</HeroTitle>
                 <HeroDes>Building a startup ecosystem on campus</HeroDes>
-                <DotsContainer>
+                {/* <DotsContainer>
                     <Dots />
                     <Dots />
                     <Dots />
-                </DotsContainer>
+                </DotsContainer> */}
             </HeroContent>
         </>
     )

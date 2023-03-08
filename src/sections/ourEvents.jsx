@@ -5,6 +5,8 @@ import EventBox from "../components/event";
 
 // Images for events
 import AboutImage2 from "../images/AboutImage2.jpg" // Placeholder
+import TwentyFiveBrunchImg from "../images/25under25.jpg"
+import HIMMIImage from "../images/tempHIMMIImage.jpg"
 
 const OurEventsContainer = styled.div`
     margin: 5% 0px;
@@ -30,26 +32,26 @@ const OurEvents = () => {
         {
             img:AboutImage2,
             title:"How I Met Your Founder",
-            description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla dapibus velit, non condimentum sem tincidunt id.",
+            description:"‘How I Met Your Founder’, sponsored by Contrary Capital, was an opportunity for students from different faculties to get advice from experienced entrepreneurs, and develop a sense of camaraderie as aspiring entrepreneurs.",
             month:"Sept",
             day:"26",
             category:"prev",
         },
         {
-            img:AboutImage2,
-            title:"How I Met My Intern",
-            description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla dapibus velit, non condimentum sem tincidunt id.",
-            month:"Feb",
-            day:"1",
-            category:"upcoming",
+            img:TwentyFiveBrunchImg,
+            title:"25 Under 25 Brunch",
+            description:"A brunch hosted by UBC Startups, Dyne, and eHub where successful entrepreneurs were invited to network with one another. Students at the event also got the opportunity to network with existing entrepreneurs and to gain insight from them, and one another.",
+            month:"Nov",
+            day:"26",
+            category:"prev",
         },
         {
-            img:AboutImage2,
-            title:"Networking Event",
-            description:"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla dapibus velit, non condimentum sem tincidunt id.",
-            month:"Oct",
-            day:"1",
-            category:"prev",
+            img:HIMMIImage,
+            title:"How I met my Intern",
+            description:"An event that aims to provide opportunities for entrepreneurial students at UBC to meet Vancouver-based startups that are hiring for internships. Startups that attend this event will be hiring interns exclusively from UBC, so this is an invaluable opportunity for students to make lasting impressions on hiring managers.",
+            month:"Mar",
+            day:"23",
+            category:"upcoming",
         }
     ]
     let eventsToDisplay = 0;
@@ -105,12 +107,12 @@ const OurEvents = () => {
         width: 10000px;
         display: inline-block;
         animation-name: ${moveEventsAni};
-        animation-duration: ${5 * eventsToDisplay}s;
+        animation-duration: ${8 * eventsToDisplay}s;
         animation-iteration-count: infinite;
 
         @media (max-width: 768px) {
             animation-name: ${moveEventsMobileAni};
-            animation-duration: ${6 * eventsToDisplay}s;
+            animation-duration: ${9 * eventsToDisplay}s;
         }
     `
     return (

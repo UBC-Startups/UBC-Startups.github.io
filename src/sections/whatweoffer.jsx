@@ -29,7 +29,6 @@ const WWOContentContainer = styled.div`
     width: 90vw;
     justify-items: center;
     grid-template-columns: repeat(auto-fit, minmax(300px , 1fr));
-
     margin-top: 140px;
 `
 
@@ -42,19 +41,19 @@ const WhatWeOffer = () => {
                 <WWOContent
                     image={InternshipsImage}
                     title="Internship Opportunities"
-                    description="UBC Startups offers a range of internship opportunities for students looking to gain real-world experience in the startup world. Our internships provide hands-on experience in areas such as marketing, operations, and business development. You'll work closely with startups in our network, gaining valuable insight into the inner workings of startups and the entrepreneurial process. The internships are designed to be both challenging and rewarding, offering opportunities for skill development, networking, and personal growth. If you're a student seeking a unique and enriching internship, apply through UBC Startups and take your first steps towards a successful career in the startup world!"
+                    description="We promote internship opportunities from our partners for students looking to gain real-world experience in the startup world. Our internships provide hands-on experience in areas such as marketing, tech, operations, and business development."
                     url="https://youtube.com/"
                 />
                 <WWOContent
                     image={NetworkingImage}
                     title="Networking Events"
-                    description="UBC Startups is proud to offer a dynamic and inclusive networking events program to connect entrepreneurs, investors, and industry experts. Our events are designed to foster meaningful relationships and facilitate the exchange of ideas and resources. Whether you're looking to pitch your startup, find a co-founder, or simply connect with like-minded individuals, we have something for everyone. From coffee chats and startup showcases, to pitch competitions and investor dinners, our events are opportunities to learn, grow, and succeed. Join us at our next event and take the first step towards building your entrepreneurial community."
+                    description="We offer a dynamic and inclusive networking events to connect entrepreneurs, investors, and industry experts. Whether you're looking to pitch your startup, find a co-founder, or simply meet like-minded individuals, we have something for everyone. "
                     url="https://youtube.com/"
                 />
                 <WWOContent
                     image={ResourcesImage}
                     title="Resources"
-                    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla dapibus velit, non condimentum sem tincidunt id."
+                    description="We offer and promote a variety of resources for aspiring entrepreneurs to help turn their ideas into reality! Follow us on Instagram or Join our Discord community of aspiring and like-minded entrepreneurs! We’re here to help you and your dreams!"
                     url="https://youtube.com/"
                 />
             </WWOContentContainer>

@@ -66,14 +66,14 @@ const Dots = styled.div`
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 `
 
-const Hero = () => {
+const Hero = ({heading, description}) => {
     return (
         <>
             <HeroShapes src={shapeDesign} />
             <HeroContent>
                 <HeroImage />
-                <HeroTitle>UBC Startups</HeroTitle>
-                <HeroDes>Building a startup ecosystem on campus</HeroDes>
+                <HeroTitle>{heading}</HeroTitle>
+                <HeroDes>{description}</HeroDes>
                 {/* <DotsContainer>
                     <Dots />
                     <Dots />

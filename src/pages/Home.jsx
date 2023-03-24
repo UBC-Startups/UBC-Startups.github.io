@@ -13,10 +13,12 @@ import Footer from "../sections/footer";
 const HomePage = () => {
     return (
         <>
-        {/* CONVERT TO A MULTI PAGE WEBSITE LATER */}
           <Head title="UBC Startups"/>
           <NavigationBar />
-          <Hero />
+          <Hero 
+            heading="UBC Startups"
+            description="Building a startup ecosystem on campus"
+          />
           <WhatWeOffer />
           <OurEvents />
           <AboutUs />

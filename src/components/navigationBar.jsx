@@ -1,6 +1,10 @@
 import React, {useState} from "react";
 import styled, {keyframes} from "styled-components";
 
+// importing Link from react-router-dom to navigate to 
+// different end points.
+import { Link } from "react-router-dom";
+
 const NavBarDiv = styled.div`
     position: fixed;
     z-index: 1;
@@ -30,6 +34,8 @@ const NavBarLi = styled.li`
     font-family: 'Inter', sans-serif;
     font-size: 1em;
     transition: 0.3s;
+    text-decoration: none;
+    color: #000;
     cursor: pointer;
     &:hover {
         color: #656464;
@@ -139,6 +145,8 @@ const MobileNavLi = styled.li`
     font-size: 1em;
     transition: 0.3s;
     cursor: pointer;
+    text-decoration: none;
+    color: #000;
     &:hover {
         color: #656464;
         text-decoration: underline;
@@ -209,8 +217,15 @@ const NavigationBar = () => {
     return (
         <NavBarDiv>
             <NavBarUl>
-                <NavBarLi onClick={() => scrollTo("aboutUs")}>About Us</NavBarLi>
-                <NavBarLi onClick={() => scrollTo("events")}>Events</NavBarLi>
+                <Link to="/" style={{ textDecoration: 'none' }}>
+                    <NavBarLi onClick={() => scrollTo("aboutUs")}>About Us</NavBarLi>
+                </Link>
+                <Link to="/" style={{ textDecoration: 'none' }}>
+                    <NavBarLi onClick={() => scrollTo("events")}>Events</NavBarLi>
+                </Link>
+                <Link to="/opportunities" style={{ textDecoration: 'none' }}>
+                    <NavBarLi>Opportunities</NavBarLi>
+                </Link>
                 <NavBarLi><NavBarA href="https://www.linkedin.com/company/ubc-startups/" target="_blank">LinkedIn</NavBarA></NavBarLi>
                 <NavBarLi><NavBarA href="https://www.instagram.com/ubcstartups/" target="_blank">Instagram</NavBarA></NavBarLi>
 
@@ -229,8 +244,15 @@ const NavigationBar = () => {
                 </CrossHamburgerContainer>
 
                 <MobileNavUl>
-                    <MobileNavLi onClick={() => {scrollTo("aboutUs"); setMobileNavState(false)}}>About Us</MobileNavLi>
-                    <MobileNavLi onClick={() => {scrollTo("events"); setMobileNavState(false)}}>Events</MobileNavLi>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <MobileNavLi onClick={() => {scrollTo("aboutUs"); setMobileNavState(false)}}>About Us</MobileNavLi>
+                    </Link>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                        <MobileNavLi onClick={() => {scrollTo("events"); setMobileNavState(false)}}>Events</MobileNavLi>
+                    </Link>
+                    <Link to="/opportunities" style={{ textDecoration: 'none' }}>
+                        <MobileNavLi onClick={() => {setMobileNavState(false)}}>Opportunities</MobileNavLi>
+                    </Link>
                     <MobileNavLi onClick={() => {setMobileNavState(false)}}><NavBarA href="https://www.linkedin.com/company/ubc-startups/" target="_blank">LinkedIn</NavBarA></MobileNavLi>
                     <MobileNavLi onClick={() => {setMobileNavState(false)}}><NavBarA href="https://www.instagram.com/ubcstartups/" target="_blank">Instagram</NavBarA></MobileNavLi>
                 </MobileNavUl>

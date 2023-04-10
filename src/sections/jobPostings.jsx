@@ -19,14 +19,7 @@ const JobPostingsContainer = styled.div`
 const JobPostings = () => {
     return (
         <JobPostingsContainer>
-            <h3 style={{fontSize:"3em", zIndex:"2", textAlign:"center"}}>Job postings coming soon!</h3>
-            {/* <JobPosting 
-                image={AboutImage2}
-                name="Company Name"
-                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla dapibus velit, non condimentum sem tincidunt id."
-                positions={["Lorem ipsum dolor", "Lorem ipsum dolor", "Lorem ipsum dolor"]}
-                url="https://youtube.com/"
-            />
+            {/* <h3 style={{fontSize:"3em", zIndex:"2", textAlign:"center"}}>Job postings coming soon!</h3> */}
             <JobPosting 
                 image={AboutImage2}
                 name="Company Name"
@@ -40,7 +33,14 @@ const JobPostings = () => {
                 description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla dapibus velit, non condimentum sem tincidunt id."
                 positions={["Lorem ipsum dolor", "Lorem ipsum dolor", "Lorem ipsum dolor"]}
                 url="https://youtube.com/"
-            /> */}
+            />
+            <JobPosting 
+                image={AboutImage2}
+                name="Company Name"
+                description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. In fringilla dapibus velit, non condimentum sem tincidunt id."
+                positions={["Lorem ipsum dolor", "Lorem ipsum dolor", "Lorem ipsum dolor"]}
+                url="https://youtube.com/"
+            />
         </JobPostingsContainer>
     )
 }

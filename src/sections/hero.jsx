@@ -8,7 +8,7 @@ import shapeDesign from "../images/HeroShapeDesign.svg"
 const HeroContent = styled.div`;
     position: relative;
     margin: 0 auto;
-    margin-top: 160px;
+    margin-top: 30vh;
     display: block;
     height: 90vh;
     @media (max-width: 480px) {

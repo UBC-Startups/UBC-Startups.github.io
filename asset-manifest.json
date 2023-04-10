@@ -1,7 +1,8 @@
 {
   "files": {
-    "main.js": "/static/js/main.2b37ca9b.js",
+    "main.js": "/static/js/main.fe2ab4fa.js",
     "static/js/787.b23f9d23.chunk.js": "/static/js/787.b23f9d23.chunk.js",
+    "static/media/himmi.png": "/static/media/himmi.425d5f6032d68bdb7d8f.png",
     "static/media/tempHIMMIImage.jpg": "/static/media/tempHIMMIImage.dc11300bc64c7ee34838.jpg",
     "static/media/ResourcesImg.svg": "/static/media/ResourcesImg.e799eeef95c3e68dbb0ccd463fbe3856.svg",
     "static/media/InternshipsImg.svg": "/static/media/InternshipsImg.6d4f32148b7e47a6d4dd96d934545acd.svg",
@@ -20,10 +21,10 @@
     "static/media/AboutImage1.jpg": "/static/media/AboutImage1.9c71596360cc89b42813.jpg",
     "static/media/HeroShapeDesign.svg": "/static/media/HeroShapeDesign.034aeb94c18b8d5993908d43d315d043.svg",
     "index.html": "/index.html",
-    "main.2b37ca9b.js.map": "/static/js/main.2b37ca9b.js.map",
+    "main.fe2ab4fa.js.map": "/static/js/main.fe2ab4fa.js.map",
     "787.b23f9d23.chunk.js.map": "/static/js/787.b23f9d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.2b37ca9b.js"
+    "static/js/main.fe2ab4fa.js"
   ]
 }

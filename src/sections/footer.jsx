@@ -34,7 +34,7 @@ const FooterColumnUl = styled.ul`
 `
 
 const FooterColumnLiTitle = styled.li`
-    font-family: 'Abril Fatface';
+    font-family: 'Roboto Slab';
     font-weight: bold;
     font-size: 1.5em;
     text-align: left;

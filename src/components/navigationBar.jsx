@@ -31,7 +31,7 @@ const NavBarLi = styled.li`
     display: inline;
     text-align: center;
     margin: 10px 20px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto Slab';
     font-size: 1em;
     transition: 0.3s;
     text-decoration: none;
@@ -141,7 +141,7 @@ const MobileNavLi = styled.li`
     display: block;
     text-align: center;
     margin: 20px 20px;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto Slab';
     font-size: 1em;
     transition: 0.3s;
     cursor: pointer;
@@ -223,9 +223,9 @@ const NavigationBar = () => {
                 <Link to="/" style={{ textDecoration: 'none' }}>
                     <NavBarLi onClick={() => scrollTo("events")}>Events</NavBarLi>
                 </Link>
-                <Link to="/opportunities" style={{ textDecoration: 'none' }}>
+                {/* <Link to="/opportunities" style={{ textDecoration: 'none' }}>
                     <NavBarLi>Opportunities</NavBarLi>
-                </Link>
+                </Link> */}
                 <NavBarLi><NavBarA href="https://www.linkedin.com/company/ubc-startups/" target="_blank">LinkedIn</NavBarA></NavBarLi>
                 <NavBarLi><NavBarA href="https://www.instagram.com/ubcstartups/" target="_blank">Instagram</NavBarA></NavBarLi>
 

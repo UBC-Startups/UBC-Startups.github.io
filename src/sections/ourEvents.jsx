@@ -16,7 +16,7 @@ const OurEventsContainer = styled.div`
 `
 
 const OurEventsTitle = styled.h1`
-    font-family: 'Abril Fatface';
+    font-family: 'Roboto Slab';
     text-align: center;
     font-size: 3em;
 `

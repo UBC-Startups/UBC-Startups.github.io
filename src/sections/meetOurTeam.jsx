@@ -8,10 +8,12 @@ import jeffreyImg from "../images/teamPhotos/jeffrey.png"
 import karamImg from "../images/teamPhotos/karam.png"
 import donaldImg from "../images/teamPhotos/donald.png"
 import saumyaaImg from "../images/teamPhotos/saumyaa.png"
+import cynthiaImg from "../images/teamPhotos/cynthia.png"
 
 import sophieImg from "../images/teamPhotos/sophie.png"
 import juliaImg from "../images/teamPhotos/julia.png"
 import preritImg from "../images/teamPhotos/prerit.png"
+import varunImg from "../images/teamPhotos/varun.png"
 
 
 const MeetOurTeamContainer = styled.div`
@@ -19,7 +21,7 @@ const MeetOurTeamContainer = styled.div`
 `
 
 const MOTTitle = styled.h1`
-    font-family: 'Abril Fatface';
+    font-family: 'Roboto Slab';
     text-align: center;
     font-size: 3em;
 `
@@ -36,7 +38,7 @@ const MOTContainer = styled.div`
 `
 
 const TeamSectionText = styled.h2`
-    font-size: 1.8em;
+    font-size: 2.5em;
     text-align: center;
 `
 
@@ -45,7 +47,7 @@ const MeetOurTeam = () => {
         <MeetOurTeamContainer>
             <MOTTitle>Meet our Team</MOTTitle>
             
-            <TeamSectionText>Co-founders</TeamSectionText>
+            <TeamSectionText>Execs</TeamSectionText>
             <MOTContainer>
                 <TeamMember
                     image={arnavImg}
@@ -53,6 +55,13 @@ const MeetOurTeam = () => {
                     position="Co-founder"
                     role="Operations Lead"
                     linkedIn="https://www.linkedin.com/in/arnavagrawal29/"
+                />
+                <TeamMember
+                    image={cynthiaImg}
+                    name="Cynthia Chen"
+                    position=""
+                    role="Community Relations Lead"
+                    linkedIn="https://www.linkedin.com/in/cynthia-yy-chen/"
                 />
                <TeamMember
                     image={donaldImg}
@@ -90,24 +99,52 @@ const MeetOurTeam = () => {
                 <TeamMember
                     image={preritImg}
                     name="Prerit Khivesara"
-                    position="Social Media Engagement"
-                    role="Coordinator"
+                    position=""
+                    role="Social Media Engagement"
                     linkedIn="https://www.linkedin.com/in/preritkhi/"
                 />
+                {/* <TeamMember
+                    image={""}
+                    name="Jenny Kim"
+                    position=""
+                    role="Operations Coordinator"
+                    linkedIn="https://www.linkedin.com/in/kyueunjennykim/"
+                /> */}
                <TeamMember
                     image={juliaImg}
                     name="Julia Avsec"
-                    position="Human Resources"
-                    role="Coordinator"
+                    position=""
+                    role="Human Resources"
                     linkedIn="https://www.linkedin.com/in/julia-avsec-66b377253/"
                 />
+                {/* <TeamMember
+                    image={""}
+                    name="Sofia Toral"
+                    position=""
+                    role="Marketing Coordinator"
+                    linkedIn="https://www.linkedin.com/in/sofiatoral/"
+                /> */}
                <TeamMember
                     image={sophieImg}
                     name="Sophie Hu"
-                    position="Social Media Engagement"
-                    role="Coordinator"
+                    position=""
+                    role="Social Media Engagement"
                     linkedIn="https://www.linkedin.com/in/sophie-hu-181b3b258"
                 />
+                <TeamMember
+                    image={varunImg}
+                    name="Varun Babu"
+                    position=""
+                    role="Marketing Coordinator"
+                    linkedIn="https://www.linkedin.com/in/varun-babu/"
+                />
+                {/* <TeamMember
+                    image={""}
+                    name="Wyat Leung"
+                    position=""
+                    role="Operations Coordinator"
+                    linkedIn=""
+                /> */}
             </MOTContainer>
 
         </MeetOurTeamContainer>

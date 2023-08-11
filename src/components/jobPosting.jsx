@@ -60,7 +60,7 @@ const JPRightContainer = styled.div`
 `
 
 const JPName = styled.p`
-    font-family: 'Abril Fatface';
+    font-family: 'Roboto Slab';
     font-weight: bold;
     font-size: 2em;
     color: #000000;
@@ -70,7 +70,7 @@ const JPName = styled.p`
 `
 
 const JPDescription = styled.p`
-    font-family: 'Inter';
+    font-family: 'Roboto Slab';
     font-size: 1em;
     color: #656464;
 `
@@ -80,7 +80,7 @@ const JPPositionsUL = styled.ul`
 `
 
 const JPPositionsLi = styled.li`
-    font-family: 'Inter';
+    font-family: 'Roboto Slab';
     font-size: 1em;
     color: #656464;
 `
@@ -94,7 +94,7 @@ const JPApplyNow = styled.a`
     text-decoration: none;
     padding: 5px 25px;
     color: #656464;
-    font-family: 'Inter';
+    font-family: 'Roboto Slab';
     position: relative;
     top: 10px;
     transition: 0.3s;

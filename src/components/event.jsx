@@ -44,7 +44,7 @@ const Month = styled.p`
     text-align: center;
     margin: 0;
     padding: 5px;
-    font-family: 'Abril Fatface';
+    font-family: 'Roboto Slab';
     font-weight: bold;
     font-size: 1em;
 `
@@ -57,7 +57,7 @@ const Day = styled.p`
     margin: 0;
     padding: 10px 5px;
         
-    font-family: 'Abril Fatface';
+    font-family: 'Roboto Slab';
     font-weight: bold;
     font-size: 1.5em;
 `
@@ -71,7 +71,7 @@ const TextContainer = styled.div`
 
 const Title = styled.p`
     margin: 0;
-    font-family: 'Abril Fatface';
+    font-family: 'Roboto Slab';
     font-weight: bold;
     font-size: 1.2em;
 `
@@ -79,8 +79,8 @@ const Title = styled.p`
 const Description = styled.p`
     color: #656464;
     margin: 0;
-    font-family: 'Abril Fatface';
-    font-size: 1em;
+    font-family: 'Roboto Slab';
+    font-size: 0.8em;
 `
 
 const EventBox = ({ img, title, description, month, day, category }) => {

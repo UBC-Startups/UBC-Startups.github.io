@@ -16,7 +16,7 @@ const AboutUsContainer = styled.div`
 `
 
 const AUTitle = styled.h1`
-    font-family: 'Abril Fatface';
+    font-family: 'Roboto Slab';
     text-align: center;
     font-size: 3em;
 `
@@ -25,7 +25,7 @@ const AUContent = styled.div`
     display: block;
     margin: 0 auto;
     text-align: center;
-    font-family: 'Inter';
+    font-family: 'Roboto Slab';
     color: #656464;
 `
 

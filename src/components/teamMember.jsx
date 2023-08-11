@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const TeamMemberContainer = styled.div`
     display: inline-block;
@@ -13,17 +14,18 @@ const TeamMemberContainer = styled.div`
 
 const TMName = styled.h2`
     text-align: center;
-    font-size: 2.5em;
-    margin-top: -50px;
-    padding: 0px 5px;
+    font-size: 2.2em;
+    margin-top: -70px;
+    padding: 0px 10px;
     height: 2.5em;
-    margin-bottom: -10px;
+    margin-bottom: 0px;
 `
 
 const TMPosition = styled.p`
     text-align: center;
     color: #656464;
     font-weight: bold;
+    height: 20px;
 `
 
 const TMRole = styled.p`
@@ -71,6 +73,8 @@ const TeamMember = ({image, name, position, role, linkedIn}) => {
             <TMPosition>{position}</TMPosition>
             <TMRole>{role}</TMRole>
             <TMLinkedIn href={linkedIn} target="_blank">LinkedIn</TMLinkedIn>
+            {/* <FontAwesomeIcon icon={faLinkedin} /> */}
+            
         </TeamMemberContainer>
     )
 }

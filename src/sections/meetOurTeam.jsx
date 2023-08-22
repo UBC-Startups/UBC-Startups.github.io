@@ -14,7 +14,7 @@ import sophieImg from "../images/teamPhotos/sophie.png"
 import juliaImg from "../images/teamPhotos/julia.png"
 import preritImg from "../images/teamPhotos/prerit.png"
 import varunImg from "../images/teamPhotos/varun.png"
-
+import jennyImg from "../images/teamPhotos/jenny.png"
 
 const MeetOurTeamContainer = styled.div`
     height: auto;
@@ -103,13 +103,13 @@ const MeetOurTeam = () => {
                     role="Social Media Engagement"
                     linkedIn="https://www.linkedin.com/in/preritkhi/"
                 />
-                {/* <TeamMember
-                    image={""}
+                <TeamMember
+                    image={jennyImg}
                     name="Jenny Kim"
                     position=""
                     role="Operations Coordinator"
                     linkedIn="https://www.linkedin.com/in/kyueunjennykim/"
-                /> */}
+                />
                <TeamMember
                     image={juliaImg}
                     name="Julia Avsec"

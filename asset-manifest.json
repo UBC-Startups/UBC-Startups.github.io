@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.329f1d66.js",
+    "main.js": "/static/js/main.a57b24f2.js",
     "static/js/787.b23f9d23.chunk.js": "/static/js/787.b23f9d23.chunk.js",
     "static/media/himmi.png": "/static/media/himmi.425d5f6032d68bdb7d8f.png",
     "static/media/tempHIMMIImage.jpg": "/static/media/tempHIMMIImage.dc11300bc64c7ee34838.jpg",
@@ -16,6 +16,7 @@
     "static/media/cynthia.png": "/static/media/cynthia.19b22e0f64c5d1752bc3.png",
     "static/media/saumyaa.png": "/static/media/saumyaa.af8a1c12b33cb3bbc294.png",
     "static/media/prerit.png": "/static/media/prerit.6397c0faa24a26a3eca7.png",
+    "static/media/jenny.png": "/static/media/jenny.5642990e75c760ccb000.png",
     "static/media/varun.png": "/static/media/varun.4c4c397305722bba3b4a.png",
     "static/media/Logo.svg": "/static/media/Logo.b58f8104d3e4cc97a0e044668644b4f0.svg",
     "static/media/25under25.jpg": "/static/media/25under25.a022bc1ffc4ba57cdb13.jpg",
@@ -23,10 +24,10 @@
     "static/media/AboutImage1.jpg": "/static/media/AboutImage1.9c71596360cc89b42813.jpg",
     "static/media/HeroShapeDesign.svg": "/static/media/HeroShapeDesign.034aeb94c18b8d5993908d43d315d043.svg",
     "index.html": "/index.html",
-    "main.329f1d66.js.map": "/static/js/main.329f1d66.js.map",
+    "main.a57b24f2.js.map": "/static/js/main.a57b24f2.js.map",
     "787.b23f9d23.chunk.js.map": "/static/js/787.b23f9d23.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.329f1d66.js"
+    "static/js/main.a57b24f2.js"
   ]
 }

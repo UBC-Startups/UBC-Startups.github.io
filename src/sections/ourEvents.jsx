@@ -6,7 +6,7 @@ import EventBox from "../components/event";
 // Images for events
 import AboutImage2 from "../images/AboutImage2.jpg" // Placeholder
 import TwentyFiveBrunchImg from "../images/25under25.jpg"
-// import HIMMIImage from "../images/himmi_team_photo.png"
+import FSAISAAS from "../images/founderSpotlightAISaaS.png"
 import HIMMIImage from "../images/himmi.png"
 
 const OurEventsContainer = styled.div`
@@ -31,30 +31,39 @@ const OurEvents = () => {
     const [category, setCategory] = useState("all");
     const events = [
         {
-            img:AboutImage2,
-            title:"How I Met Your Founder",
-            description:"‘How I Met Your Founder’, sponsored by Contrary Capital, was an opportunity for students from different faculties to get advice from experienced entrepreneurs, and develop a sense of camaraderie as aspiring entrepreneurs.",
-            month:"Sept",
-            day:"26",
-            category:"prev",
+            img: FSAISAAS,
+            title: "Founder Spotlight: AI/SaaS",
+            description: "A networking event in partnership with the Computer Science Student Society (CSSS). Provided students with a chance to connect with AI and SaaS industry leaders, fostering a sense of community among budding entrepreneurs.",
+            month: "Sept",
+            day: "19",
+            category: "prev",
         },
         {
-            img:TwentyFiveBrunchImg,
-            title:"25 Under 25 Brunch",
-            description:"A brunch hosted by UBC Startups, Dyne, and eHub where successful entrepreneurs were invited to network with one another. Students at the event also got the opportunity to network with existing entrepreneurs and to gain insight from them, and one another.",
-            month:"Nov",
-            day:"26",
-            category:"prev",
+            img: HIMMIImage,
+            title: "How I met my Intern",
+            description: "An event that aims to provide opportunities for entrepreneurial students at UBC to meet Vancouver-based startups that are hiring for internships. Startups that attend this event will be hiring interns exclusively from UBC, so this is an invaluable opportunity for students to make lasting impressions on hiring managers.",
+            month: "Mar",
+            day: "24",
+            category: "prev",
         },
         {
-            img:HIMMIImage,
-            title:"How I met my Intern",
-            description:"An event that aims to provide opportunities for entrepreneurial students at UBC to meet Vancouver-based startups that are hiring for internships. Startups that attend this event will be hiring interns exclusively from UBC, so this is an invaluable opportunity for students to make lasting impressions on hiring managers.",
-            month:"Mar",
-            day:"24",
-            category:"prev",
-        }
-    ]
+            img: TwentyFiveBrunchImg,
+            title: "25 Under 25 Brunch",
+            description: "A brunch hosted by UBC Startups, Dyne, and eHub where successful entrepreneurs were invited to network with one another. Students at the event also got the opportunity to network with existing entrepreneurs and to gain insight from them, and one another.",
+            month: "Nov",
+            day: "26",
+            category: "prev",
+        },
+        {
+            img: AboutImage2,
+            title: "How I Met Your Founder",
+            description: "‘How I Met Your Founder’, sponsored by Contrary Capital, was an opportunity for students from different faculties to get advice from experienced entrepreneurs, and develop a sense of camaraderie as aspiring entrepreneurs.",
+            month: "Sept",
+            day: "26",
+            category: "prev",
+        },
+    ];
+    
     let eventsToDisplay = 0;
     for (let i = 0; i < events.length; i++) {
         if (category === "all" || category === events[i]["category"]) {
@@ -74,7 +83,7 @@ const OurEvents = () => {
         margin: 0px 20px;
         cursor: pointer;
         z-index: 2;
-        transition: 0.3s;
+        transition: 0.4s;
         @media (max-width: 800px) {
             display: block;
             margin: 12.5px auto;

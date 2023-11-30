@@ -81,7 +81,7 @@ const MeetOurTeam = () => {
                     image={jeffreyImg}
                     name="Jeffrey Low"
                     position="Co-founder"
-                    role="Community Relations Lead"
+                    role="President"
                     linkedIn="https://www.linkedin.com/in/jeffrey-low/"
                 />
                <TeamMember

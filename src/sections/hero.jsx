@@ -20,6 +20,7 @@ const HeroShapes = styled.img`
     position: absolute;
     top: 0;
     width: 100%;
+    z-index: -1;
     @media (max-width: 480px) {
         height: 100vh;
         width: 100%;

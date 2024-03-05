@@ -20,8 +20,9 @@ const EventBoxCoverImage = styled.img`
     position: relative;
     width: 100%;
     height: auto;
-    top: -100px;
+    // top: ${props => props.imgTop !== undefined ? `${props.imgTop}px` : "-100px"};
 `
+
 const EventBoxContentContainer = styled.div`
     position: relative;
     background: #FFFFFF;
@@ -83,11 +84,11 @@ const Description = styled.p`
     font-size: 0.8em;
 `
 
-const EventBox = ({ img, title, description, month, day, category }) => {
+const EventBox = ({ img, title, description, month, day, category, imgTop="-100px" }) => {
     return (
         <EventBoxContainer>
             <EventCoverImageContainer>
-                <EventBoxCoverImage src={img} />
+                <EventBoxCoverImage src={img} style={{top:imgTop}}/>
             </EventCoverImageContainer>
 
             <EventBoxContentContainer>

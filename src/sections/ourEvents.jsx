@@ -8,6 +8,11 @@ import AboutImage2 from "../images/AboutImage2.jpg" // Placeholder
 import TwentyFiveBrunchImg from "../images/25under25.jpg"
 import FSAISAAS from "../images/founderSpotlightAISaaS.png"
 import HIMMIImage from "../images/himmi.png"
+import GtwImage from "../images/gainingTractionImg.jpg"
+import PrototypingWImage from "../images/prototypingWorkshopImg.jpg"
+import PitchWImage from "../images/pitchWorkshopImg.png"
+import SoarImage from "../images/soarImage.png"
+
 
 const OurEventsContainer = styled.div`
     margin: 5% 0px;
@@ -30,6 +35,40 @@ const FilterOptionsContainer = styled.ul`
 const OurEvents = () => {
     const [category, setCategory] = useState("all");
     const events = [
+        {
+            img: SoarImage,
+            title: "Soar",
+            description: "UBC Startups in partnership with the CSSS are thrilled to announce the first iteration of the Soar Startup Pitch Competition, a premier event designed to showcase the entrepreneurial talent and innovative ideas within the UBC community. There will be a $10,000 non-dilutive cash prize!",
+            month: "Mar",
+            day: "23",
+            category: "upcoming",
+            imgTop: "-20px"
+        },
+        {
+            img: PitchWImage,
+            title: "Workshop 3: Pitch Perfect",
+            description: "Pitch perfect, organized by UBC Startups in collaboration with the CSSS will prepare students for Soar. It's part of a series aimed at equipping student founders with essential skills for success in the startup landscape, focusing on pitching products effectively",
+            month: "Mar",
+            day: "11",
+            category: "upcoming",
+        },
+        {
+            img: GtwImage,
+            title: "Workshop 2: Gaining Traction",
+            description: "A workshop hosted in collaboration with the CSSS, targets students preparing for Soar. As part of a series of workshops, it aims to equip future student founders with skills crucial for success in the startup scene, focusing on gaining traction for their products through insights and interactive learning opportunities.",
+            month: "Feb",
+            day: "8",
+            category: "prev",
+            imgTop: "-120px"
+        },
+        {
+            img: PrototypingWImage,
+            title: "Workshop 1: Prototyping & Product Design",
+            description: "This workshop provided insights and interactive learning opportunities from both a designer's and a developer's perspective, designed to cultivate a deep understanding of product design and prototyping – skills essential for success in the competitive startup landscape.",
+            month: "Jan",
+            day: "24",
+            category: "prev",
+        },
         {
             img: FSAISAAS,
             title: "Founder Spotlight: AI/SaaS",
@@ -146,6 +185,7 @@ const OurEvents = () => {
                             month={value["month"]}
                             day={value["day"]}
                             category={value["category"]}
+                            imgTop={value["imgTop"]}
                         />
                     )
                 )}

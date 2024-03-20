@@ -12,9 +12,10 @@ import cynthiaImg from "../images/teamPhotos/cynthia.png"
 
 import sophieImg from "../images/teamPhotos/sophie.png"
 import juliaImg from "../images/teamPhotos/julia.png"
-import preritImg from "../images/teamPhotos/prerit.png"
 import varunImg from "../images/teamPhotos/varun.png"
 import jennyImg from "../images/teamPhotos/jenny.png"
+import sofiaImg from "../images/teamPhotos/sofia.png"
+import wyatImg from "../images/teamPhotos/wyat.png"
 
 const MeetOurTeamContainer = styled.div`
     height: auto;
@@ -97,13 +98,6 @@ const MeetOurTeam = () => {
 
             <MOTContainer>
                 <TeamMember
-                    image={preritImg}
-                    name="Prerit Khivesara"
-                    position=""
-                    role="Social Media Engagement"
-                    linkedIn="https://www.linkedin.com/in/preritkhi/"
-                />
-                <TeamMember
                     image={jennyImg}
                     name="Jenny Kim"
                     position=""
@@ -117,13 +111,13 @@ const MeetOurTeam = () => {
                     role="Human Resources"
                     linkedIn="https://www.linkedin.com/in/julia-avsec-66b377253/"
                 />
-                {/* <TeamMember
-                    image={""}
+                <TeamMember
+                    image={sofiaImg}
                     name="Sofia Toral"
                     position=""
                     role="Marketing Coordinator"
                     linkedIn="https://www.linkedin.com/in/sofiatoral/"
-                /> */}
+                />
                <TeamMember
                     image={sophieImg}
                     name="Sophie Hu"
@@ -138,13 +132,13 @@ const MeetOurTeam = () => {
                     role="Marketing Coordinator"
                     linkedIn="https://www.linkedin.com/in/varun-babu/"
                 />
-                {/* <TeamMember
-                    image={""}
+                <TeamMember
+                    image={wyatImg}
                     name="Wyat Leung"
                     position=""
                     role="Operations Coordinator"
-                    linkedIn=""
-                /> */}
+                    linkedIn="https://www.linkedin.com/in/wyat-leung-410367222/"
+                />
             </MOTContainer>
 
         </MeetOurTeamContainer>

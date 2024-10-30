@@ -23,8 +23,8 @@ const HomePage = () => {
         description="Building a startup ecosystem on campus"
       />
       <NewEvent
-        title="IDCreate 2024"
-        punchline="IDCreate will be our 2nd event of the year, where future entrepreneurs have the opportunity to network and connect with entrepreneurs from and outside of UBC."
+        title="InnoVision 2024"
+        punchline="InnoVision will be our 2nd event of the year, where future entrepreneurs have the opportunity to network and connect with entrepreneurs from and outside of UBC."
         description="We aim to have a diverse panel with entrepreneurs from various faculities. Students will have time to ask panelists questions, followed by a group activity to ideate a product and pitch it to the panel. At the end, we will open up the floor for an open networking session!"
         extraDetails="This event is designed in such a way that students need not have a business background to attend, they all must have one thing in common; the love for entrepreneurship!"
         registrationLink="https://forms.gle/vBmDxY64dyYPuPxz7"

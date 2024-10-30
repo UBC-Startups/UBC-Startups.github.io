@@ -35,9 +35,9 @@ const OurEvents = () => {
   const events = [
     {
       img: FSAISAAS,
-      title: "IDCreate (2024W)",
+      title: "InnoVision (2024W)",
       description:
-        "IDCreate will be our 2nd event of the year, where future entrepreneurs have the opportunity to network and connect with entrepreneurs from and outside of UBC. After the panel, there will be a group activity to ideate a product and pitch it to the panel, followed by open networking!",
+        "InnoVision will be our 2nd event of the year, where future entrepreneurs have the opportunity to network and connect with entrepreneurs from and outside of UBC. After the panel, there will be a group activity to ideate a product and pitch it to the panel, followed by open networking!",
       month: "Nov",
       day: "4",
       category: "upcoming",

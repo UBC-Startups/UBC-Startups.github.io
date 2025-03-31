@@ -23,12 +23,12 @@ const HomePage = () => {
         description="Building a startup ecosystem on campus"
       />
       <NewEvent
-        title="InnoVision 2024"
-        punchline="InnoVision will be our 2nd event of the year, where future entrepreneurs have the opportunity to network and connect with entrepreneurs from and outside of UBC."
-        description="We aim to have a diverse panel with entrepreneurs from various faculities. Students will have time to ask panelists questions, followed by a group activity to ideate a product and pitch it to the panel. At the end, we will open up the floor for an open networking session!"
-        extraDetails="This event is designed in such a way that students need not have a business background to attend, they all must have one thing in common; the love for entrepreneurship!"
-        registrationLink="https://forms.gle/vBmDxY64dyYPuPxz7"
-        date="November 4th, 2024 (5:30pm to 8:30pm)"
+        title="SOAR 2025"
+        punchline="UBC Startups is proud to announce the 2025 SOAR Startup Pitch Competition!"
+        description="Vancouver's startup ecosystem is thriving, and you should be a part of it too! Apply now to have a chance of winning $10,000 in non dilutive funding for your startup idea."
+        extraDetails="Don't just heart about the future - see it unfold in real-time. Whether you're a founder, investor, or just love game-changing ideas, this is the event to be at!"
+        registrationLink="https://forms.gle/GureEFUWAZsSRRaD7"
+        date="April 6th, 2025"
       />
       <WhatWeOffer />
       <OurEvents />

@@ -10,6 +10,14 @@ import donaldImg from "../images/teamPhotos/donald.png"
 import saumyaaImg from "../images/teamPhotos/saumyaa.png"
 import cynthiaImg from "../images/teamPhotos/cynthia.png"
 
+import mostafaImg from "../images/teamPhotos/Mostafa.jpeg"
+import nazikImg from "../images/teamPhotos/Nazik.png"
+import andersonImg from "../images/teamPhotos/Anderson-Ko.png"
+import angadImg from "../images/teamPhotos/Angad-Bhalla.jpg"
+import katelynImg from "../images/teamPhotos/Katelyn-Jang.JPG"
+import samuelImg from "../images/teamPhotos/Samuel-Ma.jpeg"
+import lucasImg from "../images/teamPhotos/Lucas-Liu.png"
+
 import sophieImg from "../images/teamPhotos/sophie.png"
 import juliaImg from "../images/teamPhotos/julia.png"
 import varunImg from "../images/teamPhotos/varun.png"
@@ -51,93 +59,59 @@ const MeetOurTeam = () => {
             <TeamSectionText>Execs</TeamSectionText>
             <MOTContainer>
                 <TeamMember
-                    image={arnavImg}
-                    name="Arnav Agrawal"
-                    position="Co-founder"
-                    role="Operations Lead"
-                    linkedIn="https://www.linkedin.com/in/arnavagrawal29/"
+                    image={mostafaImg}
+                    name="Mostafa Mostafa"
+                    position=""
+                    role="Co-President"
+                    linkedIn="https://www.linkedin.com/in/mostafa57/"
                 />
                 <TeamMember
-                    image={cynthiaImg}
-                    name="Cynthia Chen"
+                    image={nazikImg}
+                    name="Nazik"
                     position=""
-                    role="Community Relations Lead"
-                    linkedIn="https://www.linkedin.com/in/cynthia-yy-chen/"
+                    role="Co-President"
+                    linkedIn="https://www.linkedin.com/in/nazik-zhumashalieva/"
+                />
+                <TeamMember
+                    image={lucasImg}
+                    name="Lucas Liu"
+                    position=""
+                    role="VP Tech"
+                    linkedIn="https://www.linkedin.com/in/lucas-liu-32b566216/"
                 />
                <TeamMember
-                    image={donaldImg}
-                    name="Donald Lee"
-                    position="Co-founder"
-                    role="Technology Lead"
-                    linkedIn="https://www.linkedin.com/in/donald-k-lee/"
+                    image={angadImg}
+                    name="Angad Bhalla"
+                    position=""
+                    role="VP Admin"
+                    linkedIn="https://www.linkedin.com/in/angadsinghbhalla/"
                 />
                <TeamMember
-                    image={karamImg}
-                    name="Karam Veer Kanwar"
-                    position="Co-founder"
-                    role="Corporate Relations Lead"
-                    linkedIn="https://www.linkedin.com/in/kkanwar/"
+                    image={samuelImg}
+                    name="Samuel Ma"
+                    position=""
+                    role="VP Engagement"
+                    linkedIn="https://www.linkedin.com/in/samuel-ma8/"
                 />
                <TeamMember
-                    image={jeffreyImg}
-                    name="Jeffrey Low"
-                    position="Co-founder"
-                    role="President"
-                    linkedIn="https://www.linkedin.com/in/jeffrey-low/"
+                    image={katelynImg}
+                    name="Katelyn Jang"
+                    position=""
+                    role="VP Events"
+                    linkedIn="https://www.linkedin.com/in/katelyn-jang-68ba6a2b0/"
                 />
-               <TeamMember
-                    image={saumyaaImg}
-                    name="Saumyaa Gandhi"
-                    position="Co-founder"
-                    role="Marketing Lead"
-                    linkedIn="https://www.linkedin.com/in/saumyaagandhi/"
-                />
+               
             </MOTContainer>
 
             <TeamSectionText>Coordinators</TeamSectionText>
 
             <MOTContainer>
                 <TeamMember
-                    image={jennyImg}
-                    name="Jenny Kim"
+                    image={andersonImg}
+                    name="Anderson Ko"
                     position=""
-                    role="Operations Coordinator"
-                    linkedIn="https://www.linkedin.com/in/kyueunjennykim/"
-                />
-               <TeamMember
-                    image={juliaImg}
-                    name="Julia Avsec"
-                    position=""
-                    role="Human Resources"
-                    linkedIn="https://www.linkedin.com/in/julia-avsec-66b377253/"
-                />
-                <TeamMember
-                    image={sofiaImg}
-                    name="Sofia Toral"
-                    position=""
-                    role="Marketing Coordinator"
-                    linkedIn="https://www.linkedin.com/in/sofiatoral/"
-                />
-               <TeamMember
-                    image={sophieImg}
-                    name="Sophie Hu"
-                    position=""
-                    role="Social Media Engagement"
-                    linkedIn="https://www.linkedin.com/in/sophie-hu-181b3b258"
-                />
-                <TeamMember
-                    image={varunImg}
-                    name="Varun Babu"
-                    position=""
-                    role="Marketing Coordinator"
-                    linkedIn="https://www.linkedin.com/in/varun-babu/"
-                />
-                <TeamMember
-                    image={wyatImg}
-                    name="Wyat Leung"
-                    position=""
-                    role="Operations Coordinator"
-                    linkedIn="https://www.linkedin.com/in/wyat-leung-410367222/"
+                    role="Finance Director"
+                    linkedIn="https://www.linkedin.com/in/anderson-ko/"
                 />
             </MOTContainer>
 

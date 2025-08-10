@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.js": "/static/js/main.655aee8c.js",
-    "static/js/787.b23f9d23.chunk.js": "/static/js/787.b23f9d23.chunk.js",
+    "main.js": "/static/js/main.cbdce9f0.js",
+    "static/js/453.600f6ea0.chunk.js": "/static/js/453.600f6ea0.chunk.js",
     "static/media/himmi.png": "/static/media/himmi.425d5f6032d68bdb7d8f.png",
     "static/media/tempHIMMIImage.jpg": "/static/media/tempHIMMIImage.dc11300bc64c7ee34838.jpg",
-    "static/media/ResourcesImg.svg": "/static/media/ResourcesImg.e799eeef95c3e68dbb0ccd463fbe3856.svg",
-    "static/media/InternshipsImg.svg": "/static/media/InternshipsImg.6d4f32148b7e47a6d4dd96d934545acd.svg",
-    "static/media/NetworkingImg.svg": "/static/media/NetworkingImg.4497dc5b46929204b3658e8dc6bb61c8.svg",
+    "static/media/ResourcesImg.svg": "/static/media/ResourcesImg.1d2663dea7416e24f0d7fb574e93a7dd.svg",
+    "static/media/InternshipsImg.svg": "/static/media/InternshipsImg.346c297f2d83a89086e3d6f7f827352b.svg",
+    "static/media/NetworkingImg.svg": "/static/media/NetworkingImg.6c9a4c3eb23ea98bc2d08dc791a2f1ea.svg",
     "static/media/prototypingWorkshopImg.jpg": "/static/media/prototypingWorkshopImg.5b9d7d3de68a0e901148.jpg",
     "static/media/sophie.png": "/static/media/sophie.babe1a4ae91ccd2741cd.png",
     "static/media/wyat.png": "/static/media/wyat.974b24d794265d11977d.png",
@@ -20,20 +20,27 @@
     "static/media/saumyaa.png": "/static/media/saumyaa.af8a1c12b33cb3bbc294.png",
     "static/media/jenny.png": "/static/media/jenny.5642990e75c760ccb000.png",
     "static/media/varun.png": "/static/media/varun.4c4c397305722bba3b4a.png",
+    "static/media/Lucas-Liu.png": "/static/media/Lucas-Liu.04f36dd90e39ea44be00.png",
     "static/media/gainingTractionImg.jpg": "/static/media/gainingTractionImg.bb97212b828a3e6b15f0.jpg",
+    "static/media/Katelyn-Jang.JPG": "/static/media/Katelyn-Jang.ecff9150fd511145b449.JPG",
     "static/media/pitchWorkshopImg.png": "/static/media/pitchWorkshopImg.d282a67d13a31107f7e3.png",
+    "static/media/Samuel-Ma.jpeg": "/static/media/Samuel-Ma.c7ba1f49d855faf4eeda.jpeg",
+    "static/media/Anderson-Ko.png": "/static/media/Anderson-Ko.2a9c4925cba0a416548d.png",
     "static/media/founderSpotlightAISaaS.png": "/static/media/founderSpotlightAISaaS.4ff91af5fd5df1646ab3.png",
-    "static/media/Logo.svg": "/static/media/Logo.b58f8104d3e4cc97a0e044668644b4f0.svg",
+    "static/media/Mostafa.jpeg": "/static/media/Mostafa.3d38b7676140bff9c7ff.jpeg",
+    "static/media/Logo.svg": "/static/media/Logo.be2c9c1831147b1d7ea4d9c6f5e48b11.svg",
+    "static/media/Angad-Bhalla.jpg": "/static/media/Angad-Bhalla.dbe1a74cc016840186ba.jpg",
+    "static/media/Nazik.png": "/static/media/Nazik.31ab5b7d4db770463ca9.png",
     "static/media/25under25.jpg": "/static/media/25under25.a022bc1ffc4ba57cdb13.jpg",
     "static/media/AboutImage2.jpg": "/static/media/AboutImage2.53dde60aed181679c1dc.jpg",
     "static/media/AboutImage1.jpg": "/static/media/AboutImage1.9c71596360cc89b42813.jpg",
     "static/media/soarImage.png": "/static/media/soarImage.b5d702dc019bf0be2bb8.png",
-    "static/media/HeroShapeDesign.svg": "/static/media/HeroShapeDesign.034aeb94c18b8d5993908d43d315d043.svg",
+    "static/media/HeroShapeDesign.svg": "/static/media/HeroShapeDesign.13b4835c99fa5e3880312c9f33f0fd3a.svg",
     "index.html": "/index.html",
-    "main.655aee8c.js.map": "/static/js/main.655aee8c.js.map",
-    "787.b23f9d23.chunk.js.map": "/static/js/787.b23f9d23.chunk.js.map"
+    "main.cbdce9f0.js.map": "/static/js/main.cbdce9f0.js.map",
+    "453.600f6ea0.chunk.js.map": "/static/js/453.600f6ea0.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.655aee8c.js"
+    "static/js/main.cbdce9f0.js"
   ]
 }

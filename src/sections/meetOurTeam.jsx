@@ -60,14 +60,14 @@ const MeetOurTeam = () => {
             <MOTContainer>
                 <TeamMember
                     image={mostafaImg}
-                    name="Mostafa Mostafa"
+                    name="Mostafa"
                     position=""
                     role="Co-President"
                     linkedIn="https://www.linkedin.com/in/mostafa57/"
                 />
                 <TeamMember
                     image={nazikImg}
-                    name="Nazik"
+                    name="Nazik Zhumashalieva "
                     position=""
                     role="Co-President"
                     linkedIn="https://www.linkedin.com/in/nazik-zhumashalieva/"

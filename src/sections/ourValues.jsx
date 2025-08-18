@@ -38,19 +38,19 @@ const ValueCircle = styled.div`
     margin-right: 20px; /* Increase margin right for more spacing */
 `
 
-const AccessibilityCircle = styled(ValueCircle)`
+const BoldnessCircle = styled(ValueCircle)`
     background-color: #DD3322;
 `
 
-const InclusivityCircle = styled(ValueCircle)`
+const GrowthCircle = styled(ValueCircle)`
     background-color: #88DCBE;
 `
 
-const GrowthCircle = styled(ValueCircle)`
+const CommunityCircle = styled(ValueCircle)`
     background-color: #FF9735;
 `
 
-const InnovationCircle = styled(ValueCircle)`
+const ExclusivityCircle = styled(ValueCircle)`
     background-color: #171926;
 `
 
@@ -76,18 +76,10 @@ const OurValues = () => {
 
             <OVList>
                 <OVListItem>
-                    <AccessibilityCircle />
+                    <BoldnessCircle />
                     <ValueTextContainer>
-                        <ValueTitle>Accessibility</ValueTitle>
-                        <ValueDescription>Creating an open and inclusive free events for everyone.</ValueDescription>
-                    </ValueTextContainer>
-                </OVListItem>
-
-                <OVListItem>
-                    <InclusivityCircle />
-                    <ValueTextContainer>
-                        <ValueTitle>Inclusivity</ValueTitle>
-                        <ValueDescription>Fostering an environment that celebrates diversity and different perspectives.</ValueDescription>
+                        <ValueTitle>Boldness</ValueTitle>
+                        <ValueDescription>We embrace risk, break patterns, and back creativity without apology. </ValueDescription>
                     </ValueTextContainer>
                 </OVListItem>
 
@@ -95,15 +87,23 @@ const OurValues = () => {
                     <GrowthCircle />
                     <ValueTextContainer>
                         <ValueTitle>Growth</ValueTitle>
-                        <ValueDescription>Dedicated to supporting the continuous learning and development of individuals.</ValueDescription>
+                        <ValueDescription>We learn fast, grow faster, and build the confidence to shape our own path.</ValueDescription>
                     </ValueTextContainer>
                 </OVListItem>
 
                 <OVListItem>
-                    <InnovationCircle />
+                    <CommunityCircle />
                     <ValueTextContainer>
-                        <ValueTitle>Innovation</ValueTitle>
-                        <ValueDescription>Championing creative thinking and the pursuit of groundbreaking ideas.</ValueDescription>
+                        <ValueTitle>Community</ValueTitle>
+                        <ValueDescription>We are a welcoming home for students and founders to connect and belong.</ValueDescription>
+                    </ValueTextContainer>
+                </OVListItem>
+
+                <OVListItem>
+                    <ExclusivityCircle />
+                    <ValueTextContainer>
+                        <ValueTitle>Exclusivity</ValueTitle>
+                        <ValueDescription>We curate rare, intentional experiences that make members feel special.</ValueDescription>
                     </ValueTextContainer>
                 </OVListItem>
             </OVList>

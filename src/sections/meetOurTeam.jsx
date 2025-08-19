@@ -17,6 +17,7 @@ import angadImg from "../images/teamPhotos/Angad-Bhalla.jpg"
 import katelynImg from "../images/teamPhotos/Katelyn-Jang.JPG"
 import samuelImg from "../images/teamPhotos/Samuel-Ma.jpeg"
 import lucasImg from "../images/teamPhotos/Lucas-Liu.png"
+import dhananjaiImg from "../images/teamPhotos/Dhananjai Lekhi.png"
 
 import sophieImg from "../images/teamPhotos/sophie.png"
 import juliaImg from "../images/teamPhotos/julia.png"
@@ -112,6 +113,13 @@ const MeetOurTeam = () => {
                     position=""
                     role="Finance Director"
                     linkedIn="https://www.linkedin.com/in/anderson-ko/"
+                />
+                <TeamMember
+                    image={dhananjaiImg}
+                    name="Dhananjai Lekhi"
+                    position=""
+                    role="Treasurer"
+                    linkedIn="https://www.linkedin.com/in/dhananjai-lekhi-218ab2271/"
                 />
             </MOTContainer>
 

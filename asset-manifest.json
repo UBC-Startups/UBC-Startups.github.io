@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.25d672b4.js",
+    "main.js": "/static/js/main.7ae77820.js",
     "static/js/453.600f6ea0.chunk.js": "/static/js/453.600f6ea0.chunk.js",
     "static/media/himmi.png": "/static/media/himmi.425d5f6032d68bdb7d8f.png",
     "static/media/tempHIMMIImage.jpg": "/static/media/tempHIMMIImage.dc11300bc64c7ee34838.jpg",
@@ -23,6 +23,7 @@
     "static/media/Lucas-Liu.png": "/static/media/Lucas-Liu.04f36dd90e39ea44be00.png",
     "static/media/gainingTractionImg.jpg": "/static/media/gainingTractionImg.bb97212b828a3e6b15f0.jpg",
     "static/media/Katelyn-Jang.JPG": "/static/media/Katelyn-Jang.ecff9150fd511145b449.JPG",
+    "static/media/Dhananjai Lekhi.png": "/static/media/Dhananjai Lekhi.f908e2867492f2b75981.png",
     "static/media/pitchWorkshopImg.png": "/static/media/pitchWorkshopImg.d282a67d13a31107f7e3.png",
     "static/media/Samuel-Ma.jpeg": "/static/media/Samuel-Ma.c7ba1f49d855faf4eeda.jpeg",
     "static/media/Anderson-Ko.png": "/static/media/Anderson-Ko.2a9c4925cba0a416548d.png",
@@ -37,10 +38,10 @@
     "static/media/soarImage.png": "/static/media/soarImage.b5d702dc019bf0be2bb8.png",
     "static/media/HeroShapeDesign.svg": "/static/media/HeroShapeDesign.13b4835c99fa5e3880312c9f33f0fd3a.svg",
     "index.html": "/index.html",
-    "main.25d672b4.js.map": "/static/js/main.25d672b4.js.map",
+    "main.7ae77820.js.map": "/static/js/main.7ae77820.js.map",
     "453.600f6ea0.chunk.js.map": "/static/js/453.600f6ea0.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.25d672b4.js"
+    "static/js/main.7ae77820.js"
   ]
 }

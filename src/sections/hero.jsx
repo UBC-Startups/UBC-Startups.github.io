@@ -78,7 +78,6 @@ const Hero = ({heading, description}) => {
                 {/* <DotsContainer>
                     <Dots />
                     <Dots />
-                    <Dots />
                 </DotsContainer> */}
             </HeroContent>
         </>

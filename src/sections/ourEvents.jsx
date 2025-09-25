@@ -228,9 +228,7 @@ const OurEvents = () => {
   padding: 20px 0;
   scroll-behavior: smooth; 
 
-  &::-webkit-scrollbar {
-    display: none;
-  }
+  &::-webkit-scrollbar }
 `;
 
     const EventsWrapper = styled.div`
@@ -258,7 +256,6 @@ flex: 0 0 auto;
         February: 5,
         March: 6,
         April: 7,
-        May: 8,
         June: 9,
         July: 10,
         August: 11,

@@ -8,9 +8,8 @@ import WhatWeOffer from "../sections/whatweoffer";
 import OurEvents from "../sections/ourEvents";
 import AboutUs from "../sections/aboutUs";
 import OurValues from "../sections/ourValues";
-import MeetOurTeam from "../sections/meetOurTeam";
+//import MeetOurTeam from "../sections/meetOurTeam";
 import Footer from "../sections/footer";
-import NewEvent from "../sections/newEvent";
 
 const HomePage = () => {
   return (
@@ -33,7 +32,7 @@ const HomePage = () => {
       <OurEvents />
       <AboutUs />
       <OurValues />
-      <MeetOurTeam />
+      {/*<MeetOurTeam />*/}
       {/* <Resources /> */}
       <Footer />
     </>

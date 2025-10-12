@@ -4,9 +4,9 @@ import styled from "styled-components";
 import JobPosting from "../components/jobPosting"
 
 // Company images
-import AboutImage2 from "../images/AboutImage2.jpg" // Placeholder
-import TwentyFiveBrunchImg from "../images/25under25.jpg"
-import HIMMIImage from "../images/tempHIMMIImage.jpg"
+// import AboutImage2 from "../images/AboutImage2.jpg" // Placeholder
+// import TwentyFiveBrunchImg from "../images/25under25.jpg"
+// import HIMMIImage from "../images/tempHIMMIImage.jpg"
 
 const JobPostingsContainer = styled.div`
     width: 90vw;

@@ -5,14 +5,14 @@ import EventBox from "../components/event";
 // Images for events
 import AboutImage2 from "../images/AboutImage2.jpg"; // Placeholder
 import AboutImage1 from "../images/AboutImage1.jpg"; // Placeholder
-import TwentyFiveBrunchImg from "../images/25under25.jpg";
-import FSAISAAS from "../images/founderSpotlightAISaaS.png";
-import HIMMIImage from "../images/himmi.png";
-import GtwImage from "../images/gainingTractionImg.jpg";
-import PrototypingWImage from "../images/prototypingWorkshopImg.jpg";
-import PitchWImage from "../images/pitchWorkshopImg.png";
-import SoarImage from "../images/soarImage.png";
-import himmi from "../images/himmi.png";
+import TwentyFiveBrunchImg from "../images/eventPhotos/25under25.jpg";
+import FSAISAAS from "../images/eventPhotos/founderSpotlightAISaaS.png";
+import HIMMIImage from "../images/eventPhotos/himmi.png";
+import GtwImage from "../images/eventPhotos/gainingTractionImg.jpg";
+import PrototypingWImage from "../images/eventPhotos/prototypingWorkshopImg.jpg";
+import PitchWImage from "../images/eventPhotos/pitchWorkshopImg.png";
+import SoarImage from "../images/eventPhotos/soarImage.png";
+import himmi from "../images/eventPhotos/himmi.png";
 
 const OurEventsContainer = styled.div`
   margin: 5% 0px;

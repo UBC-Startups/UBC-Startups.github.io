@@ -10,6 +10,8 @@ import AboutUs from "../sections/aboutUs";
 import OurValues from "../sections/ourValues";
 //import MeetOurTeam from "../sections/meetOurTeam";
 import Footer from "../sections/footer";
+//import NewEvent from "../sections/newEvent";
+import Partners from "../sections/ourPartners";
 
 const HomePage = () => {
   return (
@@ -29,6 +31,7 @@ const HomePage = () => {
         date="April 6th, 2025"
       /> */}
       <WhatWeOffer />
+      <Partners />
       <OurEvents />
       <AboutUs />
       <OurValues />

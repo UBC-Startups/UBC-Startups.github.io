@@ -60,9 +60,9 @@ const scroll = keyframes`
 `;
 
 const OurPartnersContainer = styled.section`
-  padding: 3rem 2rem;
+  margin: 8rem;
   text-align: center;
-  background: #f9fafb;
+  background: #fff;
 `;
 
 const OurPartnersTitle = styled.h2`
@@ -76,6 +76,7 @@ const ScrollWrapper = styled.div`
   overflow: hidden;
   position: relative;
   width: 100%;
+  padding: 20px 0;
 
   &::before,
   &::after {
@@ -90,12 +91,12 @@ const ScrollWrapper = styled.div`
 
   &::before {
     left: 0;
-    background: linear-gradient(to right, #f9fafb 0%, transparent 100%);
+    background: linear-gradient(to right, #fff 0%, transparent 100%);
   }
 
   &::after {
     right: 0;
-    background: linear-gradient(to left, #f9fafb 0%, transparent 100%);
+    background: linear-gradient(to left, #fff 0%, transparent 100%);
   }
 `;
 
@@ -106,7 +107,8 @@ const PartnerScrollTrack = styled.div`
   width: max-content;
   height: max-content;
   animation: ${scroll} 20s linear infinite; 
-  background: #fff
+  background: #fff;
+  box-shadow: 0 -10px 10px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.1);
 `;
 
 const PartnerItem = styled.div`

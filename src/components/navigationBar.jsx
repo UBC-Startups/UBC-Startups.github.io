@@ -1,9 +1,11 @@
-import React, {useState} from "react";
-import styled, {keyframes} from "styled-components";
+import React, { useState } from "react";
+import styled, { keyframes } from "styled-components";
 
 // importing Link from react-router-dom to navigate to 
 // different end points.
 import { Link } from "react-router-dom";
+// handles smooth scrolling and navigation at once between endpoints.
+import { HashLink } from 'react-router-hash-link';
 
 const NavBarDiv = styled.div`
     position: fixed;
@@ -172,7 +174,7 @@ const NavigationBar = () => {
         mobileNavPos = 0;
         mobileTintState = "block";
         mobileNavAni = slideMobileNavAni;
-        
+
     } else {
         mobileNavPos = -500;
         mobileTintState = "none";
@@ -207,21 +209,26 @@ const NavigationBar = () => {
         cursor: pointer;
     `
 
-    function scrollTo(section) {
-        const element = document.getElementById(section);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0 });
     }
 
     return (
         <NavBarDiv>
             <NavBarUl>
+                
                 <Link to="/" style={{ textDecoration: 'none' }}>
-                    <NavBarLi onClick={() => scrollTo("aboutUs")}>About Us</NavBarLi>
+                    <NavBarLi onClick={scrollToTop}>Home</NavBarLi>
                 </Link>
-                <Link to="/" style={{ textDecoration: 'none' }}>
-                    <NavBarLi onClick={() => scrollTo("events")}>Events</NavBarLi>
+                <HashLink smooth to="/#aboutUs" style={{ textDecoration: 'none' }}>
+                    <NavBarLi>About Us</NavBarLi>
+                </HashLink>
+                <HashLink smooth to="/#events" style={{ textDecoration: 'none' }}>
+                    <NavBarLi>Events</NavBarLi>
+                </HashLink>
+                <Link to="/meetOurTeam" style={{ textDecoration: 'none' }}>
+                    <NavBarLi onClick={scrollToTop}>Team</NavBarLi>
                 </Link>
                 {/* <Link to="/opportunities" style={{ textDecoration: 'none' }}>
                     <NavBarLi>Opportunities</NavBarLi>
@@ -236,7 +243,7 @@ const NavigationBar = () => {
                 </HamburgerContainer>
             </NavBarUl>
 
-            <MobileNavTint onClick={() => setMobileNavState(false)}/>
+            <MobileNavTint onClick={() => setMobileNavState(false)} />
             <MobileNavSlideIn>
                 <CrossHamburgerContainer onClick={() => setMobileNavState(false)}>
                     <CrossHamburgerLine />
@@ -245,18 +252,25 @@ const NavigationBar = () => {
 
                 <MobileNavUl>
                     <Link to="/" style={{ textDecoration: 'none' }}>
-                        <MobileNavLi onClick={() => {scrollTo("aboutUs"); setMobileNavState(false)}}>About Us</MobileNavLi>
+                        <MobileNavLi onClick={() => { scrollToTop(); setMobileNavState(false) }}>Home</MobileNavLi>
                     </Link>
-                    <Link to="/" style={{ textDecoration: 'none' }}>
-                        <MobileNavLi onClick={() => {scrollTo("events"); setMobileNavState(false)}}>Events</MobileNavLi>
+                    <HashLink to="/#aboutUs" style={{ textDecoration: 'none' }}>
+                        <MobileNavLi onClick={() => { setMobileNavState(false) }}>About Us</MobileNavLi>
+                    </HashLink>
+                    <HashLink smooth to="/#events" style={{ textDecoration: 'none' }}>
+                        <MobileNavLi onClick={() => { setMobileNavState(false) }}>Events</MobileNavLi>
+                    </HashLink>
+                    <Link to="/meetOurTeam" style={{ textDecoration: 'none' }}>
+                        <MobileNavLi onClick={() => { scrollToTop(); setMobileNavState(false) }}>Team</MobileNavLi>
                     </Link>
-                    <Link to="/opportunities" style={{ textDecoration: 'none' }}>
-                        <MobileNavLi onClick={() => {setMobileNavState(false)}}>Opportunities</MobileNavLi>
-                    </Link>
-                    <MobileNavLi onClick={() => {setMobileNavState(false)}}><NavBarA href="https://www.linkedin.com/company/ubc-startups/" target="_blank">LinkedIn</NavBarA></MobileNavLi>
-                    <MobileNavLi onClick={() => {setMobileNavState(false)}}><NavBarA href="https://www.instagram.com/ubcstartups/" target="_blank">Instagram</NavBarA></MobileNavLi>
+                    {/* <Link to="/opportunities" style={{ textDecoration: 'none' }}>
+                        <MobileNavLi onClick={() => { setMobileNavState(false) }}>Opportunities</MobileNavLi>
+                    </Link> */}
+                    <MobileNavLi onClick={() => { setMobileNavState(false) }}><NavBarA href="https://www.linkedin.com/company/ubc-startups/" target="_blank">LinkedIn</NavBarA></MobileNavLi>
+                    <MobileNavLi onClick={() => { setMobileNavState(false) }}><NavBarA href="https://www.instagram.com/ubcstartups/" target="_blank">Instagram</NavBarA></MobileNavLi>
                 </MobileNavUl>
             </MobileNavSlideIn>
+
         </NavBarDiv>
     )
 }

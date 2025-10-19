@@ -34,7 +34,6 @@ const NavBarContainer = styled.div`
 const LeftNavGroup = styled.div`
   display: flex;
   align-items: center;
-  gap: 30px;
 `;
 
 const Logo = styled.div`
@@ -98,7 +97,7 @@ const HamburgerLine = styled.span`
     margin: 2.5px;
     background: #000;
     transition: 0.3s;
-    right: 0;
+    right: 10px;
 `;
 
 const HamburgerContainer = styled.div`
@@ -111,14 +110,14 @@ const HamburgerContainer = styled.div`
     }
     &:hover ${HamburgerLine}:nth-child(1) {
         // transform: rotate(22deg);
-        right: 5px;
+        right: 15px;
     }
     &:hover ${HamburgerLine}:nth-child(2) {
-        right: 10px;
+        right: 20px;
     }
     &:hover ${HamburgerLine}:nth-child(3) {
         // transform: rotate(-22deg);
-        right: 5px;
+        right: 15px;
     }
     @media (max-width: 800px) {
         display: inline-block;
@@ -146,10 +145,10 @@ const CrossHamburgerLine = styled.span`
 const CrossHamburgerContainer = styled.div`
     position: relative;
     float: right;
-    top: 30px;
+    top: 35px;
     cursor: pointer;
     transition: 0.3s;
-    right: 40px;
+    right: 30px;
     &:hover ${CrossHamburgerLine}  {
         background: #656464;
     }

@@ -1,10 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import logo from "../images/Logo.svg"
-import linkedin from "../images/linkedin.png";
-import instagram from "../images/instagram.png";
-import discord from "../images/discord.png";
+import logo from "../images/Logo.svg";
 import linkedin_c from "../images/linkedin-c.png";
 import instagram_c from "../images/instagram-c.png";
 import discord_c from "../images/discord-c.png";
@@ -80,7 +77,7 @@ const FooterLogo = styled.img`
 const FooterColumnA = styled.a`
     color: #656464;
     text-decoration: none;
-    padding-right: 20px;
+    padding-right: 0;
 
     &:hover {
         text-decoration: underline;
@@ -93,6 +90,7 @@ const SocialImg = styled.img`
     object-fit: contain;
     cursor: pointer;
     transition: 0.3s;
+    gap: 10px;
 
     &:hover {
         transform: scale(1.1);
@@ -120,12 +118,14 @@ const Footer = () => {
             <FooterColumn style={{ width: "30%" }}>
                 <FooterColumnUl>
                     <FooterColumnLiTitle>Find us on Social Media</FooterColumnLiTitle>
-                    <FooterColumnA href="https://www.instagram.com/ubcstartups/" target="_blank">
-                        <SocialImg src={instagram_c} alt="instagram" /></FooterColumnA>
-                    <FooterColumnA href="https://www.linkedin.com/company/ubc-startups/" target="_blank">
-                        <SocialImg src={linkedin_c} alt="linkedin" /></FooterColumnA>
-                    <FooterColumnA href="https://discord.gg/6HEmMc2mCh" target="_blank">
-                        <SocialImg src={discord_c} alt="discord" /></FooterColumnA>
+                    <FooterColumnLi>
+                        <FooterColumnA href="https://www.instagram.com/ubcstartups/" target="_blank" >
+                            <SocialImg src={instagram_c} alt="instagram" /></FooterColumnA>
+                        <FooterColumnA href="https://www.linkedin.com/company/ubc-startups/" target="_blank" style={{ padding: "20px" }}>
+                            <SocialImg src={linkedin_c} alt="linkedin" /></FooterColumnA>
+                        <FooterColumnA href="https://discord.gg/6HEmMc2mCh" target="_blank">
+                            <SocialImg src={discord_c} alt="discord" /></FooterColumnA>
+                    </FooterColumnLi>
                 </FooterColumnUl>
             </FooterColumn>
 

@@ -12,7 +12,7 @@ const NavBarDiv = styled.div`
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 1000;
   background: #fff;
   box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   border-radius: 0 0 30px 30px;
@@ -91,63 +91,68 @@ const SocialImg = styled.img`
 `;
 
 const HamburgerLine = styled.span`
-  position: relative;
-  display: block;
-  width: 22px;
-  height: 2.5px;
-  margin: 3px;
-  background: #000;
-  transition: 0.3s;
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 2.5px;
+    margin: 2.5px;
+    background: #000;
+    transition: 0.3s;
+    right: 0;
 `;
 
 const HamburgerContainer = styled.div`
-  display: none;
-  cursor: pointer;
-  @media (max-width: 800px) {
-    display: block;
-  }
-
-  &:hover ${HamburgerLine} {
-    background: #656464;
-  }
-
-  &:hover ${HamburgerLine}:nth-child(1) {
-    right: 5px;
-  }
-  &:hover ${HamburgerLine}:nth-child(2) {
-    right: 10px;
-  }
-  &:hover ${HamburgerLine}:nth-child(3) {
-    right: 5px;
-  }
+    position: relative;
+    display: none;
+    float: right;
+    cursor: pointer;
+    &:hover ${HamburgerLine}  {
+        background: #656464;
+    }
+    &:hover ${HamburgerLine}:nth-child(1) {
+        // transform: rotate(22deg);
+        right: 5px;
+    }
+    &:hover ${HamburgerLine}:nth-child(2) {
+        right: 10px;
+    }
+    &:hover ${HamburgerLine}:nth-child(3) {
+        // transform: rotate(-22deg);
+        right: 5px;
+    }
+    @media (max-width: 800px) {
+        display: inline-block;
+    }
 `;
 
+
 const CrossHamburgerLine = styled.span`
-  position: relative;
-  display: block;
-  width: 22px;
-  height: 2.5px;
-  margin: 3px;
-  background: #000;
-  transition: 0.3s;
-  &:nth-child(1) {
-    transform: rotate(45deg);
-  }
-  &:nth-child(2) {
-    top: -5px;
-    transform: rotate(-45deg);
-  }
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 2.5px;
+    margin: 2.5px;
+    background: #000;
+    transition: 0.3s;
+    &:nth-child(1) {
+        transform: rotate(45deg);
+    }
+    &:nth-child(2) {
+        top: -5px;
+        transform: rotate(-45deg);
+    }
 `;
 
 const CrossHamburgerContainer = styled.div`
-  position: relative;
-  float: right;
-  top: 25px;
-  right: 30px;
-  cursor: pointer;
-  &:hover ${CrossHamburgerLine} {
-    background: #656464;
-  }
+    position: relative;
+    float: right;
+    top: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    right: 40px;
+    &:hover ${CrossHamburgerLine}  {
+        background: #656464;
+    }
 `;
 
 const slideMobileNavAni = keyframes`
@@ -160,7 +165,7 @@ const MobileNavSlideIn = styled.div`
   top: ${(props) => (props.open ? "0" : "-100%")};
   left: 0;
   width: 100%;
-  height: 50vh;
+  height: 40vh;
   background: #fff;
   transition: top 0.4s ease-in-out;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);

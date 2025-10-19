@@ -1,81 +1,39 @@
 import React from "react";
 import styled from "styled-components";
+import date from "../images/calendar.png";
 
-const EventBoxContainer = styled.div`
-    width: 600px;
-    height: 270px;
-    overflow: hidden;
-    box-shadow: 20px 20px 80px rgba(0, 0, 0, 0.1);
-    margin: 40px;
-    border-radius: 30px;
-    display: inline-block;
-`
+const Card = styled.div`
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  text-align: left;
+  max-width: 700px;
+  width: 100%;
+  transition: transform 0.3s ease;
+`;
 
-const EventCoverImageContainer = styled.div`
-    width: 100%;
-    height: 130px;
-`
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+`;
 
-const EventBoxCoverImage = styled.img`
-    position: relative;
-    width: 100%;
-    height: auto;
-    // top: ${props => props.imgTop !== undefined ? `${props.imgTop}px` : "-100px"};
-`
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
 
-const EventBoxContentContainer = styled.div`
-    position: relative;
-    background: #FFFFFF;
-    width: 100%;
-    height: 120px;
-    display: block;
-    padding-top: 20px;
-`
-const DateContainer = styled.div`
-    display: inline-block;
-    float: left;
-    position: relative;
-    width: 80px;
-    padding-left: 20px;
-`
+const Content = styled.div`
+  padding: 20px;
+`;
 
-const Month = styled.p`
-    background: #FF6868;
-    width: 60px;
-    text-align: center;
-    margin: 0;
-    padding: 5px;
-    font-family: 'Roboto Slab';
-    font-weight: bold;
-    font-size: 1em;
-`
-
-const Day = styled.p`
-    background: rgba(253, 255, 255, 0.83);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 60px;
-    text-align: center;
-    margin: 0;
-    padding: 10px 5px;
-        
-    font-family: 'Roboto Slab';
-    font-weight: bold;
-    font-size: 1.5em;
-`
-
-const TextContainer = styled.div`
-    display: inline-block;
-    width: 480px;
-    float: right;
-    padding-right: 15px;
-`
-
-const Title = styled.p`
-    margin: 0;
-    font-family: 'Roboto Slab';
-    font-weight: bold;
-    font-size: 1.2em;
-`
+const Title = styled.h2`
+  font-family: "Roboto Slab";
+  font-size: 1.4em;
+  margin-top: 10px;
+`;
 
 const Description = styled.p`
     color: #656464;
@@ -84,30 +42,42 @@ const Description = styled.p`
     font-size: 0.8em;
 `
 
-const EventBox = ({ img, title, description, month, day, category, imgTop="-100px" }) => {
-    return (
-        <EventBoxContainer>
-            <EventCoverImageContainer>
-                <EventBoxCoverImage src={img} style={{top:imgTop}}/>
-            </EventCoverImageContainer>
+const DateTag = styled.div`
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1em;
+`;
 
-            <EventBoxContentContainer>
-                <DateContainer>
-                    {/* Date */}
-                    <Month>{month}</Month>
-                    <Day>{day}</Day>
-                </DateContainer>
-               
-                <TextContainer>
-                    {/* Title */}
-                    <Title>{title}</Title>
-                    {/* Description */}
-                    <Description>{description}</Description>
-                </TextContainer>
+const DateImg = styled.img`
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+`;
 
-            </EventBoxContentContainer>
-        </EventBoxContainer>
-    )
-}
+const DateContainer = styled.div`
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+`;
+
+const EventBox = ({ img, title, description, month, day }) => {
+  return (
+    <Card>
+      <ImageContainer>
+        <Img src={img} alt={title} />
+      </ImageContainer>
+      <Content>
+        <Title>{title}</Title>
+        <DateContainer>
+        <DateImg src={date} alt="Date Icon" />
+        <DateTag>
+          {month} {day}
+        </DateTag>
+        </DateContainer>
+        <Description>{description}</Description>
+      </Content>
+    </Card>
+  );
+};
 
 export default EventBox;

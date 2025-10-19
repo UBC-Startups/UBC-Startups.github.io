@@ -59,7 +59,6 @@ const MOTContainer = styled.div`
     width: 90vw;
     justify-items: center;
     grid-template-columns: repeat(auto-fit, minmax(300px , 1fr));
-
     margin-top: 100px;
 `
 

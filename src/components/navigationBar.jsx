@@ -217,16 +217,16 @@ const NavigationBar = () => {
     return (
         <NavBarDiv>
             <NavBarUl>
-                
+
                 <Link to="/" style={{ textDecoration: 'none' }}>
                     <NavBarLi onClick={scrollToTop}>Home</NavBarLi>
                 </Link>
                 <HashLink smooth to="/#aboutUs" style={{ textDecoration: 'none' }}>
                     <NavBarLi>About Us</NavBarLi>
                 </HashLink>
-                <HashLink smooth to="/#events" style={{ textDecoration: 'none' }}>
-                    <NavBarLi>Events</NavBarLi>
-                </HashLink>
+                <Link to="/events" style={{ textDecoration: 'none' }}>
+                    <NavBarLi onClick={scrollToTop}>Events</ NavBarLi>
+                </Link>
                 <Link to="/meetOurTeam" style={{ textDecoration: 'none' }}>
                     <NavBarLi onClick={scrollToTop}>Team</NavBarLi>
                 </Link>
@@ -257,9 +257,9 @@ const NavigationBar = () => {
                     <HashLink to="/#aboutUs" style={{ textDecoration: 'none' }}>
                         <MobileNavLi onClick={() => { setMobileNavState(false) }}>About Us</MobileNavLi>
                     </HashLink>
-                    <HashLink smooth to="/#events" style={{ textDecoration: 'none' }}>
-                        <MobileNavLi onClick={() => { setMobileNavState(false) }}>Events</MobileNavLi>
-                    </HashLink>
+                    <Link to="/events" style={{ textDecoration: 'none' }}>
+                        <MobileNavLi onClick={() => { scrollToTop(); setMobileNavState(false) }}>Events</MobileNavLi>
+                    </Link>
                     <Link to="/meetOurTeam" style={{ textDecoration: 'none' }}>
                         <MobileNavLi onClick={() => { scrollToTop(); setMobileNavState(false) }}>Team</MobileNavLi>
                     </Link>

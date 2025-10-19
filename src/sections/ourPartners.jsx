@@ -60,7 +60,7 @@ const scroll = keyframes`
 `;
 
 const OurPartnersContainer = styled.section`
-  margin: 8rem;
+  margin: 2rem;
   text-align: center;
   background: #fff;
 `;

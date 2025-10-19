@@ -78,7 +78,7 @@ const MeetOurTeam = () => {
             <MOTContainer>
                 <TeamMember
                     image={mostafaImg}
-                    name="Mostafa"
+                    name="Mostafa Ali"
                     position=""
                     role="Co-President"
                     linkedIn="https://www.linkedin.com/in/mostafa57/"

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import EventBox from "../components/event";
 import NavigationBar from "../components/navigationBar";
+import Footer from "../sections/footer";
 
 // Images for events
 import AboutImage2 from "../images/AboutImage2.jpg"; // Placeholder
@@ -173,7 +174,6 @@ const OurEvents = () => {
   height: auto;
   padding-top: 100px;
   text-align: center;
-  padding-bottom: 50px;
 `;
 
     const Title = styled.h1`
@@ -219,6 +219,7 @@ const FilterButton = styled.li`
   justify-items: center;
   margin-top: 50px;
   padding: 0 50px;
+  padding-bottom: 50px;
 `;
 
     const filteredEvents =
@@ -265,6 +266,8 @@ const FilterButton = styled.li`
                     />
                 ))}
             </EventsGrid>
+
+            <Footer />
         </Container>
     );
 };

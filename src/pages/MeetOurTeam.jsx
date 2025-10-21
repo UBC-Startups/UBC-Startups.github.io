@@ -46,7 +46,8 @@ const MeetOurTeamContainer = styled.div`
 `
 
 const MOTTitle = styled.h1`
-    font-family: 'Roboto Slab';
+    font-family: 'Sansation', sans-serif;
+    font-weight: 600;
     text-align: center;
     font-size: 3em;
     padding-bottom: 50px;
@@ -60,11 +61,15 @@ const MOTContainer = styled.div`
     justify-items: center;
     grid-template-columns: repeat(auto-fit, minmax(300px , 1fr));
     margin-top: 100px;
+    margin-bottom: 100px;
 `
 
 const TeamSectionText = styled.h2`
+    font-family: 'Sansation', sans-serif;
+    font-weight: 400;
     font-size: 2.5em;
     text-align: center;
+    margin-top: 80px;
 `
 
 const MeetOurTeam = () => {

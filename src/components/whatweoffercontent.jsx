@@ -12,6 +12,8 @@ const WhatWeOfferContent = styled.div`
 `
 
 const WWOTitle = styled.h2`
+    font-family: 'Sansation', sans-serif;
+    font-weight: 400;
     text-align: center;
     font-size: 2em;
     margin-top: -70px;

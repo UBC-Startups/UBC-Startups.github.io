@@ -58,13 +58,12 @@ const NavLinks = styled.ul`
 `;
 
 const NavLinkItem = styled.li`
-  font-family: 'Roboto Slab';
-  font-size: 1.1em;
-  font-weight: 700;
+  font-size: 1.2em;
+  font-weight: 300;
   cursor: pointer;
   transition: 0.3s;
   &:hover {
-    color: #656464;
+    color: #989898ff;
   }
 `;
 
@@ -79,8 +78,8 @@ const SocialLinks = styled.div`
 `;
 
 const SocialImg = styled.img`
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
   cursor: pointer;
   transition: 0.3s;
@@ -202,13 +201,12 @@ const MobileNavUl = styled.ul`
 const MobileNavLi = styled.li`
   display: block;
   margin: 35px 20px;
-  font-family: 'Roboto Slab';
+  font-weight: 300;
   font-size: 1.1em;
   transition: 0.3s;
   cursor: pointer;
   text-decoration: none;
   color: #000;
-  font-weight: 700;
 
   &:hover {
     color: #656464;

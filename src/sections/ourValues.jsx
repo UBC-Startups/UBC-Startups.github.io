@@ -10,7 +10,8 @@ const OurValuesContainer = styled.div`
 `
 
 const OVTitle = styled.h1`
-    font-family: 'Roboto Slab';
+    font-family: 'Sansation', sans-serif;
+    font-weight: 400;
     text-align: center;
     font-size: 3em;
     margin-bottom: 20px;
@@ -62,6 +63,8 @@ const ValueTextContainer = styled.div`
 const ValueTitle = styled.strong`
     font-size: 1.2em; /* Decrease font size for the title */
     margin-bottom: 5px; /* Add some spacing between title and description */
+    font-weight: 600;
+    font-family: 'Sansation', sans-serif;
 `
 
 const ValueDescription = styled.p`

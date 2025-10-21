@@ -15,8 +15,64 @@ import PrototypingWImage from "../images/eventPhotos/prototypingWorkshopImg.jpg"
 import PitchWImage from "../images/eventPhotos/pitchWorkshopImg.png";
 import SoarImage from "../images/eventPhotos/soarImage.png";
 import himmi from "../images/eventPhotos/himmi.png";
+import liftoff from "../images/eventPhotos/liftoff_events.jpg";
 
-const OurEvents = () => {
+const Container = styled.div`
+    overflow-x: hidden;
+    position: relative;
+    padding-top: 150px;
+`;
+
+const Title = styled.h1`
+    text-align: center;
+    font-size: 3em;
+    padding-bottom: 30px;
+    font-family: 'Sansation', sans-serif;
+`;
+
+const FilterOptions = styled.ul`
+    padding: 0;
+    margin: 30px 0;
+    text-align: center;
+    padding-bottom: 20px;
+`;
+
+const FilterButton = styled.li`
+    display: inline-block;
+    text-transform: uppercase;
+    color: #656464;
+    padding: 10px 5px;
+    width: 150px;
+    text-align: center;
+    background: ${(props) => (props.active ? "#DC3222" : "#FFDCDC")};
+    color: ${(props) => (props.active ? "#fff" : "#656464")};
+    border-radius: 30px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    display: inline-block;
+    margin: 0px 20px;
+    cursor: pointer;
+    z-index: 2;
+    transition: 0.4s;
+    font-weight: semi-bold;
+    &:hover {
+        background: #dc3222;
+        color: #fff;
+    }
+`;
+
+const EventsGrid = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 50px; 
+    justify-items: center;
+    margin-top: 50px;
+    padding: 0 50px;
+    padding-bottom: 100px;
+    padding-left: 100px;
+    padding-right: 100px;
+`;
+
+const Events = () => {
     const [category, setCategory] = useState("all");
 
     const events = [
@@ -54,8 +110,8 @@ const OurEvents = () => {
             imgTop: "-100px",
         },
         {
-            img: himmi,
-            title: "Kick Off and Welcome Event (2025W)",
+            img: liftoff,
+            title: "Lift-Off and Welcome Event (2025W)",
             description:
                 "UBC Startups is kicking off the year with a high-energy welcome event featuring an interactive investing game with industry professionals. Enjoy snacks, networking, and stories from past founders while getting a sneak peek at upcoming opportunities.",
             month: "Oct",
@@ -170,58 +226,6 @@ const OurEvents = () => {
         },
     ];
 
-    const Container = styled.div`
-  height: auto;
-  padding-top: 100px;
-  text-align: center;
-`;
-
-    const Title = styled.h1`
-    font-family: 'Roboto Slab';
-    text-align: center;
-    font-size: 3em;
-    padding-bottom: 50px;
-`
-
-const FilterOptions = styled.ul`
-  list-style-type: none;
-  padding: 0;
-  margin: 30px 0;
-`;
-
-const FilterButton = styled.li`
-    display: inline-block;
-    text-transform: uppercase;
-    color: #656464;
-    padding: 10px 5px;
-    width: 150px;
-    text-align: center;
-    background: ${(props) => (props.active ? "#DC3222" : "#FFDCDC")};
-    color: ${(props) => (props.active ? "#fff" : "#656464")};
-    border-radius: 30px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    display: inline-block;
-    margin: 0px 20px;
-    cursor: pointer;
-    z-index: 2;
-    transition: 0.4s;
-    font-weight: semi-bold;
-    &:hover {
-        background: #dc3222;
-        color: #fff;
-    }
-`;
-
-    const EventsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 50px; 
-  justify-items: center;
-  margin-top: 50px;
-  padding: 0 50px;
-  padding-bottom: 50px;
-`;
-
     const filteredEvents =
         category === "all"
             ? events
@@ -272,4 +276,4 @@ const FilterButton = styled.li`
     );
 };
 
-export default OurEvents;
+export default Events;

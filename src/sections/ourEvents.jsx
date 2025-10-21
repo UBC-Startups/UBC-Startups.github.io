@@ -5,85 +5,90 @@ import SoarImage from "../images/eventPhotos/soarImage.png";
 import himmi from "../images/eventPhotos/himmi.png";
 import PrototypingWImage from "../images/eventPhotos/prototypingWorkshopImg.jpg";
 import AboutImage1 from "../images/AboutImage1.jpg";
+import liftoff from "../images/eventPhotos/liftoff_events.jpg";
 
 const OurEventsContainer = styled.div`
-  margin: 5% 0px;
-  overflow-x: hidden;
-  position: relative;
-  text-align: center;
+    margin: 5% 0px;
+    overflow-x: hidden;
+    position: relative;
+    text-align: center;
     padding-bottom: 50px;
-
 `;
 
 const OurEventsTitle = styled.h1`
-  font-weight: 500;
-  text-align: center;
-  font-size: 3em;
-  margin-bottom: 5%;
+    font-weight: 500;
+    text-align: center;
+    font-size: 3em;
+    margin-bottom: 50px;
 `;
 
 const Subtitle = styled.p`
-  font-family: "Roboto Slab";
-  color: #656464;
-  font-size: 1.2em;
-  margin-top: -10px;
-  max-width: 800px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+    color: #656464;
+    font-size: 1.2em;
+    margin-top: -10px;
+    max-width: 800px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 `;
 
 const EventsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); 
-  gap: 50px;
-  justify-items: center;
-  margin-top: 50px;
-  padding: 0 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); 
+    gap: 50px;
+    justify-items: center;
+    margin-top: 50px;
+    padding: 0 50px;
+    padding-left: 100px;
+    padding-right: 100px;
 `;
 
 const OurEvents = () => {
     // Only display this year's 4 events
     const events = [
         {
-            img: himmi,
-            title: "Kick Off and Welcome Event (2025W)",
+            img: SoarImage,
+            title: "SOAR (2026W)",
+            description:
+                "SOAR is the university’s largest pitch competition with a $10,000 prize pool! Student founders pitch their ideas to investors and industry leaders, receive feedback, and compete for funding. With networking, lunch, and a full day of presentations, SOAR is the perfect way to be inspired and support the next wave of UBC entrepreneurs.",
+            month: "March",
+            day: "21",
+            year: 2026,
+            category: "upcoming",
+            imgTop: "-20px",
+        },
+        {
+            img: AboutImage1,
+            title: "Found(Her)’s Brunch  (2026W)",
+            description:
+                "Celebrate International Women’s Day with Found(Her)’s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
+            month: "March",
+            day: "8",
+            year: 2026,
+            category: "upcoming",
+            imgTop: "-100px",
+        },
+        {
+            img: PrototypingWImage,
+            title: "Innovation Olympics (2025W)",
+            description:
+                "Join us for Innovation Olympics, where UBC students, guided by professional mentors, transform failed startup ideas into bold new ventures. Pitch your ideas live, compete for prizes, and experience a night full of mentorship and high-energy innovation.",
+            month: "Nov",
+            day: "21",
+            year: 2025,
+            category: "upcoming",
+            imgTop: "-100px",
+        },
+        {
+            img: liftoff,
+            title: "Lift-Off and Welcome Event (2025W)",
             description:
                 "UBC Startups is kicking off the year with a high-energy welcome event featuring an interactive investing game with industry professionals. Enjoy snacks, networking, and stories from past founders while getting a sneak peek at upcoming opportunities.",
             month: "Oct",
             day: "17",
             year: 2025,
             category: "upcoming",
-        },
-        {
-            img: PrototypingWImage,
-            title: "Innovation Olympics (2025W)",
-            description:
-                "Join us for Innovation Olympics, where UBC students, guided by mentors, transform failed startup ideas into bold new ventures. Compete for prizes and experience a night full of mentorship and high-energy innovation.",
-            month: "Nov",
-            day: "21",
-            year: 2025,
-            category: "upcoming",
-        },
-        {
-            img: AboutImage1,
-            title: "Found(Her)’s Brunch (2026W)",
-            description:
-                "Celebrate International Women’s Day with Found(Her)’s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
-            month: "Mar",
-            day: "8",
-            year: 2026,
-            category: "upcoming",
-        },
-        {
-            img: SoarImage,
-            title: "SOAR (2026W)",
-            description:
-                "SOAR is the university’s largest pitch competition with a $10,000 prize pool! Student founders pitch their ideas to investors and industry leaders, receive feedback, and compete for funding.",
-            month: "Mar",
-            day: "21",
-            year: 2026,
-            category: "upcoming",
+            imgTop: "-100px",
         },
     ];
 

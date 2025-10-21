@@ -41,8 +41,8 @@ import rheinImg from "../images/teamPhotos/Rhein.png"
 import ayaanImg from "../images/teamPhotos/Ayaan.png"
 
 const MeetOurTeamContainer = styled.div`
-  height: auto;
-  padding-top: 100px;
+    height: auto;
+    padding-top: 150px;
 `
 
 const MOTTitle = styled.h1`
@@ -50,7 +50,6 @@ const MOTTitle = styled.h1`
     font-weight: 600;
     text-align: center;
     font-size: 3em;
-    padding-bottom: 50px;
 `
 
 const MOTContainer = styled.div`

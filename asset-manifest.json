@@ -1,13 +1,15 @@
 {
   "files": {
-    "main.js": "/static/js/main.d2b712c4.js",
+    "main.js": "/static/js/main.38dd7ca5.js",
     "static/js/453.600f6ea0.chunk.js": "/static/js/453.600f6ea0.chunk.js",
+    "static/media/soar2025.jpg": "/static/media/soar2025.1482b28b7ed3f030beed.jpg",
     "static/media/himmi.png": "/static/media/himmi.425d5f6032d68bdb7d8f.png",
     "static/media/ResourcesImg.svg": "/static/media/ResourcesImg.1d2663dea7416e24f0d7fb574e93a7dd.svg",
     "static/media/InternshipsImg.svg": "/static/media/InternshipsImg.346c297f2d83a89086e3d6f7f827352b.svg",
     "static/media/NetworkingImg.svg": "/static/media/NetworkingImg.6c9a4c3eb23ea98bc2d08dc791a2f1ea.svg",
     "static/media/prototypingWorkshopImg.jpg": "/static/media/prototypingWorkshopImg.5b9d7d3de68a0e901148.jpg",
     "static/media/arnav.png": "/static/media/arnav.59fc2c85c4364d5d6cd8.png",
+    "static/media/liftoff.jpg": "/static/media/liftoff.41cba326ff1e16874c72.jpg",
     "static/media/saumyaa.png": "/static/media/saumyaa.af8a1c12b33cb3bbc294.png",
     "static/media/Sabrina.png": "/static/media/Sabrina.65c214f41ac155ac2360.png",
     "static/media/Lucas-Liu.png": "/static/media/Lucas-Liu.04f36dd90e39ea44be00.png",
@@ -53,10 +55,10 @@
     "static/media/HeroShapeDesign.svg": "/static/media/HeroShapeDesign.13b4835c99fa5e3880312c9f33f0fd3a.svg",
     "static/media/teadot.png": "/static/media/teadot.7fec263e3f1058341098.png",
     "index.html": "/index.html",
-    "main.d2b712c4.js.map": "/static/js/main.d2b712c4.js.map",
+    "main.38dd7ca5.js.map": "/static/js/main.38dd7ca5.js.map",
     "453.600f6ea0.chunk.js.map": "/static/js/453.600f6ea0.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.d2b712c4.js"
+    "static/js/main.38dd7ca5.js"
   ]
 }

@@ -45,8 +45,8 @@ const Month = styled.p`
     text-align: center;
     margin: 0;
     padding: 5px;
-    font-family: 'Roboto Slab';
-    font-weight: bold;
+    font-family: Sansation, sans-serif;
+    font-weight: 400;
     font-size: 1em;
 `
 
@@ -57,9 +57,8 @@ const Day = styled.p`
     text-align: center;
     margin: 0;
     padding: 10px 5px;
-        
-    font-family: 'Roboto Slab';
-    font-weight: bold;
+    font-family: Sansation, sans-serif;
+    font-weight: 400;
     font-size: 1.5em;
 `
 
@@ -72,15 +71,15 @@ const TextContainer = styled.div`
 
 const Title = styled.p`
     margin: 0;
-    font-family: 'Roboto Slab';
-    font-weight: bold;
+    font-weight: 500;
+    font-family: Sansation, sans-serif;
     font-size: 1.2em;
+    margin-bottom: 8px;
 `
 
 const Description = styled.p`
     color: #656464;
     margin: 0;
-    font-family: 'Roboto Slab';
     font-size: 0.8em;
 `
 

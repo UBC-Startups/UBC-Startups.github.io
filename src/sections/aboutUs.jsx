@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 import AboutImage1 from "../images/AboutImage1.jpg"
 import AboutImage2 from "../images/AboutImage2.jpg"
-
+import LiftOffImage from "../images/eventPhotos/liftoff.jpg"
+import SoarImage from "../images/eventPhotos/soar2025.jpg"
 const AboutUsContainer = styled.div`
     box-shadow: 20px 20px 80px rgba(0, 0, 0, 0.1);
     width: 80%;
@@ -16,7 +17,7 @@ const AboutUsContainer = styled.div`
 `
 
 const AUTitle = styled.h1`
-    font-family: 'Roboto Slab';
+    font-weight: 500;
     text-align: center;
     font-size: 3em;
 `
@@ -25,7 +26,6 @@ const AUContent = styled.div`
     display: block;
     margin: 0 auto;
     text-align: center;
-    font-family: 'Roboto Slab';
     color: #656464;
 `
 
@@ -66,8 +66,8 @@ const AboutUs = () => {
             </AUContent>
 
             <AboutImageContainer>
-                <AboutImage style={{backgroundImage: `url(${AboutImage1})`}}/>
-                <AboutImage style={{backgroundImage: `url(${AboutImage2})`, float:"right"}}/>
+                <AboutImage style={{backgroundImage: `url(${LiftOffImage})`}}/>
+                <AboutImage style={{backgroundImage: `url(${SoarImage})`, float:"right"}}/>
             </AboutImageContainer>
         </AboutUsContainer>
     )

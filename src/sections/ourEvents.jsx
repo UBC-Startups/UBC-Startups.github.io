@@ -21,14 +21,16 @@ const OurEventsContainer = styled.div`
 `;
 
 const OurEventsTitle = styled.h1`
-  font-family: "Roboto Slab";
+  font-weight: 500;
   text-align: center;
   font-size: 3em;
+  margin-bottom: 5%;
 `;
 
 const FilterOptionsContainer = styled.ul`
   list-style-type: none;
   padding: 0;
+  text-align: center;
 `;
 
 const OurEvents = () => {

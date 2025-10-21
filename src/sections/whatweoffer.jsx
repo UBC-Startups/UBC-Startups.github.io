@@ -11,13 +11,14 @@ import ResourcesImage from "../images/ResourcesImg.svg"
 const WhatWeOfferContainer = styled.div`
     position: relative;
     margin: 0 auto;
-    // margin-top: 160px;
+    margin-top: 10%;
     display: block;
     margin-bottom: 40px;
 `
 
 const WWOTitle = styled.h1`
-    font-family: 'Roboto Slab';
+    font-family: 'Sansation', sans-serif;
+    font-weight: 400;
     text-align: center;
     font-size: 3em;
 `

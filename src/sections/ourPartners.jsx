@@ -66,7 +66,7 @@ const OurPartnersContainer = styled.section`
 `;
 
 const OurPartnersTitle = styled.h2`
-  font-family: "Roboto Slab";
+  font-weight: 500;
   text-align: center;
   font-size: 3em;
   margin-bottom: 2rem;

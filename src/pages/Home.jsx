@@ -30,10 +30,11 @@ const HomePage = () => {
         registrationLink="https://forms.gle/GureEFUWAZsSRRaD7"
         date="April 6th, 2025"
       /> */}
+      <AboutUs />
       <WhatWeOffer />
       <Partners />
       <OurEvents />
-      <AboutUs />
+      
       <OurValues />
       {/*<MeetOurTeam />*/}
       {/* <Resources /> */}

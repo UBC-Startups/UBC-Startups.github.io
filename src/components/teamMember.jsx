@@ -4,33 +4,30 @@ import styled from "styled-components";
 const TeamMemberContainer = styled.div`
   display: inline-block;
   background: #FFFFFF;
-  box-shadow: 20px 20px 80px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   border-radius: 24px;
-  height: 400px; 
+  height: 325px; 
   width: 300px;
-  margin-bottom: 60px;
   text-align: center;
   padding-top: 20px;
 `;
 
 const TMName = styled.h2`
-    font-size: 2.2em;
-    height: 2.5em;
-    margin: 10px 0 0 0;
-    padding: 0 15px;
+    font-weight: 400;
+    font-size: 2em;
+    margin: 10px 0 10px 0;
 `;
 
 const TMPosition = styled.p`
   color: #656464;
   font-weight: bold;
   margin: 5px 0 0 0;
-  height: 20px;
 `;
 
 const TMRole = styled.p`
   color: #656464;
-  margin: 2px 0 10px 0;
-  height: 20px;
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
 `;
 
 const TMLinkedIn = styled.a`
@@ -73,7 +70,7 @@ const TeamMember = ({ image, name, position, role, linkedIn }) => {
         <TMImage src={image} />
       </TMImageWrapper>
       <TMName>{name}</TMName>
-      <TMPosition>{position}</TMPosition>
+      {/* <TMPosition>{position}</TMPosition> */}
       <TMRole>{role}</TMRole>
       <TMLinkedIn href={linkedIn} target="_blank">
         LinkedIn

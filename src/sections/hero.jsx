@@ -28,8 +28,8 @@ const HeroShapes = styled.img`
 `
 const HeroImage = styled.div`
     background-image: url(${logo});
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -38,7 +38,6 @@ const HeroImage = styled.div`
 `
 
 const HeroTitle = styled.h1`
-    font-family: 'Roboto Slab';
     text-align: center;
     font-size: 3em;
     margin-top: 0px;
@@ -47,7 +46,6 @@ const HeroTitle = styled.h1`
 
 const HeroDes = styled.p`
     text-align: center;
-    font-family: 'Inter', sans-serif;
 `
 
 const DotsContainer = styled.div`

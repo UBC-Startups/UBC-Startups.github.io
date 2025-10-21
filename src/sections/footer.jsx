@@ -39,12 +39,9 @@ const FooterColumnUl = styled.ul`
 `
 
 const FooterColumnLiTitle = styled.li`
-    font-family: 'Roboto Slab';
-    font-weight: bold;
-    font-size: 1.5em;
+    font-size: 1.3em;
     text-align: left;
     color: #000000;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     margin-bottom: 5px;
 
     @media (max-width: 1000px) {

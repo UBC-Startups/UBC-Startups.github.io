@@ -16,7 +16,7 @@ const AboutUsContainer = styled.div`
 `
 
 const AUTitle = styled.h1`
-    font-family: 'Roboto Slab';
+    font-weight: 500;
     text-align: center;
     font-size: 3em;
 `
@@ -25,7 +25,6 @@ const AUContent = styled.div`
     display: block;
     margin: 0 auto;
     text-align: center;
-    font-family: 'Roboto Slab';
     color: #656464;
 `
 

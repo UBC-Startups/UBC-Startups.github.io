@@ -14,7 +14,6 @@ import GtwImage from "../images/eventPhotos/gainingTractionImg.jpg";
 import PrototypingWImage from "../images/eventPhotos/prototypingWorkshopImg.jpg";
 import PitchWImage from "../images/eventPhotos/pitchWorkshopImg.png";
 import SoarImage from "../images/eventPhotos/soarImage.png";
-import himmi from "../images/eventPhotos/himmi.png";
 import liftoff from "../images/eventPhotos/liftoff_events.jpg";
 import innovation from "../images/eventPhotos/liftoff_activity.jpg";
 
@@ -45,20 +44,21 @@ const FilterButton = styled.li`
     padding: 10px 5px;
     width: 150px;
     text-align: center;
-    background: ${(props) => (props.active ? "#DC3222" : "#FFDCDC")};
-    color: ${(props) => (props.active ? "#fff" : "#656464")};
+    background: ${(props) => (props.active ? "#333333" : "#F1F3F5")};
+    color: ${(props) => (props.active ? "#FFFFFF" : "#495057")};
+    border: ${(props) => (props.active ? "1px solid #333333" : "1px solid #E0E0E0")};
     border-radius: 30px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: ${(props) => (props.active ? "0px 10px 10px rgba(0, 0, 0, 0.35)" : "0px 4px 4px rgba(0, 0, 0, 0.35)")} ;
     display: inline-block;
     margin: 0px 20px 20px 20px;
     cursor: pointer;
     z-index: 2;
     transition: 0.4s;
     font-weight: semi-bold;
+    transition: 0.3s;
     
     &:hover {
-        background: #dc3222;
-        color: #fff;
+        transform: ${(props) => (props.active ? "none" : "scale(1.05)")};
     }
 `;
 
@@ -70,6 +70,7 @@ const EventsGrid = styled.div`
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     margin-top: 50px;
     padding: 0 25px;
+    padding-bottom: 100px;
 
     @media (max-width: 768px) {
         padding: 0;

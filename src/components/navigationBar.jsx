@@ -241,9 +241,9 @@ const NavigationBar = () => {
                         <HashLink smooth to="/#aboutUs" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <NavLinkItem>About Us</NavLinkItem>
                         </HashLink>
-                        <a href="/events" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <NavLinkItem>Events</NavLinkItem>
-                        </a>
+                        <Link to="/events" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <NavLinkItem onClick={scrollToTop}>Events</NavLinkItem>
+                        </Link>
                         <a href="/meetOurTeam" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <NavLinkItem>Team</NavLinkItem>
                         </a>

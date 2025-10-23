@@ -9,6 +9,11 @@ const Card = styled.div`
     overflow: hidden;
     text-align: left;
     width: 100%;
+
+    @media (max-width: 768px) {
+        width: 90%; 
+        margin: 10px auto; 
+    }
 `;
 
 const DateContainer = styled.div`
@@ -56,7 +61,7 @@ const Img = styled.img`
 `;
 
 const Content = styled.div`
-    padding: 20px;
+    padding: clamp(10px, 2vw, 20px);
 `;
 
 const EventBox = ({ img, title, description, month, day }) => {

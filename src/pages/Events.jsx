@@ -16,6 +16,7 @@ import PitchWImage from "../images/eventPhotos/pitchWorkshopImg.png";
 import SoarImage from "../images/eventPhotos/soarImage.png";
 import himmi from "../images/eventPhotos/himmi.png";
 import liftoff from "../images/eventPhotos/liftoff_events.jpg";
+import innovation from "../images/eventPhotos/liftoff_activity.jpg";
 
 const Container = styled.div`
     overflow-x: hidden;
@@ -49,11 +50,12 @@ const FilterButton = styled.li`
     border-radius: 30px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: inline-block;
-    margin: 0px 20px;
+    margin: 0px 20px 20px 20px;
     cursor: pointer;
     z-index: 2;
     transition: 0.4s;
     font-weight: semi-bold;
+    
     &:hover {
         background: #dc3222;
         color: #fff;
@@ -61,15 +63,17 @@ const FilterButton = styled.li`
 `;
 
 const EventsGrid = styled.div`
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-    gap: 50px; 
+    grid-gap: 50px;
     justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     margin-top: 50px;
-    padding: 0 50px;
-    padding-bottom: 100px;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding: 0 25px;
+
+    @media (max-width: 768px) {
+        padding: 0;
+    }
 `;
 
 const Events = () => {
@@ -99,12 +103,12 @@ const Events = () => {
             imgTop: "-100px",
         },
         {
-            img: PrototypingWImage,
+            img: innovation,
             title: "Innovation Olympics (2025W)",
             description:
                 "Join us for Innovation Olympics, where UBC students, guided by professional mentors, transform failed startup ideas into bold new ventures. Pitch your ideas live, compete for prizes, and experience a night full of mentorship and high-energy innovation.",
             month: "Nov",
-            day: "21",
+            day: "26",
             year: 2025,
             category: "upcoming",
             imgTop: "-100px",
@@ -117,7 +121,7 @@ const Events = () => {
             month: "Oct",
             day: "17",
             year: 2025,
-            category: "upcoming",
+            category: "prev",
             imgTop: "-100px",
         },
         {

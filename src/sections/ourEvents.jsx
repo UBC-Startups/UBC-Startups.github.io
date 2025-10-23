@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import EventBox from "../components/event";
-import SoarImage from "../images/eventPhotos/soarImage.png";
-import himmi from "../images/eventPhotos/himmi.png";
-import PrototypingWImage from "../images/eventPhotos/prototypingWorkshopImg.jpg";
+
 import AboutImage1 from "../images/AboutImage1.jpg";
-import liftoff from "../images/eventPhotos/liftoff_events.jpg";
+import innovation  from "../images/eventPhotos/liftoff_activity.jpg"
 
 const OurEventsContainer = styled.div`
     margin: 5% 0px;
@@ -20,6 +18,7 @@ const OurEventsTitle = styled.h1`
     text-align: center;
     font-size: 3em;
     margin-bottom: 50px;
+    font-family: 'Sansation', sans-serif;
 `;
 
 const Subtitle = styled.p`
@@ -33,29 +32,32 @@ const Subtitle = styled.p`
 `;
 
 const EventsGrid = styled.div`
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); 
-    gap: 50px;
+    grid-gap: 50px;
     justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
     margin-top: 50px;
-    padding: 0 50px;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding: 0 25px;
+
+    @media (max-width: 768px) {
+        padding: 0;
+    }
 `;
 
 const OurEvents = () => {
-    // Only display this year's 4 events
+    // only display upcoming 2 events
     const events = [
         {
-            img: SoarImage,
-            title: "SOAR (2026W)",
+            img: innovation,
+            title: "Innovation Olympics (2025W)",
             description:
-                "SOAR is the university’s largest pitch competition with a $10,000 prize pool! Student founders pitch their ideas to investors and industry leaders, receive feedback, and compete for funding. With networking, lunch, and a full day of presentations, SOAR is the perfect way to be inspired and support the next wave of UBC entrepreneurs.",
-            month: "March",
-            day: "21",
-            year: 2026,
+                "Join us for Innovation Olympics, where UBC students, guided by professional mentors, transform failed startup ideas into bold new ventures. Pitch your ideas live, compete for prizes, and experience a night full of mentorship and high-energy innovation.",
+            month: "Nov",
+            day: "26",
+            year: 2025,
             category: "upcoming",
-            imgTop: "-20px",
+            imgTop: "-100px",
         },
         {
             img: AboutImage1,
@@ -68,28 +70,7 @@ const OurEvents = () => {
             category: "upcoming",
             imgTop: "-100px",
         },
-        {
-            img: PrototypingWImage,
-            title: "Innovation Olympics (2025W)",
-            description:
-                "Join us for Innovation Olympics, where UBC students, guided by professional mentors, transform failed startup ideas into bold new ventures. Pitch your ideas live, compete for prizes, and experience a night full of mentorship and high-energy innovation.",
-            month: "Nov",
-            day: "21",
-            year: 2025,
-            category: "upcoming",
-            imgTop: "-100px",
-        },
-        {
-            img: liftoff,
-            title: "Lift-Off and Welcome Event (2025W)",
-            description:
-                "UBC Startups is kicking off the year with a high-energy welcome event featuring an interactive investing game with industry professionals. Enjoy snacks, networking, and stories from past founders while getting a sneak peek at upcoming opportunities.",
-            month: "Oct",
-            day: "17",
-            year: 2025,
-            category: "upcoming",
-            imgTop: "-100px",
-        },
+        
     ];
 
     return (

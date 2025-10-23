@@ -241,12 +241,12 @@ const NavigationBar = () => {
                         <HashLink smooth to="/#aboutUs" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <NavLinkItem>About Us</NavLinkItem>
                         </HashLink>
-                        <Link to="/events" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <NavLinkItem onClick={scrollToTop}>Events</NavLinkItem>
+                        <HashLink smooth to="/#events" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <NavLinkItem>Events</NavLinkItem>
+                        </HashLink>
+                        <Link to="/meetOurTeam" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <NavLinkItem onClick={scrollToTop}>Team</NavLinkItem>
                         </Link>
-                        <a href="/meetOurTeam" style={{ textDecoration: 'none', color: 'inherit' }}>
-                            <NavLinkItem>Team</NavLinkItem>
-                        </a>
                     </NavLinks>
                 </LeftNavGroup>
 

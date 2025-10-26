@@ -15,9 +15,11 @@ import jolt from "../images/partnerPhotos/jolt.png";
 import dominos from "../images/partnerPhotos/dominos.png";
 import bakd from "../images/partnerPhotos/bakd.png";
 import oakBerry from "../images/partnerPhotos/oakBerry.png";
+import linde from "../images/partnerPhotos/linde.jpeg";
 
 const OurPartners = () => {
   const partners = [
+    linde,
     teadot,
     bonMacaron,
     rumble,
@@ -70,6 +72,7 @@ const OurPartnersTitle = styled.h2`
   text-align: center;
   font-size: 3em;
   margin-bottom: 2rem;
+  font-family: 'Sansation', sans-serif;
 `;
 
 const ScrollWrapper = styled.div`

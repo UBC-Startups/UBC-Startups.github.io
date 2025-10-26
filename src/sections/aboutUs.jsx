@@ -20,6 +20,7 @@ const AUTitle = styled.h1`
     font-weight: 500;
     text-align: center;
     font-size: 3em;
+    font-family: 'Sansation', sans-serif;
 `
 
 const AUContent = styled.div`

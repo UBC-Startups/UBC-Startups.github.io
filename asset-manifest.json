@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/static/js/main.b228c6c9.js",
+    "main.js": "/static/js/main.ee6b7632.js",
     "static/js/453.600f6ea0.chunk.js": "/static/js/453.600f6ea0.chunk.js",
     "static/media/soar2025.jpg": "/static/media/soar2025.1482b28b7ed3f030beed.jpg",
     "static/media/himmi.png": "/static/media/himmi.425d5f6032d68bdb7d8f.png",
@@ -11,6 +11,8 @@
     "static/media/arnav.png": "/static/media/arnav.59fc2c85c4364d5d6cd8.png",
     "static/media/liftoff.jpg": "/static/media/liftoff.41cba326ff1e16874c72.jpg",
     "static/media/saumyaa.png": "/static/media/saumyaa.af8a1c12b33cb3bbc294.png",
+    "static/media/liftoff_activity.jpg": "/static/media/liftoff_activity.393a479f713c97b863b8.jpg",
+    "static/media/liftoff_events.jpg": "/static/media/liftoff_events.30760bcb81ca27603968.jpg",
     "static/media/Sabrina.png": "/static/media/Sabrina.65c214f41ac155ac2360.png",
     "static/media/Lucas-Liu.png": "/static/media/Lucas-Liu.04f36dd90e39ea44be00.png",
     "static/media/Steven.png": "/static/media/Steven.aef6233e34f20b9eef2e.png",
@@ -51,14 +53,16 @@
     "static/media/AboutImage1.jpg": "/static/media/AboutImage1.9c71596360cc89b42813.jpg",
     "static/media/soarImage.png": "/static/media/soarImage.b5d702dc019bf0be2bb8.png",
     "static/media/bonMacaron.png": "/static/media/bonMacaron.ef3bfb90b0b42ae69a22.png",
+    "static/media/calendar.png": "/static/media/calendar.24c974015dcc7b624f54.png",
     "static/media/goldsGym.png": "/static/media/goldsGym.c98df1d77e11d9a507e5.png",
     "static/media/HeroShapeDesign.svg": "/static/media/HeroShapeDesign.13b4835c99fa5e3880312c9f33f0fd3a.svg",
     "static/media/teadot.png": "/static/media/teadot.7fec263e3f1058341098.png",
+    "static/media/linde.jpeg": "/static/media/linde.e468deef99f3c470b53f.jpeg",
     "index.html": "/index.html",
-    "main.b228c6c9.js.map": "/static/js/main.b228c6c9.js.map",
+    "main.ee6b7632.js.map": "/static/js/main.ee6b7632.js.map",
     "453.600f6ea0.chunk.js.map": "/static/js/453.600f6ea0.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.b228c6c9.js"
+    "static/js/main.ee6b7632.js"
   ]
 }

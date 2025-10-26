@@ -72,6 +72,7 @@ const OurPartnersTitle = styled.h2`
   text-align: center;
   font-size: 3em;
   margin-bottom: 2rem;
+  font-family: 'Sansation', sans-serif;
 `;
 
 const ScrollWrapper = styled.div`

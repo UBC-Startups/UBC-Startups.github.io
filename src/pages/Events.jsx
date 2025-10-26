@@ -231,10 +231,42 @@ const Events = () => {
         },
     ];
 
-    const filteredEvents =
-        category === "all"
-            ? events
-            : events.filter((e) => e.category === category);
+    const monthMap = {
+        Sept: 0,
+        Oct: 1,
+        Nov: 2,
+        Dec: 3,
+        Jan: 4,
+        Feb: 5,
+        Mar: 6,
+        Apr: 7,
+        May: 8,
+        Jun: 9,
+        Jul: 10,
+        Aug: 11,
+        September: 0,
+        October: 1,
+        November: 2,
+        December: 3,
+        January: 4,
+        February: 5,
+        March: 6,
+        April: 7,
+        June: 9,
+        July: 10,
+        August: 11,
+    };
+
+    const sortedEvents = events
+        .filter((e) => category === "all" || e.category === category)
+        .sort((a, b) => {
+            if (category === "upcoming") {
+                const dateA = new Date(a.year, monthMap[a.month], parseInt(a.day), 0, 0);
+                const dateB = new Date(b.year, monthMap[b.month], parseInt(b.day), 0, 0);
+                return dateA - dateB;
+            }
+            return 0;
+        });
 
     return (
         <Container>
@@ -263,7 +295,7 @@ const Events = () => {
             </FilterOptions>
 
             <EventsGrid>
-                {filteredEvents.map((event, i) => (
+                {sortedEvents.map((event, i) => (
                     <EventBox
                         key={i}
                         img={event.img}

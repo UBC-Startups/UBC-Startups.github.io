@@ -12,6 +12,7 @@ import OurValues from "../sections/ourValues";
 import Footer from "../sections/footer";
 //import NewEvent from "../sections/newEvent";
 import Partners from "../sections/ourPartners";
+import FAQ from "../sections/faq";
 
 const HomePage = () => {
   return (
@@ -36,6 +37,7 @@ const HomePage = () => {
       <OurEvents />
       
       <OurValues />
+      <FAQ />
       {/*<MeetOurTeam />*/}
       {/* <Resources /> */}
       <Footer />

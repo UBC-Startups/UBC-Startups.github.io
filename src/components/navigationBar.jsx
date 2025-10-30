@@ -247,6 +247,9 @@ const NavigationBar = () => {
                         <Link to="/meetOurTeam" style={{ textDecoration: 'none', color: 'inherit' }}>
                             <NavLinkItem onClick={scrollToTop}>Team</NavLinkItem>
                         </Link>
+                        <HashLink smooth to="/#faq" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <NavLinkItem>FAQ</NavLinkItem>
+                        </HashLink>
                     </NavLinks>
                 </LeftNavGroup>
 
@@ -305,6 +308,9 @@ const NavigationBar = () => {
                     <Link to="/meetOurTeam" style={{ textDecoration: 'none' }}>
                         <MobileNavLi onClick={() => { scrollToTop(); setMobileNavState(false); }}>Team</MobileNavLi>
                     </Link>
+                    <HashLink to="/#faq" style={{ textDecoration: 'none' }}>
+                        <MobileNavLi onClick={() => setMobileNavState(false)}>FAQ</MobileNavLi>
+                    </HashLink>
                 </MobileNavUl>
             </MobileNavSlideIn>
         </NavBarDiv>

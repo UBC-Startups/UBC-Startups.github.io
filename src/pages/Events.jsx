@@ -109,7 +109,7 @@ const Events = () => {
             description:
                 "Join us for Innovation Olympics, where UBC students, guided by professional mentors, transform failed startup ideas into bold new ventures. Pitch your ideas live, compete for prizes, and experience a night full of mentorship and high-energy innovation.",
             month: "Nov",
-            day: "26",
+            day: "24",
             year: 2025,
             category: "upcoming",
             imgTop: "-100px",

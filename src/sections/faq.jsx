@@ -108,7 +108,7 @@ const FAQQuestion = styled.button`
 `;
 
 const QuestionText = styled.span`
-  font-size: 1.1em;
+  font-size: 1.3em;
   font-weight: 500;
   color: #1f2937;
 `;

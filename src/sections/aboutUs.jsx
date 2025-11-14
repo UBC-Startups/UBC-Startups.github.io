@@ -1,10 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import PhotoGallery from "../components/photoGallery";
 
-import AboutImage1 from "../images/AboutImage1.jpg"
-import AboutImage2 from "../images/AboutImage2.jpg"
-import LiftOffImage from "../images/eventPhotos/liftoff.jpg"
-import SoarImage from "../images/eventPhotos/soar2025.jpg"
+import LiftOffImage from "../images/eventPhotos/liftoff.jpg";
+import SoarImage from "../images/eventPhotos/soar2025.jpg";
+import BatterUpImage from "../images/eventPhotos/batterup_team.JPG";
+import LiftoffAbout from "../images/eventPhotos/liftoff_about1.jpg";
+import LiftoffEvent from "../images/eventPhotos/liftoff_events.jpg";
+import LiftoffActivity from "../images/eventPhotos/liftoff_activity.jpg";
+
 const AboutUsContainer = styled.div`
     box-shadow: 20px 20px 80px rgba(0, 0, 0, 0.1);
     width: 80%;
@@ -12,66 +16,77 @@ const AboutUsContainer = styled.div`
     border-radius: 30px;
     display: block;
     margin: 0 auto;
-    padding: 40px 40px;
+    padding: 40px;
     position: relative;
-`
+`;
 
 const AUTitle = styled.h1`
     font-weight: 500;
-    text-align: center;
+    text-align: left;
     font-size: 3em;
     font-family: 'Sansation', sans-serif;
-`
+`;
 
-const AUContent = styled.div`
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-    color: #656464;
-`
-
-const AboutImageContainer = styled.div`
-    display: block;
-    margin: 40px auto;
-`
-
-const AboutImage = styled.div`
-    display: inline-block;
-    width: 47.5%;
-    height: 300px;
-    background-size: cover;
-    background-image: no-repeat;
-    border-radius: 40px;
-    position: relative;
+const AboutContentWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    margin-top: 20px;
+    align-items: flex-start;
 
     @media (max-width: 768px) {
-        display: block;
-        width: 100%;
-        margin-bottom: 20px;
-        float: none !important;
-      }
-`
+        flex-direction: column;
+        gap: 20px;
+  }
+`;
+
+const AUContent = styled.div`
+    flex: 1 1 45%;
+    min-width: 300px;
+    text-align: left;
+    color: #656464;
+    margin-bottom: 40px;
+`;
+
+const GalleryWrapper = styled.div`
+    flex: 1 1 50%;
+    min-width: 300px;
+`;
+
+const images = [
+    { original: LiftOffImage },
+    { original: SoarImage },
+    { original: BatterUpImage },
+    { original: LiftoffAbout },
+    { original: LiftoffEvent },
+    { original: LiftoffActivity }
+];
 
 const AboutUs = () => {
-    return (
-        <AboutUsContainer id="aboutUs">
-            <AUTitle>About Us</AUTitle>
+  return (
+    <AboutUsContainer id="aboutUs">
+        <AUTitle>About Us</AUTitle>
+
+        <AboutContentWrapper>
+
             <AUContent>
-                UBC Startups is a platform dedicated to supporting and fostering entrepreneurship within the University of British Columbia community. Our mission is to provide students, alumni, and faculty with the resources, network, and support they need to turn their innovative ideas into successful ventures.
-                <br/><br/>
-                With a focus on interdisciplinary collaboration, we bring together individuals from diverse backgrounds to collaborate, learn, and grow as entrepreneurs. From hosting workshops and events to connecting members with mentors and investors, UBC Startups is committed to providing a comprehensive ecosystem for entrepreneurship at UBC.
-                <br/><br/>
-                Our team is comprised of passionate individuals who have a wealth of experience in entrepreneurship, innovation, and business. We are dedicated to creating a vibrant startup community at UBC and helping entrepreneurs take their ideas to the next level.
-                <br/><br/>
-                Join us today and become a part of a growing community of innovative thinkers and doers at UBC!
+            UBC Startups is a platform dedicated to supporting and fostering entrepreneurship within the UBC community!
+            <br /><br />
+            Our mission is to equip students, alumni, and faculty with the resources, network, and support needed to turn innovative ideas into
+            successful ventures. With a strong focus on interdisciplinary collaboration, we bring together individuals from diverse backgrounds to learn,
+            connect, and grow as entrepreneurs. Through workshops, events, and mentorship opportunities, UBC Startups provides a comprehensive ecosystem
+            that empowers UBC’s entrepreneurial community to take their ideas to the next level.
+            <br /><br />
+            Join us and become a part of a growing community of innovative thinkers and doers at UBC!
             </AUContent>
 
-            <AboutImageContainer>
-                <AboutImage style={{backgroundImage: `url(${LiftOffImage})`}}/>
-                <AboutImage style={{backgroundImage: `url(${SoarImage})`, float:"right"}}/>
-            </AboutImageContainer>
-        </AboutUsContainer>
-    )
-}
+            <GalleryWrapper>
+                <PhotoGallery images={images} />
+            </GalleryWrapper>
+
+        </AboutContentWrapper>
+    </AboutUsContainer>
+  );
+};
 
 export default AboutUs;

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { HashLink } from "react-router-hash-link";
 
 import logo from "../images/Logo.svg"
 import shapeDesign from "../images/HeroShapeDesign.svg"
@@ -104,7 +105,7 @@ const NewsletterButton = styled.button`
     }
 `
 
-const EventsButton = styled.button`
+const EventsButton = styled(HashLink)`
     padding: 15px 40px;
     font-size: 1.1em;
     background: white;
@@ -114,6 +115,8 @@ const EventsButton = styled.button`
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
     
     &:hover {
         transform: translateY(-2px);
@@ -123,22 +126,6 @@ const EventsButton = styled.button`
     }
 `
 
-const DotsContainer = styled.div`
-    display: block;
-    margin: 0 auto;
-    text-align: center;
-`
-
-const Dots = styled.div`
-    display: inline-block;
-    background: black;
-    border: 4px white solid;
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
-    margin: 0 5px;
-    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-`
 
 const Hero = ({heading, description}) => {
     return (
@@ -150,12 +137,8 @@ const Hero = ({heading, description}) => {
                 <HeroDes>{description}</HeroDes>
                 <ButtonContainer>
                     <NewsletterButton>Subscribe to Newsletter</NewsletterButton>
-                    <EventsButton>View Events</EventsButton>
+                    <EventsButton smooth to="/#events">Upcoming Events</EventsButton>
                 </ButtonContainer>
-                {/* <DotsContainer>
-                    <Dots />
-                    <Dots />
-                </DotsContainer> */}
             </HeroContent>
         </>
     )

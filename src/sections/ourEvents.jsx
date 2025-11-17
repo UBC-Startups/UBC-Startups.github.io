@@ -58,12 +58,13 @@ const OurEvents = () => {
             year: 2025,
             category: "upcoming",
             imgTop: "-100px",
+            posterLink: "/event-poster/innovation-olympics-2025",
         },
         {
             img: AboutImage1,
-            title: "Found(Her)’s Brunch  (2026W)",
+            title: "Found(Her)'s Brunch  (2026W)",
             description:
-                "Celebrate International Women’s Day with Found(Her)’s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
+                "Celebrate International Women's Day with Found(Her)'s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
             month: "March",
             day: "8",
             year: 2026,
@@ -90,6 +91,7 @@ const OurEvents = () => {
                         month={value.month}
                         day={value.day}
                         category={value.category}
+                        posterLink={value.posterLink}
                     />
                 ))}
             </EventsGrid>

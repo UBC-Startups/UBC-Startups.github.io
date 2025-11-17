@@ -5,6 +5,7 @@ import HomePage from './pages/Home.jsx';
 // import OpportunitiesPage from './pages/Opportunities.jsx';
 import MeetOurTeam from './pages/MeetOurTeam.jsx';
 import Events from './pages/Events.jsx';
+import EventPoster from './pages/EventPoster.jsx';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/meetOurTeam" element={<MeetOurTeam />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/event-poster/:eventId" element={<EventPoster />} />
           {/* <Route path="/opportunities" element={<OpportunitiesPage />} /> */}
         </Routes>
       </Router>

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import date from "../images/calendar.png";
 
 const Card = styled.div`
@@ -9,6 +10,7 @@ const Card = styled.div`
     overflow: hidden;
     text-align: left;
     width: 100%;
+    transition: all 0.3s ease;
 
     @media (max-width: 768px) {
         width: 90%; 
@@ -64,7 +66,33 @@ const Content = styled.div`
     padding: clamp(10px, 2vw, 20px);
 `;
 
-const EventBox = ({ img, title, description, month, day }) => {
+const PosterButton = styled.button`
+    background: #333333;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s;
+    width: 100%;
+
+    &:hover {
+        background: #000000;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+`;
+
+const EventBox = ({ img, title, description, month, day, posterLink }) => {
+  const navigate = useNavigate();
+
+  const handlePosterClick = () => {
+    if (posterLink) {
+      navigate(posterLink);
+    }
+  };
+
   return (
     <Card>
       <ImageContainer>
@@ -79,6 +107,11 @@ const EventBox = ({ img, title, description, month, day }) => {
         </DateTag>
         </DateContainer>
         <Description>{description}</Description>
+        {posterLink && (
+          <PosterButton onClick={handlePosterClick}>
+            View Event Details & Sign Up
+          </PosterButton>
+        )}
       </Content>
     </Card>
   );

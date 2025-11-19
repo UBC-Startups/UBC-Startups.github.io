@@ -1,11 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.7ca38447.css",
-    "main.js": "/static/js/main.e606eed3.js",
+    "main.js": "/static/js/main.26d8ac62.js",
     "static/js/453.600f6ea0.chunk.js": "/static/js/453.600f6ea0.chunk.js",
     "static/media/soar2025.jpg": "/static/media/soar2025.1482b28b7ed3f030beed.jpg",
     "static/media/himmi.png": "/static/media/himmi.425d5f6032d68bdb7d8f.png",
     "static/media/ResourcesImg.svg": "/static/media/ResourcesImg.1d2663dea7416e24f0d7fb574e93a7dd.svg",
+    "static/media/event_poster.png": "/static/media/event_poster.cb230defe9485d032049.png",
     "static/media/InternshipsImg.svg": "/static/media/InternshipsImg.346c297f2d83a89086e3d6f7f827352b.svg",
     "static/media/NetworkingImg.svg": "/static/media/NetworkingImg.6c9a4c3eb23ea98bc2d08dc791a2f1ea.svg",
     "static/media/prototypingWorkshopImg.jpg": "/static/media/prototypingWorkshopImg.5b9d7d3de68a0e901148.jpg",
@@ -63,11 +64,11 @@
     "static/media/linde.jpeg": "/static/media/linde.e468deef99f3c470b53f.jpeg",
     "index.html": "/index.html",
     "main.7ca38447.css.map": "/static/css/main.7ca38447.css.map",
-    "main.e606eed3.js.map": "/static/js/main.e606eed3.js.map",
+    "main.26d8ac62.js.map": "/static/js/main.26d8ac62.js.map",
     "453.600f6ea0.chunk.js.map": "/static/js/453.600f6ea0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7ca38447.css",
-    "static/js/main.e606eed3.js"
+    "static/js/main.26d8ac62.js"
   ]
 }

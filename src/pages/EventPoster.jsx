@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NavigationBar from "../components/navigationBar";
@@ -162,21 +162,21 @@ const ContactInfo = styled.p`
 // Event data - you can customize these for your specific events
 const eventData = {
   "innovation-olympics-2025": {
-    title: "Innovation Olympics (2025W)",
+    title: "The Crisis Room Challenge",
     date: "November 24, 2025",
-    time: "6:00 PM - 9:00 PM",
-    location: "UBC Life Building, Room 2201",
-    image: require("../images/eventPhotos/liftoff_activity.jpg"),
-    description: "Join us for Innovation Olympics, where UBC students, guided by professional mentors, transform failed startup ideas into bold new ventures. Pitch your ideas live, compete for prizes, and experience a night full of mentorship and high-energy innovation.",
+    time: "6:00 PM - 8:30 PM",
+    location: "UBC Life Building, Room 2202",
+    image: require("../images/eventPhotos/event_poster.png"),
+    description: "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
     highlights: [
-      "Work with professional mentors to transform ideas",
-      "Live pitch competition with real-time feedback",
-      "Win prizes for the best innovative solutions",
-      "Network with fellow entrepreneurs and mentors",
-      "Free food and refreshments"
+      "Hands-on experience in strategy and crisis management",
+      "Respond to cyberattacks, investment freezes & global disruptions",
+      "Debate, negotiate, and defend your plan",
+      "Get judged by real industry professionals",
+      "Earn awards for diplomacy, leadership, and insight"
     ],
-    signupLink: "https://forms.gle/yourSignupLink",
-    capacity: "Limited to 100 attendees"
+    signupLink: "https://luma.com/9eo2rwv1",
+    capacity: "No personal laptops"
   },
   "foundher-brunch-2026": {
     title: "Found(Her)'s Brunch (2026W)",
@@ -234,6 +234,11 @@ const eventData = {
 const EventPoster = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();
+  
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 110);
+  }, []);
   
   // Get event data based on eventId, default to sample event if not found
   const event = eventData[eventId] || eventData["sample-event"];

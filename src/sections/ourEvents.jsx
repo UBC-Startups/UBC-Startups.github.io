@@ -3,7 +3,7 @@ import styled from "styled-components";
 import EventBox from "../components/event";
 
 import AboutImage1 from "../images/AboutImage1.jpg";
-import innovation  from "../images/eventPhotos/liftoff_activity.jpg"
+import crisisRoom  from "../images/eventPhotos/event_poster.png"
 
 const OurEventsContainer = styled.div`
     margin: 5% 0px;
@@ -33,15 +33,17 @@ const Subtitle = styled.p`
 
 const EventsGrid = styled.div`
     margin: 0 auto;
+    max-width: 1400px;
     display: grid;
     grid-gap: 50px;
     justify-items: center;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     margin-top: 50px;
     padding: 0 25px;
 
     @media (max-width: 768px) {
         padding: 0;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     }
 `;
 
@@ -49,8 +51,8 @@ const OurEvents = () => {
     // only display upcoming 2 events
     const events = [
         {
-            img: innovation,
-            title: "Innovation Olympics (2025W)",
+            img: crisisRoom,
+            title: "Crisis Room (2025W)",
             description:
                 "Join us for Innovation Olympics, where UBC students, guided by professional mentors, transform failed startup ideas into bold new ventures. Pitch your ideas live, compete for prizes, and experience a night full of mentorship and high-energy innovation.",
             month: "Nov",

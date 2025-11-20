@@ -54,7 +54,7 @@ const OurEvents = () => {
             img: crisisRoom,
             title: "Crisis Room (2025W)",
             description:
-                "Join us for Innovation Olympics, where UBC students, guided by professional mentors, transform failed startup ideas into bold new ventures. Pitch your ideas live, compete for prizes, and experience a night full of mentorship and high-energy innovation.",
+                "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
             month: "Nov",
             day: "24",
             year: 2025,

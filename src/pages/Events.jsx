@@ -102,10 +102,22 @@ const Events = () => {
 
     const events = [
         {
+            img: innovation,
+            title: "Crisis Room (2025W)",
+            description:
+                "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
+            month: "Nov",
+            day: "24",
+            year: 2025,
+            category: "upcoming",
+            imgTop: "-100px",
+            posterLink: "/event-poster/innovation-olympics-2025",
+        },
+        {
             img: SoarImage,
             title: "SOAR (2026W)",
             description:
-                "SOAR is the university’s largest pitch competition with a $10,000 prize pool! Student founders pitch their ideas to investors and industry leaders, receive feedback, and compete for funding. With networking, lunch, and a full day of presentations, SOAR is the perfect way to be inspired and support the next wave of UBC entrepreneurs.",
+                "SOAR is the university's largest pitch competition with a $10,000 prize pool! Student founders pitch their ideas to investors and industry leaders, receive feedback, and compete for funding. With networking, lunch, and a full day of presentations, SOAR is the perfect way to be inspired and support the next wave of UBC entrepreneurs.",
             month: "March",
             day: "21",
             year: 2026,
@@ -114,23 +126,12 @@ const Events = () => {
         },
         {
             img: AboutImage1,
-            title: "Found(Her)’s Brunch  (2026W)",
+            title: "Found(Her)'s Brunch  (2026W)",
             description:
-                "Celebrate International Women’s Day with Found(Her)’s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
+                "Celebrate International Women's Day with Found(Her)'s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
             month: "March",
             day: "8",
             year: 2026,
-            category: "upcoming",
-            imgTop: "-100px",
-        },
-        {
-            img: innovation,
-            title: "Innovation Olympics (2025W)",
-            description:
-                "Join us for Innovation Olympics, where UBC students, guided by professional mentors, transform failed startup ideas into bold new ventures. Pitch your ideas live, compete for prizes, and experience a night full of mentorship and high-energy innovation.",
-            month: "Nov",
-            day: "24",
-            year: 2025,
             category: "upcoming",
             imgTop: "-100px",
         },
@@ -327,6 +328,7 @@ const Events = () => {
                             month={event.month}
                             day={event.day}
                             category={event.category}
+                            posterLink={event.posterLink}
                         />
                     ))}
                 </EventsGrid>

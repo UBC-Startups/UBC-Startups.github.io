@@ -3,6 +3,7 @@ import styled from "styled-components";
 import EventBox from "../components/event";
 import NavigationBar from "../components/navigationBar";
 import Footer from "../sections/footer";
+import shapeDesign from "../images/HeroShapeDesign.svg";
 
 // Images for events
 import AboutImage2 from "../images/AboutImage2.jpg"; // Placeholder
@@ -74,6 +75,25 @@ const EventsGrid = styled.div`
 
     @media (max-width: 768px) {
         padding: 0;
+    }
+`;
+
+const BackgroundWrapper = styled.div`
+    position: absolute;
+    left: 0;
+    width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image: url(${shapeDesign});
+    background-repeat: repeat;
+    background-position: top left;
+    background-size: 100%;
+
+    @media (max-width: 600px) {
+        background-size: 100% 100vh;
+        background-repeat: repeat;
     }
 `;
 
@@ -269,47 +289,51 @@ const Events = () => {
         });
 
     return (
-        <Container>
-            <NavigationBar />
-            <Title>Our Events</Title>
+        <div style={{ position: "relative", minHeight: "100%" }}>
+            <BackgroundWrapper />
 
-            <FilterOptions>
-                <FilterButton
-                    active={category === "all"}
-                    onClick={() => setCategory("all")}
-                >
-                    All Events
-                </FilterButton>
-                <FilterButton
-                    active={category === "upcoming"}
-                    onClick={() => setCategory("upcoming")}
-                >
-                    Upcoming
-                </FilterButton>
-                <FilterButton
-                    active={category === "prev"}
-                    onClick={() => setCategory("prev")}
-                >
-                    Previous
-                </FilterButton>
-            </FilterOptions>
+            <Container>
+                <NavigationBar />
+                <Title>Our Events</Title>
 
-            <EventsGrid>
-                {sortedEvents.map((event, i) => (
-                    <EventBox
-                        key={i}
-                        img={event.img}
-                        title={event.title}
-                        description={event.description}
-                        month={event.month}
-                        day={event.day}
-                        category={event.category}
-                    />
-                ))}
-            </EventsGrid>
+                <FilterOptions>
+                    <FilterButton
+                        active={category === "all"}
+                        onClick={() => setCategory("all")}
+                    >
+                        All Events
+                    </FilterButton>
+                    <FilterButton
+                        active={category === "upcoming"}
+                        onClick={() => setCategory("upcoming")}
+                    >
+                        Upcoming
+                    </FilterButton>
+                    <FilterButton
+                        active={category === "prev"}
+                        onClick={() => setCategory("prev")}
+                    >
+                        Previous
+                    </FilterButton>
+                </FilterOptions>
 
-            <Footer />
-        </Container>
+                <EventsGrid>
+                    {sortedEvents.map((event, i) => (
+                        <EventBox
+                            key={i}
+                            img={event.img}
+                            title={event.title}
+                            description={event.description}
+                            month={event.month}
+                            day={event.day}
+                            category={event.category}
+                        />
+                    ))}
+                </EventsGrid>
+
+                <Footer />
+            </Container>
+        </div>
     );
 };
 

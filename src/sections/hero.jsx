@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { HashLink } from "react-router-hash-link";
 
 import logo from "../images/Logo.svg"
-import shapeDesign from "../images/HeroShapeDesign.svg"
 
 
 const HeroContent = styled.div`;
@@ -17,16 +16,7 @@ const HeroContent = styled.div`;
         margin-bottom: -180px;
       }
 `
-const HeroShapes = styled.img`
-    position: absolute;
-    top: 0;
-    width: 100%;
-    z-index: -1;
-    @media (max-width: 480px) {
-        height: 100vh;
-        width: 100%;
-      }
-`
+
 const HeroImage = styled.div`
     background-image: url(${logo});
     width: 300px;
@@ -130,7 +120,6 @@ const EventsButton = styled(HashLink)`
 const Hero = ({heading, description}) => {
     return (
         <>
-            <HeroShapes src={shapeDesign} />
             <HeroContent>
                 <HeroImage />
                 <HeroTitle>{heading}</HeroTitle>

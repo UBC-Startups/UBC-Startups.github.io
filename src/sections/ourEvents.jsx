@@ -3,7 +3,7 @@ import styled from "styled-components";
 import EventBox from "../components/event";
 
 import AboutImage1 from "../images/AboutImage1.jpg";
-import crisisRoom  from "../images/eventPhotos/event_poster.png"
+import SoarImage  from "../images/eventPhotos/soarImage.png"
 
 const OurEventsContainer = styled.div`
     margin: 5% 0px;
@@ -51,18 +51,6 @@ const OurEvents = () => {
     // only display upcoming 2 events
     const events = [
         {
-            img: crisisRoom,
-            title: "Crisis Room (2025W)",
-            description:
-                "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
-            month: "Nov",
-            day: "24",
-            year: 2025,
-            category: "upcoming",
-            imgTop: "-100px",
-            posterLink: "/event-poster/innovation-olympics-2025",
-        },
-        {
             img: AboutImage1,
             title: "Found(Her)'s Brunch  (2026W)",
             description:
@@ -73,7 +61,17 @@ const OurEvents = () => {
             category: "upcoming",
             imgTop: "-100px",
         },
-        
+        {
+            img: SoarImage,
+            title: "SOAR (2026W)",
+            description:
+                "SOAR is the university's largest pitch competition with a $10,000 prize pool! Student founders pitch their ideas to investors and industry leaders, receive feedback, and compete for funding. With networking, lunch, and a full day of presentations, SOAR is the perfect way to be inspired and support the next wave of UBC entrepreneurs.",
+            month: "March",
+            day: "21",
+            year: 2026,
+            category: "upcoming",
+            imgTop: "-20px",
+        },
     ];
 
     return (

@@ -16,7 +16,7 @@ import PrototypingWImage from "../images/eventPhotos/prototypingWorkshopImg.jpg"
 import PitchWImage from "../images/eventPhotos/pitchWorkshopImg.png";
 import SoarImage from "../images/eventPhotos/soarImage.png";
 import liftoff from "../images/eventPhotos/liftoff_events.jpg";
-import innovation from "../images/eventPhotos/liftoff_activity.jpg";
+import crisisRoom from "../images/eventPhotos/event_poster.png";
 
 const Container = styled.div`
     overflow-x: hidden;
@@ -102,14 +102,14 @@ const Events = () => {
 
     const events = [
         {
-            img: innovation,
+            img: crisisRoom,
             title: "Crisis Room (2025W)",
             description:
                 "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
             month: "Nov",
             day: "24",
             year: 2025,
-            category: "upcoming",
+            category: "prev",
             imgTop: "-100px",
             posterLink: "/event-poster/innovation-olympics-2025",
         },

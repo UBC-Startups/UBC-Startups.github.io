@@ -64,7 +64,6 @@ const scroll = keyframes`
 const OurPartnersContainer = styled.section`
   margin: 2rem;
   text-align: center;
-  background: #fff;
 `;
 
 const OurPartnersTitle = styled.h2`

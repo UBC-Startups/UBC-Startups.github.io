@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import NavigationBar from "../components/navigationBar";
 import Footer from "../sections/footer";
+import shapeDesign from "../images/HeroShapeDesign.svg";
 
 import TeamMember from "../components/teamMember";
 
@@ -71,308 +72,330 @@ const TeamSectionText = styled.h2`
     margin-top: 80px;
 `
 
+const BackgroundWrapper = styled.div`
+    position: absolute;
+    left: 0px;
+    width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image: url(${shapeDesign});
+    background-repeat: repeat;
+    background-position: top left;
+    background-size: 100%;
+
+    @media (max-width: 600px) {
+        background-size: 100% 100vh;
+        background-repeat: repeat;
+    }
+`;
+
 const MeetOurTeam = () => {
     return (
-        <MeetOurTeamContainer >
-            <NavigationBar />
-            <MOTTitle>Meet our Team</MOTTitle>
+        <div style={{ position: "relative", minHeight: "100%" }}>
+            <BackgroundWrapper />
 
-            <TeamSectionText>Leadership</TeamSectionText>
-            <MOTContainer>
-                <TeamMember
-                    image={mostafaImg}
-                    name="Mostafa Ali"
-                    position=""
-                    role="Co-President"
-                    linkedIn="https://www.linkedin.com/in/mostafa57/"
-                />
-                <TeamMember
-                    image={nazikImg}
-                    name="Nazik Zhumashalieva "
-                    position=""
-                    role="Co-President"
-                    linkedIn="https://www.linkedin.com/in/nazik-zhumashalieva/"
-                />
-            </MOTContainer>
+            <MeetOurTeamContainer >
+                <NavigationBar />
+                <MOTTitle>Meet our Team</MOTTitle>
 
-            <MOTContainer>
-                <TeamMember
-                    image={dhananjaiImg}
-                    name="Dhananjai Lekhi"
-                    position=""
-                    role="VP Finance"
-                    linkedIn="https://www.linkedin.com/in/dhananjai-lekhi-218ab2271/"
-                />
-                <TeamMember
-                    image={katelynImg}
-                    name="Katelyn Jang"
-                    position=""
-                    role="VP Events"
-                    linkedIn="https://www.linkedin.com/in/katelyn-jang-68ba6a2b0/"
-                />
-                <TeamMember
-                    image={ananyaaImg}
-                    name="Ananyaa Kartik"
-                    position=""
-                    role="VP Events"
-                    linkedIn="https://linkedin.com/in/ananyaa-kartik-929b55244"    
-                />
-                <TeamMember
-                    image={eshaanImg}
-                    name="Eshaan Malhotra"
-                    position=""
-                    role="VP Marketing"
-                    linkedIn="https://www.linkedin.com/in/eshaanmalhotra/"
-                />
-                <TeamMember
-                    image={angadImg}
-                    name="Angad Bhalla"
-                    position=""
-                    role="VP Partnership"
-                    linkedIn="https://www.linkedin.com/in/angadsinghbhalla/"
-                />
-                <TeamMember
-                    image={lucasImg}
-                    name="Lucas Liu"
-                    position=""
-                    role="VP Tech"
-                    linkedIn="https://www.linkedin.com/in/lucas-liu-32b566216/"
-                />
-                <TeamMember
-                    image={samuelImg}
-                    name="Samuel Ma"
-                    position=""
-                    role="VP Engagement"
-                    linkedIn="https://www.linkedin.com/in/samuel-ma8/"
-                />
-            </MOTContainer>
+                <TeamSectionText>Leadership</TeamSectionText>
+                <MOTContainer>
+                    <TeamMember
+                        image={mostafaImg}
+                        name="Mostafa Ali"
+                        position=""
+                        role="Co-President"
+                        linkedIn="https://www.linkedin.com/in/mostafa57/"
+                    />
+                    <TeamMember
+                        image={nazikImg}
+                        name="Nazik Zhumashalieva "
+                        position=""
+                        role="Co-President"
+                        linkedIn="https://www.linkedin.com/in/nazik-zhumashalieva/"
+                    />
+                </MOTContainer>
 
-            <TeamSectionText>Advisors</TeamSectionText>
-            <MOTContainer>
-            <TeamMember
-                    image={arnavImg}
-                    name="Arnav Agrawal"
-                    position=""
-                    role="Co-Founder/Advisor"
-                    linkedIn="https://www.linkedin.com/in/arnavagrawal29"
-                />
-                <TeamMember
-                    image={saumyaaImg}
-                    name="Saumyaa Gandhi"
-                    position=""
-                    role="Co-Founder/Advisor"
-                    linkedIn="https://www.linkedin.com/in/saumyaagandhi/"
-                />
-            </MOTContainer>
+                <MOTContainer>
+                    <TeamMember
+                        image={dhananjaiImg}
+                        name="Dhananjai Lekhi"
+                        position=""
+                        role="VP Finance"
+                        linkedIn="https://www.linkedin.com/in/dhananjai-lekhi-218ab2271/"
+                    />
+                    <TeamMember
+                        image={katelynImg}
+                        name="Katelyn Jang"
+                        position=""
+                        role="VP Events"
+                        linkedIn="https://www.linkedin.com/in/katelyn-jang-68ba6a2b0/"
+                    />
+                    <TeamMember
+                        image={ananyaaImg}
+                        name="Ananyaa Kartik"
+                        position=""
+                        role="VP Events"
+                        linkedIn="https://linkedin.com/in/ananyaa-kartik-929b55244"
+                    />
+                    <TeamMember
+                        image={eshaanImg}
+                        name="Eshaan Malhotra"
+                        position=""
+                        role="VP Marketing"
+                        linkedIn="https://www.linkedin.com/in/eshaanmalhotra/"
+                    />
+                    <TeamMember
+                        image={angadImg}
+                        name="Angad Bhalla"
+                        position=""
+                        role="VP Partnership"
+                        linkedIn="https://www.linkedin.com/in/angadsinghbhalla/"
+                    />
+                    <TeamMember
+                        image={lucasImg}
+                        name="Lucas Liu"
+                        position=""
+                        role="VP Tech"
+                        linkedIn="https://www.linkedin.com/in/lucas-liu-32b566216/"
+                    />
+                    <TeamMember
+                        image={samuelImg}
+                        name="Samuel Ma"
+                        position=""
+                        role="VP Engagement"
+                        linkedIn="https://www.linkedin.com/in/samuel-ma8/"
+                    />
+                </MOTContainer>
 
-            <TeamSectionText>Finance</TeamSectionText>
+                <TeamSectionText>Advisors</TeamSectionText>
+                <MOTContainer>
+                    <TeamMember
+                        image={arnavImg}
+                        name="Arnav Agrawal"
+                        position=""
+                        role="Co-Founder/Advisor"
+                        linkedIn="https://www.linkedin.com/in/arnavagrawal29"
+                    />
+                    <TeamMember
+                        image={saumyaaImg}
+                        name="Saumyaa Gandhi"
+                        position=""
+                        role="Co-Founder/Advisor"
+                        linkedIn="https://www.linkedin.com/in/saumyaagandhi/"
+                    />
+                </MOTContainer>
 
-            <MOTContainer>
-                <TeamMember
-                    image={andersonImg}
-                    name="Anderson Ko"
-                    position=""
-                    role="Finance Director"
-                    linkedIn="https://www.linkedin.com/in/anderson-ko/"
-                />
-                <TeamMember
-                    image={arpitaImg}
-                    name="Arpita Mali"
-                    position=""
-                    role="Finance Director"
-                    linkedIn="https://linkedin.com/in/arpita-m-217b05212"
-                />
-                <TeamMember
-                    image={shauryaImg}
-                    name="Shaurya Ahuja"
-                    position=""
-                    role="Finance Director"
-                    linkedIn="https://www.linkedin.com/in/shauryaahuja/"
-                />
-            </MOTContainer>
+                <TeamSectionText>Finance</TeamSectionText>
 
-            <TeamSectionText>Events</TeamSectionText>
+                <MOTContainer>
+                    <TeamMember
+                        image={andersonImg}
+                        name="Anderson Ko"
+                        position=""
+                        role="Finance Director"
+                        linkedIn="https://www.linkedin.com/in/anderson-ko/"
+                    />
+                    <TeamMember
+                        image={arpitaImg}
+                        name="Arpita Mali"
+                        position=""
+                        role="Finance Director"
+                        linkedIn="https://linkedin.com/in/arpita-m-217b05212"
+                    />
+                    <TeamMember
+                        image={shauryaImg}
+                        name="Shaurya Ahuja"
+                        position=""
+                        role="Finance Director"
+                        linkedIn="https://www.linkedin.com/in/shauryaahuja/"
+                    />
+                </MOTContainer>
 
-            <MOTContainer>
-                <TeamMember
-                    image={kaleenaImg}
-                    name="Kaleena Yen"
-                    position=""
-                    role="Events Director"
-                    linkedIn="https://www.linkedin.com/in/kaleena-yen-674876369?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                />
-                <TeamMember
-                    image={defaultImg}
-                    name="Aryan Singh"
-                    position=""
-                    role="Events Director"
-                    linkedIn="https://www.linkedin.com/in/aryan-singh-59a26226b/"
-                />
-                <TeamMember
-                    image={carolynImg}
-                    name="Carolyn Han"
-                    position=""
-                    role="Events Director"
-                    linkedIn="https://www.linkedin.com/in/carolyn-han-a46636273?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                />
-                <TeamMember
-                    image={hasanImg}
-                    name="Hasan Noor"
-                    position=""
-                    role="Events Director"
-                    linkedIn="https://www.linkedin.com/in/hasan-noor/"
-                />
-                <TeamMember
-                    image={sabrinaImg}
-                    name="Sabrina Yuan"
-                    position=""
-                    role="Events Director"
-                    linkedIn="https://linkedin.com/in/sabrina-yuan-062b4422b"
-                />
-            </MOTContainer>
+                <TeamSectionText>Events</TeamSectionText>
 
-            <TeamSectionText>Marketing</TeamSectionText>
+                <MOTContainer>
+                    <TeamMember
+                        image={kaleenaImg}
+                        name="Kaleena Yen"
+                        position=""
+                        role="Events Director"
+                        linkedIn="https://www.linkedin.com/in/kaleena-yen-674876369?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Aryan Singh"
+                        position=""
+                        role="Events Director"
+                        linkedIn="https://www.linkedin.com/in/aryan-singh-59a26226b/"
+                    />
+                    <TeamMember
+                        image={carolynImg}
+                        name="Carolyn Han"
+                        position=""
+                        role="Events Director"
+                        linkedIn="https://www.linkedin.com/in/carolyn-han-a46636273?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                    />
+                    <TeamMember
+                        image={hasanImg}
+                        name="Hasan Noor"
+                        position=""
+                        role="Events Director"
+                        linkedIn="https://www.linkedin.com/in/hasan-noor/"
+                    />
+                    <TeamMember
+                        image={sabrinaImg}
+                        name="Sabrina Yuan"
+                        position=""
+                        role="Events Director"
+                        linkedIn="https://linkedin.com/in/sabrina-yuan-062b4422b"
+                    />
+                </MOTContainer>
 
-            <MOTContainer>
-                <TeamMember
-                    image={roopImg}
-                    name="Roop Dhillon"
-                    position=""
-                    role="Marketing Director"
-                    linkedIn="https://www.linkedin.com/in/roopkaurdhillon/"
-                />
-                <TeamMember
-                    image={stevenImg}
-                    name="Steven Cen"
-                    position=""
-                    role="Marketing Director"
-                    linkedIn="https://www.linkedin.com/in/stevencen"
-                />
-                <TeamMember
-                    image={ellaImg}
-                    name="Ella Chow"
-                    position=""
-                    role="Marketing Director"
-                    linkedIn="https://www.linkedin.com/in/ellachow26"
-                />
-                <TeamMember
-                    image={zianImg}
-                    name="Zian Zhao"
-                    position=""
-                    role="Marketing Director"
-                    linkedIn="https://www.linkedin.com/in/zian-zhao-87b18235a/"
-                />
-                <TeamMember
-                    image={charleneImg}
-                    name="Charlene Lo"
-                    position=""
-                    role="Marketing Director"
-                    linkedIn="https://www.linkedin.com/in/charlene-lo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                />
-                <TeamMember
-                    image={aniketImg}
-                    name="Aniket Nemade"
-                    position=""
-                    role="Marketing Director"
-                    linkedIn="https://www.linkedin.com/in/aniket-nemade"
-                />
-                <TeamMember
-                    image={jiyaImg}
-                    name="Jiya Grover"
-                    position=""
-                    role="Marketing Director"
-                    linkedIn="https://www.linkedin.com/in/jiya-grover-18b381279/"
-                />
-            </MOTContainer>
+                <TeamSectionText>Marketing</TeamSectionText>
 
-            <TeamSectionText>Partnerships</TeamSectionText>
+                <MOTContainer>
+                    <TeamMember
+                        image={roopImg}
+                        name="Roop Dhillon"
+                        position=""
+                        role="Marketing Director"
+                        linkedIn="https://www.linkedin.com/in/roopkaurdhillon/"
+                    />
+                    <TeamMember
+                        image={stevenImg}
+                        name="Steven Cen"
+                        position=""
+                        role="Marketing Director"
+                        linkedIn="https://www.linkedin.com/in/stevencen"
+                    />
+                    <TeamMember
+                        image={ellaImg}
+                        name="Ella Chow"
+                        position=""
+                        role="Marketing Director"
+                        linkedIn="https://www.linkedin.com/in/ellachow26"
+                    />
+                    <TeamMember
+                        image={zianImg}
+                        name="Zian Zhao"
+                        position=""
+                        role="Marketing Director"
+                        linkedIn="https://www.linkedin.com/in/zian-zhao-87b18235a/"
+                    />
+                    <TeamMember
+                        image={charleneImg}
+                        name="Charlene Lo"
+                        position=""
+                        role="Marketing Director"
+                        linkedIn="https://www.linkedin.com/in/charlene-lo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                    />
+                    <TeamMember
+                        image={aniketImg}
+                        name="Aniket Nemade"
+                        position=""
+                        role="Marketing Director"
+                        linkedIn="https://www.linkedin.com/in/aniket-nemade"
+                    />
+                    <TeamMember
+                        image={jiyaImg}
+                        name="Jiya Grover"
+                        position=""
+                        role="Marketing Director"
+                        linkedIn="https://www.linkedin.com/in/jiya-grover-18b381279/"
+                    />
+                </MOTContainer>
 
-            <MOTContainer>
-                <TeamMember
-                    image={adeenaImg}
-                    name="Adeena Saleem"
-                    position=""
-                    role="Partnership Director"
-                    linkedIn="https://www.linkedin.com/in/adeenasaleem"
-                />
-                <TeamMember
-                    image={defaultImg}
-                    name="Jacky Zhong"
-                    position=""
-                    role="Partnership Director"
-                    linkedIn="https://www.linkedin.com/in/zhong808800/"
-                />
-                <TeamMember
-                    image={kevishImg}
-                    name="Kevish Suri"
-                    position=""
-                    role="Partnership Director"
-                    linkedIn="https://www.linkedin.com/in/kevishsuri"
-                />
-                <TeamMember
-                    image={anikaImg}
-                    name="Anika Shahzad"
-                    position=""
-                    role="Partnership Director"
-                    linkedIn="https://www.linkedin.com/in/anika-shahzad-1b9452202?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                />
-                <TeamMember
-                    image={ayaanImg}
-                    name="Ayaan Kapoor"
-                    position=""
-                    role="Partnership Director"
-                    linkedIn="https://www.linkedin.com/in/ayaan-kapoor-7b21aa2a1/"
-                />
-                <TeamMember
-                    image={cindyImg}
-                    name="Cindy Li"
-                    position=""
-                    role="First-Year Rep"
-                    linkedIn="https://linkedin.com/in/cindyli-ubcsauder29"
-                />
-            </MOTContainer>
+                <TeamSectionText>Partnerships</TeamSectionText>
 
-            <TeamSectionText>Tech</TeamSectionText>
+                <MOTContainer>
+                    <TeamMember
+                        image={adeenaImg}
+                        name="Adeena Saleem"
+                        position=""
+                        role="Partnership Director"
+                        linkedIn="https://www.linkedin.com/in/adeenasaleem"
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Jacky Zhong"
+                        position=""
+                        role="Partnership Director"
+                        linkedIn="https://www.linkedin.com/in/zhong808800/"
+                    />
+                    <TeamMember
+                        image={kevishImg}
+                        name="Kevish Suri"
+                        position=""
+                        role="Partnership Director"
+                        linkedIn="https://www.linkedin.com/in/kevishsuri"
+                    />
+                    <TeamMember
+                        image={anikaImg}
+                        name="Anika Shahzad"
+                        position=""
+                        role="Partnership Director"
+                        linkedIn="https://www.linkedin.com/in/anika-shahzad-1b9452202?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                    />
+                    <TeamMember
+                        image={ayaanImg}
+                        name="Ayaan Kapoor"
+                        position=""
+                        role="Partnership Director"
+                        linkedIn="https://www.linkedin.com/in/ayaan-kapoor-7b21aa2a1/"
+                    />
+                    <TeamMember
+                        image={cindyImg}
+                        name="Cindy Li"
+                        position=""
+                        role="First-Year Rep"
+                        linkedIn="https://linkedin.com/in/cindyli-ubcsauder29"
+                    />
+                </MOTContainer>
 
-            <MOTContainer>
-                <TeamMember
-                    image={maddieImg}
-                    name="Madilynn Wright"
-                    position=""
-                    role="Developer"
-                    linkedIn="https://www.linkedin.com/in/madilynn-wright/"
-                />
-            </MOTContainer>
+                <TeamSectionText>Tech</TeamSectionText>
 
-            <TeamSectionText>Engagement</TeamSectionText>
+                <MOTContainer>
+                    <TeamMember
+                        image={maddieImg}
+                        name="Madilynn Wright"
+                        position=""
+                        role="Developer"
+                        linkedIn="https://www.linkedin.com/in/madilynn-wright/"
+                    />
+                </MOTContainer>
 
-            <MOTContainer>
-                <TeamMember
-                    image={rheinImg}
-                    name="Rhein Ferdous"
-                    position=""
-                    role="Engagement Director"
-                    linkedIn="https://www.linkedin.com/in/rhein-ferdous-96b31a1b0/"
-                />
-                <TeamMember
-                    image={elisabethImg}
-                    name="Elisabeth Mugerin"
-                    position=""
-                    role="Engagement Director"
-                    linkedIn="https://www.linkedin.com/in/elisabeth-m-951424281"
-                />
-                <TeamMember
-                    image={defaultImg}
-                    name="Himanshi Wadhwani"
-                    position=""
-                    role="Engagement Director"
-                    linkedIn="https://www.linkedin.com/in/himanshi-wadhwani-/"
-                />
-            </MOTContainer>
+                <TeamSectionText>Engagement</TeamSectionText>
 
-            <Footer />
-        </MeetOurTeamContainer>
+                <MOTContainer>
+                    <TeamMember
+                        image={rheinImg}
+                        name="Rhein Ferdous"
+                        position=""
+                        role="Engagement Director"
+                        linkedIn="https://www.linkedin.com/in/rhein-ferdous-96b31a1b0/"
+                    />
+                    <TeamMember
+                        image={elisabethImg}
+                        name="Elisabeth Mugerin"
+                        position=""
+                        role="Engagement Director"
+                        linkedIn="https://www.linkedin.com/in/elisabeth-m-951424281"
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Himanshi Wadhwani"
+                        position=""
+                        role="Engagement Director"
+                        linkedIn="https://www.linkedin.com/in/himanshi-wadhwani-/"
+                    />
+                </MOTContainer>
 
+                <Footer />
+            </MeetOurTeamContainer>
+        </div>
     )
 }
 

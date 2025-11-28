@@ -13,36 +13,53 @@ import Footer from "../sections/footer";
 //import NewEvent from "../sections/newEvent";
 import Partners from "../sections/ourPartners";
 import FAQ from "../sections/faq";
+import Stats from "../sections/stats";
+import styled from "styled-components";
+import shapeDesign from "../images/HeroShapeDesign.svg";
+
+const BackgroundWrapper = styled.div`
+    position: absolute;
+    top: -200px;
+    left: 0px;
+    width: 100%;
+    min-height: 100%;
+    z-index: -1;
+    pointer-events: none;
+
+    background-image: url(${shapeDesign});
+    background-repeat: repeat;
+    background-position: top left;
+    background-size: 100%;
+
+    @media (max-width: 600px) {
+        top: -300px;
+        background-size: 100% 100vh;
+        background-repeat: repeat;
+    }
+`;
+
+
 
 const HomePage = () => {
-  return (
-    <>
-      <Head title="UBC Startups" />
-      <NavigationBar />
-      <Hero
-        heading="UBC Startups"
-        description="Building a startup ecosystem on campus"
-      />
-      {/* <NewEvent
-        title="SOAR 2025"
-        punchline="UBC Startups is proud to announce the 2025 SOAR Startup Pitch Competition!"
-        description="Vancouver's startup ecosystem is thriving, and you should be a part of it too! Apply now to have a chance of winning $10,000 in non dilutive funding for your startup idea."
-        extraDetails="Don't just hear about the future - see it unfold in real-time. Whether you're a founder, investor, or just love game-changing ideas, this is the event to be at!"
-        registrationLink="https://forms.gle/GureEFUWAZsSRRaD7"
-        date="April 6th, 2025"
-      /> */}
-      <AboutUs />
-      <WhatWeOffer />
-      <Partners />
-      <OurEvents />
-      
-      <OurValues />
-      <FAQ />
-      {/*<MeetOurTeam />*/}
-      {/* <Resources /> */}
-      <Footer />
-    </>
-  );
+    return (
+        <div style={{ position: "relative", minHeight: "100%" }}>
+            <BackgroundWrapper />
+            <Head title="UBC Startups" />
+            <NavigationBar />
+            <Hero
+                heading="UBC Startups"
+                description="Building a startup ecosystem on campus"
+            />
+            <AboutUs />
+            <Stats />
+            <WhatWeOffer />
+            <Partners />
+            <OurEvents />
+            <OurValues />
+            <FAQ />
+            <Footer />
+        </div>
+    );
 };
 
 export default HomePage;

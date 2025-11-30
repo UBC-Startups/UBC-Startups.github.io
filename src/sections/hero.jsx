@@ -5,7 +5,7 @@ import { HashLink } from "react-router-hash-link";
 import logo from "../images/Logo.svg"
 
 
-const HeroContent = styled.div`;
+const HeroContent = styled.div`
     position: relative;
     margin: 0 auto;
     margin-top: 30vh;
@@ -77,7 +77,7 @@ const ButtonContainer = styled.div`
     flex-wrap: wrap;
 `
 
-const NewsletterButton = styled.button`
+const NewsletterButton = styled(HashLink)`
     padding: 15px 40px;
     font-size: 1.1em;
     background: #000000;
@@ -87,6 +87,8 @@ const NewsletterButton = styled.button`
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
     
     &:hover {
         transform: translateY(-2px);
@@ -125,7 +127,7 @@ const Hero = ({heading, description}) => {
                 <HeroTitle>{heading}</HeroTitle>
                 <HeroDes>{description}</HeroDes>
                 <ButtonContainer>
-                    <NewsletterButton>Subscribe to Newsletter</NewsletterButton>
+                    <NewsletterButton smooth to="/#subscription">Subscribe to Newsletter</NewsletterButton>
                     <EventsButton smooth to="/#events">Upcoming Events</EventsButton>
                 </ButtonContainer>
             </HeroContent>

@@ -16,6 +16,7 @@ import FAQ from "../sections/faq";
 import Stats from "../sections/stats";
 import styled from "styled-components";
 import shapeDesign from "../images/HeroShapeDesign.svg";
+import Subscription from "../sections/subscription";
 
 const BackgroundWrapper = styled.div`
     position: absolute;
@@ -57,6 +58,7 @@ const HomePage = () => {
             <OurEvents />
             <OurValues />
             <FAQ />
+            <Subscription/>
             <Footer />
         </div>
     );

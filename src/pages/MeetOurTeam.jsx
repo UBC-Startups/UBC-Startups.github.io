@@ -8,14 +8,12 @@ import TeamMember from "../components/teamMember";
 
 import defaultImg from "../images/Logo.svg"
 import mostafaImg from "../images/teamPhotos/Mostafa.jpeg"
-import nazikImg from "../images/teamPhotos/Nazik.png"
 import andersonImg from "../images/teamPhotos/Anderson-Ko.png"
 import angadImg from "../images/teamPhotos/Angad-Bhalla.jpg"
 import katelynImg from "../images/teamPhotos/Katelyn-Jang.JPG"
 import samuelImg from "../images/teamPhotos/Samuel-Ma.jpeg"
 import lucasImg from "../images/teamPhotos/Lucas-Liu.png"
 import dhananjaiImg from "../images/teamPhotos/Dhananjai Lekhi.png"
-import elisabethImg from "../images/teamPhotos/Elisabeth.png"
 import zianImg from "../images/teamPhotos/Zian.png"
 import anikaImg from "../images/teamPhotos/Anika.png"
 import kaleenaImg from "../images/teamPhotos/Kaleena.png"
@@ -26,7 +24,6 @@ import arpitaImg from "../images/teamPhotos/Arpita.png"
 import ellaImg from "../images/teamPhotos/Ella.png"
 import carolynImg from "../images/teamPhotos/Carolyn.png"
 import adeenaImg from "../images/teamPhotos/Adeena.png"
-import hasanImg from "../images/teamPhotos/Hasan.png"
 import charleneImg from "../images/teamPhotos/Charlene.png"
 import aniketImg from "../images/teamPhotos/Aniket.png"
 import maddieImg from "../images/teamPhotos/Maddie.png"
@@ -110,11 +107,11 @@ const MeetOurTeam = () => {
                         linkedIn="https://www.linkedin.com/in/mostafa57/"
                     />
                     <TeamMember
-                        image={nazikImg}
-                        name="Nazik Zhumashalieva "
+                        image={katelynImg}
+                        name="Katelyn Jang"
                         position=""
                         role="Co-President"
-                        linkedIn="https://www.linkedin.com/in/nazik-zhumashalieva/"
+                        linkedIn="https://www.linkedin.com/in/katelyn-jang-68ba6a2b0/"
                     />
                 </MOTContainer>
 
@@ -125,13 +122,6 @@ const MeetOurTeam = () => {
                         position=""
                         role="VP Finance"
                         linkedIn="https://www.linkedin.com/in/dhananjai-lekhi-218ab2271/"
-                    />
-                    <TeamMember
-                        image={katelynImg}
-                        name="Katelyn Jang"
-                        position=""
-                        role="VP Events"
-                        linkedIn="https://www.linkedin.com/in/katelyn-jang-68ba6a2b0/"
                     />
                     <TeamMember
                         image={ananyaaImg}
@@ -165,7 +155,7 @@ const MeetOurTeam = () => {
                         image={samuelImg}
                         name="Samuel Ma"
                         position=""
-                        role="VP Engagement"
+                        role="VP Internal"
                         linkedIn="https://www.linkedin.com/in/samuel-ma8/"
                     />
                 </MOTContainer>
@@ -237,13 +227,6 @@ const MeetOurTeam = () => {
                         position=""
                         role="Events Director"
                         linkedIn="https://www.linkedin.com/in/carolyn-han-a46636273?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                    />
-                    <TeamMember
-                        image={hasanImg}
-                        name="Hasan Noor"
-                        position=""
-                        role="Events Director"
-                        linkedIn="https://www.linkedin.com/in/hasan-noor/"
                     />
                     <TeamMember
                         image={sabrinaImg}
@@ -365,31 +348,24 @@ const MeetOurTeam = () => {
                         role="Developer"
                         linkedIn="https://www.linkedin.com/in/madilynn-wright/"
                     />
+                    <TeamMember
+                        image={sabrinaImg}
+                        name="Sabrina Yuan"
+                        position=""
+                        role="UI/UX Designer"
+                        linkedIn="https://linkedin.com/in/sabrina-yuan-062b4422b"
+                    />
                 </MOTContainer>
 
-                <TeamSectionText>Engagement</TeamSectionText>
+                <TeamSectionText>Internal</TeamSectionText>
 
                 <MOTContainer>
                     <TeamMember
                         image={rheinImg}
                         name="Rhein Ferdous"
                         position=""
-                        role="Engagement Director"
+                        role="Internal Director"
                         linkedIn="https://www.linkedin.com/in/rhein-ferdous-96b31a1b0/"
-                    />
-                    <TeamMember
-                        image={elisabethImg}
-                        name="Elisabeth Mugerin"
-                        position=""
-                        role="Engagement Director"
-                        linkedIn="https://www.linkedin.com/in/elisabeth-m-951424281"
-                    />
-                    <TeamMember
-                        image={defaultImg}
-                        name="Himanshi Wadhwani"
-                        position=""
-                        role="Engagement Director"
-                        linkedIn="https://www.linkedin.com/in/himanshi-wadhwani-/"
                     />
                 </MOTContainer>
 

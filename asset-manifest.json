@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.7ca38447.css",
-    "main.js": "/static/js/main.0f1e55fe.js",
+    "main.js": "/static/js/main.115d5c3b.js",
     "static/js/453.600f6ea0.chunk.js": "/static/js/453.600f6ea0.chunk.js",
     "static/media/soar2025.jpg": "/static/media/soar2025.1482b28b7ed3f030beed.jpg",
     "static/media/himmi.png": "/static/media/himmi.425d5f6032d68bdb7d8f.png",
@@ -24,7 +24,6 @@
     "static/media/Katelyn-Jang.JPG": "/static/media/Katelyn-Jang.ecff9150fd511145b449.JPG",
     "static/media/Ella.png": "/static/media/Ella.4acd5136e77b4cb33d78.png",
     "static/media/Dhananjai Lekhi.png": "/static/media/Dhananjai Lekhi.f908e2867492f2b75981.png",
-    "static/media/Elisabeth.png": "/static/media/Elisabeth.ad00b3fab3be65ab404a.png",
     "static/media/Roop.png": "/static/media/Roop.a1b987868375ab100b89.png",
     "static/media/Kevish.png": "/static/media/Kevish.a7305f9d7dffd100eb65.png",
     "static/media/Kaleena.png": "/static/media/Kaleena.5a13bce69cad16e0b414.png",
@@ -34,7 +33,6 @@
     "static/media/Zian.png": "/static/media/Zian.8ce48edf2af33ecb75f5.png",
     "static/media/pitchWorkshopImg.png": "/static/media/pitchWorkshopImg.d282a67d13a31107f7e3.png",
     "static/media/Aniket.png": "/static/media/Aniket.c3983990c48f41e998c1.png",
-    "static/media/Hasan.png": "/static/media/Hasan.fc55693b4c883d8770c8.png",
     "static/media/Cindy.png": "/static/media/Cindy.fd91e0dfb4490d4fda45.png",
     "static/media/Jiya.png": "/static/media/Jiya.a3c9540c2988dec52ca5.png",
     "static/media/Maddie.png": "/static/media/Maddie.55114d41e8e45f66fc38.png",
@@ -50,7 +48,6 @@
     "static/media/Logo.svg": "/static/media/Logo.be2c9c1831147b1d7ea4d9c6f5e48b11.svg",
     "static/media/batterup_team.JPG": "/static/media/batterup_team.b61fbf76dd2c99017389.JPG",
     "static/media/Angad-Bhalla.jpg": "/static/media/Angad-Bhalla.dbe1a74cc016840186ba.jpg",
-    "static/media/Nazik.png": "/static/media/Nazik.31ab5b7d4db770463ca9.png",
     "static/media/Rhein.png": "/static/media/Rhein.61e893b15a93343b8334.png",
     "static/media/25under25.jpg": "/static/media/25under25.a022bc1ffc4ba57cdb13.jpg",
     "static/media/AboutImage2.jpg": "/static/media/AboutImage2.53dde60aed181679c1dc.jpg",
@@ -64,11 +61,11 @@
     "static/media/linde.jpeg": "/static/media/linde.e468deef99f3c470b53f.jpeg",
     "index.html": "/index.html",
     "main.7ca38447.css.map": "/static/css/main.7ca38447.css.map",
-    "main.0f1e55fe.js.map": "/static/js/main.0f1e55fe.js.map",
+    "main.115d5c3b.js.map": "/static/js/main.115d5c3b.js.map",
     "453.600f6ea0.chunk.js.map": "/static/js/453.600f6ea0.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7ca38447.css",
-    "static/js/main.0f1e55fe.js"
+    "static/js/main.115d5c3b.js"
   ]
 }

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import EventBox from "../components/event";
 
-import AboutImage1 from "../images/AboutImage1.jpg";
 import SoarImage  from "../images/eventPhotos/soarImage.png"
+import startupGames from "../images/eventPhotos/startup_games.jpg"
 
 const OurEventsContainer = styled.div`
     margin: 5% 0px;
@@ -51,12 +51,12 @@ const OurEvents = () => {
     // only display upcoming 2 events
     const events = [
         {
-            img: AboutImage1,
-            title: "Found(Her)'s Brunch  (2026W)",
+            img: startupGames,
+            title: "Startup Games (2026W)",
             description:
-                "Celebrate International Women's Day with Found(Her)'s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
-            month: "March",
-            day: "8",
+                "The Startup Games is a high-stakes, Squid Game–inspired competition where 30 founders face four startup challenges testing their pitch, adaptability, teamwork, and strategy. Guided by masked VIP judges and watched by “guards,” players are eliminated each round until one founder remains - crowned the UBC Startup Champion and winning mentorship and $500, as well as a guaranteed spot at SOAR.",
+            month: "Feb",
+            day: "4",
             year: 2026,
             category: "upcoming",
             imgTop: "-100px",

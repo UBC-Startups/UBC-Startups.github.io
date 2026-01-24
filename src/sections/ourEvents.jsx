@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import EventBox from "../components/event";
 
-import AboutImage1 from "../images/AboutImage1.jpg";
 import SoarImage  from "../images/eventPhotos/soarImage.png"
+import startupGames from "../images/eventPhotos/startup_games.jpg"
 
 const OurEventsContainer = styled.div`
     margin: 5% 0px;
@@ -51,15 +51,16 @@ const OurEvents = () => {
     // only display upcoming 2 events
     const events = [
         {
-            img: AboutImage1,
-            title: "Found(Her)'s Brunch  (2026W)",
+            img: startupGames,
+            title: "The Startup Games (2026W)",
             description:
-                "Celebrate International Women's Day with Found(Her)'s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
-            month: "March",
-            day: "8",
+                "Startup Games is a fast-paced, team-based event where you’ll tackle real startup challenges and collaborate with other students. The event is designed to be interactive, hands-on, and high-energy, with a competitive but approachable environment. ​Whether you’re interested in startups, entrepreneurship, consulting, product, or innovation, this is a low-barrier way to build skills, network, and gain real-world experience.",
+            month: "Feb",
+            day: "4",
             year: 2026,
             category: "upcoming",
             imgTop: "-100px",
+            posterLink: "/event-poster/startup-games-2026",
         },
         {
             img: SoarImage,

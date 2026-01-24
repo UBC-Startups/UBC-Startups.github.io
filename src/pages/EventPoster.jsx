@@ -178,22 +178,22 @@ const eventData = {
     signupLink: "https://luma.com/9eo2rwv1",
     capacity: "No personal laptops"
   },
-  "foundher-brunch-2026": {
-    title: "Found(Her)'s Brunch (2026W)",
-    date: "March 8, 2026",
-    time: "11:00 AM - 2:00 PM",
-    location: "UBC Life Building, Multi-Purpose Room",
-    image: require("../images/AboutImage1.jpg"),
-    description: "Celebrate International Women's Day with Found(Her)'s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
+  "startup-games-2026": {
+    title: "The Startup Games",
+    date: "February 4, 2026",
+    time: "5:00 PM - 8:00 PM",
+    location: "AMS Student Nest, Great Hall North",
+    image: require("../images/eventPhotos/startup_poster.jpg"),
+    description: "Startup Games is a fast-paced, team-based event where you’ll tackle real startup challenges and collaborate with other students. ​You’ll be placed into small teams and asked to analyze problems, think strategically, and make decisions under time pressure. The event is designed to be interactive, hands-on, and high-energy, with a competitive but approachable environment. ​Whether you’re interested in startups, entrepreneurship, consulting, product, or innovation, this is a low-barrier way to build skills, network, and gain real-world experience.",
     highlights: [
-      "Panel discussions with successful women founders",
-      "Interactive Q&A sessions",
-      "Networking opportunities with women leaders",
-      "Inspiring talks on entrepreneurship and empowerment",
-      "Complimentary brunch and refreshments"
+      "Talk to real users",
+      "Pivot based on live feedback",
+      "Pitch your comeback in 2 minutes",
+      "Network with experienced mentors",
+      "Think fast. Build smarter. Save the startup."
     ],
-    signupLink: "https://forms.gle/yourSignupLink",
-    capacity: "Limited to 120 attendees"
+    signupLink: "https://luma.com/okz4hpvy",
+    capacity: "Light snacks and drinks will be provided. Spots are limited. No prior experience required."
   },
   "soar-2026": {
     title: "SOAR (2026W)",

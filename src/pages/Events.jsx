@@ -17,6 +17,7 @@ import PitchWImage from "../images/eventPhotos/pitchWorkshopImg.png";
 import SoarImage from "../images/eventPhotos/soarImage.png";
 import liftoff from "../images/eventPhotos/liftoff_events.jpg";
 import crisisRoom from "../images/eventPhotos/event_poster.png";
+import startupGames from "../images/eventPhotos/startup_games.jpg";
 
 const Container = styled.div`
     overflow-x: hidden;
@@ -102,16 +103,16 @@ const Events = () => {
 
     const events = [
         {
-            img: crisisRoom,
-            title: "Crisis Room (2025W)",
+            img: startupGames,
+            title: "The Startup Games (2026W)",
             description:
-                "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
-            month: "Nov",
-            day: "24",
-            year: 2025,
-            category: "prev",
+                "Startup Games is a fast-paced, team-based event where you’ll tackle real startup challenges and collaborate with other students. The event is designed to be interactive, hands-on, and high-energy, with a competitive but approachable environment. ​Whether you’re interested in startups, entrepreneurship, consulting, product, or innovation, this is a low-barrier way to build skills, network, and gain real-world experience.",
+            month: "Feb",
+            day: "4",
+            year: 2026,
+            category: "upcoming",
             imgTop: "-100px",
-            posterLink: "/event-poster/innovation-olympics-2025",
+            posterLink: "/event-poster/startup-games-2026",
         },
         {
             img: SoarImage,
@@ -123,17 +124,18 @@ const Events = () => {
             year: 2026,
             category: "upcoming",
             imgTop: "-20px",
-        },
+        }, 
         {
-            img: AboutImage1,
-            title: "Found(Her)'s Brunch  (2026W)",
+            img: crisisRoom,
+            title: "Crisis Room (2025W)",
             description:
-                "Celebrate International Women's Day with Found(Her)'s Brunch, featuring talks, Q&A, and networking with successful women founders and leaders. Connect, be inspired, and engage in conversations about entrepreneurship and empowerment.",
-            month: "March",
-            day: "8",
-            year: 2026,
-            category: "upcoming",
+                "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
+            month: "Nov",
+            day: "24",
+            year: 2025,
+            category: "prev",
             imgTop: "-100px",
+            posterLink: "/event-poster/innovation-olympics-2025",
         },
         {
             img: liftoff,

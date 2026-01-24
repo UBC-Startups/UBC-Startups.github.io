@@ -104,14 +104,15 @@ const Events = () => {
     const events = [
         {
             img: startupGames,
-            title: "Startup Games (2026W)",
+            title: "The Startup Games (2026W)",
             description:
-                "The Startup Games is a high-stakes, Squid Game–inspired competition where 30 founders face four startup challenges testing their pitch, adaptability, teamwork, and strategy. Guided by masked VIP judges and watched by “guards,” players are eliminated each round until one founder remains - crowned the UBC Startup Champion and winning mentorship and $500, as well as a guaranteed spot at SOAR.",
+                "Startup Games is a fast-paced, team-based event where you’ll tackle real startup challenges and collaborate with other students. The event is designed to be interactive, hands-on, and high-energy, with a competitive but approachable environment. ​Whether you’re interested in startups, entrepreneurship, consulting, product, or innovation, this is a low-barrier way to build skills, network, and gain real-world experience.",
             month: "Feb",
             day: "4",
             year: 2026,
             category: "upcoming",
             imgTop: "-100px",
+            posterLink: "/event-poster/startup-games-2026",
         },
         {
             img: SoarImage,

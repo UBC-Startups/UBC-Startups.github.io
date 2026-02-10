@@ -55,7 +55,7 @@ const OurEvents = () => {
             description:
                 "SOAR is the university's largest pitch competition with a $10,000 prize pool! Student founders pitch their ideas to investors and industry leaders, receive feedback, and compete for funding. With networking, lunch, and a full day of presentations, SOAR is the perfect way to be inspired and support the next wave of UBC entrepreneurs.",
             month: "March",
-            day: "21",
+            day: "22",
             year: 2026,
             category: "upcoming",
             imgTop: "-20px",

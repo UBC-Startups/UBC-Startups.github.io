@@ -3,7 +3,6 @@ import styled from "styled-components";
 import EventBox from "../components/event";
 
 import SoarImage  from "../images/eventPhotos/soarImage.png"
-import startupGames from "../images/eventPhotos/startup_games.jpg"
 
 const OurEventsContainer = styled.div`
     margin: 5% 0px;
@@ -50,18 +49,6 @@ const EventsGrid = styled.div`
 const OurEvents = () => {
     // only display upcoming 2 events
     const events = [
-        {
-            img: startupGames,
-            title: "The Startup Games (2026W)",
-            description:
-                "Startup Games is a fast-paced, team-based event where you’ll tackle real startup challenges and collaborate with other students. The event is designed to be interactive, hands-on, and high-energy, with a competitive but approachable environment. ​Whether you’re interested in startups, entrepreneurship, consulting, product, or innovation, this is a low-barrier way to build skills, network, and gain real-world experience.",
-            month: "Feb",
-            day: "4",
-            year: 2026,
-            category: "upcoming",
-            imgTop: "-100px",
-            posterLink: "/event-poster/startup-games-2026",
-        },
         {
             img: SoarImage,
             title: "SOAR (2026W)",

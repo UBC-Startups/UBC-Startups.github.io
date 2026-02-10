@@ -9,7 +9,7 @@ const Card = styled.div`
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     text-align: left;
-    width: 100%;
+    width: 580px;
     transition: all 0.3s ease;
 
     @media (max-width: 768px) {
@@ -85,36 +85,36 @@ const PosterButton = styled.button`
 `;
 
 const EventBox = ({ img, title, description, month, day, posterLink }) => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const handlePosterClick = () => {
-    if (posterLink) {
-      navigate(posterLink);
-    }
-  };
+    const handlePosterClick = () => {
+        if (posterLink) {
+            navigate(posterLink);
+        }
+    };
 
-  return (
-    <Card>
-      <ImageContainer>
-        <Img src={img} alt={title} />
-      </ImageContainer>
-      <Content>
-        <Title>{title}</Title>
-        <DateContainer>
-        <DateImg src={date} alt="Date Icon" />
-        <DateTag>
-          {month} {day}
-        </DateTag>
-        </DateContainer>
-        <Description>{description}</Description>
-        {posterLink && (
-          <PosterButton onClick={handlePosterClick}>
-            View Event Details & Sign Up
-          </PosterButton>
-        )}
-      </Content>
-    </Card>
-  );
+    return (
+        <Card>
+            <ImageContainer>
+                <Img src={img} alt={title} />
+            </ImageContainer>
+            <Content>
+                <Title>{title}</Title>
+                <DateContainer>
+                    <DateImg src={date} alt="Date Icon" />
+                    <DateTag>
+                        {month} {day}
+                    </DateTag>
+                </DateContainer>
+                <Description>{description}</Description>
+                {posterLink && (
+                    <PosterButton onClick={handlePosterClick}>
+                        View Event Details & Sign Up
+                    </PosterButton>
+                )}
+            </Content>
+        </Card>
+    );
 };
 
 export default EventBox;

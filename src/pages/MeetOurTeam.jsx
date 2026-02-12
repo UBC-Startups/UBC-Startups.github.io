@@ -127,8 +127,15 @@ const MeetOurTeam = () => {
                         image={ananyaaImg}
                         name="Ananyaa Kartik"
                         position=""
-                        role="VP Events"
+                        role="Co-VP Events"
                         linkedIn="https://linkedin.com/in/ananyaa-kartik-929b55244"
+                    />
+                    <TeamMember
+                        image={carolynImg}
+                        name="Carolyn Han"
+                        position=""
+                        role="Co-VP Events"
+                        linkedIn="https://www.linkedin.com/in/carolyn-han-a46636273?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
                     />
                     <TeamMember
                         image={eshaanImg}
@@ -157,6 +164,13 @@ const MeetOurTeam = () => {
                         position=""
                         role="VP Internal"
                         linkedIn="https://www.linkedin.com/in/samuel-ma8/"
+                    />
+                    <TeamMember
+                        image={shauryaImg}
+                        name="Shaurya Ahuja"
+                        position=""
+                        role="VP Admin"
+                        linkedIn="https://www.linkedin.com/in/shauryaahuja/"
                     />
                 </MOTContainer>
 
@@ -196,11 +210,18 @@ const MeetOurTeam = () => {
                         linkedIn="https://linkedin.com/in/arpita-m-217b05212"
                     />
                     <TeamMember
-                        image={shauryaImg}
-                        name="Shaurya Ahuja"
+                        image={defaultImg}
+                        name="Ines Bouvier"
                         position=""
                         role="Finance Director"
-                        linkedIn="https://www.linkedin.com/in/shauryaahuja/"
+                        linkedIn="defaultImg"
+                    />
+                    <TeamMember
+                        image={cindyImg}
+                        name="Cindy Li"
+                        position=""
+                        role="First-Year Rep"
+                        linkedIn="https://linkedin.com/in/cindyli-ubcsauder29"
                     />
                 </MOTContainer>
 
@@ -222,18 +243,32 @@ const MeetOurTeam = () => {
                         linkedIn="https://www.linkedin.com/in/aryan-singh-59a26226b/"
                     />
                     <TeamMember
-                        image={carolynImg}
-                        name="Carolyn Han"
-                        position=""
-                        role="Events Director"
-                        linkedIn="https://www.linkedin.com/in/carolyn-han-a46636273?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                    />
-                    <TeamMember
                         image={sabrinaImg}
                         name="Sabrina Yuan"
                         position=""
                         role="Events Director"
                         linkedIn="https://linkedin.com/in/sabrina-yuan-062b4422b"
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Mira Pascuzzi"
+                        position=""
+                        role="Events Director"
+                        linkedIn=""
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Sana Jalali"
+                        position=""
+                        role="Events Director"
+                        linkedIn=""
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Nicole Li"
+                        position=""
+                        role="Events Director"
+                        linkedIn=""
                     />
                 </MOTContainer>
 
@@ -248,45 +283,66 @@ const MeetOurTeam = () => {
                         linkedIn="https://www.linkedin.com/in/roopkaurdhillon/"
                     />
                     <TeamMember
+                        image={defaultImg}
+                        name="Annie Fei"
+                        position=""
+                        role="Marketing Director"
+                        linkedIn=""
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Franklin Yuan"
+                        position=""
+                        role="Marketing Director"
+                        linkedIn=""
+                    />
+                    <TeamMember
                         image={stevenImg}
                         name="Steven Cen"
                         position=""
-                        role="Marketing Director"
+                        role="Content Creator"
                         linkedIn="https://www.linkedin.com/in/stevencen"
                     />
                     <TeamMember
                         image={ellaImg}
                         name="Ella Chow"
                         position=""
-                        role="Marketing Director"
+                        role="Content Creator"
                         linkedIn="https://www.linkedin.com/in/ellachow26"
                     />
                     <TeamMember
                         image={zianImg}
                         name="Zian Zhao"
                         position=""
-                        role="Marketing Director"
+                        role="Graphic Designer"
                         linkedIn="https://www.linkedin.com/in/zian-zhao-87b18235a/"
                     />
                     <TeamMember
-                        image={charleneImg}
-                        name="Charlene Lo"
+                        image={defaultImg}
+                        name="Dilna Davi"
                         position=""
-                        role="Marketing Director"
-                        linkedIn="https://www.linkedin.com/in/charlene-lo?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                        role="Graphic Designer"
+                        linkedIn=""
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Robin Tokko"
+                        position=""
+                        role="Graphic Designer"
+                        linkedIn=""
                     />
                     <TeamMember
                         image={aniketImg}
                         name="Aniket Nemade"
                         position=""
-                        role="Marketing Director"
+                        role="Photographer"
                         linkedIn="https://www.linkedin.com/in/aniket-nemade"
                     />
                     <TeamMember
                         image={jiyaImg}
                         name="Jiya Grover"
                         position=""
-                        role="Marketing Director"
+                        role="Videographer"
                         linkedIn="https://www.linkedin.com/in/jiya-grover-18b381279/"
                     />
                 </MOTContainer>
@@ -330,11 +386,18 @@ const MeetOurTeam = () => {
                         linkedIn="https://www.linkedin.com/in/ayaan-kapoor-7b21aa2a1/"
                     />
                     <TeamMember
-                        image={cindyImg}
-                        name="Cindy Li"
+                        image={jiyaImg}
+                        name="Jiya Grover"
                         position=""
-                        role="First-Year Rep"
-                        linkedIn="https://linkedin.com/in/cindyli-ubcsauder29"
+                        role="Partnerships Director"
+                        linkedIn="https://www.linkedin.com/in/jiya-grover-18b381279/"
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Taha Salim"
+                        position=""
+                        role="Partnerships Director"
+                        linkedIn=""
                     />
                 </MOTContainer>
 
@@ -355,17 +418,38 @@ const MeetOurTeam = () => {
                         role="UI/UX Designer"
                         linkedIn="https://linkedin.com/in/sabrina-yuan-062b4422b"
                     />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Zahra Fiandika"
+                        position=""
+                        role="UI/UX Designer"
+                        linkedIn=""
+                    />
                 </MOTContainer>
 
                 <TeamSectionText>Internal</TeamSectionText>
 
                 <MOTContainer>
                     <TeamMember
-                        image={rheinImg}
-                        name="Rhein Ferdous"
+                        image={defaultImg}
+                        name="Lauren Park"
                         position=""
                         role="Internal Director"
-                        linkedIn="https://www.linkedin.com/in/rhein-ferdous-96b31a1b0/"
+                        linkedIn=""
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Naina Dhawan"
+                        position=""
+                        role="Internal Director"
+                        linkedIn=""
+                    />
+                    <TeamMember
+                        image={defaultImg}
+                        name="Amarlin Battur"
+                        position=""
+                        role="Internal Director"
+                        linkedIn=""
                     />
                 </MOTContainer>
 

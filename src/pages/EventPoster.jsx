@@ -196,21 +196,22 @@ const eventData = {
     capacity: "Light snacks and drinks will be provided. Spots are limited. No prior experience required."
   },
   "soar-2026": {
-    title: "SOAR (2026W)",
+    title: "SOAR 2026",
     date: "March 21, 2026",
     time: "9:00 AM - 5:00 PM",
     location: "UBC Life Building, Main Auditorium",
-    image: require("../images/eventPhotos/soarImage.png"),
-    description: "SOAR is the university's largest pitch competition with a $10,000 prize pool! Student founders pitch their ideas to investors and industry leaders, receive feedback, and compete for funding. With networking, lunch, and a full day of presentations, SOAR is the perfect way to be inspired and support the next wave of UBC entrepreneurs.",
+    image: require("../images/eventPhotos/SOAR.png"),
+    description: "Where UBC's boldest ideas take flight. ✈️ SOAR is UBC's flagship startup pitch competition, open to students across all faculties and experience levels. Founders at any stage—from early ideas to teams ready to scale—are welcome to compete. Whether you're testing an idea or building momentum, SOAR is where ideas turn into action.",
     highlights: [
-      "Compete for $10,000 in non-dilutive funding",
-      "Pitch to real investors and industry leaders",
-      "Receive expert feedback on your startup",
-      "Full day of networking and presentations",
-      "Lunch and refreshments provided"
+      "💰 $10,000 non-dilutive cash prize",
+      "👔 Pitch to Canadian VCs & angel investors who will attend live",
+      "📈 Investors may reach out to teams, regardless of who wins",
+      "🎯 Gain feedback, visibility, and real connections in UBC's startup ecosystem",
+      "🏆 Two-round format: Online application → Live pitch to industry judges",
+      "⏰ Application Deadline: March 10, 11:59 PM PST"
     ],
-    signupLink: "https://forms.gle/yourSignupLink",
-    capacity: "Limited to 200 attendees - Apply early!"
+    signupLink: "https://forms.gle/mUd3EHgtAnxCLAS67",
+    capacity: "Open to all UBC students across all faculties and experience levels. Apply by March 10!"
   },
   "sample-event": {
     title: "UBC Startups Networking Night",

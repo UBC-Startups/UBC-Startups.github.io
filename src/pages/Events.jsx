@@ -15,6 +15,7 @@ import GtwImage from "../images/eventPhotos/gainingTractionImg.jpg";
 import PrototypingWImage from "../images/eventPhotos/prototypingWorkshopImg.jpg";
 import PitchWImage from "../images/eventPhotos/pitchWorkshopImg.png";
 import SoarImage from "../images/eventPhotos/soarImage.png";
+import SoarImage2026 from "../images/eventPhotos/SOAR.png";
 import liftoff from "../images/eventPhotos/liftoff_events.jpg";
 import crisisRoom from "../images/eventPhotos/event_poster.png";
 import startupGames from "../images/eventPhotos/startup_games.jpg";
@@ -103,8 +104,8 @@ const Events = () => {
 
     const events = [
         {
-            img: SoarImage,
-            title: "SOAR (2026W)",
+            img: SoarImage2026,
+            title: "SOAR (2026)",
             description:
                 "SOAR is the university's largest pitch competition with a $10,000 prize pool! Student founders pitch their ideas to investors and industry leaders, receive feedback, and compete for funding. With networking, lunch, and a full day of presentations, SOAR is the perfect way to be inspired and support the next wave of UBC entrepreneurs.",
             month: "March",
@@ -112,10 +113,11 @@ const Events = () => {
             year: 2026,
             category: "upcoming",
             imgTop: "-20px",
+            posterLink: "/event-poster/soar-2026",
         }, 
         {
             img: startupGames,
-            title: "The Startup Games (2026W)",
+            title: "The Startup Games (2026)",
             description:
                 "Startup Games is a fast-paced, team-based event where you’ll tackle real startup challenges and collaborate with other students. The event is designed to be interactive, hands-on, and high-energy, with a competitive but approachable environment. ​Whether you’re interested in startups, entrepreneurship, consulting, product, or innovation, this is a low-barrier way to build skills, network, and gain real-world experience.",
             month: "Feb",
@@ -127,7 +129,7 @@ const Events = () => {
         },
         {
             img: crisisRoom,
-            title: "Crisis Room (2025W)",
+            title: "Crisis Room (2025)",
             description:
                 "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
             month: "Nov",
@@ -139,7 +141,7 @@ const Events = () => {
         },
         {
             img: liftoff,
-            title: "Lift-Off and Welcome Event (2025W)",
+            title: "Lift-Off and Welcome Event (2025)",
             description:
                 "UBC Startups is kicking off the year with a high-energy welcome event featuring an interactive investing game with industry professionals. Enjoy snacks, networking, and stories from past founders while getting a sneak peek at upcoming opportunities.",
             month: "Oct",
@@ -150,7 +152,7 @@ const Events = () => {
         },
         {
             img: FSAISAAS,
-            title: "InnoVision (2024W)",
+            title: "InnoVision (2024)",
             description:
                 "InnoVision will be our 2nd event of the year, where future entrepreneurs have the opportunity to network and connect with entrepreneurs from and outside of UBC. After the panel, there will be a group activity to ideate a product and pitch it to the panel, followed by open networking!",
             month: "Nov",
@@ -161,7 +163,7 @@ const Events = () => {
         },
         {
             img: AboutImage1,
-            title: "Founders Spotlight (2024W)",
+            title: "Founders Spotlight (2024)",
             description:
                 "There will be a diverse panel who have founded their own successful startups speak about their journey and you will have the opportunity to ask them about their experiences or any other questions about the industry. At the end, there is a open networking session!",
             month: "Sept",
@@ -172,7 +174,7 @@ const Events = () => {
         },
         {
             img: SoarImage,
-            title: "SOAR (2023W)",
+            title: "SOAR (2023)",
             description:
                 "UBC Startups in partnership with the CSSS are thrilled to announce the first iteration of the SOAR Startup Pitch Competition, a premier event designed to showcase the entrepreneurial talent and innovative ideas within the UBC community. There will be a $10,000 non-dilutive cash prize!",
             month: "Mar",
@@ -183,7 +185,7 @@ const Events = () => {
         },
         {
             img: PitchWImage,
-            title: "Workshop 3: Pitch Perfect (2023W)",
+            title: "Workshop 3: Pitch Perfect (2023)",
             description:
                 "Pitch perfect, organized by UBC Startups in collaboration with the CSSS will prepare students for SOAR. It's part of a series aimed at equipping student founders with essential skills for success in the startup landscape, focusing on pitching products effectively",
             month: "Mar",
@@ -193,7 +195,7 @@ const Events = () => {
         },
         {
             img: GtwImage,
-            title: "Workshop 2: Gaining Traction (2023W)",
+            title: "Workshop 2: Gaining Traction (2023)",
             description:
                 "A workshop hosted in collaboration with the CSSS, targets students preparing for SOAR. As part of a series of workshops, it aims to equip future student founders with skills crucial for success in the startup scene, focusing on gaining traction for their products through insights and interactive learning opportunities.",
             month: "Feb",
@@ -204,7 +206,7 @@ const Events = () => {
         },
         {
             img: PrototypingWImage,
-            title: "Workshop 1: Prototyping & Product Design (2023W)",
+            title: "Workshop 1: Prototyping & Product Design (2023)",
             description:
                 "This workshop provided insights and interactive learning opportunities from both a designer's and a developer's perspective, designed to cultivate a deep understanding of product design and prototyping – skills essential for success in the competitive startup landscape.",
             month: "Jan",
@@ -214,7 +216,7 @@ const Events = () => {
         },
         {
             img: FSAISAAS,
-            title: "Founder Spotlight: AI/SaaS (2023W)",
+            title: "Founder Spotlight: AI/SaaS (2023)",
             description:
                 "A networking event in partnership with the Computer Science Student Society (CSSS). Provided students with a chance to connect with AI and SaaS industry leaders, fostering a sense of community among budding entrepreneurs.",
             month: "Sept",
@@ -224,7 +226,7 @@ const Events = () => {
         },
         {
             img: HIMMIImage,
-            title: "How I met my Intern (2022W)",
+            title: "How I met my Intern (2022)",
             description:
                 "An event that aims to provide opportunities for entrepreneurial students at UBC to meet Vancouver-based startups that are hiring for internships. Startups that attend this event will be hiring interns exclusively from UBC, so this is an invaluable opportunity for students to make lasting impressions on hiring managers.",
             month: "Mar",
@@ -234,7 +236,7 @@ const Events = () => {
         },
         {
             img: TwentyFiveBrunchImg,
-            title: "25 Under 25 Brunch (2022W)",
+            title: "25 Under 25 Brunch (2022)",
             description:
                 "A brunch hosted by UBC Startups, Dyne, and eHub where successful entrepreneurs were invited to network with one another. Students at the event also got the opportunity to network with existing entrepreneurs and to gain insight from them, and one another.",
             month: "Nov",
@@ -244,7 +246,7 @@ const Events = () => {
         },
         {
             img: AboutImage2,
-            title: "How I Met Your Founder (2022W)",
+            title: "How I Met Your Founder (2022)",
             description:
                 "‘How I Met Your Founder’, sponsored by Contrary Capital, was an opportunity for students from different faculties to get advice from experienced entrepreneurs, and develop a sense of camaraderie as aspiring entrepreneurs.",
             month: "Sept",

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import EventBox from "../components/event";
 
-import SoarImage  from "../images/eventPhotos/soarImage.png"
+import SoarImage  from "../images/eventPhotos/SOAR.png"
 
 const OurEventsContainer = styled.div`
     margin: 5% 0px;
@@ -59,6 +59,7 @@ const OurEvents = () => {
             year: 2026,
             category: "upcoming",
             imgTop: "-20px",
+            posterLink: "/event-poster/soar-2026",
         },
     ];
 

@@ -6,6 +6,8 @@ import HomePage from './pages/Home.jsx';
 import MeetOurTeam from './pages/MeetOurTeam.jsx';
 import Events from './pages/Events.jsx';
 import EventPoster from './pages/EventPoster.jsx';
+import SOAR from "./pages/SOAR";
+
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
           <Route path="/events" element={<Events />} />
           <Route path="/event-poster/:eventId" element={<EventPoster />} />
           {/* <Route path="/opportunities" element={<OpportunitiesPage />} /> */}
+          <Route path="/event-poster/soar-2026" element={<SOAR />} />
         </Routes>
       </Router>
     );

@@ -201,24 +201,6 @@ const eventData = {
         signupLink: "https://luma.com/okz4hpvy",
         capacity: "Light snacks and drinks will be provided. Spots are limited. No prior experience required."
     },
-    "soar-2026": {
-        title: "SOAR 2026",
-        date: "March 22, 2026",
-        time: "10:00 AM - 2:00 PM",
-        location: "UBC Sauder School of Business, The Big 4 Conference Centre, 9th Floor",
-        image: require("../images/eventPhotos/SOAR.png"),
-        description: "Where UBC's boldest ideas take flight. ✈️ SOAR is UBC's flagship startup pitch competition, open to students across all faculties and experience levels. Founders at any stage—from early ideas to teams ready to scale—are welcome to compete. Whether you're testing an idea or building momentum, SOAR is where ideas turn into action.",
-        highlights: [
-            "💰 $10,000 non-dilutive cash prize",
-            "👔 Pitch to Canadian VCs & angel investors who will attend live",
-            "📈 Investors may reach out to teams, regardless of who wins",
-            "🎯 Gain feedback, visibility, and real connections in UBC's startup ecosystem",
-            "🏆 Two-round format: Online application → Live pitch to industry judges",
-            "⏰ Application Deadline: March 10, 11:59 PM PST"
-        ],
-        signupLink: "https://forms.gle/mUd3EHgtAnxCLAS67",
-        capacity: "Open to all UBC students across all faculties and experience levels. Apply by March 10!"
-    },
     "sample-event": {
         title: "UBC Startups Networking Night",
         date: "December 5, 2025",
@@ -299,47 +281,13 @@ const EventPoster = () => {
                             </DetailsSection>
 
                             <SignUpSection>
-                                {eventId === "soar-2026" ? (
-                                    <>
-                                        <SignUpButton
-                                            href="https://docs.google.com/document/d/1nKYKuUSEwx9d4x-68LYIr451P_VBsC3MhzjVL6ZJCHs/edit?tab=t.0"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            SOAR Rules
-                                        </SignUpButton>
-
-                                        <SignUpButton
-                                            href={event.signupLink}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                        >
-                                            Apply to Pitch
-                                        </SignUpButton>
-
-                                        {/* disabled soar attend button till luma link available */}
-                                        <SignUpButton
-                                            as="button"
-                                            disabled
-                                            style={{
-                                                background: "#333333",
-                                                opacity: 0.6,
-                                                cursor: "not-allowed",
-                                                boxShadow: "none"
-                                            }}
-                                        >
-                                            Attend SOAR
-                                        </SignUpButton>
-                                    </>
-                                ) : (
-                                    <SignUpButton
-                                        href={event.signupLink}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        Sign Up Now
-                                    </SignUpButton>
-                                )}
+                                <SignUpButton
+                                    href={event.signupLink}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    Sign Up Now
+                                </SignUpButton>
                             </SignUpSection>
 
 

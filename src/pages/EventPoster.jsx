@@ -94,7 +94,13 @@ const SignUpSection = styled.div`
   padding: 40px 0;
   border-top: 2px solid #f1f3f5;
   margin-top: 30px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
 `;
+
 
 const SignUpButton = styled.a`
   display: inline-block;
@@ -161,154 +167,193 @@ const ContactInfo = styled.p`
 
 // Event data - you can customize these for your specific events
 const eventData = {
-  "innovation-olympics-2025": {
-    title: "The Crisis Room Challenge",
-    date: "November 24, 2025",
-    time: "6:00 PM - 8:30 PM",
-    location: "UBC Life Building, Room 2202",
-    image: require("../images/eventPhotos/event_poster.png"),
-    description: "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
-    highlights: [
-      "Hands-on experience in strategy and crisis management",
-      "Respond to cyberattacks, investment freezes & global disruptions",
-      "Debate, negotiate, and defend your plan",
-      "Get judged by real industry professionals",
-      "Earn awards for diplomacy, leadership, and insight"
-    ],
-    signupLink: "https://luma.com/9eo2rwv1",
-    capacity: "No personal laptops"
-  },
-  "startup-games-2026": {
-    title: "The Startup Games",
-    date: "February 4, 2026",
-    time: "5:00 PM - 8:00 PM",
-    location: "AMS Student Nest, Great Hall North",
-    image: require("../images/eventPhotos/startup_poster.jpg"),
-    description: "Startup Games is a fast-paced, team-based event where you’ll tackle real startup challenges and collaborate with other students. ​You’ll be placed into small teams and asked to analyze problems, think strategically, and make decisions under time pressure. The event is designed to be interactive, hands-on, and high-energy, with a competitive but approachable environment. ​Whether you’re interested in startups, entrepreneurship, consulting, product, or innovation, this is a low-barrier way to build skills, network, and gain real-world experience.",
-    highlights: [
-      "Talk to real users",
-      "Pivot based on live feedback",
-      "Pitch your comeback in 2 minutes",
-      "Network with experienced mentors",
-      "Think fast. Build smarter. Save the startup."
-    ],
-    signupLink: "https://luma.com/okz4hpvy",
-    capacity: "Light snacks and drinks will be provided. Spots are limited. No prior experience required."
-  },
-  "soar-2026": {
-    title: "SOAR 2026",
-    date: "March 21, 2026",
-    time: "9:00 AM - 5:00 PM",
-    location: "UBC Life Building, Main Auditorium",
-    image: require("../images/eventPhotos/SOAR.png"),
-    description: "Where UBC's boldest ideas take flight. ✈️ SOAR is UBC's flagship startup pitch competition, open to students across all faculties and experience levels. Founders at any stage—from early ideas to teams ready to scale—are welcome to compete. Whether you're testing an idea or building momentum, SOAR is where ideas turn into action.",
-    highlights: [
-      "💰 $10,000 non-dilutive cash prize",
-      "👔 Pitch to Canadian VCs & angel investors who will attend live",
-      "📈 Investors may reach out to teams, regardless of who wins",
-      "🎯 Gain feedback, visibility, and real connections in UBC's startup ecosystem",
-      "🏆 Two-round format: Online application → Live pitch to industry judges",
-      "⏰ Application Deadline: March 10, 11:59 PM PST"
-    ],
-    signupLink: "https://forms.gle/mUd3EHgtAnxCLAS67",
-    capacity: "Open to all UBC students across all faculties and experience levels. Apply by March 10!"
-  },
-  "sample-event": {
-    title: "UBC Startups Networking Night",
-    date: "December 5, 2025",
-    time: "6:00 PM - 9:00 PM",
-    location: "UBC Life Building, Room 2201",
-    image: require("../images/eventPhotos/liftoff_events.jpg"),
-    description: "Join us for an exciting evening of networking, learning, and connecting with fellow entrepreneurs at UBC! Whether you're just starting your entrepreneurial journey or already running a startup, this event is the perfect opportunity to meet like-minded individuals, share ideas, and build meaningful connections.",
-    highlights: [
-      "Network with 100+ student entrepreneurs and founders",
-      "Hear from successful UBC alumni founders",
-      "Free food and refreshments",
-      "Startup pitch sessions",
-      "Workshop on fundraising basics"
-    ],
-    signupLink: "https://forms.gle/yourSignupLink",
-    capacity: "Limited to 150 attendees"
-  }
+    "innovation-olympics-2025": {
+        title: "The Crisis Room Challenge",
+        date: "November 24, 2025",
+        time: "6:00 PM - 8:30 PM",
+        location: "UBC Life Building, Room 2202",
+        image: require("../images/eventPhotos/event_poster.png"),
+        description: "Join us for the Crisis Room Challenge — a fast-paced event where teams act as startup leaders navigating back-to-back crises in the tech industry. This event is a Model UN-style competition which will challenge your skills in analyzing scenarios, innovating rapid solutions, and pitching your strategies to a panel of industry professionals.",
+        highlights: [
+            "Hands-on experience in strategy and crisis management",
+            "Respond to cyberattacks, investment freezes & global disruptions",
+            "Debate, negotiate, and defend your plan",
+            "Get judged by real industry professionals",
+            "Earn awards for diplomacy, leadership, and insight"
+        ],
+        signupLink: "https://luma.com/9eo2rwv1",
+        capacity: "No personal laptops"
+    },
+    "startup-games-2026": {
+        title: "The Startup Games",
+        date: "February 4, 2026",
+        time: "5:00 PM - 8:00 PM",
+        location: "AMS Student Nest, Great Hall North",
+        image: require("../images/eventPhotos/startup_poster.jpg"),
+        description: "Startup Games is a fast-paced, team-based event where you’ll tackle real startup challenges and collaborate with other students. ​You’ll be placed into small teams and asked to analyze problems, think strategically, and make decisions under time pressure. The event is designed to be interactive, hands-on, and high-energy, with a competitive but approachable environment. ​Whether you’re interested in startups, entrepreneurship, consulting, product, or innovation, this is a low-barrier way to build skills, network, and gain real-world experience.",
+        highlights: [
+            "Talk to real users",
+            "Pivot based on live feedback",
+            "Pitch your comeback in 2 minutes",
+            "Network with experienced mentors",
+            "Think fast. Build smarter. Save the startup."
+        ],
+        signupLink: "https://luma.com/okz4hpvy",
+        capacity: "Light snacks and drinks will be provided. Spots are limited. No prior experience required."
+    },
+    "soar-2026": {
+        title: "SOAR 2026",
+        date: "March 22, 2026",
+        time: "10:00 AM - 2:00 PM",
+        location: "UBC Sauder School of Business, The Big 4 Conference Centre, 9th Floor",
+        image: require("../images/eventPhotos/SOAR.png"),
+        description: "Where UBC's boldest ideas take flight. ✈️ SOAR is UBC's flagship startup pitch competition, open to students across all faculties and experience levels. Founders at any stage—from early ideas to teams ready to scale—are welcome to compete. Whether you're testing an idea or building momentum, SOAR is where ideas turn into action.",
+        highlights: [
+            "💰 $10,000 non-dilutive cash prize",
+            "👔 Pitch to Canadian VCs & angel investors who will attend live",
+            "📈 Investors may reach out to teams, regardless of who wins",
+            "🎯 Gain feedback, visibility, and real connections in UBC's startup ecosystem",
+            "🏆 Two-round format: Online application → Live pitch to industry judges",
+            "⏰ Application Deadline: March 10, 11:59 PM PST"
+        ],
+        signupLink: "https://forms.gle/mUd3EHgtAnxCLAS67",
+        capacity: "Open to all UBC students across all faculties and experience levels. Apply by March 10!"
+    },
+    "sample-event": {
+        title: "UBC Startups Networking Night",
+        date: "December 5, 2025",
+        time: "6:00 PM - 9:00 PM",
+        location: "UBC Life Building, Room 2201",
+        image: require("../images/eventPhotos/liftoff_events.jpg"),
+        description: "Join us for an exciting evening of networking, learning, and connecting with fellow entrepreneurs at UBC! Whether you're just starting your entrepreneurial journey or already running a startup, this event is the perfect opportunity to meet like-minded individuals, share ideas, and build meaningful connections.",
+        highlights: [
+            "Network with 100+ student entrepreneurs and founders",
+            "Hear from successful UBC alumni founders",
+            "Free food and refreshments",
+            "Startup pitch sessions",
+            "Workshop on fundraising basics"
+        ],
+        signupLink: "https://forms.gle/yourSignupLink",
+        capacity: "Limited to 150 attendees"
+    }
 };
 
 const EventPoster = () => {
-  const { eventId } = useParams();
-  const navigate = useNavigate();
-  
-  // Scroll to top when component mounts
-  useEffect(() => {
-    window.scrollTo(0, 110);
-  }, []);
-  
-  // Get event data based on eventId, default to sample event if not found
-  const event = eventData[eventId] || eventData["sample-event"];
+    const { eventId } = useParams();
+    const navigate = useNavigate();
 
-  return (
-    <>
-      <NavigationBar />
-      <Container>
-        <PosterWrapper>
-          <BackButton onClick={() => navigate(-1)}>
-            ← Back to Events
-          </BackButton>
-          
-          <PosterCard>
-            <PosterImage src={event.image} />
-            
-            <PosterContent>
-              <EventTitle>{event.title}</EventTitle>
-              <EventDate>{event.date}</EventDate>
-              
-              <EventDescription>{event.description}</EventDescription>
-              
-              <DetailsSection>
-                <DetailItem>
-                  <strong>📅 Date & Time</strong>
-                  <span>{event.date} at {event.time}</span>
-                </DetailItem>
-                
-                <DetailItem>
-                  <strong>📍 Location</strong>
-                  <span>{event.location}</span>
-                </DetailItem>
-                
-                <DetailItem>
-                  <strong>Event Highlights</strong>
-                  <span>
-                    <ul style={{ marginTop: "10px", paddingLeft: "20px" }}>
-                      {event.highlights.map((highlight, index) => (
-                        <li key={index} style={{ marginBottom: "8px" }}>{highlight}</li>
-                      ))}
-                    </ul>
-                  </span>
-                </DetailItem>
-                
-                {event.capacity && (
-                  <DetailItem>
-                    <strong>Important</strong>
-                    <span>{event.capacity}</span>
-                  </DetailItem>
-                )}
-              </DetailsSection>
-              
-              <SignUpSection>
-                <SignUpButton href={event.signupLink} target="_blank" rel="noopener noreferrer">
-                  Sign Up Now
-                </SignUpButton>
-              </SignUpSection>
-              
-              <ContactInfo>
-                Questions? Contact us at{" "}
-                <a href="mailto:ubcstartups@gmail.com">ubcstartups@gmail.com</a>
-              </ContactInfo>
-            </PosterContent>
-          </PosterCard>
-        </PosterWrapper>
-      </Container>
-      <Footer />
-    </>
-  );
+    // Scroll to top when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 110);
+    }, []);
+
+    // Get event data based on eventId, default to sample event if not found
+    const event = eventData[eventId] || eventData["sample-event"];
+
+    return (
+        <>
+            <NavigationBar />
+            <Container>
+                <PosterWrapper>
+                    <BackButton onClick={() => navigate(-1)}>
+                        ← Back to Events
+                    </BackButton>
+
+                    <PosterCard>
+                        <PosterImage src={event.image} />
+
+                        <PosterContent>
+                            <EventTitle>{event.title}</EventTitle>
+                            <EventDate>{event.date}</EventDate>
+
+                            <EventDescription>{event.description}</EventDescription>
+
+                            <DetailsSection>
+                                <DetailItem>
+                                    <strong>📅 Date & Time</strong>
+                                    <span>{event.date} at {event.time}</span>
+                                </DetailItem>
+
+                                <DetailItem>
+                                    <strong>📍 Location</strong>
+                                    <span>{event.location}</span>
+                                </DetailItem>
+
+                                <DetailItem>
+                                    <strong>Event Highlights</strong>
+                                    <span>
+                                        <ul style={{ marginTop: "10px", paddingLeft: "20px" }}>
+                                            {event.highlights.map((highlight, index) => (
+                                                <li key={index} style={{ marginBottom: "8px" }}>{highlight}</li>
+                                            ))}
+                                        </ul>
+                                    </span>
+                                </DetailItem>
+
+                                {event.capacity && (
+                                    <DetailItem>
+                                        <strong>Important</strong>
+                                        <span>{event.capacity}</span>
+                                    </DetailItem>
+                                )}
+                            </DetailsSection>
+
+                            <SignUpSection>
+                                {eventId === "soar-2026" ? (
+                                    <>
+                                        <SignUpButton
+                                            href="https://docs.google.com/document/d/1nKYKuUSEwx9d4x-68LYIr451P_VBsC3MhzjVL6ZJCHs/edit?tab=t.0"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            SOAR Rules
+                                        </SignUpButton>
+
+                                        <SignUpButton
+                                            href={event.signupLink}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Apply to Pitch
+                                        </SignUpButton>
+
+                                        {/* disabled soar attend button till luma link available */}
+                                        <SignUpButton
+                                            as="button"
+                                            disabled
+                                            style={{
+                                                background: "#333333",
+                                                opacity: 0.6,
+                                                cursor: "not-allowed",
+                                                boxShadow: "none"
+                                            }}
+                                        >
+                                            Attend SOAR
+                                        </SignUpButton>
+                                    </>
+                                ) : (
+                                    <SignUpButton
+                                        href={event.signupLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Sign Up Now
+                                    </SignUpButton>
+                                )}
+                            </SignUpSection>
+
+
+                            <ContactInfo>
+                                Questions? Contact us at{" "}
+                                <a href="mailto:ubcstartups@gmail.com">ubcstartups@gmail.com</a>
+                            </ContactInfo>
+                        </PosterContent>
+                    </PosterCard>
+                </PosterWrapper>
+            </Container>
+            <Footer />
+        </>
+    );
 };
 
 export default EventPoster;

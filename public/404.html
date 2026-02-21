@@ -4,26 +4,25 @@
     <meta charset="utf-8" />
     <title>UBC Startups</title>
     <script>
-      // Redirect unknown paths to index with encoded route for SPA handling.
+      // GitHub Pages SPA fallback (supports direct deep links).
+      var pathSegmentsToKeep = 0;
       var l = window.location;
-      var segmentCount = 0;
-      var repoPath = l.pathname
-        .split("/")
-        .slice(0, 1 + segmentCount)
-        .join("/");
-      var route = l.pathname.slice(repoPath.length);
-      var encodedRoute = route.replace(/&/g, "~and~");
-      var redirectUrl =
+      l.replace(
         l.protocol +
-        "//" +
-        l.hostname +
-        (l.port ? ":" + l.port : "") +
-        repoPath +
-        "/?/" +
-        encodedRoute +
-        (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
-        l.hash;
-      l.replace(redirectUrl);
+          "//" +
+          l.hostname +
+          (l.port ? ":" + l.port : "") +
+          l.pathname.split("/").slice(0, 1 + pathSegmentsToKeep).join("/") +
+          "/?/" +
+          l.pathname
+            .slice(1)
+            .split("/")
+            .slice(pathSegmentsToKeep)
+            .join("/")
+            .replace(/&/g, "~and~") +
+          (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+          l.hash
+      );
     </script>
   </head>
   <body></body>

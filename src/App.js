@@ -16,9 +16,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/meetOurTeam" element={<MeetOurTeam />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/event-poster/soar-2026" element={<SOAR />} />
           <Route path="/event-poster/:eventId" element={<EventPoster />} />
           {/* <Route path="/opportunities" element={<OpportunitiesPage />} /> */}
-          <Route path="/event-poster/soar-2026" element={<SOAR />} />
         </Routes>
       </Router>
     );

@@ -18,18 +18,18 @@ import zianImg from "../images/teamPhotos/Zian.png"
 import anikaImg from "../images/teamPhotos/Anika.png"
 import kaleenaImg from "../images/teamPhotos/Kaleena.png"
 import kevishImg from "../images/teamPhotos/Kevish.png"
-import cindyImg from "../images/teamPhotos/Cindy.png"
+import cindyImg from "../images/teamPhotos/Cindy-2.png"
 import sabrinaImg from "../images/teamPhotos/Sabrina.png"
 import arpitaImg from "../images/teamPhotos/Arpita.png"
 import ellaImg from "../images/teamPhotos/Ella.png"
 import carolynImg from "../images/teamPhotos/Carolyn.png"
 import adeenaImg from "../images/teamPhotos/Adeena.png"
 import aniketImg from "../images/teamPhotos/Aniket.png"
-import maddieImg from "../images/teamPhotos/Maddie.png"
+import maddieImg from "../images/teamPhotos/Maddie-2.png"
 import stevenImg from "../images/teamPhotos/Steven.png"
 import ananyaaImg from "../images/teamPhotos/Ananyaa.png"
 import shauryaImg from "../images/teamPhotos/Shaurya.png"
-import roopImg from "../images/teamPhotos/Roop.png"
+import roopImg from "../images/teamPhotos/Roop-2.png"
 import eshaanImg from "../images/teamPhotos/Eshaan.png"
 import arnavImg from "../images/teamPhotos/arnav.png"
 import saumyaaImg from "../images/teamPhotos/saumyaa.png"
@@ -39,13 +39,14 @@ import ayaanImg from "../images/teamPhotos/Ayaan.png"
 import amarlinImg from "../images/teamPhotos/Amarlin.png"
 import laurenImg from "../images/teamPhotos/Lauren.png"
 import nainaImg from "../images/teamPhotos/Naina.png"
-//import JannerImg from "../images/teamPhotos/Janner.png"
+import JannerImg from "../images/teamPhotos/Janner.png"
 import inesImg from "../images/teamPhotos/Ines.png"
 import robinImg from "../images/teamPhotos/Robin.png"
 import dilnaImg from "../images/teamPhotos/Dilna.png"
 import nicoleImg from "../images/teamPhotos/Nicole.png"
 import sanaImg from "../images/teamPhotos/Sana.png"
 import franklinImg from "../images/teamPhotos/Franklin.png"
+import annieImg from "../images/teamPhotos/Annie.png"
 
 const MeetOurTeamContainer = styled.div`
     height: auto;
@@ -292,7 +293,7 @@ const MeetOurTeam = () => {
                         linkedIn="https://www.linkedin.com/in/roopkaurdhillon/"
                     />
                     <TeamMember
-                        image={defaultImg}
+                        image={annieImg}
                         name="Annie Fei"
                         position=""
                         role="Marketing Director"
@@ -401,13 +402,13 @@ const MeetOurTeam = () => {
                         role="Partnerships Director"
                         linkedIn="https://www.linkedin.com/in/jiya-grover-18b381279/"
                     />
-                    {/*<TeamMember
+                    <TeamMember
                         image={defaultImg}
                         name="Taha Salim"
                         position=""
                         role="Partnerships Director"
-                        linkedIn=""
-                    />*/}
+                        linkedIn="https://www.linkedin.com/in/taha-salim-816b56283/"
+                    />
                 </MOTContainer>
 
                 <TeamSectionText>Tech</TeamSectionText>
@@ -439,13 +440,13 @@ const MeetOurTeam = () => {
                 <TeamSectionText>Internal</TeamSectionText>
 
                 <MOTContainer>
-                    {/*<TeamMember
+                    <TeamMember
                         image={JannerImg}
                         name="Janner Zhumash"
                         position=""
                         role="Internal Director"
-                        linkedIn=""
-                    />*/}
+                        linkedIn="https://www.linkedin.com/in/zhanerke-zhumash1/"
+                    />
                     <TeamMember
                         image={laurenImg}
                         name="Lauren Park"

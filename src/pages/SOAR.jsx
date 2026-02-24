@@ -273,14 +273,9 @@ const SOAR = () => {
 
                                 {/* disabled soar attend button till luma link available */}
                                 <SignUpButton
-                                    as="button"
-                                    disabled
-                                    style={{
-                                        background: "#333333",
-                                        opacity: 0.6,
-                                        cursor: "not-allowed",
-                                        boxShadow: "none"
-                                    }}
+                                    href="https://luma.com/00im0e08"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                 >
                                     Attend SOAR
                                 </SignUpButton>

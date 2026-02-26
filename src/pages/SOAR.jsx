@@ -256,7 +256,7 @@ const SOAR = () => {
 
                             <SignUpSection>
                                 <SignUpButton
-                                    href="https://docs.google.com/document/d/1nKYKuUSEwx9d4x-68LYIr451P_VBsC3MhzjVL6ZJCHs/edit?tab=t.0"
+                                    href="https://drive.google.com/file/d/1ox9qduuMrkHmXWHRx3b6Jmnmypt65Ra_/view?usp=sharing"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >

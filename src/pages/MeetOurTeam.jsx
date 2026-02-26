@@ -35,7 +35,6 @@ import arnavImg from "../images/teamPhotos/arnav.png"
 import saumyaaImg from "../images/teamPhotos/saumyaa.png"
 import jiyaImg from "../images/teamPhotos/Jiya.png"
 import miraImg from "../images/teamPhotos/Mira.png"
-import ayaanImg from "../images/teamPhotos/Ayaan.png"
 import amarlinImg from "../images/teamPhotos/Amarlin.png"
 import laurenImg from "../images/teamPhotos/Lauren.png"
 import nainaImg from "../images/teamPhotos/Naina.png"
@@ -387,13 +386,6 @@ const MeetOurTeam = () => {
                         position=""
                         role="Partnerships Director"
                         linkedIn="https://www.linkedin.com/in/anika-shahzad-1b9452202?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                    />
-                    <TeamMember
-                        image={ayaanImg}
-                        name="Ayaan Kapoor"
-                        position=""
-                        role="Partnerships Director"
-                        linkedIn="https://www.linkedin.com/in/ayaan-kapoor-7b21aa2a1/"
                     />
                     <TeamMember
                         image={jiyaImg}

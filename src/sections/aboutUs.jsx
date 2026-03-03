@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PhotoGallery from "../components/photoGallery";
 
 import LiftOffImage from "../images/eventPhotos/liftoff.jpg";
-import SoarImage from "../images/eventPhotos/soar2025.jpg";
+import SoarImage from "../images/eventPhotos/soar1.jpg";
 import BatterUpImage from "../images/eventPhotos/batterup_team.JPG";
 import LiftoffAbout from "../images/eventPhotos/liftoff_about1.jpg";
 import LiftoffEvent from "../images/eventPhotos/liftoff_events.jpg";

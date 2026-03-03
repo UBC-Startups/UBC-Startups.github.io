@@ -1,12 +1,21 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import { motion } from "motion/react";
 import NavigationBar from "../components/navigationBar";
 import Footer from "../sections/footer";
-import SoarHero from "../images/eventPhotos/SOAR.png";
-import SoarEventPhoto from "../images/eventPhotos/soar2025.jpg";
+import SoarEventPhoto1 from "../images/eventPhotos/soar1.jpg";
+import SoarEventPhoto2 from "../images/eventPhotos/soar2.jpg";
+import SoarEventPhoto3 from "../images/eventPhotos/soar3.jpg";
+import SoarEventPhoto4 from "../images/eventPhotos/soar4.jpg";
+import SoarEventPhoto5 from "../images/eventPhotos/soar5.jpg";
+import PhotoGallery from "../components/photoGallery";
 import Skyscraper from "../images/skyscraper.png";
 import SoarLogo from "../images/eventPhotos/Soar Logo.png";
 import Clouds from "../images/clouds.jpg";
+import Seagull from "../images/eventPhotos/seagull2.png";
+import { ReactComponent as MoneyBagIcon } from "../images/svg/moneybag1.svg";
+import { ReactComponent as BuildingIcon } from "../images/svg/building.svg";
+import { ReactComponent as StarIcon } from "../images/svg/star.svg";
 // ─── Styled Components ────────────────────────────────────────────────────────
 
 const PageWrapper = styled.div`
@@ -24,7 +33,6 @@ const HeroSection = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 0 8%;
 
   &::after {
     content: "";
@@ -37,6 +45,25 @@ const HeroSection = styled.div`
 const HeroContent = styled.div`
   position: relative;
   z-index: 1;
+  padding: 0 8%;
+`;
+
+const HeroArrow = styled(motion.div)`
+  position: absolute;
+  bottom: 36px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+  cursor: pointer;
+
+  svg {
+    width: 32px;
+    height: 32px;
+    fill: #ffffff;
+    opacity: 0.85;
+  }
 `;
 
 const HeroLogoImg = styled.img`
@@ -153,13 +180,10 @@ const WhatDescription = styled.p`
   line-height: 1.8;
 `;
 
-const WhatImage = styled.img`
-  flex: 1;
+const WhatGallery = styled.div`
+  flex: 1.5;
   width: 100%;
-  max-width: 420px;
-  border-radius: 16px;
-  object-fit: cover;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+  min-width: 0;
 `;
 
 /* ── Highlights ── */
@@ -184,10 +208,10 @@ const HighlightsInner = styled.div`
   z-index: 1;
 `;
 
-const BirdIcon = styled.div`
-  font-size: 2.2rem;
-  margin-bottom: 10px;
-  color: #222222;
+const BirdIcon = styled.img`
+  width: 160px;
+  height: auto;
+  /* margin-bottom: 10px; */
 `;
 
 const HighlightsTitle = styled.h2`
@@ -216,8 +240,14 @@ const HighlightCard = styled.div`
   gap: 14px;
 `;
 
-const CardEmoji = styled.span`
-  font-size: 2.6rem;
+const CardIcon = styled.div`
+  width: 48px;
+  height: 48px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
 const CardText = styled.p`
@@ -250,7 +280,7 @@ const TimelineList = styled.div`
   &::before {
     content: "";
     position: absolute;
-    left: 8px;
+    left: 14px;
     top: 0;
     bottom: 0;
     width: 2px;
@@ -266,7 +296,8 @@ const TimelineItem = styled.div`
 const TimelineDot = styled.div`
   position: absolute;
   left: -32px;
-  top: 4px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 18px;
   height: 18px;
   border-radius: 50%;
@@ -412,6 +443,15 @@ const SOAR = () => {
               Apply now
             </HeroButton>
           </HeroContent>
+          <HeroArrow
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            onClick={() => window.scrollBy({ top: window.innerHeight, behavior: "smooth" })}
+          >
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0.256 8.606c0-0.269 0.106-0.544 0.313-0.75 0.412-0.412 1.087-0.412 1.5 0l14.119 14.119 13.913-13.912c0.413-0.412 1.087-0.412 1.5 0s0.413 1.088 0 1.5l-14.663 14.669c-0.413 0.413-1.088 0.413-1.5 0l-14.869-14.869c-0.213-0.213-0.313-0.481-0.313-0.756z" />
+            </svg>
+          </HeroArrow>
         </HeroSection>
 
         {/* ── Info Bar ── */}
@@ -456,25 +496,33 @@ const SOAR = () => {
               a $10,000 non-dilutive cash prize from Linde Equity.
             </WhatDescription>
           </WhatText>
-          <WhatImage src={SoarEventPhoto} alt="SOAR event audience" />
+          <WhatGallery>
+            <PhotoGallery images={[
+              { original: SoarEventPhoto3},
+              { original: SoarEventPhoto4},
+              { original: SoarEventPhoto5},
+              { original: SoarEventPhoto1},
+              { original: SoarEventPhoto2},
+            ]} />
+          </WhatGallery>
         </WhatSection>
 
         {/* ── Event Highlights ── */}
         <HighlightsSection>
           <HighlightsInner>
-            <BirdIcon>🕊</BirdIcon>
+            <BirdIcon src={Seagull} alt="seagull" />
             <HighlightsTitle>Event Highlights</HighlightsTitle>
             <CardsRow>
               <HighlightCard>
-                <CardEmoji>💰</CardEmoji>
+                <CardIcon><MoneyBagIcon /></CardIcon>
                 <CardText>$10,000 non-dilutive cash prize</CardText>
               </HighlightCard>
               <HighlightCard>
-                <CardEmoji>👔</CardEmoji>
+                <CardIcon><BuildingIcon /></CardIcon>
                 <CardText>Pitch to Canadian VCs &amp; angel investors who will attend live</CardText>
               </HighlightCard>
               <HighlightCard>
-                <CardEmoji>🎯</CardEmoji>
+                <CardIcon><StarIcon /></CardIcon>
                 <CardText>Gain feedback, visibility, and real connections in UBC's startup ecosystem</CardText>
               </HighlightCard>
             </CardsRow>

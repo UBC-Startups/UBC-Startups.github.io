@@ -11,6 +11,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "animate.css": "^4.1.1",
+    "motion": "^12.34.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
@@ -34,6 +35,12 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "overrides": {
+    "nth-check": ">=2.0.1",
+    "postcss": ">=8.4.31",
+    "serialize-javascript": ">=6.0.2",
+    "webpack-dev-server": ">=5.2.1"
   },
   "browserslist": {
     "production": [

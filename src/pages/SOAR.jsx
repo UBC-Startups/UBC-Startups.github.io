@@ -34,6 +34,10 @@ const HeroSection = styled.div`
   justify-content: center;
   align-items: flex-start;
 
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+
   &::after {
     content: "";
     position: absolute;
@@ -46,6 +50,13 @@ const HeroContent = styled.div`
   position: relative;
   z-index: 1;
   padding: 0 8%;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const HeroArrow = styled(motion.div)`

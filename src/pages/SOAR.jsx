@@ -129,6 +129,33 @@ const HeroButton = styled.a`
   }
 `;
 
+const HeroButtonGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+
+    & > * {
+      width: 100%;
+      text-align: center;
+    }
+  }
+`;
+
+const HeroButtonOutline = styled(HeroButton)`
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255,255,255,0.75);
+  box-shadow: none;
+
+  &:hover {
+    background: rgba(255,255,255,0.15);
+    box-shadow: none;
+  }
+`;
+
 /* ── Info Bar ── */
 const InfoBar = styled.div`
   display: flex;
@@ -426,7 +453,10 @@ const PastWinnerCard = styled.div`
   max-width: 900px;
 
   @media (max-width: 768px) {
+    display: flex;
     flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
     text-align: center;
     padding: 36px 28px;
     gap: 28px;
@@ -455,6 +485,12 @@ const WinnerFounders = styled.div`
   display: flex;
   gap: 20px;
   flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    flex-shrink: 1;
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 const WinnerFounderCard = styled.div`
@@ -482,6 +518,11 @@ const WinnerFounderPhoto = styled.img`
   border-radius: 16px;
   object-fit: cover;
   border: 2px solid #e0e0e0;
+
+  @media (max-width: 768px) {
+    width: 130px;
+    height: 160px;
+  }
 `;
 
 const WinnerName = styled.h3`
@@ -653,13 +694,29 @@ const SOAR = () => {
           <HeroContent>
             <HeroLogoImg src={SoarLogo} alt="SOAR" />
             <HeroSubtitle>Where UBC's boldest ideas take flight.</HeroSubtitle>
-            <HeroButton
-              href="https://forms.gle/mUd3EHgtAnxCLAS67"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Apply now
-            </HeroButton>
+            <HeroButtonGroup>
+              <HeroButton
+                href="https://forms.gle/mUd3EHgtAnxCLAS67"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Apply now
+              </HeroButton>
+              <HeroButtonOutline
+                href="https://luma.com/00im0e08"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Attend SOAR
+              </HeroButtonOutline>
+              <HeroButtonOutline
+                href="https://drive.google.com/file/d/1ox9qduuMrkHmXWHRx3b6Jmnmypt65Ra_/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                SOAR Rules
+              </HeroButtonOutline>
+            </HeroButtonGroup>
           </HeroContent>
           <HeroArrow
             animate={{ y: [0, 10, 0] }}

@@ -31,21 +31,13 @@ const PageWrapper = styled.div`
   position: relative;
   min-height: 100%;
   overflow-x: hidden;
-`;
-
-const BackgroundWrapper = styled.div`
-  position: absolute;
-  top: -200px;
-  width: 100%;
-  min-height: 100%;
-  z-index: -1;
-  pointer-events: none;
   background-image: url(${shapeDesign});
   background-size: 100%;
+  background-position: 0 -200px;
 
   @media (max-width: 768px) {
-    top: -100px;
     background-size: 300%;
+    background-position: 0 -100px;
   }
 `;
 
@@ -461,13 +453,32 @@ const WinnerDivider = styled.div`
 
 const WinnerFounders = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 20px;
   flex-shrink: 0;
 `;
 
+const WinnerFounderCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+`;
+
+const WinnerFounderName = styled.p`
+  font-weight: 700;
+  color: #111111;
+  margin: 0;
+`;
+
+const WinnerFounderRole = styled.p`
+  font-size: 0.9rem;
+  color: #777777;
+  margin: 0;
+`;
+
 const WinnerFounderPhoto = styled.img`
-  width: 130px;
-  height: 160px;
+  width: 170px;
+  height: 210px;
   border-radius: 16px;
   object-fit: cover;
   border: 2px solid #e0e0e0;
@@ -636,7 +647,6 @@ const SOAR = () => {
     <>
       <NavigationBar />
       <PageWrapper>
-        <BackgroundWrapper />
 
         {/* ── Hero ── */}
         <HeroSection>
@@ -760,8 +770,16 @@ const SOAR = () => {
             <WinnerLogoImg src={XpressLogo} alt="Xpress Select" />
             <WinnerDivider />
             <WinnerFounders>
-              <WinnerFounderPhoto src={XpressFounder1} alt="Xpress Select founder" />
-              <WinnerFounderPhoto src={XpressFounder2} alt="Xpress Select founder" />
+              <WinnerFounderCard>
+                <WinnerFounderPhoto src={XpressFounder1} alt="Hasti Haghdadi" />
+                <WinnerFounderName>Hasti Haghdadi</WinnerFounderName>
+                <WinnerFounderRole>Co-founder & COO</WinnerFounderRole>
+              </WinnerFounderCard>
+              <WinnerFounderCard>
+                <WinnerFounderPhoto src={XpressFounder2} alt="Hana Rahili" />
+                <WinnerFounderName>Hana Rahili</WinnerFounderName>
+                <WinnerFounderRole>Co-founder & CEO</WinnerFounderRole>
+              </WinnerFounderCard>
             </WinnerFounders>
             <div>
               <WinnerLabel>SOAR 2025 Winner</WinnerLabel>

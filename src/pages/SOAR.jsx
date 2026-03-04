@@ -13,13 +13,37 @@ import Skyscraper from "../images/skyscraper.png";
 import SoarLogo from "../images/eventPhotos/Soar Logo.png";
 import Clouds from "../images/clouds.jpg";
 import Seagull from "../images/eventPhotos/seagull2.png";
+import LindeImg from "../images/partnerPhotos/linde.jpeg";
+import RedBullImg from "../images/partnerPhotos/redBull.png";
+import RumbleImg from "../images/partnerPhotos/rumble.png";
+import PoppiImg from "../images/partnerPhotos/poppi.png";
 import { ReactComponent as MoneyBagIcon } from "../images/svg/moneybag1.svg";
 import { ReactComponent as BuildingIcon } from "../images/svg/building.svg";
 import { ReactComponent as StarIcon } from "../images/svg/star.svg";
+import { ReactComponent as PersonIcon } from "../images/svg/person.svg";
+import shapeDesign from "../images/HeroShapeDesign.svg";
 // ─── Styled Components ────────────────────────────────────────────────────────
 
 const PageWrapper = styled.div`
+  position: relative;
+  min-height: 100%;
   overflow-x: hidden;
+`;
+
+const BackgroundWrapper = styled.div`
+  position: absolute;
+  top: -200px;
+  width: 100%;
+  min-height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url(${shapeDesign});
+  background-size: 100%;
+
+  @media (max-width: 768px) {
+    top: -100px;
+    background-size: 300%;
+  }
 `;
 
 /* ── Hero ── */
@@ -186,14 +210,12 @@ const WhatTitle = styled.h2`
 `;
 
 const WhatDescription = styled.p`
-  font-size: 1rem;
   color: #555555;
   line-height: 1.8;
 `;
 
 const WhatGallery = styled.div`
   flex: 1.5;
-  width: 100%;
   min-width: 0;
 `;
 
@@ -221,8 +243,6 @@ const HighlightsInner = styled.div`
 
 const BirdIcon = styled.img`
   width: 160px;
-  height: auto;
-  /* margin-bottom: 10px; */
 `;
 
 const HighlightsTitle = styled.h2`
@@ -265,7 +285,6 @@ const CardText = styled.p`
   font-size: 0.95rem;
   color: #333333;
   line-height: 1.5;
-  text-align: center;
   margin: 0;
 `;
 
@@ -301,7 +320,6 @@ const TimelineList = styled.div`
 
 const TimelineItem = styled.div`
   position: relative;
-  margin-bottom: 0;
 `;
 
 const TimelineDot = styled.div`
@@ -346,7 +364,6 @@ const TimelineDivider = styled.hr`
 
 /* ── Bottom CTA ── */
 const CTASection = styled.div`
-  background: #f5f5f5;
   text-align: center;
   padding: 60px 8%;
 `;
@@ -392,6 +409,100 @@ const ContactInfo = styled.p`
       text-decoration: underline;
     }
   }
+`;
+
+/* ── Judges ── */
+const PeopleSection = styled.div`
+  padding: 80px 8%;
+  text-align: center;
+`;
+
+const PeopleSectionTitle = styled.h2`
+  font-family: 'Sansation', sans-serif;
+  font-size: 2.4rem;
+  color: #111111;
+  margin-bottom: 50px;
+`;
+
+const JudgesGrid = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 36px;
+`;
+
+const JudgeCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 160px;
+`;
+
+const JudgeAvatar = styled.div`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  svg {
+    width: 54px;
+    height: 54px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const JudgeName = styled.p`
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #111111;
+  margin: 0;
+`;
+
+const JudgeRole = styled.p`
+  font-size: 0.85rem;
+  color: #777777;
+  margin: 0;
+  line-height: 1.4;
+`;
+
+const ComingSoonBadge = styled.div`
+  display: inline-block;
+  background: #f0f0f0;
+  color: #888888;
+  font-size: 0.8rem;
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-top: 10px;
+`;
+
+/* ── Sponsors ── */
+const SponsorsSection = styled.div`
+  padding: 70px 8%;
+  text-align: center;
+`;
+
+const SponsorsGrid = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 40px;
+`;
+
+const SponsorLogo = styled.img`
+  height: 60px;
+  object-fit: contain;
 `;
 
 // ─── Timeline Data ────────────────────────────────────────────────────────────
@@ -440,6 +551,7 @@ const SOAR = () => {
     <>
       <NavigationBar />
       <PageWrapper>
+        <BackgroundWrapper />
 
         {/* ── Hero ── */}
         <HeroSection>
@@ -555,6 +667,41 @@ const SOAR = () => {
             ))}
           </TimelineList>
         </TimelineSection>
+
+        {/* ── Judges ── */}
+        <PeopleSection>
+          <PeopleSectionTitle>Judges</PeopleSectionTitle>
+          <JudgesGrid>
+            <JudgeCard>
+              <JudgeAvatar><PersonIcon /></JudgeAvatar>
+              <JudgeName>TBA</JudgeName>
+              <JudgeRole>Venture Capitalist</JudgeRole>
+            </JudgeCard>
+            <JudgeCard>
+              <JudgeAvatar><PersonIcon /></JudgeAvatar>
+              <JudgeName>TBA</JudgeName>
+              <JudgeRole>Angel Investor</JudgeRole>
+            </JudgeCard>
+            <JudgeCard>
+              <JudgeAvatar><PersonIcon /></JudgeAvatar>
+              <JudgeName>TBA</JudgeName>
+              <JudgeRole>Industry Expert</JudgeRole>
+            </JudgeCard>
+          </JudgesGrid>
+          <ComingSoonBadge>Judges announced soon</ComingSoonBadge>
+        </PeopleSection>
+
+        {/* ── Sponsors ── */}
+        <SponsorsSection>
+          <PeopleSectionTitle>Our Sponsors</PeopleSectionTitle>
+          <SponsorsGrid>
+            <SponsorLogo src={LindeImg} alt="Linde Equity" />
+            <SponsorLogo src={RedBullImg} alt="Red Bull" />
+            <SponsorLogo src={RumbleImg} alt="Rumble" />
+            <SponsorLogo src={PoppiImg} alt="Poppi" />
+          </SponsorsGrid>
+          <ComingSoonBadge style={{ marginTop: "30px" }}>More sponsors to be announced</ComingSoonBadge>
+        </SponsorsSection>
 
         {/* ── Bottom CTA ── */}
         <CTASection>

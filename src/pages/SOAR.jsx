@@ -755,7 +755,7 @@ const SOAR = () => {
             <InfoIcon>⏰</InfoIcon>
             <InfoLabel>Deadline to Apply</InfoLabel>
             <InfoValue>
-              March 15<br />11:59 PM PST
+              March 10<br />11:59 PM PST
             </InfoValue>
           </InfoItem>
         </InfoBar>

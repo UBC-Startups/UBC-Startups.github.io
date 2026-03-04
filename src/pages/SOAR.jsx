@@ -22,6 +22,9 @@ import { ReactComponent as BuildingIcon } from "../images/svg/building.svg";
 import { ReactComponent as StarIcon } from "../images/svg/star.svg";
 import { ReactComponent as PersonIcon } from "../images/svg/person.svg";
 import shapeDesign from "../images/HeroShapeDesign.svg";
+import XpressFounder1 from "../images/eventPhotos/xpressfounder1.jpg";
+import XpressFounder2 from "../images/eventPhotos/xpressfounder2.png";
+import XpressLogo from "../images/eventPhotos/xpressLogo.jpeg";
 // ─── Styled Components ────────────────────────────────────────────────────────
 
 const PageWrapper = styled.div`
@@ -411,6 +414,88 @@ const ContactInfo = styled.p`
   }
 `;
 
+/* ── Past Winner ── */
+const PastWinnerSection = styled.div`
+  padding: 80px 8%;
+  text-align: center;
+`;
+
+const PastWinnerCard = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 56px;
+  background: #ffffff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 28px;
+  padding: 52px 64px;
+  margin-top: 40px;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.08);
+  text-align: left;
+  max-width: 900px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    padding: 36px 28px;
+    gap: 28px;
+  }
+`;
+
+const WinnerLogoImg = styled.img`
+  height: 100px;
+  object-fit: contain;
+  flex-shrink: 0;
+`;
+
+const WinnerDivider = styled.div`
+  width: 1px;
+  height: 100px;
+  background: #e0e0e0;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 80px;
+    height: 1px;
+  }
+`;
+
+const WinnerFounders = styled.div`
+  display: flex;
+  gap: 16px;
+  flex-shrink: 0;
+`;
+
+const WinnerFounderPhoto = styled.img`
+  width: 130px;
+  height: 160px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+`;
+
+const WinnerName = styled.h3`
+  font-family: 'Sansation', sans-serif;
+  font-size: 1.6rem;
+  color: #111111;
+  margin: 0 0 8px;
+`;
+
+const WinnerLabel = styled.p`
+  font-size: 0.9rem;
+  color: #4db6e8;
+  font-weight: 600;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+`;
+
+const WinnerDesc = styled.p`
+  font-size: 0.95rem;
+  color: #555555;
+  line-height: 1.6;
+  margin: 0;
+`;
+
 /* ── Judges ── */
 const PeopleSection = styled.div`
   padding: 80px 8%;
@@ -667,6 +752,29 @@ const SOAR = () => {
             ))}
           </TimelineList>
         </TimelineSection>
+
+        {/* ── Past Winner ── */}
+        <PastWinnerSection>
+          <PeopleSectionTitle>Past Winner</PeopleSectionTitle>
+          <PastWinnerCard>
+            <WinnerLogoImg src={XpressLogo} alt="Xpress Select" />
+            <WinnerDivider />
+            <WinnerFounders>
+              <WinnerFounderPhoto src={XpressFounder1} alt="Xpress Select founder" />
+              <WinnerFounderPhoto src={XpressFounder2} alt="Xpress Select founder" />
+            </WinnerFounders>
+            <div>
+              <WinnerLabel>SOAR 2025 Winner</WinnerLabel>
+              <WinnerName>Xpress Select</WinnerName>
+              <WinnerDesc>
+                Xpress Select is a digital platform that optimizes pharmacy operations by streamlining
+                OTC recommendations and pharmacist-led minor ailment services. Patients complete structured
+                clinical assessments in-store or online, while the software automates intake, documentation,
+                and routing—reducing wait times and freeing pharmacists to focus on higher-value care.
+              </WinnerDesc>
+            </div>
+          </PastWinnerCard>
+        </PastWinnerSection>
 
         {/* ── Judges ── */}
         <PeopleSection>

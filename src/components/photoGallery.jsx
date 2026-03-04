@@ -57,7 +57,7 @@ const PhotoGallery = ({ images }) => {
             showFullscreenButton={false}
             autoPlay={true}
             slideInterval={5000}
-            showThumbnails={true}
+            showThumbnails={false}
             showBullets={true}
         />
     </GalleryContainer>

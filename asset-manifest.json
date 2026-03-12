@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.7ca38447.css",
-    "main.js": "/static/js/main.9fb41417.js",
+    "main.js": "/static/js/main.a4158302.js",
     "static/js/453.e1956c3e.chunk.js": "/static/js/453.e1956c3e.chunk.js",
     "static/media/skyscraper.png": "/static/media/skyscraper.6deca8f26a3d928af236.png",
     "static/media/soar1.jpg": "/static/media/soar1.1482b28b7ed3f030beed.jpg",
@@ -85,15 +85,16 @@
     "static/media/linde.jpeg": "/static/media/linde.e468deef99f3c470b53f.jpeg",
     "static/media/building.svg": "/static/media/building.9d64e23184cd78fc26e3c0d8fc57c56c.svg",
     "static/media/star.svg": "/static/media/star.455d2b3057b1bd5d4c82b23ae8a6583f.svg",
+    "static/media/kits.svg": "/static/media/kits.803c5051e167a0384f7aae240923792c.svg",
     "index.html": "/index.html",
     "static/media/moneybag1.svg": "/static/media/moneybag1.d3c42011699d10191d1f59ac26a85865.svg",
     "static/media/person.svg": "/static/media/person.611fe06799490279b28eaf6be28b6056.svg",
     "main.7ca38447.css.map": "/static/css/main.7ca38447.css.map",
-    "main.9fb41417.js.map": "/static/js/main.9fb41417.js.map",
+    "main.a4158302.js.map": "/static/js/main.a4158302.js.map",
     "453.e1956c3e.chunk.js.map": "/static/js/453.e1956c3e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7ca38447.css",
-    "static/js/main.9fb41417.js"
+    "static/js/main.a4158302.js"
   ]
 }

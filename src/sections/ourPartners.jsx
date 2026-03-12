@@ -16,6 +16,7 @@ import dominos from "../images/partnerPhotos/dominos.png";
 import bakd from "../images/partnerPhotos/bakd.png";
 import oakBerry from "../images/partnerPhotos/oakBerry.png";
 import linde from "../images/partnerPhotos/linde.jpeg";
+import kits from "../images/partnerPhotos/kits.svg";
 
 const OurPartners = () => {
   const partners = [
@@ -33,7 +34,8 @@ const OurPartners = () => {
     jolt,
     dominos,
     bakd,
-    oakBerry
+    oakBerry,
+    kits
   ];
 
   const scrollingPartners = [...partners, ...partners, ...partners];

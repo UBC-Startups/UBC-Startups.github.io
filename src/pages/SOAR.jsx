@@ -17,6 +17,8 @@ import LindeImg from "../images/partnerPhotos/linde.jpeg";
 import RedBullImg from "../images/partnerPhotos/redBull.png";
 import RumbleImg from "../images/partnerPhotos/rumble.png";
 import PoppiImg from "../images/partnerPhotos/poppi.png";
+import KitsImg from "../images/partnerPhotos/kits.svg";
+import AlthraImg from "../images/partnerPhotos/althra1.png";
 import { ReactComponent as MoneyBagIcon } from "../images/svg/moneybag1.svg";
 import { ReactComponent as BuildingIcon } from "../images/svg/building.svg";
 import { ReactComponent as StarIcon } from "../images/svg/star.svg";
@@ -882,6 +884,8 @@ const SOAR = () => {
             <SponsorLogo src={RedBullImg} alt="Red Bull" />
             <SponsorLogo src={RumbleImg} alt="Rumble" />
             <SponsorLogo src={PoppiImg} alt="Poppi" />
+            <SponsorLogo src={KitsImg} alt="Kits" />
+            <SponsorLogo src={AlthraImg} alt="Althra" />
           </SponsorsGrid>
           <ComingSoonBadge style={{ marginTop: "30px" }}>More sponsors to be announced</ComingSoonBadge>
         </SponsorsSection>

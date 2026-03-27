@@ -76,8 +76,31 @@ const EventsGrid = styled.div`
     padding-bottom: 100px;
 
     @media (max-width: 768px) {
-        padding: 0;
+        padding: 0 16px;
+        grid-gap: 30px;
     }
+
+    @media (max-width: 550px) {
+        grid-template-columns: 1fr;
+        padding: 0 16px;
+        grid-gap: 24px;
+    }
+`;
+
+const EmptyState = styled.div`
+    margin: 50px auto 100px;
+    padding: 48px 24px;
+    max-width: 500px;
+    text-align: center;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.08);
+`;
+
+const EmptyStateText = styled.p`
+    font-size: 1.1em;
+    color: #656464;
+    margin: 0;
 `;
 
 const BackgroundWrapper = styled.div`
@@ -111,7 +134,7 @@ const Events = () => {
             month: "March",
             day: "22",
             year: 2026,
-            category: "upcoming",
+            category: "prev",
             imgTop: "-20px",
             posterLink: "/event-poster/soar-2026",
         }, 
@@ -322,20 +345,26 @@ const Events = () => {
                     </FilterButton>
                 </FilterOptions>
 
-                <EventsGrid>
-                    {sortedEvents.map((event, i) => (
-                        <EventBox
-                            key={i}
-                            img={event.img}
-                            title={event.title}
-                            description={event.description}
-                            month={event.month}
-                            day={event.day}
-                            category={event.category}
-                            posterLink={event.posterLink}
-                        />
-                    ))}
-                </EventsGrid>
+                {sortedEvents.length === 0 ? (
+                    <EmptyState>
+                        <EmptyStateText>No upcoming events at the moment — check back soon!</EmptyStateText>
+                    </EmptyState>
+                ) : (
+                    <EventsGrid>
+                        {sortedEvents.map((event, i) => (
+                            <EventBox
+                                key={i}
+                                img={event.img}
+                                title={event.title}
+                                description={event.description}
+                                month={event.month}
+                                day={event.day}
+                                category={event.category}
+                                posterLink={event.posterLink}
+                            />
+                        ))}
+                    </EventsGrid>
+                )}
 
                 <Footer />
             </Container>

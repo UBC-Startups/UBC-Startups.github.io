@@ -10,11 +10,12 @@ const Card = styled.div`
     overflow: hidden;
     text-align: left;
     width: 580px;
+    max-width: 100%;
     transition: all 0.3s ease;
 
     @media (max-width: 768px) {
-        width: 90%; 
-        margin: 10px auto; 
+        width: 100%;
+        margin: 0;
     }
 `;
 

@@ -12,8 +12,8 @@ const HeroContent = styled.div`
     display: block;
     height: 90vh;
     @media (max-width: 480px) {
-        margin-top: 300px;
-        margin-bottom: -180px;
+        margin-top: 120px;
+        margin-bottom: 0;
       }
 `
 

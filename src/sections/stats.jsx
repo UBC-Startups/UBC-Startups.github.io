@@ -4,9 +4,12 @@ import styled from "styled-components";
 const StatsContainer = styled.div`
     position: relative;
     margin: 0 auto;
-    margin-top: 10%;
     display: block;
-    margin-bottom: 40px;
+    padding: 40px 0 48px;
+
+    @media (max-width: 768px) {
+        padding: 24px 0 32px;
+    }
 `;
 
 const StatTitle = styled.h1`
@@ -14,7 +17,7 @@ const StatTitle = styled.h1`
     font-weight: 400;
     text-align: center;
     font-size: 3em;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
 `;
 
 const StatGrid = styled.div`

@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 const SubscriptionContainer = styled.div`
  background: #2b2b2b16;
- padding: 80px 20px 40px;
+ padding: 40px 20px 40px;
  text-align: center;
  position: relative;
  overflow: hidden;

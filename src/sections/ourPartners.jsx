@@ -64,8 +64,12 @@ const scroll = keyframes`
 `;
 
 const OurPartnersContainer = styled.section`
-  margin: 2rem;
+  padding: 40px 0 48px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 24px 0 32px;
+  }
 `;
 
 const OurPartnersTitle = styled.h2`

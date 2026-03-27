@@ -58,9 +58,13 @@ const FAQ = () => {
 export default FAQ;
 
 const FAQContainer = styled.section`
-  padding: 5rem 2rem;
+  padding: 40px 2rem 48px;
   max-width: 900px;
   margin: 0 auto;
+
+  @media (max-width: 768px) {
+    padding: 24px 1rem 32px;
+  }
 `;
 
 const FAQTitle = styled.h2`

@@ -12,12 +12,18 @@ import LiftoffActivity from "../images/eventPhotos/liftoff_activity.jpg";
 const AboutUsContainer = styled.div`
     box-shadow: 20px 20px 80px rgba(0, 0, 0, 0.1);
     width: 80%;
-    height: auto; 
+    height: auto;
     border-radius: 30px;
     display: block;
-    margin: 0 auto;
+    margin: 40px auto 48px;
     padding: 40px;
     position: relative;
+
+    @media (max-width: 768px) {
+        width: 90%;
+        padding: 24px 20px;
+        margin: 24px auto 32px;
+    }
 `;
 
 const AUTitle = styled.h1`
@@ -42,7 +48,7 @@ const AboutContentWrapper = styled.div`
 
 const AUContent = styled.div`
     flex: 1 1 45%;
-    min-width: 300px;
+    min-width: 0;
     text-align: left;
     color: #656464;
     margin-bottom: 40px;
@@ -50,7 +56,7 @@ const AUContent = styled.div`
 
 const GalleryWrapper = styled.div`
     flex: 1 1 50%;
-    min-width: 300px;
+    min-width: 0;
 `;
 
 const images = [

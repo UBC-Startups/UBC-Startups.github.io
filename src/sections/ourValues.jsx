@@ -6,7 +6,11 @@ const OurValuesContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 40px;
+    padding: 40px 0 48px;
+
+    @media (max-width: 768px) {
+        padding: 24px 0 32px;
+    }
 `
 
 const OVTitle = styled.h1`

@@ -11,9 +11,12 @@ import ResourcesImage from "../images/ResourcesImg.svg"
 const WhatWeOfferContainer = styled.div`
     position: relative;
     margin: 0 auto;
-    margin-top: 10%;
     display: block;
-    margin-bottom: 40px;
+    padding: 40px 0 48px;
+
+    @media (max-width: 768px) {
+        padding: 24px 0 32px;
+    }
 `
 
 const WWOTitle = styled.h1`
@@ -30,7 +33,7 @@ const WWOContentContainer = styled.div`
     width: 90vw;
     justify-items: center;
     grid-template-columns: repeat(auto-fit, minmax(300px , 1fr));
-    margin-top: 140px;
+    margin-top: 100px;
 `
 
 const WhatWeOffer = () => {

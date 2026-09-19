@@ -80,6 +80,7 @@ const OurEvents = () => {
             day: "24",
             category: "upcoming",
             posterLink: "/event-poster/foundher-2026",
+            imgPosition: "top",
         },
     ];
 
@@ -108,6 +109,7 @@ const OurEvents = () => {
                             day={value.day}
                             category={value.category}
                             posterLink={value.posterLink}
+                            imgPosition={value.imgPosition}
                         />
                     ))}
                 </EventsGrid>

@@ -45,7 +45,10 @@ const PosterCard = styled.div`
 const PosterImage = styled.div`
   width: 100%;
   height: 500px;
-  background: ${(props) => `url(${props.src}) center/cover no-repeat`};
+  background-image: ${(props) => `url(${props.src})`};
+  background-position: ${(props) => props.$imagePosition || "center"};
+  background-size: cover;
+  background-repeat: no-repeat;
   position: relative;
 
   @media (max-width: 768px) {
@@ -173,6 +176,7 @@ const eventData = {
         time: "6:00 PM - 8:00 PM",
         location: "AMS Nest Room 2306/2309",
         image: require("../images/eventPhotos/founders_circle_poster.jpeg"),
+        imagePosition: "top",
         description: "Not sure if entrepreneurship is for you? Founder’s Circle is a kickoff event where you can hear from founders and entrepreneurship community members, meet students and alumni interested in startups, and learn about different paths into the startup world.",
         highlights: [
             "Hear from founders and members of the entrepreneurship community",
@@ -257,7 +261,7 @@ const EventPoster = () => {
                     </BackButton>
 
                     <PosterCard>
-                        <PosterImage src={event.image} />
+                        <PosterImage src={event.image} $imagePosition={event.imagePosition} />
 
                         <PosterContent>
                             <EventTitle>{event.title}</EventTitle>

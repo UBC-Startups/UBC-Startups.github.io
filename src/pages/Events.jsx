@@ -138,6 +138,7 @@ const Events = () => {
             category: "upcoming",
             imgTop: "-100px",
             posterLink: "/event-poster/foundher-2026",
+            imgPosition: "top",
         },
         {
             img: SoarImage2026,
@@ -374,6 +375,7 @@ const Events = () => {
                                 day={event.day}
                                 category={event.category}
                                 posterLink={event.posterLink}
+                                imgPosition={event.imgPosition}
                             />
                         ))}
                     </EventsGrid>

@@ -61,6 +61,7 @@ const Img = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: ${(props) => props.$objectPosition || "center"};
 `;
 
 const Content = styled.div`
@@ -85,7 +86,7 @@ const PosterButton = styled.button`
     }
 `;
 
-const EventBox = ({ img, title, description, month, day, posterLink }) => {
+const EventBox = ({ img, title, description, month, day, posterLink, imgPosition }) => {
     const navigate = useNavigate();
 
     const handlePosterClick = () => {
@@ -97,7 +98,7 @@ const EventBox = ({ img, title, description, month, day, posterLink }) => {
     return (
         <Card>
             <ImageContainer>
-                <Img src={img} alt={title} />
+                <Img src={img} alt={title} $objectPosition={imgPosition} />
             </ImageContainer>
             <Content>
                 <Title>{title}</Title>

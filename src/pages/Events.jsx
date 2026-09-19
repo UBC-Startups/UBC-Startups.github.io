@@ -19,6 +19,7 @@ import SoarImage2026 from "../images/eventPhotos/SOAR.png";
 import liftoff from "../images/eventPhotos/liftoff_events.jpg";
 import crisisRoom from "../images/eventPhotos/event_poster.png";
 import startupGames from "../images/eventPhotos/startup_games.jpg";
+import foundersCirclePoster from "../images/eventPhotos/founders_circle_poster.jpeg";
 
 const Container = styled.div`
     overflow-x: hidden;
@@ -126,6 +127,18 @@ const Events = () => {
     const [category, setCategory] = useState("all");
 
     const events = [
+        {
+            img: foundersCirclePoster,
+            title: "Founder’s Circle: UBC Startups Kickoff",
+            description:
+                "Not sure if entrepreneurship is for you? Founder’s Circle is a kickoff event where you can hear from founders and entrepreneurship community members, meet students and alumni interested in startups, and learn about different paths into the startup world. Join us at AMS Nest Room 2306/2309 from 6:00PM-8:00PM. Dress code: business casual.",
+            month: "Sept",
+            day: "24",
+            year: 2026,
+            category: "upcoming",
+            imgTop: "-100px",
+            posterLink: "/event-poster/foundher-2026",
+        },
         {
             img: SoarImage2026,
             title: "SOAR (2026)",

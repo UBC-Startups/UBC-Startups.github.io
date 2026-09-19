@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import EventBox from "../components/event";
+import foundersCirclePoster from "../images/eventPhotos/founders_circle_poster.jpeg";
 
 const OurEventsContainer = styled.div`
     overflow-x: hidden;
@@ -70,7 +71,16 @@ const EmptyStateText = styled.p`
 const OurEvents = () => {
     // only display upcoming 2 events
     const events = [
-        
+        {
+            img: foundersCirclePoster,
+            title: "Founder’s Circle: UBC Startups Kickoff",
+            description:
+                "Not sure if entrepreneurship is for you? Founder’s Circle is a kickoff event where you can hear from founders and entrepreneurship community members, meet students and alumni interested in startups, and learn about different paths into the startup world.",
+            month: "Sept",
+            day: "24",
+            category: "upcoming",
+            posterLink: "/event-poster/foundher-2026",
+        },
     ];
 
     return (
@@ -107,4 +117,3 @@ const OurEvents = () => {
 };
 
 export default OurEvents;
-

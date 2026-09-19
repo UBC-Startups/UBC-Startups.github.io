@@ -167,6 +167,21 @@ const ContactInfo = styled.p`
 
 // Event data - you can customize these for your specific events
 const eventData = {
+    "foundher-2026": {
+        title: "Founder’s Circle: UBC Startups Kickoff",
+        date: "September 24, 2026",
+        time: "6:00 PM - 8:00 PM",
+        location: "AMS Nest Room 2306/2309",
+        image: require("../images/eventPhotos/founders_circle_poster.jpeg"),
+        description: "Not sure if entrepreneurship is for you? Founder’s Circle is a kickoff event where you can hear from founders and entrepreneurship community members, meet students and alumni interested in startups, and learn about different paths into the startup world.",
+        highlights: [
+            "Hear from founders and members of the entrepreneurship community",
+            "Meet students, founders, alumni, and others interested in entrepreneurship",
+            "Learn about different paths into the startup world"
+        ],
+        signupLink: "https://luma.com/r54t2zy9",
+        capacity: "Dress code: Business Casual"
+    },
     "innovation-olympics-2025": {
         title: "The Crisis Room Challenge",
         date: "November 24, 2025",

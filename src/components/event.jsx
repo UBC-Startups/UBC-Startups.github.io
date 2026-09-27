@@ -55,6 +55,18 @@ const ImageContainer = styled.div`
     width: 100%;
     height: 260px;
     overflow: hidden;
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 45%;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 100%);
+        pointer-events: none;
+    }
 `;
 
 const Img = styled.img`

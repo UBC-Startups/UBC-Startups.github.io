@@ -55,6 +55,18 @@ const ImageContainer = styled.div`
     width: 100%;
     height: 260px;
     overflow: hidden;
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 45%;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.45) 100%);
+        pointer-events: none;
+    }
 `;
 
 const Img = styled.img`
@@ -62,6 +74,22 @@ const Img = styled.img`
     height: 100%;
     object-fit: cover;
     object-position: ${(props) => props.$objectPosition || "center"};
+`;
+
+const PlaceholderImage = styled.div`
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(51, 51, 51, 0.72)),
+        radial-gradient(circle at 24% 26%, rgba(255, 255, 255, 0.18), transparent 28%),
+        radial-gradient(circle at 78% 18%, rgba(255, 255, 255, 0.12), transparent 24%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-family: Sansation, sans-serif;
+    font-size: 1.15em;
+    letter-spacing: 0;
 `;
 
 const Content = styled.div`
@@ -98,7 +126,11 @@ const EventBox = ({ img, title, description, month, day, posterLink, imgPosition
     return (
         <Card>
             <ImageContainer>
-                <Img src={img} alt={title} $objectPosition={imgPosition} />
+                {img ? (
+                    <Img src={img} alt={title} $objectPosition={imgPosition} />
+                ) : (
+                    <PlaceholderImage>Details Coming Soon</PlaceholderImage>
+                )}
             </ImageContainer>
             <Content>
                 <Title>{title}</Title>

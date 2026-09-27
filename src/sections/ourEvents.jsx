@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import EventBox from "../components/event";
-import foundersCirclePoster from "../images/eventPhotos/founders_circle_poster.jpeg";
 
 const OurEventsContainer = styled.div`
     overflow-x: hidden;
@@ -72,15 +71,20 @@ const OurEvents = () => {
     // only display upcoming 2 events
     const events = [
         {
-            img: foundersCirclePoster,
-            title: "Founder’s Circle: UBC Startups Kickoff",
+            title: "Pitch & Propel",
             description:
-                "Not sure if entrepreneurship is for you? Founder’s Circle is a kickoff event where you can hear from founders and entrepreneurship community members, meet students and alumni interested in startups, and learn about different paths into the startup world.",
-            month: "Sept",
-            day: "24",
+                "A future workshop and pitch experience where students build confidence, validate startup ideas, and get practical feedback from founders, mentors, and peers. More details coming soon.",
+            month: "Oct",
+            day: "29",
             category: "upcoming",
-            posterLink: "/event-poster/foundher-2026",
-            imgPosition: "top",
+        },
+        {
+            title: "CaseHack",
+            description:
+                "A future innovation competition where interdisciplinary teams solve a real-world challenge by developing both a business solution and a prototype. More details coming soon.",
+            month: "Nov",
+            day: "20",
+            category: "upcoming",
         },
     ];
 

@@ -128,6 +128,52 @@ const Events = () => {
 
     const events = [
         {
+            title: "SOAR (2027)",
+            description:
+                "SOAR is UBC Startups' flagship annual pitch competition where student founders showcase ventures in front of investors, founders, and industry leaders. More details coming soon.",
+            month: "March",
+            day: "20",
+            year: 2027,
+            category: "upcoming",
+            imgTop: "-20px",
+        },
+        {
+            title: "Capital Connect",
+            description:
+                "Capital Connect is a future networking event bringing together venture capitalists, angel investors, founders, and students interested in entrepreneurship. More details coming soon.",
+            month: "Feb",
+            day: "25",
+            year: 2027,
+            category: "upcoming",
+        },
+        {
+            title: "LaunchLink",
+            description:
+                "LaunchLink is a future career-focused networking event connecting students with startups, scale-ups, and local businesses looking for emerging talent. More details coming soon.",
+            month: "Jan",
+            day: "14",
+            year: 2027,
+            category: "upcoming",
+        },
+        {
+            title: "CaseHack",
+            description:
+                "CaseHack is a future innovation competition where interdisciplinary teams solve a real-world challenge by developing both a business solution and a prototype. More details coming soon.",
+            month: "Nov",
+            day: "20",
+            year: 2026,
+            category: "upcoming",
+        },
+        {
+            title: "Pitch & Propel",
+            description:
+                "Pitch & Propel is a future workshop and pitch experience where students develop startup ideas, practice elevator-style pitches, and receive feedback from founders, mentors, and peers. More details coming soon.",
+            month: "Oct",
+            day: "29",
+            year: 2026,
+            category: "upcoming",
+        },
+        {
             img: foundersCirclePoster,
             title: "Founder’s Circle: UBC Startups Kickoff",
             description:
@@ -135,7 +181,7 @@ const Events = () => {
             month: "Sept",
             day: "24",
             year: 2026,
-            category: "upcoming",
+            category: "prev",
             imgTop: "-100px",
             posterLink: "/event-poster/foundher-2026",
             imgPosition: "top",

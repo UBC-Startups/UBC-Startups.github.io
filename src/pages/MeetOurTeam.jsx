@@ -66,9 +66,8 @@ const Photo = styled.div`
   height: 120px;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid ${color.inkTertiary};
-  background: ${color.surface};
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  &.empty { border: 1px solid ${color.inkTertiary}; background: ${color.surface}; }
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +78,7 @@ const Photo = styled.div`
 function TeamPhoto({ m }) {
   if (!m.image) {
     return (
-      <Photo>
+      <Photo className="empty">
         <img className="placeholder" src={figma("logo-mark.svg")} alt="" />
       </Photo>
     );

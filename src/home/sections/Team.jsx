@@ -69,7 +69,6 @@ const Avatar = styled.li`
   height: ${AVATAR}px;
   border-radius: 50%;
   overflow: hidden;
-  background: ${color.inverseSubtle};
 `;
 const Tooltip = styled.span`
   position: absolute;
@@ -89,23 +88,6 @@ const Tooltip = styled.span`
   .name { ${type.labelM}; font-weight: 600; }
   .role { ${type.caption}; color: ${color.inkInverseMuted}; margin-top: 2px; }
 `;
-const Controls = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-`;
-const PauseButton = styled.button`
-  ${type.labelM};
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background: transparent;
-  color: ${color.inkInverse};
-  border-radius: 999px;
-  padding: 11px 18px;
-  cursor: pointer;
-  &:hover { border-color: #fff; }
-  @media (prefers-reduced-motion: reduce) { display: none; }
-`;
-
 function Avatars({ hidden }) {
   return team.map((m) => (
     <Avatar key={(hidden ? "b-" : "a-") + m.name} aria-hidden={hidden || undefined}>
@@ -120,7 +102,6 @@ function Avatars({ hidden }) {
 
 export default function Team() {
   const [hovering, setHovering] = useState(false);
-  const [stopped, setStopped] = useState(false);
 
   return (
     <Section id="team" aria-labelledby="team-title">
@@ -137,20 +118,15 @@ export default function Team() {
           aria-label="Team members"
           role="region"
         >
-          <Track $duration={team.length * SECONDS_PER_PERSON} $paused={hovering || stopped}>
+          <Track $duration={team.length * SECONDS_PER_PERSON} $paused={hovering}>
             <Avatars />
             <Avatars hidden />
           </Track>
         </Viewport>
 
-        <Controls>
-          <Button to="/meetOurTeam" variant="secondary" onClick={() => window.scrollTo(0, 0)}>
-            Meet the team
-          </Button>
-          <PauseButton type="button" aria-pressed={stopped} onClick={() => setStopped((s) => !s)}>
-            {stopped ? "Play" : "Pause"}
-          </PauseButton>
-        </Controls>
+        <Button to="/meetOurTeam" variant="secondary" onClick={() => window.scrollTo(0, 0)}>
+          Meet the team
+        </Button>
       </Card>
     </Section>
   );

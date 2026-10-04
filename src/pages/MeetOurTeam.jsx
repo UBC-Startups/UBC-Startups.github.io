@@ -5,6 +5,7 @@ import Layout from "../home/Layout";
 import PageHero from "../home/sections/PageHero";
 import { bp, color, figma, sectionPad } from "../home/theme";
 import { teamSections } from "../data/team";
+import TeamPhotoFill from "../home/TeamPhotoFill";
 
 // Team page redesign (Figma: "UBC Startups — Website Remix", TEAM PAGE frame).
 // Roster data still comes from src/data/team.js.
@@ -75,16 +76,6 @@ const Photo = styled.div`
   img.photo { width: 100%; height: 100%; object-fit: cover; display: block; }
   img.placeholder { width: 40%; height: 40%; opacity: 0.35; }
 `;
-// Same ring as the frames baked into the older portraits, so every photo matches.
-const Ring = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 6px;
-  border-radius: 50%;
-  background: conic-gradient(from 45deg, #ff9933, #87dabe, #e42e1c, #87dabe, #ff9933);
-  & > div { width: 100%; height: 100%; border: 4px solid #000; border-radius: 50%; overflow: hidden; }
-`;
-
 function TeamPhoto({ m }) {
   if (!m.image) {
     return (
@@ -93,20 +84,11 @@ function TeamPhoto({ m }) {
       </Photo>
     );
   }
-  const img = (
-    <img
-      className="photo"
-      src={m.image}
-      alt={m.name}
-      loading="lazy"
-      style={{
-        objectPosition: m.photoPosition || "center",
-        transform: `scale(${m.photoScale || 1})`,
-        transformOrigin: m.photoOrigin || "center",
-      }}
-    />
+  return (
+    <Photo>
+      <TeamPhotoFill member={m} />
+    </Photo>
   );
-  return <Photo>{m.photoFrame ? <Ring><div>{img}</div></Ring> : img}</Photo>;
 }
 
 function MemberCard({ m }) {

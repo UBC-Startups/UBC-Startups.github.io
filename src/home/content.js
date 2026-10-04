@@ -147,11 +147,8 @@ export const values = [
   },
 ];
 
-// First 9 people from the current roster (Leadership first). The last two fade out in the design.
-export const team = teamSections
-  .flatMap((s) => s.members)
-  .filter((m) => m.image)
-  .slice(0, 9);
+// Everyone on the current roster who has a photo, in roster order (Leadership first).
+export const team = teamSections.flatMap((s) => s.members).filter((m) => m.image);
 
 // Answers carried over from the current site's FAQ.
 export const faqs = [

@@ -1,67 +1,58 @@
 import React from "react";
+import styled from "styled-components";
 
 import Head from "../components/head";
-import NavigationBar from "../components/navigationBar";
+import { color, font } from "../home/theme";
+import Nav from "../home/sections/Nav";
+import Hero from "../home/sections/Hero";
+import Partners from "../home/sections/Partners";
+import About from "../home/sections/About";
+import Stats from "../home/sections/Stats";
+import Offerings from "../home/sections/Offerings";
+import Values from "../home/sections/Values";
+import Team from "../home/sections/Team";
+import Faq from "../home/sections/Faq";
+import NewsletterFooter from "../home/sections/NewsletterFooter";
 
-import Hero from "../sections/hero";
-import WhatWeOffer from "../sections/whatweoffer";
-import OurEvents from "../sections/ourEvents";
-import AboutUs from "../sections/aboutUs";
-import OurValues from "../sections/ourValues";
-//import MeetOurTeam from "../sections/meetOurTeam";
-import Footer from "../sections/footer";
-//import NewEvent from "../sections/newEvent";
-import Partners from "../sections/ourPartners";
-import FAQ from "../sections/faq";
-import Stats from "../sections/stats";
-import styled from "styled-components";
-import shapeDesign from "../images/HeroShapeDesign.svg";
-import Subscription from "../sections/subscription";
+// Homepage redesign (Figma: "UBC Startups — Website Remix", HOMEPAGE frame).
+// The previous homepage sections are still in src/sections/ and used by other pages.
 
-const BackgroundWrapper = styled.div`
-    position: absolute;
-    top: -200px;
-    left: 0px;
-    width: 100%;
-    min-height: 100%;
-    z-index: -1;
-    pointer-events: none;
+const Page = styled.div`
+  background: ${color.canvas};
+  min-height: 100vh;
+`;
+const Frame = styled.div`
+  box-sizing: border-box;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 12px 12px;
+  font-family: ${font};
+  color: ${color.ink};
+  -webkit-font-smoothing: antialiased;
 
-    background-image: url(${shapeDesign});
-    background-repeat: repeat;
-    background-position: top left;
-    background-size: 100%;
-
-    @media (max-width: 600px) {
-        top: -300px;
-        background-size: 100% 100vh;
-        background-repeat: repeat;
-    }
+  *, *::before, *::after { box-sizing: border-box; }
+  p, h1, h2, h3 { margin: 0; }
+  :focus-visible { outline: 2px solid ${color.accent}; outline-offset: 3px; }
 `;
 
-
-
-const HomePage = () => {
-    return (
-        <div style={{ position: "relative", minHeight: "100%" }}>
-            <BackgroundWrapper />
-            <Head title="UBC Startups" />
-            <NavigationBar />
-            <Hero
-                heading="UBC Startups"
-                description="Building a startup ecosystem on campus"
-            />
-            <AboutUs />
-            <Stats />
-            <WhatWeOffer />
-            <Partners />
-            <OurEvents />
-            <OurValues />
-            <FAQ />
-            <Subscription/>
-            <Footer />
-        </div>
-    );
-};
+const HomePage = () => (
+  <Page>
+    <Head title="UBC Startups" />
+    <Frame id="top">
+      <Nav />
+      <main>
+        <Hero />
+        <Partners />
+        <About />
+        <Stats />
+        <Offerings />
+        <Values />
+        <Team />
+        <Faq />
+      </main>
+      <NewsletterFooter />
+    </Frame>
+  </Page>
+);
 
 export default HomePage;

@@ -36,6 +36,7 @@ import photo37 from "../images/teamPhotos/Calvin-Wu-2026.jpeg";
 import photo39 from "../images/teamPhotos/Henrik-Wei-2026.jpeg";
 import photo40 from "../images/teamPhotos/Ethan-Hsu-2026.jpg";
 import photo42 from "../images/teamPhotos/Shelley-Luo-2026.jpeg";
+import photo43 from "../images/teamPhotos/donna.jpeg";
 
 export const teamSections = [
   {
@@ -319,6 +320,7 @@ export const teamSections = [
       {
         "name": "Donna Li",
         "role": "UI/UX Designer",
+        "image": photo43,
         "linkedIn": "https://www.linkedin.com/in/donnali8/"
       },
       {

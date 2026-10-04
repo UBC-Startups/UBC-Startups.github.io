@@ -81,7 +81,7 @@ const footerLinks = [
   { label: "Email", href: links.email },
 ];
 
-export default function NewsletterFooter({ title = "Stay in the loop" }) {
+export default function NewsletterFooter({ title = "Stay in the loop." }) {
   // Same MailerLite embed the current Subscription section uses.
   useEffect(() => {
     window.ml = window.ml || function () { (window.ml.q = window.ml.q || []).push(arguments); };

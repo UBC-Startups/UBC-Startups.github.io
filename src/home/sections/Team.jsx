@@ -35,9 +35,7 @@ const scroll = keyframes`
   to { transform: translateX(-50%); }
 `;
 
-const Viewport = styled(Link)`
-  display: block;
-  cursor: pointer;
+const Viewport = styled.div`
   position: relative;
   width: calc(100% + 48px);
   margin: 0 -24px;
@@ -73,6 +71,18 @@ const Avatar = styled.li`
   border-radius: 50%;
   overflow: hidden;
 `;
+// Each photo opens that person's LinkedIn; anyone without one links to the Team page.
+const avatarLink = `
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  color: inherit;
+  text-decoration: none;
+`;
+const ExternalLink = styled.a`${avatarLink}`;
+const TeamLink = styled(Link)`${avatarLink}`;
+
 const Tooltip = styled.span`
   position: absolute;
   inset: 0;
@@ -87,20 +97,35 @@ const Tooltip = styled.span`
   color: #fff;
   opacity: 0;
   transition: opacity 0.2s;
-  ${Avatar}:hover & { opacity: 1; }
+  ${Avatar}:hover &, ${Avatar}:focus-within & { opacity: 1; }
   .name { ${type.labelM}; font-weight: 600; }
   .role { ${type.caption}; color: ${color.inkInverseMuted}; margin-top: 2px; }
 `;
 function Avatars({ hidden }) {
-  return team.map((m) => (
-    <Avatar key={(hidden ? "b-" : "a-") + m.name} aria-hidden={hidden || undefined}>
-      <TeamPhotoFill member={m} alt={hidden ? "" : `${m.name}, ${m.role}`} loading="eager" />
-      <Tooltip aria-hidden>
-        <span className="name">{m.name}</span>
-        <span className="role">{m.role}</span>
-      </Tooltip>
-    </Avatar>
-  ));
+  return team.map((m) => {
+    const inner = (
+      <>
+        <TeamPhotoFill member={m} alt="" loading="eager" />
+        <Tooltip aria-hidden>
+          <span className="name">{m.name}</span>
+          <span className="role">{m.role}</span>
+        </Tooltip>
+      </>
+    );
+    // The duplicate copy (for the seamless loop) is hidden from screen readers and skipped by Tab.
+    const a11y = hidden
+      ? { "aria-hidden": true, tabIndex: -1 }
+      : { "aria-label": m.linkedIn ? `${m.name}, ${m.role}, on LinkedIn` : `${m.name}, ${m.role}` };
+    return (
+      <Avatar key={(hidden ? "b-" : "a-") + m.name} aria-hidden={hidden || undefined}>
+        {m.linkedIn ? (
+          <ExternalLink href={m.linkedIn} target="_blank" rel="noreferrer" {...a11y}>{inner}</ExternalLink>
+        ) : (
+          <TeamLink to="/meetOurTeam" onClick={() => window.scrollTo(0, 0)} {...a11y}>{inner}</TeamLink>
+        )}
+      </Avatar>
+    );
+  });
 }
 
 export default function Team() {
@@ -118,9 +143,10 @@ export default function Team() {
         <Viewport
           onMouseEnter={() => setHovering(true)}
           onMouseLeave={() => setHovering(false)}
-          to="/meetOurTeam"
-          onClick={() => window.scrollTo(0, 0)}
-          aria-label="Meet the team"
+          onFocus={() => setHovering(true)}
+          onBlur={() => setHovering(false)}
+          role="region"
+          aria-label="Team members"
         >
           <Track $duration={team.length * SECONDS_PER_PERSON} $paused={hovering}>
             <Avatars />

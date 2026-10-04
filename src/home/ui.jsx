@@ -31,8 +31,11 @@ const buttonStyles = css`
   display: inline-flex;
   flex-shrink: 0;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 11px 16px 11px 24px; /* 12px minus the 1px border */
+  /* 12px minus the 1px border. With the orange dot the right side is tighter, as in Figma;
+     without it the padding is even so the label sits centered. */
+  padding: ${({ $dot }) => ($dot ? "11px 16px 11px 24px" : "11px 24px")};
   border-radius: ${radius.full};
   white-space: nowrap;
   text-decoration: none;
@@ -63,15 +66,15 @@ export function Button({ variant = "primary", showDot = false, to, hash, href, c
       {showDot && <Dot src={figma("button-dot.svg")} alt="" />}
     </>
   );
-  if (hash) return <StyledHash smooth to={hash} $variant={variant} {...rest}>{content}</StyledHash>;
+  if (hash) return <StyledHash smooth to={hash} $variant={variant} $dot={showDot} {...rest}>{content}</StyledHash>;
   if (href)
     return (
-      <StyledAnchor href={href} target="_blank" rel="noreferrer" $variant={variant} {...rest}>
+      <StyledAnchor href={href} target="_blank" rel="noreferrer" $variant={variant} $dot={showDot} {...rest}>
         {content}
       </StyledAnchor>
     );
-  if (to) return <StyledLink to={to} $variant={variant} {...rest}>{content}</StyledLink>;
-  return <StyledButton type="button" $variant={variant} {...rest}>{content}</StyledButton>;
+  if (to) return <StyledLink to={to} $variant={variant} $dot={showDot} {...rest}>{content}</StyledLink>;
+  return <StyledButton type="button" $variant={variant} $dot={showDot} {...rest}>{content}</StyledButton>;
 }
 
 const LabelRow = styled.div`

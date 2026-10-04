@@ -95,8 +95,7 @@ export const programs = [
     dots: figma("program-dots-workshops.svg"),
     from: "#ff5a1f",
     to: "#1a1a1a",
-    // TODO: copy is unfinished in Figma
-    body: "We offer workshops with mentors that guide you through ... such as pitching workshops, pitching competitions, startup...",
+    body: "We offer workshops with experienced mentors who guide you through the startup journey, such as pitching workshops, pitch competitions, and startup fundamentals sessions. Whether you're refining an idea or getting ready to launch, you'll walk away with practical skills and the confidence to make it happen.",
   },
   {
     name: "Resources",

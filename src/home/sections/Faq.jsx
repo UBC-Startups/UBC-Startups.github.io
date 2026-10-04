@@ -33,6 +33,7 @@ const Item = styled.li`
 `;
 const Question = styled.button`
   ${type.labelL};
+  display: block; /* inline-block left a sliver of page background under the open question */
   width: 100%;
   border: 0;
   cursor: pointer;
@@ -45,6 +46,7 @@ const Question = styled.button`
 `;
 const Answer = styled.div`
   ${type.bodyM};
+  margin-top: -1px; /* overlap by a pixel so no seam shows at any zoom level */
   color: ${color.inkSecondary};
   background: ${color.surface};
   padding: 12px 24px 24px;

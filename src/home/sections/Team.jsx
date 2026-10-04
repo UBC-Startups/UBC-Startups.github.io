@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
+import { Link } from "react-router-dom";
 import { bp, color, radius, sectionPad, type } from "../theme";
 import { team } from "../content";
 import { Button } from "../ui";
@@ -34,7 +35,9 @@ const scroll = keyframes`
   to { transform: translateX(-50%); }
 `;
 
-const Viewport = styled.div`
+const Viewport = styled(Link)`
+  display: block;
+  cursor: pointer;
   position: relative;
   width: calc(100% + 48px);
   margin: 0 -24px;
@@ -115,8 +118,9 @@ export default function Team() {
         <Viewport
           onMouseEnter={() => setHovering(true)}
           onMouseLeave={() => setHovering(false)}
-          aria-label="Team members"
-          role="region"
+          to="/meetOurTeam"
+          onClick={() => window.scrollTo(0, 0)}
+          aria-label="Meet the team"
         >
           <Track $duration={team.length * SECONDS_PER_PERSON} $paused={hovering}>
             <Avatars />

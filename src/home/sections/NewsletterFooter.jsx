@@ -116,7 +116,7 @@ export default function NewsletterFooter({ title = "Stay in the loop" }) {
       <Bottom>
         <Brand href="/">
           <img src={figma("logo-mark-inverse.svg")} alt="" />
-          ubc startups
+          UBC Startups
         </Brand>
         <Social>
           {footerLinks.map((l) => (

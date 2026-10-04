@@ -321,7 +321,12 @@ export const teamSections = [
         "name": "Donna Li",
         "role": "UI/UX Designer",
         "image": photo43,
-        "linkedIn": "https://www.linkedin.com/in/donnali8/"
+        "linkedIn": "https://www.linkedin.com/in/donnali8/",
+        "photoFrame": true,
+        "photoScale": 1,
+        "photoPosition": "50% 30%",
+        "photoOrigin": "center"
+       
       },
       {
         "name": "Mohith Baskaran",

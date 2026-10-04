@@ -28,26 +28,6 @@ const WWODescription = styled.p`
     font-size: 1em;
 `
 
-const WWOLearnMore = styled.a`
-    background: #FFDEB8;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 30px;
-    padding: 5px 25px;
-    text-decoration: none;
-    transition: 0.3s;
-    color: #656464;
-    text-transform: uppercase;
-    text-align: center;
-    display: block;
-    margin: 0 auto;
-    width: 160px;
-
-    &:hover {
-        // background: red;
-    }
-
-`
-
 const WWOImage = styled.img`
     position: relative;
     top: -80px;
@@ -56,7 +36,7 @@ const WWOImage = styled.img`
     margin-bottom: -40px;
 `
 
-const WWOContent = ({image, title, description, url}) => {
+const WWOContent = ({image, title, description}) => {
 
     return (
         <WhatWeOfferContent>

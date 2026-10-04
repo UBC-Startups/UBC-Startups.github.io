@@ -81,7 +81,7 @@ const footerLinks = [
   { label: "Email", href: links.email },
 ];
 
-export default function NewsletterFooter() {
+export default function NewsletterFooter({ title = "Stay in the loop" }) {
   // Same MailerLite embed the current Subscription section uses.
   useEffect(() => {
     window.ml = window.ml || function () { (window.ml.q = window.ml.q || []).push(arguments); };
@@ -106,7 +106,7 @@ export default function NewsletterFooter() {
       </Glows>
 
       <Main>
-        <h2>Stay in the loop</h2>
+        <h2>{title}</h2>
         <Join>
           <p>Get the latest updates on events, workshops, and opportunities delivered straight to your inbox.</p>
           <div className="ml-embedded" data-form="OLHxhO"></div>
@@ -114,7 +114,7 @@ export default function NewsletterFooter() {
       </Main>
 
       <Bottom>
-        <Brand href="#top">
+        <Brand href="/">
           <img src={figma("logo-mark-inverse.svg")} alt="" />
           ubc startups
         </Brand>

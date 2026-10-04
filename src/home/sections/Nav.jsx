@@ -50,6 +50,7 @@ const Links = styled.ul`
     line-height: 1.2;
   }
   a:hover { color: ${color.accent}; }
+  a[aria-current="page"] { font-weight: 600; }
 `;
 const Socials = styled.div`
   display: none;
@@ -85,13 +86,17 @@ const MobileMenu = styled.div`
   padding: 0 24px 24px;
   ${bp.lg} { display: none; }
   a { color: ${color.ink}; text-decoration: none; font-size: 20px; font-weight: 500; padding: 8px 0; }
+  a[aria-current="page"] { font-weight: 600; }
 `;
 
-function NavItem({ item, onClick }) {
+function NavItem({ item, active, onClick }) {
+  const current = active === item.label ? "page" : undefined;
   return item.hash ? (
-    <HashLink smooth to={item.hash} onClick={onClick}>{item.label}</HashLink>
+    <HashLink smooth to={item.hash} onClick={onClick} aria-current={current}>{item.label}</HashLink>
   ) : (
-    <Link to={item.to} onClick={() => { window.scrollTo(0, 0); onClick && onClick(); }}>{item.label}</Link>
+    <Link to={item.to} aria-current={current} onClick={() => { window.scrollTo(0, 0); onClick && onClick(); }}>
+      {item.label}
+    </Link>
   );
 }
 
@@ -103,7 +108,8 @@ function SocialIcons() {
   ));
 }
 
-export default function Nav() {
+/** `active` is the label of the current page ("Events", "Team"), shown in semibold. */
+export default function Nav({ active }) {
   const [open, setOpen] = useState(false);
   return (
     <Header>
@@ -114,7 +120,7 @@ export default function Nav() {
         </Brand>
         <Links>
           {navLinks.map((item) => (
-            <li key={item.label}><NavItem item={item} /></li>
+            <li key={item.label}><NavItem item={item} active={active} /></li>
           ))}
         </Links>
         <Socials><SocialIcons /></Socials>
@@ -125,7 +131,7 @@ export default function Nav() {
       {open && (
         <MobileMenu id="home-mobile-menu">
           {navLinks.map((item) => (
-            <NavItem key={item.label} item={item} onClick={() => setOpen(false)} />
+            <NavItem key={item.label} item={item} active={active} onClick={() => setOpen(false)} />
           ))}
           <div style={{ display: "flex", gap: 16, marginTop: 8 }}><SocialIcons /></div>
         </MobileMenu>

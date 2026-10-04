@@ -5,13 +5,16 @@
 //
 // The Figma asset URLs below are short-lived (they expire ~7 days after
 // export, around Oct 10, 2026). If they 403/404, re-export the HOMEPAGE frame
-// (node 45:623) and paste the new prefix in ASSET_PREFIX.
+// (node 45:623) and the Events page (47:454) and paste the new prefixes above.
 
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 
 const ASSET_PREFIX =
   "https://www.figma.com/api/mcp/asset/dd7a8dfc-b750-4742-80d8-e5347ce9b134";
+// Glows used only by the Events and Team page heroes (separate Figma export).
+const PAGE_ASSET_PREFIX =
+  "https://www.figma.com/api/mcp/asset/9380597c-ca19-4855-bcfc-432c89a9e58c";
 
 // local file name  ->  Figma asset id
 const ASSETS = {
@@ -43,6 +46,8 @@ const ASSETS = {
   "icon-linkedin.svg": "ad6ca.svg",
   "icon-instagram.svg": "b4603.svg",
   "icon-email.svg": "a0112.svg",
+  "page-hero-glow-bottom-left.svg": `${PAGE_ASSET_PREFIX}/91164.svg`,
+  "page-hero-glow-top-right.svg": `${PAGE_ASSET_PREFIX}/6eb43.svg`,
 };
 
 const outDir = join(process.cwd(), "public", "figma");
@@ -50,7 +55,8 @@ await mkdir(outDir, { recursive: true });
 
 let failed = 0;
 for (const [file, id] of Object.entries(ASSETS)) {
-  const res = await fetch(`${ASSET_PREFIX}/${id}`);
+  const url = id.startsWith("https://") ? id : `${ASSET_PREFIX}/${id}`;
+  const res = await fetch(url);
   if (!res.ok) {
     console.error(`✗ ${file}  (${res.status})`);
     failed++;

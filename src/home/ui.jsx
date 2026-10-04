@@ -44,6 +44,7 @@ const buttonStyles = css`
 const StyledLink = styled(Link)`${buttonStyles}`;
 const StyledHash = styled(HashLink)`${buttonStyles}`;
 const StyledButton = styled.button`${buttonStyles}`;
+const StyledAnchor = styled.a`${buttonStyles}`;
 
 const Dot = styled.img`
   display: block;
@@ -51,8 +52,11 @@ const Dot = styled.img`
   height: 7px;
 `;
 
-/** Pass `to` for a route, `hash` for a homepage section (e.g. "/#faq"), or neither for a <button>. */
-export function Button({ variant = "primary", showDot = false, to, hash, children, ...rest }) {
+/**
+ * Pass `to` for a route, `hash` for a homepage section (e.g. "/#faq"),
+ * `href` for an external link (opens in a new tab), or none of them for a <button>.
+ */
+export function Button({ variant = "primary", showDot = false, to, hash, href, children, ...rest }) {
   const content = (
     <>
       {children}
@@ -60,6 +64,12 @@ export function Button({ variant = "primary", showDot = false, to, hash, childre
     </>
   );
   if (hash) return <StyledHash smooth to={hash} $variant={variant} {...rest}>{content}</StyledHash>;
+  if (href)
+    return (
+      <StyledAnchor href={href} target="_blank" rel="noreferrer" $variant={variant} {...rest}>
+        {content}
+      </StyledAnchor>
+    );
   if (to) return <StyledLink to={to} $variant={variant} {...rest}>{content}</StyledLink>;
   return <StyledButton type="button" $variant={variant} {...rest}>{content}</StyledButton>;
 }

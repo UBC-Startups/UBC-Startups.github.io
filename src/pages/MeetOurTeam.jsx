@@ -1,102 +1,135 @@
 import React from "react";
 import styled from "styled-components";
-import NavigationBar from "../components/navigationBar";
-import Footer from "../sections/footer";
-import shapeDesign from "../images/HeroShapeDesign.svg";
 
-import TeamMember from "../components/teamMember";
-
+import Layout from "../home/Layout";
+import PageHero from "../home/sections/PageHero";
+import { bp, color, figma, sectionPad } from "../home/theme";
 import { teamSections } from "../data/team";
+import TeamPhotoFill from "../home/TeamPhotoFill";
 
-const MeetOurTeamContainer = styled.div`
-    height: auto;
-    padding-top: 150px;
-`
+// Team page redesign (Figma: "UBC Startups — Website Remix", TEAM PAGE frame).
+// Roster data still comes from src/data/team.js.
 
-const MOTTitle = styled.h1`
-    font-family: 'Sansation', sans-serif;
+const Section = styled.section`
+  ${sectionPad};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 80px;
+  padding-top: 96px;
+  padding-bottom: 160px;
+  ${bp.sm} { gap: 120px; padding-top: 140px; padding-bottom: 280px; }
+  & > h2 {
+    font-size: clamp(36px, 4.5vw, 64px);
     font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.04em;
     text-align: center;
-    font-size: 3em;
-`
-
-const MOTContainer = styled.div`
-    margin: 0 auto;
-    display: grid;
-    grid-gap: 60px;
-    width: 90vw;
-    justify-items: center;
-    grid-template-columns: repeat(${({ $columns }) => $columns}, minmax(0, 1fr));
-    margin-top: 100px;
-    margin-bottom: 100px;
-
-    @media (max-width: 1133px) {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (max-width: 733px) {
-        grid-template-columns: minmax(0, 1fr);
-    }
-`
-
-const TeamSectionText = styled.h2`
-    font-family: 'Sansation', sans-serif;
-    font-weight: 400;
-    font-size: 2.5em;
-    text-align: center;
-    margin-top: 80px;
-`
-
-const BackgroundWrapper = styled.div`
-    position: absolute;
-    left: 0px;
-    width: 100%;
-    min-height: 100%;
-    z-index: -1;
-    pointer-events: none;
-
-    background-image: url(${shapeDesign});
-    background-repeat: repeat;
-    background-position: top left;
-    background-size: 100%;
-
-    @media (max-width: 600px) {
-        background-size: 100% 100vh;
-        background-repeat: repeat;
-    }
+    color: ${color.ink};
+  }
 `;
-
-const MeetOurTeam = () => {
+const Group = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  ${bp.sm} { gap: 64px; }
+  h3 { font-size: clamp(28px, 2.6vw, 36px); font-weight: 600; color: ${color.ink}; text-align: center; }
+`;
+const Row = styled.ul`
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 48px 24px;
+  ${bp.sm} { gap: 64px 48px; }
+`;
+const Member = styled.li`
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  ${bp.sm} { width: 240px; }
+  .name { font-size: clamp(19px, 1.7vw, 24px); font-weight: 600; color: ${color.ink}; margin-top: 18px; }
+  .role { font-size: clamp(15px, 1.25vw, 18px); font-weight: 500; color: ${color.ink}; }
+  a { font-size: 15px; color: ${color.inkSecondary}; text-decoration: none; }
+  a:hover { color: ${color.accent}; text-decoration: underline; }
+`;
+const Photo = styled.div`
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  &.empty { border: 1px solid ${color.inkTertiary}; background: ${color.surface}; }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  ${bp.sm} { width: 160px; height: 160px; }
+  img.photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+  img.placeholder { width: 40%; height: 40%; opacity: 0.35; }
+`;
+function TeamPhoto({ m }) {
+  if (!m.image) {
     return (
-        <div style={{ position: "relative", minHeight: "100%" }}>
-            <BackgroundWrapper />
-
-            <MeetOurTeamContainer >
-                <NavigationBar />
-                <MOTTitle>Meet our Team</MOTTitle>
-
-                {teamSections.map(({ title, members }) => (
-                    <section key={title} aria-label={title}>
-                        <TeamSectionText>{title}</TeamSectionText>
-                        {title === "Leadership" && (
-                            <MOTContainer $columns={2}>
-                                {members.filter((member) => member.role === "Co-President").map((member) => (
-                                    <TeamMember key={member.name} {...member} />
-                                ))}
-                            </MOTContainer>
-                        )}
-                        <MOTContainer $columns={3}>
-                            {members.filter((member) => title !== "Leadership" || member.role !== "Co-President").map((member) => (
-                                <TeamMember key={member.name} {...member} />
-                            ))}
-                        </MOTContainer>
-                    </section>
-                ))}
-
-                <Footer />
-            </MeetOurTeamContainer>
-        </div>
-    )
+      <Photo className="empty">
+        <img className="placeholder" src={figma("logo-mark.svg")} alt="" />
+      </Photo>
+    );
+  }
+  return (
+    <Photo>
+      <TeamPhotoFill member={m} />
+    </Photo>
+  );
 }
+
+function MemberCard({ m }) {
+  return (
+    <Member>
+      <TeamPhoto m={m} />
+      <p className="name">{m.name}</p>
+      <p className="role">{m.role}</p>
+      {m.linkedIn && (
+        <a href={m.linkedIn} target="_blank" rel="noreferrer" aria-label={`${m.name} on LinkedIn`}>
+          LinkedIn
+        </a>
+      )}
+    </Member>
+  );
+}
+
+// Leadership puts the presidents on their own row, as in the design.
+function rowsFor(title, members) {
+  if (title !== "Leadership") return [members];
+  const presidents = members.filter((m) => /president/i.test(m.role) && !/vice|vp/i.test(m.role));
+  const rest = members.filter((m) => !presidents.includes(m));
+  return presidents.length ? [presidents, rest] : [members];
+}
+
+const MeetOurTeam = () => (
+  <Layout title="Team | UBC Startups" active="Team" footerTitle="Stay in the loop.">
+    <PageHero eyebrow="Team 2026–27" title="Team" subtitle="The people behind UBC Startups." />
+    <Section aria-labelledby="exec-title">
+      <h2 id="exec-title">Meet the 2026/27 exec team</h2>
+      {teamSections.map(({ title, members }) => (
+        <Group key={title} aria-label={title}>
+          <h3>{title}</h3>
+          {rowsFor(title, members).map((row, i) => (
+            <Row key={i}>
+              {row.map((m) => <MemberCard key={m.name} m={m} />)}
+            </Row>
+          ))}
+        </Group>
+      ))}
+    </Section>
+  </Layout>
+);
 
 export default MeetOurTeam;

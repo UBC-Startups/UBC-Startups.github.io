@@ -34,13 +34,14 @@ export const navLinks = [
 ];
 
 // `x` = position along the hero arrow (0–1), measured from Figma.
+// `slug` matches the event's anchor id on the Events page (src/pages/Events.jsx).
 export const timeline = [
-  { name: "Founder’s Circle", date: "Sept. 24th", x: 0.1158, side: "above" },
-  { name: "Pitch & Propel", date: "Oct 29th", x: 0.2551, side: "below" },
-  { name: "CaseHack", date: "Nov 27-28", x: 0.3942, side: "above" },
-  { name: "LaunchLink", date: "Jan 14", x: 0.5428, side: "below" },
-  { name: "Capital Connect", date: "Feb 25", x: 0.6858, side: "above" },
-  { name: "SOAR", date: "March 21", x: 0.8717, side: "below" },
+  { name: "Founder’s Circle", date: "Sept. 24th", x: 0.1158, side: "above", slug: "founders-circle" },
+  { name: "Pitch & Propel", date: "Oct 29th", x: 0.2551, side: "below", slug: "pitch-propel" },
+  { name: "CaseHack", date: "Nov 27-28", x: 0.3942, side: "above", slug: "casehack" },
+  { name: "LaunchLink", date: "Jan 14", x: 0.5428, side: "below", slug: "launchlink" },
+  { name: "Capital Connect", date: "Feb 25", x: 0.6858, side: "above", slug: "capital-connect" },
+  { name: "SOAR", date: "March 21", x: 0.8717, side: "below", slug: "soar" },
 ];
 
 export const featuredEvent = {
@@ -75,9 +76,9 @@ export const about = {
 };
 
 export const stats = [
-  { value: "15+", label: "Events" },
-  { value: "$12,000+", label: "Prizes Awarded" },
-  { value: "15+", label: "Partners" },
+  { value: "20+", label: "Events" },
+  { value: "$25,000+", label: "Awarded" },
+  { value: "100+", label: "Startups Involved" },
 ];
 
 export const programs = [
@@ -113,7 +114,7 @@ export const values = [
     body: "We embrace risk, break patterns, and back creativity without apology.",
     icon: figma("value-icon-boldness.svg"),
     iconSize: { active: [26.918, 36], idle: [17.945, 24] },
-    dot: figma("value-dot-boldness.svg"),
+    dotColor: "#dd3322",
     accent: "linear-gradient(#dd3322, #000000)",
     circle: "linear-gradient(#dd3322 0%, #dd3322 40%, #63170f 100%)",
   },
@@ -122,7 +123,7 @@ export const values = [
     body: "We learn fast, grow faster, and build the confidence to shape our own path.",
     icon: figma("value-icon-growth.svg"),
     iconSize: { active: [32.4, 36], idle: [21.6, 24] },
-    dot: figma("value-dot-growth.svg"),
+    dotColor: "#88dcbe",
     accent: "linear-gradient(#88dcbe, #1a1a1a)",
     circle: "linear-gradient(#88dcbe 0%, #88dcbe 40%, #3d6356 100%)",
   },
@@ -131,7 +132,7 @@ export const values = [
     body: "We are a welcoming home for students and founders to connect and belong.",
     icon: figma("value-icon-community.svg"),
     iconSize: { active: [34.569, 36], idle: [23.046, 24] },
-    dot: figma("value-dot-community.svg"),
+    dotColor: "#ff5a1f",
     accent: "linear-gradient(#ff5a1f, #1a1a1a)",
     circle: "linear-gradient(#ff5a1f 0%, #ff5a1f 40%, #73290e 100%)",
   },
@@ -140,7 +141,7 @@ export const values = [
     body: "We curate rare, intentional experiences that make members feel special.",
     icon: figma("value-icon-exclusivity.svg"),
     iconSize: { active: [34.94, 36], idle: [23.293, 24] },
-    dot: figma("value-dot-exclusivity.svg"),
+    dotColor: "#484848",
     accent: "linear-gradient(#484848, #0a0a0a)",
     circle: "linear-gradient(#606060 0%, #606060 40%, #181818 100%)",
   },

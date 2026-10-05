@@ -33,6 +33,7 @@ const Item = styled.li`
 `;
 const Question = styled.button`
   ${type.labelL};
+  position: relative;
   display: block; /* inline-block left a sliver of page background under the open question */
   width: 100%;
   border: 0;
@@ -42,11 +43,20 @@ const Question = styled.button`
   background: ${color.surface};
   padding: 24px 64px 24px 24px;
   border-radius: ${({ $open }) => ($open ? `${radius.md} ${radius.md} 0 0` : radius.md)};
+  transition: border-radius 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   ${({ $open }) => $open && "padding-bottom: 0;"}
+`;
+const AnswerWrapper = styled.div`
+  display: grid;
+  grid-template-rows: ${({ $open }) => ($open ? "1fr" : "0fr")};
+  transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: -1px; /* overlap by a pixel so no seam shows at any zoom level */
+`;
+const AnswerInner = styled.div`
+  overflow: hidden;
 `;
 const Answer = styled.div`
   ${type.bodyM};
-  margin-top: -1px; /* overlap by a pixel so no seam shows at any zoom level */
   color: ${color.inkSecondary};
   background: ${color.surface};
   padding: 12px 24px 24px;
@@ -55,14 +65,13 @@ const Answer = styled.div`
 // Chevron vectors from Figma: open points up, closed points sideways.
 const ChevronBox = styled.span`
   position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  ${({ $open }) =>
-    $open
-      ? "right: 27.5px; top: 37.5px; width: 16px; height: 14px;"
-      : "right: 28.5px; top: 36.5px; width: 14px; height: 16px;"}
+  ${({ $open }) => ($open ? "right: 27.5px; width: 16px; height: 14px;" : "right: 28.5px; width: 14px; height: 16px;")}
   & > span { flex: none; transform: rotate(${({ $open }) => ($open ? "180deg" : "90deg")}); }
   & > span > span { position: relative; display: block; width: 16px; height: 14px; }
   & > span > span > span { position: absolute; top: 5.83%; right: 12.05%; bottom: 25%; left: 12.05%; }
@@ -87,21 +96,23 @@ export default function Faq() {
                     aria-expanded={isOpen}
                     aria-controls={`faq-a-${i}`}
                     $open={isOpen}
-                    onClick={() => setOpen(isOpen ? null : i)}
+                    onClick={() => setOpen((current) => (current === i ? null : i))}
                   >
                     {f.q}
+                    <ChevronBox aria-hidden $open={isOpen}>
+                      <span><span><span>
+                        <img src={figma(isOpen ? "chevron-open.svg" : "chevron-closed.svg")} alt="" />
+                      </span></span></span>
+                    </ChevronBox>
                   </Question>
                 </h3>
-                {isOpen && (
-                  <Answer id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}>
-                    {f.a}
-                  </Answer>
-                )}
-                <ChevronBox aria-hidden $open={isOpen}>
-                  <span><span><span>
-                    <img src={figma(isOpen ? "chevron-open.svg" : "chevron-closed.svg")} alt="" />
-                  </span></span></span>
-                </ChevronBox>
+                <AnswerWrapper $open={isOpen}>
+                  <AnswerInner>
+                    <Answer id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}>
+                      {f.a}
+                    </Answer>
+                  </AnswerInner>
+                </AnswerWrapper>
               </Item>
             );
           })}

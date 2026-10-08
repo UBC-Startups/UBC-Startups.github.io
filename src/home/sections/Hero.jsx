@@ -56,11 +56,11 @@ const Tagline = styled.p`
 
 /* ---------- Timeline ---------- */
 const TimelineScroller = styled.section`
-  margin: 110px -20px 0;
+  margin: 60px -20px 0;
   padding: 0 20px;
   overflow-x: auto;
-  ${bp.sm} { margin: 110px -36px 0; padding: 0 36px; }
-  ${bp.lg} { margin-top: 130px; }
+  ${bp.sm} { margin: 60px -36px 0; padding: 0 36px; }
+  ${bp.lg} { margin-top: 70px; }
 `;
 const Track = styled.ol`
   position: relative;
@@ -210,6 +210,14 @@ const Buttons = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+
+  a {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  }
 `;
 export default function Hero() {
   return (

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { bp, color, figma, radius, type } from "../theme";
 import { links } from "../content";
-import { Glow } from "../ui";
+import { Button, Glow } from "../ui";
 
 // Same inset, rounded-corner treatment as PageHero (the dark hero on the
 // Events/Team pages), so the two black sections bookending a page match.
@@ -73,54 +73,6 @@ const EmailInput = styled.input`
   &::placeholder {
     color: ${color.inkInverseMuted};
   }
-`;
-const SubscribeButton = styled.button`
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  padding: 14px 28px;
-  border-radius: ${radius.full};
-  border: none;
-  background: linear-gradient(180deg, #8a3418 0%, #662210 55%, #4a1809 100%);
-  color: #fff;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.35),
-    0 6px 14px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
-
-  /* Glossy highlight catching light across the top half of the pill. */
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 55%);
-    pointer-events: none;
-  }
-
-  & > span {
-    position: relative;
-    z-index: 1;
-  }
-
-  &:hover {
-    background: linear-gradient(180deg, #9c3e1d 0%, #7c2a14 55%, #591f0b 100%);
-    transform: scale(1.03) translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.4),
-      inset 0 -3px 6px rgba(0, 0, 0, 0.35),
-      0 8px 18px rgba(0, 0, 0, 0.4);
-  }
-  &:active { transform: scale(0.98) translateY(0); }
-  &:disabled { opacity: 0.6; cursor: default; transform: none; }
 `;
 const StatusText = styled.p`
   ${type.bodyM};
@@ -220,7 +172,7 @@ export default function NewsletterFooter({ title = "Stay in the loop." }) {
               />
               <input type="hidden" name="ml-submit" value="1" />
               <input type="hidden" name="anticsrf" value="true" />
-              <SubscribeButton type="submit"><span>Subscribe</span></SubscribeButton>
+              <Button type="submit" variant="secondary">Subscribe</Button>
             </Form>
           )}
         </Join>

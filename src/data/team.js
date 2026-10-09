@@ -24,7 +24,6 @@ import photo20 from "../images/teamPhotos/Anika.png";
 import photo21 from "../images/teamPhotos/Amarlin.png";
 import photo24 from "../images/teamPhotos/Sreenija-Darbha-2026.jpeg";
 import photo26 from "../images/teamPhotos/Mostafa.jpeg";
-import photo27 from "../images/teamPhotos/Ella.png";
 import photo28 from "../images/teamPhotos/Franklin.png";
 import photo29 from "../images/teamPhotos/Phina-Mary-Tran-2026.jpg";
 import photo30 from "../images/teamPhotos/Navya-Sharma-2026.jpeg";
@@ -140,6 +139,12 @@ export const teamSections = [
         "role": "Advisor",
         "image": katelynPhoto,
         "linkedIn": "https://www.linkedin.com/in/katelyn-jang-68ba6a2b0/"
+      },
+      {
+        "name": "Mostafa Ali",
+        "role": "Advisor",
+        "image": photo26,
+        "linkedIn": "https://www.linkedin.com/in/mostafa57/"
       }
     ]
   },
@@ -219,12 +224,6 @@ export const teamSections = [
         "role": "Marketing Director",
         "image": photo26,
         "linkedIn": "https://www.linkedin.com/in/mostafa57/"
-      },
-      {
-        "name": "Ella Chow",
-        "role": "Marketing Director",
-        "image": photo27,
-        "linkedIn": "https://www.linkedin.com/in/ellachow26"
       },
       {
         "name": "Franklin Yuan",

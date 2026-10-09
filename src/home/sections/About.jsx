@@ -28,7 +28,8 @@ const Carousel = styled.div`
   position: relative;
   flex-shrink: 0;
   width: 100%;
-  height: 320px;
+  max-width: 460px;
+  height: 260px;
   overflow: hidden;
   border-radius: ${radius.xl};
   background: ${color.muted};
@@ -37,8 +38,8 @@ const Carousel = styled.div`
   justify-content: center;
   padding-bottom: 24px;
   box-sizing: border-box;
-  ${bp.sm} { height: 480px; }
-  ${bp.lg} { width: 620px; }
+  ${bp.sm} { height: 360px; }
+  ${bp.lg} { width: 460px; }
 `;
 const Slide = styled.img`
   position: absolute;

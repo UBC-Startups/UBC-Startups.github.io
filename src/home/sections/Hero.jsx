@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { HashLink } from "react-router-hash-link";
 import { bp, color, figma, radius, type } from "../theme";
-import { featuredEvent, timeline } from "../content";
+import { timeline } from "../content";
 import { Button, Glow } from "../ui";
 
-const LINE_Y = 67; // distance from top of the timeline box to the arrow
+const LINE_Y = 95; // distance from top of the timeline box to the arrow
 
 const Section = styled.section`
   position: relative;
@@ -43,29 +44,30 @@ const HeroLogo = styled.img`
 `;
 const Title = styled.h1`
   ${type.displayXL};
+  font-size: clamp(56px, 11vw, 160px);
   color: ${color.inkInverse};
 `;
 const Tagline = styled.p`
   ${type.headingM};
   color: ${color.inkInverse};
-  margin-top: 8px;
+  margin-top: 52px !important;
   ${bp.sm} { margin-left: 12px; }
 `;
 
 /* ---------- Timeline ---------- */
 const TimelineScroller = styled.section`
-  margin: 56px -20px 0;
+  margin: 60px -20px 0;
   padding: 0 20px;
   overflow-x: auto;
-  ${bp.sm} { margin: 56px -36px 0; padding: 0 36px; }
-  ${bp.lg} { margin-top: 65px; }
+  ${bp.sm} { margin: 60px -36px 0; padding: 0 36px; }
+  ${bp.lg} { margin-top: 70px; }
 `;
 const Track = styled.ol`
   position: relative;
   list-style: none;
   margin: 0 38px 0 20px;
   padding: 0;
-  height: 134px;
+  height: 190px;
   min-width: 860px;
 `;
 const Arrow = styled.li`
@@ -79,48 +81,75 @@ const Arrow = styled.li`
 `;
 const Milestone = styled.li`
   position: absolute;
+  transform: translateX(-50%);
+`;
+const MilestoneLink = styled(HashLink)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: translateX(-50%);
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+
+  &:hover {
+    color: ${color.accent};
+    transform: scale(1.08);
+  }
 `;
 const MilestoneLabel = styled.p`
   ${type.labelM};
-  color: #fff;
+  color: inherit;
   text-align: center;
   white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: ${radius.full};
+  background: rgba(255, 255, 255, 0);
+  transition: background 0.2s;
+
+  ${MilestoneLink}:hover & {
+    background: rgba(255, 90, 31, 0.14);
+  }
 `;
-// Tick + dot vectors from Figma, reproduced with the same geometry.
-const TickBox = styled.div`
+const TickLine = styled.div`
+  width: 1px;
+  height: 23px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background 0.2s;
+
+  ${MilestoneLink}:hover & {
+    background: ${color.accent};
+  }
+`;
+const Dot = styled.div`
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 0;
-  height: 23.087px;
-  & > div { flex: none; transform: rotate(-90deg); }
-  & > div > div { position: relative; width: 23.087px; height: 0; }
-  & > div > div > div { position: absolute; inset: -1px 0 0 0; }
-  img { display: block; width: 100%; height: 100%; max-width: none; }
-`;
-const DotImg = styled.img`
-  position: absolute;
-  left: 0;
-  width: 7px;
-  height: 7px;
-  max-width: none;
-  transform: translateX(-50%);
-  ${({ $at }) => ($at === "top" ? "top: -3.5px;" : "bottom: -3.5px;")}
+  width: 9px;
+  height: 9px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+
+  ${MilestoneLink}:hover & {
+    background: ${color.accent};
+    box-shadow: 0 0 0 6px rgba(255, 90, 31, 0.25);
+    transform: scale(1.15);
+  }
 `;
 
 function Tick({ dot }) {
-  return (
-    <div style={{ position: "relative" }}>
-      <TickBox aria-hidden>
-        <div><div><div><img src={figma("timeline-tick.svg")} alt="" /></div></div></div>
-      </TickBox>
-      <DotImg src={figma("timeline-dot.svg")} alt="" aria-hidden $at={dot} />
-    </div>
+  return dot === "top" ? (
+    <>
+      <Dot aria-hidden />
+      <TickLine aria-hidden />
+    </>
+  ) : (
+    <>
+      <TickLine aria-hidden />
+      <Dot aria-hidden />
+    </>
   );
 }
 
@@ -138,13 +167,17 @@ function Timeline() {
           );
           return m.side === "above" ? (
             <Milestone key={m.name} style={{ left: `${m.x * 100}%`, bottom: `calc(100% - ${LINE_Y}px)` }}>
-              {label}
-              <div style={{ marginTop: 9 }}><Tick dot="top" /></div>
+              <MilestoneLink smooth to={`/events#${m.slug}`}>
+                {label}
+                <div style={{ marginTop: 9 }}><Tick dot="top" /></div>
+              </MilestoneLink>
             </Milestone>
           ) : (
             <Milestone key={m.name} style={{ left: `${m.x * 100}%`, top: LINE_Y }}>
-              <Tick dot="bottom" />
-              <div style={{ marginTop: 13 }}>{label}</div>
+              <MilestoneLink smooth to={`/events#${m.slug}`}>
+                <Tick dot="bottom" />
+                <div style={{ marginTop: 13 }}>{label}</div>
+              </MilestoneLink>
             </Milestone>
           );
         })}
@@ -177,60 +210,15 @@ const Buttons = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-`;
-const Card = styled.article`
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  width: max-content;
-  max-width: 100%;
-  background: ${color.surface};
-  border-radius: ${radius.lg};
-  padding: 8px 16px 8px 8px;
-  ${bp.lg} { margin-bottom: 34px; }
-`;
-const CardImage = styled.img`
-  flex-shrink: 0;
-  width: 132px;
-  height: 150px;
-  object-fit: cover;
-  object-position: top;
-  border-radius: ${radius.sm};
-`;
-const CardInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 4px;
-  width: 170px;
-  padding-top: 4px;
-`;
 
-function EventCard() {
-  return (
-    <Card>
-      <CardImage src={featuredEvent.image} alt="" />
-      <CardInfo>
-        <p style={{ color: color.inkSecondary }} className="caption">{featuredEvent.status}</p>
-        <h2 style={{ color: color.ink }}>
-          {featuredEvent.title[0]}
-          <br />
-          {featuredEvent.title[1]}
-        </h2>
-        <p style={{ color: color.inkSecondary }} className="body">{featuredEvent.blurb}</p>
-        <div style={{ height: 8 }} />
-        <Button to={featuredEvent.to} variant="primary">Learn more</Button>
-      </CardInfo>
-    </Card>
-  );
-}
-
-const CardText = styled.div`
-  .caption { ${type.caption}; }
-  h2 { ${type.headingS}; }
-  .body { ${type.bodyS}; }
+  a {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  }
 `;
-
 export default function Hero() {
   return (
     <Section aria-labelledby="hero-title">
@@ -265,9 +253,6 @@ export default function Hero() {
             <Button to="/events" variant="outline">Upcoming Events</Button>
           </Buttons>
         </Cta>
-        <CardText>
-          <EventCard />
-        </CardText>
       </Bottom>
     </Section>
   );

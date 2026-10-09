@@ -29,6 +29,12 @@ const Card = styled.li`
   padding: 8px;
   border-radius: ${radius.lg};
   background: ${color.surface};
+  transition: transform 0.25s ease;
+
+  &:hover {
+    transform: scale(1.03);
+    z-index: 1;
+  }
 `;
 const Head = styled.div`
   display: flex;

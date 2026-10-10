@@ -8,6 +8,12 @@ import bonMacaron from "../images/partnerPhotos/bonMacaron.png";
 import rumble from "../images/partnerPhotos/rumble.png";
 import kernels from "../images/partnerPhotos/kernels.png";
 import formationStudio from "../images/partnerPhotos/formationStudio.png";
+import bakd from "../images/partnerPhotos/bakd.png";
+import loafe from "../images/partnerPhotos/loafe.png";
+import kits from "../images/partnerPhotos/kits.svg";
+import stevesPoke from "../images/partnerPhotos/stevesPokeBar.png";
+import planetFood from "../images/partnerPhotos/planetFood.png";
+import wickedCafe from "../images/partnerPhotos/wickedCafe.png";
 
 import liftoff from "../images/eventPhotos/liftoff.jpg";
 import soar1 from "../images/eventPhotos/soar1.jpg";
@@ -52,13 +58,23 @@ export const featuredEvent = {
   to: "/event-poster/foundher-2026",
 };
 
+// Partners/sponsors carousel on the homepage. To add one: drop the logo in
+// src/images/partnerPhotos, import it above, and add a row here. `height` is the
+// logo's display height in px (tune it so logos look visually balanced); width
+// follows the image's aspect ratio. `url` is optional and makes the tile a link.
 export const partners = [
-  { name: "Linde Equity", logo: linde, width: 170, height: 30 },
-  { name: "Teadot", logo: teadot, width: 150, height: 72 },
-  { name: "Bon Macaron", logo: bonMacaron, width: 72, height: 72 },
-  { name: "Rumble", logo: rumble, width: 108, height: 72 },
-  { name: "Kernels", logo: kernels, width: 150, height: 64 },
-  { name: "Formation Studio", logo: formationStudio, width: 110, height: 72 },
+  { name: "Linde Equity", logo: linde, height: 30 },
+  { name: "Teadot", logo: teadot, height: 72 },
+  { name: "Bon Macaron", logo: bonMacaron, height: 72 },
+  { name: "Rumble", logo: rumble, height: 72 },
+  { name: "Kernels", logo: kernels, height: 64 },
+  { name: "Formation Studio", logo: formationStudio, height: 72 },
+  { name: "Bak'd", logo: bakd, height: 56 },
+  { name: "Loafe", logo: loafe, height: 72 },
+  { name: "KITS", logo: kits, height: 28 },
+  { name: "Steve's Poké Bar", logo: stevesPoke, height: 56 },
+  { name: "Planet Food", logo: planetFood, height: 36 },
+  { name: "Wicked Cafe & Bakery", logo: wickedCafe, height: 84 },
 ];
 
 // "Latest updates" section. Paste a PUBLIC post URL into `linkedin` / `instagram`

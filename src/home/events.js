@@ -31,6 +31,23 @@ export const terms = [
       },
       {
         number: "02",
+        name: "Intern Info Session: Diagram Ventures | UBC Startups",
+        date: "Oct 15",
+        year: "2026",
+        gradient: orange,
+        tags: ["Virtual"],
+        description:
+          "Diagram is looking for its Summer 2027 intern class in Toronto or Montreal to help de-risk startup ideas across its venture builder and venture investor teams. UBC students are invited to connect with the Diagram team for a virtual info session and learn how to approach the application.",
+        details: {
+          Duration: "To be announced",
+          Expected: "To be announced",
+          Format: "Virtual info session and Q&A",
+          "Who it's for": "UBC students interested in Summer 2027 internships in Toronto or Montreal.",
+        },
+        signup: "https://luma.com/we9e417e",
+      },
+      {
+        number: "03",
         name: "Pitch & Propel",
         date: "Oct 29",
         year: "2026",
@@ -50,9 +67,9 @@ export const terms = [
         signup: null, // TODO: sign-up link
       },
       {
-        number: "03",
+        number: "04",
         name: "CaseHack",
-        date: "Nov 27–28",
+        date: "Nov 28–29",
         year: "2026",
         gradient: green,
         tags: ["Flagship", "New"],
@@ -74,7 +91,7 @@ export const terms = [
     range: "January to March 2027",
     events: [
       {
-        number: "04",
+        number: "05",
         name: "LaunchLink",
         date: "Jan 14",
         year: "2027",
@@ -92,7 +109,7 @@ export const terms = [
         signup: null, // TODO: sign-up link
       },
       {
-        number: "05",
+        number: "06",
         name: "Capital Connect",
         date: "Feb 25",
         year: "2027",
@@ -110,7 +127,7 @@ export const terms = [
         signup: null, // TODO: sign-up link
       },
       {
-        number: "06",
+        number: "07",
         name: "SOAR",
         date: "Mar 21",
         year: "2027",

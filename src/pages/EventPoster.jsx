@@ -170,6 +170,19 @@ const ContactInfo = styled.p`
 
 // Event data - you can customize these for your specific events
 const eventData = {
+    "diagram-ventures-2026": {
+        title: "Intern Info Session: Diagram Ventures | UBC Startups",
+        date: "October 15, 2026",
+        time: "4:00 PM",
+        location: "Virtual",
+        image: require("../images/eventPhotos/DIagramVenture.avif"),
+        description: "Diagram is looking for its Summer 2027 intern class in Toronto or Montreal to help de-risk startup ideas across its venture builder and venture investor teams. And they're coming to you first. UBC students are invited to connect with the Diagram team on Thursday, October 15th at 4:00 PM for a virtual info session. Ask questions, get the inside scoop, hear how they think about venture, learn how to approach the application, and put a face to the name. About Diagram Ventures: Since 2016, Diagram has raised over $480M and has launched/invested in 40+ companies. Our ecosystem is home to 200+ angel investors and an extended global network of corporate partners, investors, and builders. Diagram is part of Sagard, a global multi-strategy alternative investment platform with over US$46B in AUM. About UBC Startups: UBC Startups is a student led club dedicated to supporting and fostering entrepreneurship within the UBC community. Our mission is to equip students, alumni, and faculty with the resources, network, and support needed to turn innovative ideas into successful ventures. With a strong focus on interdisciplinary collaboration, we bring together individuals from diverse backgrounds to learn, connect, and grow as entrepreneurs. Through workshops, events, and mentorship opportunities, UBC Startups provides a comprehensive ecosystem that empowers UBC's entrepreneurial community to take their ideas to the next level.",
+        highlights: [
+            "Venture Builder: We ideate, derisk, and launch ventures from scratch. This includes everything from developing a thesis on a problem space, testing different solutions, identifying first customers, assembling a founding team, and securing early stage venture funding.",
+            "Venture Investor: Founders come to Diagram to pitch for capital. We invest in early stage companies that align with our fund's strategy."
+        ],
+        signupLink: "https://luma.com/we9e417e"
+    },
     "foundher-2026": {
         title: "Founder’s Circle: UBC Startups Kickoff",
         date: "September 24, 2026",
@@ -299,7 +312,7 @@ const EventPoster = () => {
                                 )}
                             </DetailsSection>
 
-                            <SignUpSection>
+                            {event.signupLink && <SignUpSection>
                                 <SignUpButton
                                     href={event.signupLink}
                                     target="_blank"
@@ -307,7 +320,7 @@ const EventPoster = () => {
                                 >
                                     Sign Up Now
                                 </SignUpButton>
-                            </SignUpSection>
+                            </SignUpSection>}
 
 
                             <ContactInfo>

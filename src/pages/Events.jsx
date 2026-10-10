@@ -7,6 +7,7 @@ import { bp } from "../home/theme";
 import EventCard from "../components/eventCard";
 
 import foundersCircleImg from "../images/eventPhotos/founders_circle_poster.jpeg";
+import diagramVenturesImg from "../images/eventPhotos/DIagramVenture.avif";
 import pitchPropelImg from "../images/eventPhotos/pitch-propel-cover.jpg";
 import caseHackImg from "../images/eventPhotos/liftoff_activity.jpg";
 import launchLinkImg from "../images/eventPhotos/liftoff_events.jpg";
@@ -88,8 +89,28 @@ const events = [
     },
     {
         term: "Term 1",
-        slug: "pitch-propel",
+        slug: "diagram-ventures-2026",
         number: "02",
+        title: "Intern Info Session: Diagram Ventures | UBC Startups",
+        description:
+            "Diagram is looking for its Summer 2027 intern class in Toronto or Montreal to help de-risk startup ideas across its venture builder and venture investor teams. UBC students are invited to connect with the Diagram team for a virtual info session. Ask questions, get the inside scoop, hear how they think about venture, learn how to approach the application, and put a face to the name.",
+        date: "Oct 15",
+        year: 2026,
+        gradientFrom: "#ff5a1f",
+        gradientTo: "#1a1a1a",
+        duration: "To be announced",
+        expected: "To be announced",
+        format: "Virtual info session and Q&A",
+        venue: "Virtual",
+        whoFor: "UBC students interested in Summer 2027 internships in Toronto or Montreal.",
+        status: "default",
+        signUpLink: "https://luma.com/we9e417e",
+        image: diagramVenturesImg,
+    },
+    {
+        term: "Term 1",
+        slug: "pitch-propel",
+        number: "03",
         title: "Pitch & Propel",
         description:
             "Pitch & Propel is a two-part event that helps students develop and present startup ideas. It begins with a short workshop covering startup fundamentals, pitching, and idea validation, followed by elevator-style pitches where participants present either their own idea or respond to a prompt. The focus is on building confidence, improving communication skills, and giving participants practical feedback from founders, mentors, and peers in a supportive environment.",
@@ -109,11 +130,11 @@ const events = [
     {
         term: "Term 1",
         slug: "casehack",
-        number: "03",
+        number: "04",
         title: "CaseHack",
         description:
             "CaseHack is UBC Startups' flagship innovation competition. Students from business, computer science, engineering, and design work in interdisciplinary teams to solve a real-world challenge by developing both a business solution and a prototype. Teams receive mentorship throughout the event before presenting their final pitch and demo to a panel of judges, with the event designed to help students meet collaborators with complementary skill sets and build connections that can continue beyond the event.",
-        date: "Nov 27–28",
+        date: "Nov 28–29",
         year: 2026,
         gradientFrom: "#88dcbe",
         gradientTo: "#1a1a1a",
@@ -128,7 +149,7 @@ const events = [
     {
         term: "Term 2",
         slug: "launchlink",
-        number: "04",
+        number: "05",
         title: "LaunchLink",
         description:
             "LaunchLink is a career-focused networking event that connects students with startups, scale-ups, and local businesses looking for emerging talent. Unlike a traditional career fair, the focus is on meaningful conversations, learning about startup careers, and exploring internship, co-op, and full-time opportunities. Companies share what they do and their company culture, giving students insight into working in startup environments and helping them build professional relationships with founders and hiring teams.",
@@ -147,7 +168,7 @@ const events = [
     {
         term: "Term 2",
         slug: "capital-connect",
-        number: "05",
+        number: "06",
         title: "Capital Connect",
         description:
             "Capital Connect is a networking event that brings together venture capitalists, angel investors, founders, and students interested in entrepreneurship. The goal is to make funding and investing more approachable while helping students build relationships with people in Vancouver's startup ecosystem. The event begins with a short networking activity to encourage conversation before transitioning into open networking, where investors and founders share insights on fundraising, venture capital, and startup growth.",
@@ -166,7 +187,7 @@ const events = [
     {
         term: "Term 2",
         slug: "soar",
-        number: "06",
+        number: "07",
         title: "SOAR",
         description:
             "SOAR is UBC Startups' flagship annual pitch competition, bringing together the university's top student founders to showcase their ventures in front of investors, founders, and industry leaders. Finalist teams present their startups through live pitches followed by a Q&A with judges. Throughout the day, attendees can network with founders, investors, sponsors, and members of the entrepreneurial community while competing for prizes, funding, and exposure within Vancouver's startup ecosystem.",
@@ -195,7 +216,7 @@ const Events = () => {
             <PageHero
                 eyebrow="Events 2026–27"
                 title="Events"
-                subtitle="Six events across two terms, from our September kickoff to SOAR in March"
+                subtitle="Seven events across two terms, from our September kickoff to SOAR in March"
             />
 
             <Term>

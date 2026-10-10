@@ -15,7 +15,7 @@ import batterUp from "../images/eventPhotos/batterup_team.JPG";
 import liftoffAbout from "../images/eventPhotos/liftoff_about1.jpg";
 import liftoffEvents from "../images/eventPhotos/liftoff_events.jpg";
 import liftoffActivity from "../images/eventPhotos/liftoff_activity.jpg";
-import foundersCirclePoster from "../images/eventPhotos/founders_circle_poster.jpeg";
+import diagramVenturesPoster from "../images/eventPhotos/DIagramVenture.avif";
 
 export const links = {
   instagram: "https://www.instagram.com/ubcstartups/",
@@ -37,19 +37,20 @@ export const navLinks = [
 // `slug` matches the event's anchor id on the Events page (src/pages/Events.jsx).
 export const timeline = [
   { name: "Founder’s Circle", date: "Sept. 24th", x: 0.1158, side: "above", slug: "founders-circle" },
-  { name: "Pitch & Propel", date: "Oct 29th", x: 0.2551, side: "below", slug: "pitch-propel" },
-  { name: "CaseHack", date: "Nov 27-28", x: 0.3942, side: "above", slug: "casehack" },
-  { name: "LaunchLink", date: "Jan 14", x: 0.5428, side: "below", slug: "launchlink" },
-  { name: "Capital Connect", date: "Feb 25", x: 0.6858, side: "above", slug: "capital-connect" },
-  { name: "SOAR", date: "March 21", x: 0.8717, side: "below", slug: "soar" },
+  { name: "Diagram Ventures", date: "Oct 15", x: 0.24, side: "below", slug: "diagram-ventures-2026" },
+  { name: "Pitch & Propel", date: "Oct 29th", x: 0.365, side: "above", slug: "pitch-propel" },
+  { name: "CaseHack", date: "Nov 28-29", x: 0.49, side: "below", slug: "casehack" },
+  { name: "LaunchLink", date: "Jan 14", x: 0.615, side: "above", slug: "launchlink" },
+  { name: "Capital Connect", date: "Feb 25", x: 0.74, side: "below", slug: "capital-connect" },
+  { name: "SOAR", date: "March 21", x: 0.8717, side: "above", slug: "soar" },
 ];
 
 export const featuredEvent = {
-  status: "Upcoming · Sept 24",
-  title: ["Founder’s", "Circle"],
-  blurb: "Our kickoff: hear from founders, meet students & alumni.",
-  image: foundersCirclePoster,
-  to: "/event-poster/foundher-2026",
+  status: "Upcoming · Oct 15",
+  title: ["Intern Info Session:", "Diagram Ventures"],
+  blurb: "Meet Diagram's team virtually at 4:00 PM and explore Summer 2027 internships.",
+  image: diagramVenturesPoster,
+  to: "/event-poster/diagram-ventures-2026",
 };
 
 export const partners = [

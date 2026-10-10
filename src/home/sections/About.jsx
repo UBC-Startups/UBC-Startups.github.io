@@ -55,6 +55,33 @@ const Dots = styled.div`
   display: flex;
   gap: 8px;
 `;
+const NavBtn = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  padding: 0;
+  border-radius: ${radius.full};
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.85);
+  color: ${color.charcoal};
+  transition: background 0.2s, color 0.2s;
+  svg { display: block; }
+  ${({ $side }) => ($side === "left" ? "left: 12px;" : "right: 12px;")}
+  ${bp.sm} {
+    width: 40px;
+    height: 40px;
+  }
+  &:hover, &:focus-visible {
+    background: ${color.accent};
+    color: ${color.inkInverse};
+  }
+`;
 const DotBtn = styled.button`
   height: 8px;
   width: ${({ $on }) => ($on ? "24px" : "8px")};
@@ -65,6 +92,23 @@ const DotBtn = styled.button`
   background: ${({ $on }) => ($on ? color.accent : "rgba(255,255,255,0.85)")};
   transition: width 0.2s;
 `;
+
+const Chevron = ({ dir }) => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    style={{ transform: dir === "left" ? "rotate(180deg)" : "none" }}
+  >
+    <path d="M6 3l5 5-5 5" />
+  </svg>
+);
 
 function PhotoCarousel() {
   const [i, setI] = useState(0);
@@ -81,6 +125,22 @@ function PhotoCarousel() {
       {about.photos.map((p, k) => (
         <Slide key={p.alt} src={p.src} alt={k === i ? p.alt : ""} $on={k === i} />
       ))}
+      <NavBtn
+        type="button"
+        $side="left"
+        aria-label="Previous photo"
+        onClick={() => setI((x) => (x - 1 + n) % n)}
+      >
+        <Chevron dir="left" />
+      </NavBtn>
+      <NavBtn
+        type="button"
+        $side="right"
+        aria-label="Next photo"
+        onClick={() => setI((x) => (x + 1) % n)}
+      >
+        <Chevron dir="right" />
+      </NavBtn>
       <Dots role="tablist" aria-label="Event photos">
         {about.photos.map((p, k) => (
           <DotBtn

@@ -61,6 +61,18 @@ export const partners = [
   { name: "Formation Studio", logo: formationStudio, width: 110, height: 72 },
 ];
 
+// "Latest updates" section. Paste a PUBLIC post URL into `linkedin` / `instagram`
+// to swap the embed.
+//   LinkedIn:  https://www.linkedin.com/posts/...activity-1234567890123456789-XXXX
+//   Instagram: https://www.instagram.com/p/SHORTCODE/  (or /reel/SHORTCODE/)
+export const socialFeed = {
+  label: "From our community",
+  title: "Latest updates",
+  body: "What we're building, sharing, and celebrating.",
+  linkedin: "https://www.linkedin.com/posts/ubc-startups_ubc-startups-kicked-off-the-year-with-founder-activity-7510571784417714176-2CIs",
+  instagram: "https://www.instagram.com/p/DeFOcySKbqR/",
+};
+
 export const about = {
   label: "About us",
   title: "Building a startup ecosystem on campus",

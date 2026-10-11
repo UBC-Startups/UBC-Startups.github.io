@@ -21,7 +21,6 @@ import batterUp from "../images/eventPhotos/batterup_team.JPG";
 import liftoffAbout from "../images/eventPhotos/liftoff_about1.jpg";
 import liftoffEvents from "../images/eventPhotos/liftoff_events.jpg";
 import liftoffActivity from "../images/eventPhotos/liftoff_activity.jpg";
-import diagramVenturesPoster from "../images/eventPhotos/DIagramVenture.avif";
 
 export const links = {
   instagram: "https://www.instagram.com/ubcstartups/",
@@ -50,14 +49,6 @@ export const timeline = [
   { name: "Capital Connect", date: "Feb 25", x: 0.74, side: "below", slug: "capital-connect" },
   { name: "SOAR", date: "March 21", x: 0.8717, side: "above", slug: "soar" },
 ];
-
-export const featuredEvent = {
-  status: "Upcoming · Oct 15",
-  title: ["Intern Info Session:", "Diagram Ventures"],
-  blurb: "Meet Diagram's team virtually at 4:00 PM and explore Summer 2027 internships.",
-  image: diagramVenturesPoster,
-  to: "/event-poster/diagram-ventures-2026",
-};
 
 // Partners/sponsors carousel on the homepage. To add one: drop the logo in
 // src/images/partnerPhotos, import it above, and add a row here. `height` is the

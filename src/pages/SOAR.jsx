@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "motion/react";
 import NavigationBar from "../components/navigationBar";
-import Footer from "../sections/footer";
+import Footer from "../home/sections/footer";
 import SoarEventPhoto1 from "../images/eventPhotos/soar1.jpg";
 import SoarEventPhoto2 from "../images/eventPhotos/soar2.jpg";
 import SoarEventPhoto3 from "../images/eventPhotos/soar3.jpg";

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NavigationBar from "../components/navigationBar";
-import Footer from "../sections/footer";
+import Footer from "../home/sections/footer";
 
 const Container = styled.div`
   overflow-x: hidden;

@@ -1,10 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-import linkedin_c from "../images/linkedin-c.png";
-import instagram_c from "../images/instagram-c.png";
-import discord_c from "../images/discord-c.png";
-import email from "../images/email.png";
+import linkedin_c from "../../images/linkedin-c.png";
+import instagram_c from "../../images/instagram-c.png";
+import discord_c from "../../images/discord-c.png";
+import email from "../../images/email.png";
 
 const FooterContainer = styled.div`
     width: 100%;

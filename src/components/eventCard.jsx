@@ -276,10 +276,10 @@ const EventCard = ({
                         <DetailLabel>DURATION</DetailLabel>
                         <DetailValue>{duration}</DetailValue>
                     </DetailBlock>
-                    <DetailBlock>
+                    {expected && <DetailBlock>
                         <DetailLabel>EXPECTED</DetailLabel>
                         <DetailValue>{expected}</DetailValue>
-                    </DetailBlock>
+                    </DetailBlock>}
                     <DetailBlock>
                         <DetailLabel>FORMAT</DetailLabel>
                         <DetailValue>{format}</DetailValue>

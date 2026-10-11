@@ -12,7 +12,6 @@ React Router 6, and styled-components 5. Use npm and the committed
 - `src/index.js`: application entry point.
 - `src/App.js`: route definitions. Active routes include `/`, `/meetOurTeam`,
   `/events`, `/event-poster/soar-2026`, and `/event-poster/:eventId`.
-  The opportunities route is currently disabled.
 - `src/pages/`: page components, including event posters and the SOAR page.
 - `src/home/Layout.jsx`: shared shell for redesigned pages, including navigation,
   metadata, and newsletter/footer.
@@ -20,11 +19,13 @@ React Router 6, and styled-components 5. Use npm and the committed
   `figma()` public asset path helper.
 - `src/home/ui.jsx` and `src/home/sections/`: reusable UI and redesigned sections.
 - `src/home/content.js`: homepage copy, navigation links, partners, timeline,
-  featured event, and social content.
-- `src/home/events.js`: event lineup and signup links.
+  and social content.
+- `src/pages/Events.jsx`: event lineup and signup links.
+- `src/pages/EventPoster.jsx`: event poster details and signup links.
 - `src/data/team.js`: team roster and advisors.
-- `src/components/` and `src/sections/`: older components still used by some pages.
-  Check imports before changing or removing them.
+- `src/components/`: shared components, including event cards and the older
+  navigation and photo gallery used by event pages. `src/home/sections/footer.jsx`
+  is the older footer still used by SOAR and event poster pages.
 - `src/images/`: imported photos and graphics; `public/figma/`: locally stored
   Figma exports.
 - `public/index.html` and `public/404.html`: paired GitHub Pages SPA redirect logic.

@@ -7,7 +7,7 @@ import { bp } from "../home/theme";
 import EventCard from "../components/eventCard";
 
 import foundersCircleImg from "../images/eventPhotos/founders_circle_poster.jpeg";
-import diagramVenturesImg from "../images/eventPhotos/DIagramVenture.avif";
+import diagramVenturesImg from "../images/eventPhotos/DiagramVenture.jpeg";
 import pitchPropelImg from "../images/eventPhotos/pitch-propel-cover.jpg";
 import caseHackImg from "../images/eventPhotos/liftoff_activity.jpg";
 import launchLinkImg from "../images/eventPhotos/liftoff_events.jpg";
@@ -33,25 +33,38 @@ const TermHeader = styled.div`
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
+    gap: 8px;
+    flex-wrap: nowrap;
+
+    ${bp.sm} { gap: 16px; }
 `;
 
 const TermTitle = styled.p`
-    flex: 1 0 0;
+    flex: 1 0 auto;
     margin: 0;
     font-weight: 600;
-    font-size: clamp(36px, 5vw, 64px);
+    font-size: clamp(22px, 5.8vw, 36px);
     line-height: 1;
-    letter-spacing: -2.56px;
+    letter-spacing: -0.04em;
     color: #0a0a0a;
+    white-space: nowrap;
+
+    ${bp.sm} {
+        font-size: clamp(36px, 5vw, 64px);
+        letter-spacing: -2.56px;
+    }
 `;
 
 const TermDates = styled.p`
     margin: 0;
-    font-size: 15px;
+    font-size: clamp(10px, 2.8vw, 15px);
     color: #6b6b6b;
     white-space: nowrap;
+    flex-shrink: 0;
+
+    ${bp.sm} {
+        font-size: 15px;
+    }
 `;
 
 const EventList = styled.div`
@@ -98,8 +111,7 @@ const events = [
         year: 2026,
         gradientFrom: "#ff5a1f",
         gradientTo: "#1a1a1a",
-        duration: "To be announced",
-        expected: "To be announced",
+        duration: "1 hour",
         format: "Virtual info session and Q&A",
         venue: "Virtual",
         whoFor: "UBC students interested in Summer 2027 internships in Toronto or Montreal.",

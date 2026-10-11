@@ -50,23 +50,28 @@ const Row = styled.ul`
 `;
 const Member = styled.li`
   width: 150px;
+  ${bp.sm} { width: 240px; }
+  .name { font-size: clamp(19px, 1.7vw, 24px); font-weight: 600; color: ${color.ink}; margin-top: 18px; }
+  .role { font-size: clamp(15px, 1.25vw, 18px); font-weight: 500; color: ${color.ink}; }
+`;
+const memberLinkStyle = `
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   text-align: center;
-  ${bp.sm} { width: 240px; }
-  .name { font-size: clamp(19px, 1.7vw, 24px); font-weight: 600; color: ${color.ink}; margin-top: 18px; }
-  .role { font-size: clamp(15px, 1.25vw, 18px); font-weight: 500; color: ${color.ink}; }
-  a { font-size: 15px; color: ${color.inkSecondary}; text-decoration: none; }
-  a:hover { color: ${color.accent}; text-decoration: underline; }
+  text-decoration: none;
+  color: inherit;
 `;
+const MemberLink = styled.a`${memberLinkStyle} cursor: pointer;`;
+const MemberStatic = styled.div`${memberLinkStyle}`;
 const Photo = styled.div`
   width: 120px;
   height: 120px;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   &.empty { border: 1px solid ${color.inkTertiary}; background: ${color.surface}; }
   display: flex;
   align-items: center;
@@ -74,6 +79,11 @@ const Photo = styled.div`
   ${bp.sm} { width: 160px; height: 160px; }
   img.photo { width: 100%; height: 100%; object-fit: cover; display: block; }
   img.placeholder { width: 40%; height: 40%; opacity: 0.35; }
+
+  ${MemberLink}:hover & {
+    transform: scale(1.08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  }
 `;
 function TeamPhoto({ m }) {
   if (!m.image) {
@@ -91,15 +101,21 @@ function TeamPhoto({ m }) {
 }
 
 function MemberCard({ m }) {
-  return (
-    <Member>
+  const content = (
+    <>
       <TeamPhoto m={m} />
       <p className="name">{m.name}</p>
       <p className="role">{m.role}</p>
-      {m.linkedIn && (
-        <a href={m.linkedIn} target="_blank" rel="noreferrer" aria-label={`${m.name} on LinkedIn`}>
-          LinkedIn
-        </a>
+    </>
+  );
+  return (
+    <Member>
+      {m.linkedIn ? (
+        <MemberLink href={m.linkedIn} target="_blank" rel="noreferrer" aria-label={`${m.name} on LinkedIn`}>
+          {content}
+        </MemberLink>
+      ) : (
+        <MemberStatic>{content}</MemberStatic>
       )}
     </Member>
   );
@@ -115,7 +131,7 @@ function rowsFor(title, members) {
 
 const MeetOurTeam = () => (
   <Layout title="Team | UBC Startups" active="Team" footerTitle="Stay in the loop.">
-    <PageHero eyebrow="Team 2026–27" title="Team" subtitle="The people behind UBC Startups." />
+    <PageHero eyebrow="Team 2026–27" title="Team" subtitle="The people behind UBC Startups" />
     <Section aria-labelledby="exec-title">
       <h2 id="exec-title">Meet the 2026/27 exec team</h2>
       {teamSections.map(({ title, members }) => (

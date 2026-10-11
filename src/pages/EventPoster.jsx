@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NavigationBar from "../components/navigationBar";
-import Footer from "../sections/footer";
+import Footer from "../home/sections/footer";
 
 const Container = styled.div`
   overflow-x: hidden;
@@ -299,7 +299,7 @@ const EventPoster = () => {
                                 )}
                             </DetailsSection>
 
-                            <SignUpSection>
+                            {event.signupLink && <SignUpSection>
                                 <SignUpButton
                                     href={event.signupLink}
                                     target="_blank"
@@ -307,7 +307,7 @@ const EventPoster = () => {
                                 >
                                     Sign Up Now
                                 </SignUpButton>
-                            </SignUpSection>
+                            </SignUpSection>}
 
 
                             <ContactInfo>

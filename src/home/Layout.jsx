@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Head from "../components/head";
-import { color, font } from "./theme";
+import { bp, color, font } from "./theme";
 import Nav from "./sections/Nav";
 import NewsletterFooter from "./sections/NewsletterFooter";
 
@@ -13,7 +13,9 @@ const Frame = styled.div`
   box-sizing: border-box;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 12px 12px;
+  padding: 0 16px 0;
+  ${bp.sm} { padding: 0 28px 0; }
+  ${bp.lg} { padding: 0 44px 0; }
   font-family: ${font};
   color: ${color.ink};
   -webkit-font-smoothing: antialiased;

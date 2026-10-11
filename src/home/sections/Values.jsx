@@ -32,10 +32,10 @@ const DotButton = styled.button`
   height: ${({ $on }) => ($on ? "14px" : "10px")};
   padding: 0;
   border: 0;
-  background: none;
+  border-radius: 50%;
+  background: ${({ $bg, $on }) => ($on ? $bg : "#b5b5b0")};
   cursor: pointer;
-  transition: width 0.2s, height 0.2s;
-  img { display: block; width: 100%; height: 100%; max-width: none; }
+  transition: width 0.2s, height 0.2s, background 0.2s;
 `;
 const List = styled.ul`
   list-style: none;
@@ -43,6 +43,7 @@ const List = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
+  gap: 16px;
 `;
 const cardBase = `
   position: relative;
@@ -50,31 +51,24 @@ const cardBase = `
   align-items: center;
   overflow: hidden;
   box-sizing: border-box;
+  width: 100%;
   border-radius: ${radius.lg};
   background: ${color.surface};
   text-align: left;
-`;
-const ActiveCard = styled.div`
-  ${cardBase};
-  min-height: 168px;
-  gap: 28px;
-  padding: 24px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  ${bp.sm} { margin-left: 48px; padding: 24px 40px; }
-`;
-// Cards tuck under the one above: negative margin, matching top padding.
-const IdleCard = styled.button`
-  ${cardBase};
   font: inherit;
   border: 0;
   cursor: pointer;
-  min-height: 128px;
-  gap: 20px;
-  margin: ${({ $first }) => ($first ? "-36px" : "-16px")} 12px 0;
-  width: calc(100% - 24px);
-  padding: ${({ $first }) => ($first ? "36px" : "16px")} 24px 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  &:hover { background: #fafaf8; }
+  transition: min-height 0.3s ease, gap 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+`;
+// Each card stays in its original position; the active one grows in place.
+const Card = styled.button`
+  ${cardBase};
+  min-height: ${({ $active }) => ($active ? "168px" : "128px")};
+  gap: ${({ $active }) => ($active ? "28px" : "20px")};
+  padding: ${({ $active }) => ($active ? "24px" : "16px 24px")};
+  box-shadow: ${({ $active }) => ($active ? "0 12px 32px rgba(0, 0, 0, 0.1)" : "0 4px 12px rgba(0, 0, 0, 0.05)")};
+  transform: ${({ $active }) => ($active ? "scale(1.015)" : "scale(1)")};
+  &:hover { background: ${({ $active }) => ($active ? color.surface : "#fafaf8")}; }
   ${bp.sm} {
     margin-left: 80px;
     margin-right: 32px;
@@ -116,12 +110,11 @@ const Text = styled.span`
 `;
 
 /**
- * Stacked value cards. The active value sits on top as the large card; the others
- * tuck underneath. Clicking a card (or its dot) brings it to the front.
+ * Value cards stay fixed in place; clicking a card (or its dot) zooms that
+ * one in without reordering or moving the others.
  */
 export default function Values() {
   const [active, setActive] = useState(0);
-  const order = [active, ...values.map((_, i) => i).filter((i) => i !== active)];
 
   return (
     <Section aria-labelledby="values-title">
@@ -135,39 +128,28 @@ export default function Values() {
               aria-label={`Show ${v.name}`}
               aria-pressed={i === active}
               $on={i === active}
+              $bg={v.dotColor}
               onClick={() => setActive(i)}
-            >
-              <img src={v.dot} alt="" />
-            </DotButton>
+            />
           ))}
         </DotColumn>
 
         <List>
-          {order.map((vi, pos) => {
-            const v = values[vi];
-            const big = pos === 0;
+          {values.map((v, i) => {
+            const big = i === active;
             const [w, h] = big ? v.iconSize.active : v.iconSize.idle;
-            const inner = (
-              <>
-                <Accent aria-hidden $bg={v.accent} />
-                <IconCircle aria-hidden $big={big} $bg={v.circle}>
-                  <img src={v.icon} alt="" style={{ width: w, height: h }} />
-                </IconCircle>
-                <Text $big={big}>
-                  <span className="name">{v.name}</span>
-                  <span className="body">{v.body}</span>
-                </Text>
-              </>
-            );
             return (
-              <li key={v.name} style={{ position: "relative", zIndex: values.length - pos }}>
-                {big ? (
-                  <ActiveCard>{inner}</ActiveCard>
-                ) : (
-                  <IdleCard type="button" $first={pos === 1} onClick={() => setActive(vi)}>
-                    {inner}
-                  </IdleCard>
-                )}
+              <li key={v.name}>
+                <Card type="button" $active={big} aria-pressed={big} onClick={() => setActive(i)}>
+                  <Accent aria-hidden $bg={v.accent} />
+                  <IconCircle aria-hidden $big={big} $bg={v.circle}>
+                    <img src={v.icon} alt="" style={{ width: w, height: h }} />
+                  </IconCircle>
+                  <Text $big={big}>
+                    <span className="name">{v.name}</span>
+                    <span className="body">{v.body}</span>
+                  </Text>
+                </Card>
               </li>
             );
           })}

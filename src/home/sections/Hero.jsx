@@ -1,11 +1,22 @@
 import React from "react";
 import styled from "styled-components";
+import { motion, useReducedMotion } from "motion/react";
 import { HashLink } from "react-router-hash-link";
 import { bp, color, figma, radius, type } from "../theme";
 import { timeline } from "../content";
 import { Button, Glow } from "../ui";
 
 const LINE_Y = 95; // distance from top of the timeline box to the arrow
+
+const entrance = (reduceMotion, delay = 0, distance = 20) => ({
+  initial: reduceMotion ? false : { opacity: 0, y: distance },
+  animate: { opacity: 1, y: 0 },
+  transition: {
+    duration: reduceMotion ? 0 : 0.7,
+    delay: reduceMotion ? 0 : delay,
+    ease: [0.22, 1, 0.36, 1],
+  },
+});
 
 const Section = styled.section`
   position: relative;
@@ -19,7 +30,7 @@ const Section = styled.section`
   ${bp.sm} { padding: 51px 36px 40px; }
   ${bp.lg} { min-height: 947px; padding-bottom: 48px; }
 `;
-const Glows = styled.div`
+const Glows = styled(motion.div)`
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -33,21 +44,21 @@ const OrangeGlow = styled.div`
   height: 1000px;
   background: radial-gradient(700px 500px at 50% 50%, rgba(255, 90, 31, 0.42) 0%, rgba(255, 90, 31, 0.14) 45%, rgba(255, 90, 31, 0) 100%);
 `;
-const HeroLogo = styled.img`
+const HeroLogo = styled(motion.img)`
   position: absolute;
   right: 67px;
   top: 93px;
   display: none;
-  width: clamp(160px, 20.5vw, 290px);
-  height: clamp(160px, 20.5vw, 290px);
+  width: clamp(180px, 23vw, 330px);
+  height: clamp(180px, 23vw, 330px);
   ${bp.md} { display: block; }
 `;
-const Title = styled.h1`
+const Title = styled(motion.h1)`
   ${type.displayXL};
   font-size: clamp(56px, 11vw, 160px);
   color: ${color.inkInverse};
 `;
-const Tagline = styled.p`
+const Tagline = styled(motion.p)`
   ${type.headingM};
   color: ${color.inkInverse};
   margin-top: 52px !important;
@@ -70,16 +81,17 @@ const Track = styled.ol`
   height: 190px;
   min-width: 860px;
 `;
-const Arrow = styled.li`
+const Arrow = styled(motion.li)`
   position: absolute;
   left: 0;
   right: 0;
   top: ${LINE_Y}px;
   height: 0;
+  transform-origin: left center;
   div { position: absolute; inset: -7.36px 0; }
   img { display: block; width: 100%; height: 100%; max-width: none; }
 `;
-const Milestone = styled.li`
+const Milestone = styled(motion.li)`
   position: absolute;
   transform: translateX(-50%);
 `;
@@ -95,6 +107,11 @@ const MilestoneLink = styled(HashLink)`
   &:hover {
     color: ${color.accent};
     transform: scale(1.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &:hover { transform: none; }
   }
 `;
 const MilestoneLabel = styled.p`
@@ -137,6 +154,11 @@ const Dot = styled.div`
     box-shadow: 0 0 0 6px rgba(255, 90, 31, 0.25);
     transform: scale(1.15);
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    ${MilestoneLink}:hover & { transform: none; }
+  }
 `;
 
 function Tick({ dot }) {
@@ -153,12 +175,23 @@ function Tick({ dot }) {
   );
 }
 
-function Timeline() {
+function Timeline({ reduceMotion }) {
   return (
     <TimelineScroller id="events" aria-label="This year's events">
       <Track>
-        <Arrow aria-hidden><div><img src={figma("timeline-arrow.svg")} alt="" /></div></Arrow>
-        {timeline.map((m) => {
+        <Arrow
+          aria-hidden
+          initial={reduceMotion ? false : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: reduceMotion ? 0 : 0.8, delay: reduceMotion ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
+        ><div><img src={figma("timeline-arrow.svg")} alt="" /></div></Arrow>
+        {timeline.map((m, index) => {
+          // Animate only opacity so the CSS centering transform stays intact.
+          const reveal = {
+            initial: reduceMotion ? false : { opacity: 0 },
+            animate: { opacity: 1 },
+            transition: { duration: reduceMotion ? 0 : 0.4, delay: reduceMotion ? 0 : 0.45 + index * 0.08 },
+          };
           const label = (
             <MilestoneLabel>
               {m.name}
@@ -166,15 +199,15 @@ function Timeline() {
             </MilestoneLabel>
           );
           return m.side === "above" ? (
-            <Milestone key={m.name} style={{ left: `${m.x * 100}%`, bottom: `calc(100% - ${LINE_Y}px)` }}>
-              <MilestoneLink smooth to={`/events#${m.slug}`}>
+            <Milestone {...reveal} key={m.name} style={{ left: `${m.x * 100}%`, bottom: `calc(100% - ${LINE_Y}px)` }}>
+              <MilestoneLink smooth={!reduceMotion} to={`/events#${m.slug}`}>
                 {label}
                 <div style={{ marginTop: 9 }}><Tick dot="top" /></div>
               </MilestoneLink>
             </Milestone>
           ) : (
-            <Milestone key={m.name} style={{ left: `${m.x * 100}%`, top: LINE_Y }}>
-              <MilestoneLink smooth to={`/events#${m.slug}`}>
+            <Milestone {...reveal} key={m.name} style={{ left: `${m.x * 100}%`, top: LINE_Y }}>
+              <MilestoneLink smooth={!reduceMotion} to={`/events#${m.slug}`}>
                 <Tick dot="bottom" />
                 <div style={{ marginTop: 13 }}>{label}</div>
               </MilestoneLink>
@@ -187,7 +220,7 @@ function Timeline() {
 }
 
 /* ---------- Bottom row ---------- */
-const Bottom = styled.div`
+const Bottom = styled(motion.div)`
   margin-top: 56px;
   display: flex;
   flex-direction: column;
@@ -218,11 +251,18 @@ const Buttons = styled.div`
     transform: scale(1.05);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    a { transition: none; }
+    a:hover { transform: none; }
+  }
 `;
 export default function Hero() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <Section aria-labelledby="hero-title">
-      <Glows aria-hidden>
+      <Glows aria-hidden {...entrance(reduceMotion, 0, 0)}>
         <Glow $inset="-22.22%" style={{ left: -200, top: 420, width: 900, height: 900 }}>
           <div><img src={figma("hero-glow-bottom-left.svg")} alt="" /></div>
         </Glow>
@@ -232,17 +272,31 @@ export default function Hero() {
         <OrangeGlow />
       </Glows>
 
-      <HeroLogo src={figma("hero-logo.svg")} alt="" aria-hidden />
-      <Title id="hero-title">
+      <HeroLogo
+        src={figma("hero-logo.svg")}
+        alt=""
+        aria-hidden
+        initial={reduceMotion ? false : { opacity: 0, scale: 0.92, rotate: -8 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0, y: reduceMotion ? 0 : [0, -12, 0] }}
+        transition={{
+          duration: reduceMotion ? 0 : 0.9,
+          delay: reduceMotion ? 0 : 0.15,
+          ease: [0.22, 1, 0.36, 1],
+          y: reduceMotion
+            ? { duration: 0 }
+            : { duration: 5, delay: 1.05, repeat: Infinity, ease: "easeInOut" },
+        }}
+      />
+      <Title id="hero-title" {...entrance(reduceMotion, 0, 28)}>
         UBC
         <br />
         Startups
       </Title>
-      <Tagline>building a startup ecosystem on campus</Tagline>
+      <Tagline {...entrance(reduceMotion, 0.12)}>Building a Startup Ecosystem on Campus</Tagline>
 
-      <Timeline />
+      <Timeline reduceMotion={reduceMotion} />
 
-      <Bottom>
+      <Bottom {...entrance(reduceMotion, 0.35)}>
         <Cta>
           <p>
             UBC Startups is a student led club dedicated to supporting and fostering entrepreneurship within the UBC

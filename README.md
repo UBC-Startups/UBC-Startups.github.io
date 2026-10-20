@@ -1,26 +1,50 @@
-# Website for UBC Startups
+# UBC Startups
 
-### Run Website Locally
+Public website: https://ubcstartups.com
 
-#### If First time running the website, install all dependencies
-```
-npm install
+## Repository structure
+
+```text
+.github/                  # CI and deployment workflows
+legacy/                   # Current Create React App website
+IMPLEMENTATION_PLAN.md    # Next.js and Supabase migration plan
 ```
 
-```
+The planned `web/` directory will contain the Next.js application, including its
+application backend. The planned `supabase/` directory will contain database
+migrations, policies, configuration, and tests. Neither has been created yet.
+Each application will manage its own dependencies and lockfile.
+
+## Run the current website
+
+Use Node 24 and run from the repository root:
+
+```sh
+cd legacy
+npm ci
 npm start
 ```
 
-### Deployment
+To verify the application from `legacy/`:
 
-1. Open feature pull requests against `development`. Node.js CI checks installation,
-   build, and tests on Node 22, 24, and 26.
-2. When changes are ready to release, open a pull request from `development` to `main`.
-3. Merging into `main` runs the same checks and automatically deploys the Node 24
-   build to GitHub Pages after all three Node versions pass.
+```sh
+npm run build
+npm test -- --watchAll=false --passWithNoTests
+```
 
-Pull requests and pushes to `development` do not deploy. Local builds are for verification;
-deployment is handled by GitHub Actions.
+See [legacy/README.md](legacy/README.md) for application notes and
+[IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) for the planned platform.
 
-There are currently no automated test files. The test command permits an empty
-suite; once tests are added, test failures will block deployment.
+## Releases
+
+Feature pull requests target `development`. Releases use a pull request from
+`development` to `main`. GitHub Actions installs, builds, and tests `legacy/`
+on Node 22, 24, and 26. Pushes to `main` deploy the Node 24 artifact from
+`legacy/build/` to GitHub Pages after all matrix checks pass.
+
+Pull requests and pushes to `development` do not deploy. The future Next.js
+application will need separate hosting; it is not deployed by this workflow.
+
+Generated dependencies, build output, and local environment files are ignored
+at any directory depth. Old root-level `node_modules/` and `build/` directories
+are unused by the relocated application and CI.

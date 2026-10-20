@@ -5,9 +5,14 @@
 UBC Startups' public website at `https://ubcstartups.com`. This is a client-side
 React 18 application built with Create React App (`react-scripts` 5), JavaScript,
 React Router 6, and styled-components 5. Use npm and the committed
-`package-lock.json`.
+`legacy/package-lock.json`. The current application lives in `legacy/`.
+The planned Next.js application will live in `web/`, with database infrastructure
+in the root `supabase/` directory; those directories have not been created yet.
 
 ## Where to make changes
+
+Application paths below are relative to `legacy/`, except `.github/workflows/`,
+which remains at the repository root.
 
 - `src/index.js`: application entry point.
 - `src/App.js`: route definitions. Active routes include `/`, `/meetOurTeam`,
@@ -36,6 +41,7 @@ React Router 6, and styled-components 5. Use npm and the committed
 Use Node 24 to match the deployed build. CI also checks Node 22 and 26.
 
 ```sh
+cd legacy
 npm ci
 npm start
 npm run build

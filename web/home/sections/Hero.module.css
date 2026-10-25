@@ -1,0 +1,238 @@
+.Section {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 24px;
+  background: #0a0a0a;
+  padding: 40px 20px;
+  @media (min-width: 640px) { padding: 51px 36px 40px; }
+  @media (min-width: 1024px) { min-height: 947px; padding-bottom: 48px; }
+
+}
+
+.Glows {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+}
+
+.OrangeGlow {
+  position: absolute;
+  left: -420px;
+  top: 360px;
+  width: 1400px;
+  height: 1000px;
+  background: radial-gradient(700px 500px at 50% 50%, rgba(255, 90, 31, 0.42) 0%, rgba(255, 90, 31, 0.14) 45%, rgba(255, 90, 31, 0) 100%);
+
+}
+
+.HeroLogo {
+  position: absolute;
+  right: 67px;
+  top: 93px;
+  display: none;
+  width: clamp(180px, 23vw, 330px);
+  height: clamp(180px, 23vw, 330px);
+  @media (min-width: 768px) { display: block; }
+
+}
+
+.Title {
+
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: clamp(72px, 15.5vw, 220px);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.05em;
+  margin: 0;
+;
+  font-size: clamp(56px, 11vw, 160px);
+  color: #ffffff;
+
+}
+
+.Tagline {
+
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+;
+  color: #ffffff;
+  margin-top: 52px !important;
+  @media (min-width: 640px) { margin-left: 12px; }
+
+}
+
+.TimelineScroller {
+  margin: 60px -20px 0;
+  padding: 0 20px;
+  overflow-x: auto;
+  @media (min-width: 640px) { margin: 60px -36px 0; padding: 0 36px; }
+  @media (min-width: 1024px) { margin-top: 70px; }
+
+}
+
+.Track {
+  position: relative;
+  list-style: none;
+  margin: 0 38px 0 20px;
+  padding: 0;
+  height: 190px;
+  min-width: 860px;
+
+}
+
+.Arrow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 95px;
+  height: 0;
+  transform-origin: left center;
+  div { position: absolute; inset: -7.36px 0; }
+  img { display: block; width: 100%; height: 100%; max-width: none; }
+
+}
+
+.Milestone {
+  position: absolute;
+  transform: translateX(-50%);
+
+}
+
+.MilestoneLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.2s, transform 0.2s;
+
+  &:hover {
+    color: #ff5a1f;
+    transform: scale(1.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &:hover { transform: none; }
+  }
+
+}
+
+.MilestoneLabel {
+
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  margin: 0;
+;
+  color: inherit;
+  text-align: center;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0);
+  transition: background 0.2s;
+
+  .MilestoneLink:hover & {
+    background: rgba(255, 90, 31, 0.14);
+  }
+
+}
+
+.TickLine {
+  width: 1px;
+  height: 23px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.5);
+  transition: background 0.2s;
+
+  .MilestoneLink:hover & {
+    background: #ff5a1f;
+  }
+
+}
+
+.Dot {
+  position: relative;
+  width: 9px;
+  height: 9px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+
+  .MilestoneLink:hover & {
+    background: #ff5a1f;
+    box-shadow: 0 0 0 6px rgba(255, 90, 31, 0.25);
+    transform: scale(1.15);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    .MilestoneLink:hover & { transform: none; }
+  }
+
+}
+
+.Bottom {
+  margin-top: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  @media (min-width: 1024px) {
+    margin-top: auto;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+}
+
+.Cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  p {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: clamp(19px, 1.85vw, 26px);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  margin: 0;
+; color: #ffffff; max-width: 560px; }
+
+}
+
+.Buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  a {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a { transition: none; }
+    a:hover { transform: none; }
+  }
+
+}

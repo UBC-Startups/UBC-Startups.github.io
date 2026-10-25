@@ -1,0 +1,677 @@
+.PageWrapper {
+  position: relative;
+  min-height: 100%;
+  overflow-x: hidden;
+  background-image: url(/images/HeroShapeDesign.svg);
+  background-size: 100%;
+  background-position: 0 -200px;
+
+  @media (max-width: 768px) {
+    background-size: 300%;
+    background-position: 0 -100px;
+  }
+
+}
+
+.HeroSection {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 560px;
+  background: url(/images/skyscraper.png) center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+}
+
+.HeroContent {
+  position: relative;
+  z-index: 1;
+  padding: 0 8%;
+
+  @media (max-width: 768px) {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+}
+
+.HeroArrow {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  position: absolute;
+  bottom: 36px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+  cursor: pointer;
+
+  :is(svg, img) {
+    width: 32px;
+    height: 32px;
+    fill: #ffffff;
+    opacity: 0.85;
+  }
+
+}
+
+.HeroLogoImg {
+  height: clamp(80px, 18vw, 200px);
+  width: auto;
+  margin-bottom: 8px;
+  display: block;
+
+}
+
+.HeroSubtitle {
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: #e8e8e8;
+  font-style: italic;
+  margin: 0 0 36px;
+
+}
+
+.HeroButton {
+  display: inline-block;
+  background: #ffffff;
+  color: #111111;
+  text-decoration: none;
+  padding: 14px 42px;
+  border-radius: 30px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+
+  &:hover {
+    background: #111111;
+    color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+
+}
+
+.HeroButtonGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+
+    & > * {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+}
+
+.HeroButtonOutline {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255,255,255,0.75);
+  box-shadow: none;
+
+  &:hover {
+    background: rgba(255,255,255,0.15);
+    box-shadow: none;
+  }
+
+}
+
+.InfoBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px 8%;
+  background: #ffffff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 16px;
+  margin: 40px 8%;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+
+}
+
+.InfoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 160px;
+
+}
+
+.InfoIcon {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+
+}
+
+.InfoLabel {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #111111;
+  margin-bottom: 4px;
+
+}
+
+.InfoValue {
+  font-size: 0.92rem;
+  color: #555555;
+  line-height: 1.5;
+
+}
+
+.InfoDivider {
+  width: 1px;
+  height: 60px;
+  background: #e0e0e0;
+
+  @media (max-width: 640px) {
+    display: none;
+  }
+
+}
+
+.WhatSection {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  padding: 60px 8%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+}
+
+.WhatText {
+  flex: 1;
+
+}
+
+.WhatTitle {
+  font-family: 'Sansation', sans-serif;
+  font-size: 3.2rem;
+  color: #111111;
+  margin-bottom: 60px;
+
+}
+
+.WhatDescription {
+  color: #555555;
+  line-height: 1.8;
+
+}
+
+.WhatGallery {
+  flex: 1.5;
+  min-width: 0;
+
+}
+
+.HighlightsSection {
+  position: relative;
+  padding: 80px 8%;
+  background: url(/images/clouds.jpg) center/cover no-repeat;
+  text-align: center;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.78);
+  }
+
+}
+
+.HighlightsInner {
+  position: relative;
+  z-index: 1;
+
+}
+
+.BirdIcon {
+  width: 160px;
+
+}
+
+.HighlightsTitle {
+  font-family: 'Sansation', sans-serif;
+  font-size: 2.4rem;
+  color: #111111;
+  margin-bottom: 50px;
+
+}
+
+.CardsRow {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 24px;
+
+}
+
+.HighlightCard {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 36px 28px;
+  width: 220px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+
+}
+
+.CardIcon {
+  width: 48px;
+  height: 48px;
+
+  :is(svg, img) {
+    width: 100%;
+    height: 100%;
+  }
+
+}
+
+.CardText {
+  font-size: 0.95rem;
+  color: #333333;
+  line-height: 1.5;
+  margin: 0;
+
+}
+
+.TimelineSection {
+  padding: 80px 8%;
+  max-width: 780px;
+  margin: 0 auto;
+
+}
+
+.TimelineTitle {
+  font-family: 'Sansation', sans-serif;
+  font-size: 2.4rem;
+  color: #111111;
+  text-align: center;
+  margin-bottom: 60px;
+
+}
+
+.TimelineList {
+  position: relative;
+  padding-left: 36px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #cccccc;
+  }
+
+}
+
+.TimelineItem {
+  position: relative;
+
+}
+
+.TimelineDot {
+  position: absolute;
+  left: -32px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--timelinedot-0);
+  background: var(--timelinedot-1);
+  z-index: 1;
+
+}
+
+.TimelineDate {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4db6e8;
+  display: block;
+  margin-bottom: 4px;
+
+}
+
+.TimelineEventTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111111;
+  margin: 0 0 4px;
+
+}
+
+.TimelineEventDesc {
+  font-size: 0.9rem;
+  color: #777777;
+  margin: 0 0 4px;
+
+}
+
+.TimelineDivider {
+  border: none;
+  border-top: 1px solid #e8e8e8;
+  margin: 18px 0;
+
+}
+
+.CTASection {
+  text-align: center;
+  padding: 60px 8%;
+
+}
+
+.CTAButtons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 30px;
+
+}
+
+.CTAButton {
+  display: inline-block;
+  background: #222222;
+  color: #ffffff;
+  text-decoration: none;
+  padding: 16px 40px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background 0.25s, box-shadow 0.25s;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+
+  &:hover {
+    background: #000000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+}
+
+.ContactInfo {
+  text-align: center;
+  color: #777777;
+  margin-top: 30px;
+  font-size: 0.9rem;
+
+  a {
+    color: #333333;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+}
+
+.PastWinnerSection {
+  padding: 80px 8%;
+  text-align: center;
+
+}
+
+.PastWinnerCard {
+  display: inline-flex;
+  align-items: center;
+  gap: 56px;
+  background: #ffffff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 28px;
+  padding: 52px 64px;
+  margin-top: 40px;
+  box-shadow: 0 8px 36px rgba(0,0,0,0.08);
+  text-align: left;
+  max-width: 900px;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 36px 28px;
+    gap: 28px;
+  }
+
+}
+
+.WinnerLogoImg {
+  height: 100px;
+  object-fit: contain;
+  flex-shrink: 0;
+
+}
+
+.WinnerDivider {
+  width: 1px;
+  height: 100px;
+  background: #e0e0e0;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    width: 80px;
+    height: 1px;
+  }
+
+}
+
+.WinnerFounders {
+  display: flex;
+  gap: 20px;
+  flex-shrink: 0;
+
+  @media (max-width: 768px) {
+    flex-shrink: 1;
+    width: 100%;
+    justify-content: center;
+  }
+
+}
+
+.WinnerFounderCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+}
+
+.WinnerFounderName {
+  font-weight: 700;
+  color: #111111;
+  margin: 0;
+
+}
+
+.WinnerFounderRole {
+  font-size: 0.9rem;
+  color: #777777;
+  margin: 0;
+
+}
+
+.WinnerFounderPhoto {
+  width: 170px;
+  height: 210px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+
+  @media (max-width: 768px) {
+    width: 130px;
+    height: 160px;
+  }
+
+}
+
+.WinnerName {
+  font-family: 'Sansation', sans-serif;
+  font-size: 1.6rem;
+  color: #111111;
+  margin: 0 0 8px;
+
+}
+
+.WinnerLabel {
+  font-size: 0.9rem;
+  color: #4db6e8;
+  font-weight: 600;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+}
+
+.WinnerDesc {
+  font-size: 0.95rem;
+  color: #555555;
+  line-height: 1.6;
+  margin: 0;
+
+}
+
+.PeopleSection {
+  padding: 80px 8%;
+  text-align: center;
+
+}
+
+.PeopleSectionTitle {
+  font-family: 'Sansation', sans-serif;
+  font-size: 2.4rem;
+  color: #111111;
+  margin-bottom: 50px;
+
+}
+
+.JudgesGrid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 36px;
+
+}
+
+.JudgeCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 160px;
+
+}
+
+.JudgeAvatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #e8e8e8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  :is(svg, img) {
+    width: 54px;
+    height: 54px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  > img[aria-hidden="true"] {
+    width: 54px;
+    height: 54px;
+  }
+
+}
+
+.JudgeName {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #111111;
+  margin: 0;
+
+}
+
+.JudgeRole {
+  font-size: 0.85rem;
+  color: #777777;
+  margin: 0;
+  line-height: 1.4;
+
+}
+
+.ComingSoonBadge {
+  display: inline-block;
+  background: #f0f0f0;
+  color: #888888;
+  font-size: 0.8rem;
+  padding: 6px 18px;
+  border-radius: 20px;
+  margin-top: 10px;
+
+}
+
+.SponsorsSection {
+  padding: 70px 8%;
+  text-align: center;
+
+}
+
+.SponsorsGrid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-top: 40px;
+
+}
+
+.SponsorLogo {
+  height: 60px;
+  object-fit: contain;
+
+}

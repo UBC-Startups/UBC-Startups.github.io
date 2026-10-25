@@ -6,8 +6,26 @@ UBC Startups' public website at `https://ubcstartups.com`. This is a client-side
 React 18 application built with Create React App (`react-scripts` 5), JavaScript,
 React Router 6, and styled-components 5. Use npm and the committed
 `legacy/package-lock.json`. The current application lives in `legacy/`.
-The planned Next.js application will live in `web/`, with database infrastructure
-in the root `supabase/` directory; those directories have not been created yet.
+The Next.js application lives in `web/`. Root `supabase/` database infrastructure
+is planned but has not been created yet. Each app uses its own npm lockfile.
+
+## Next.js application
+
+- Read `web/AGENTS.md` and the relevant installed Next.js guides before changing
+  the new application. The legacy conventions below apply to `legacy/`.
+- `web/app/` defines public routes and server metadata; `web/views/` composes pages.
+  Do not use a root `web/pages/` directory for ordinary components, because Next.js
+  treats it as the Pages Router.
+- `web/home/`, `web/components/`, and `web/data/` contain the migrated UI and copy.
+  CSS Modules preserve existing styles; Tailwind utilities are available for new UI.
+- Use Next.js links and metadata in `web/`, not React Router or React Helmet.
+- Use Node 26.12.0 from `web/.nvmrc`. From `web/`, run `npm ci`, `npm run dev`,
+  `npm run lint`, `npm run typecheck`, and `npm run build`.
+- Browser checks: install Chromium with `npx playwright install chromium`, then
+  run `npm test` after a production build. Tests mock newsletter/social/analytics
+  requests and cover desktop/mobile navigation, routes, assets, and interactions.
+- Keep the legacy GitHub Pages deployment unchanged until an authorized cutover.
+  `.github/workflows/web.yml` validates the new app without deploying it.
 
 ## Where to make changes
 

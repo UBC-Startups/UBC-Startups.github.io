@@ -1,0 +1,57 @@
+.Section {
+
+  padding-left: 16px;
+  padding-right: 16px;
+  @media (min-width: 640px) {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+;
+  padding-top: 80px;
+  @media (min-width: 640px) { padding-top: 100px; }
+
+}
+
+.List {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 40px;
+  @media (min-width: 640px) { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+}
+
+.Stat {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  &::before { content: ""; height: 3px; background: #0a0a0a; }
+  :global(.label) {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+; color: #6b6b6b; }
+
+}
+
+.Value {
+
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: clamp(48px, 5.6vw, 80px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  margin: 0;
+;
+  color: #0a0a0a;
+  white-space: nowrap;
+  display: grid;
+  font-variant-numeric: tabular-nums;
+  & > span { grid-area: 1 / 1; }
+  :global(.reserve) { visibility: hidden; }
+
+}

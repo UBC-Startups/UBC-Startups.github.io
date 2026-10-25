@@ -1,0 +1,191 @@
+.Section {
+
+  padding-left: 16px;
+  padding-right: 16px;
+  @media (min-width: 640px) {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+;
+  padding-top: 80px;
+  @media (min-width: 640px) { padding-top: 100px; }
+
+}
+
+.Head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.12);
+  h2 {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: clamp(40px, 4.5vw, 64px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin: 0;
+; color: #0a0a0a; }
+  p:global(.body) {
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  margin: 0;
+; color: #6b6b6b; }
+
+}
+
+.TitleRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+
+}
+
+.PlatformLinks {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 6px;
+
+}
+
+.PlatformLink {
+
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0a0a0a;
+  text-decoration: none;
+  transition: color 0.2s;
+  &:hover { color: #ff5a1f; }
+
+}
+
+.Grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 32px;
+  @media (min-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
+
+}
+
+.Card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid rgba(10, 10, 10, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.06);
+
+}
+
+.CardHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.08);
+
+}
+
+.CardName {
+
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0;
+  margin: 0;
+;
+  color: #0a0a0a;
+
+}
+
+.CardBody {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  /* Instagram replaces the blockquote with an iframe and sizes it itself;
+     pin it to the shared embed height so both cards match. */
+  iframe:global(.instagram-media) { height: 460px !important; }
+
+}
+
+.EmbedSlot {
+  width: 100%;
+
+}
+
+.FallbackBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 460px;
+  padding: 24px;
+  text-align: center;
+  border-radius: 16px;
+  background: #efefec;
+
+}
+
+.FallbackTitle {
+
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  margin: 0;
+;
+  color: #0a0a0a;
+
+}
+
+.FallbackText {
+
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  margin: 0;
+;
+  color: #6b6b6b;
+
+}
+
+.FallbackLink {
+
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0;
+;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  color: #ff5a1f;
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+
+}

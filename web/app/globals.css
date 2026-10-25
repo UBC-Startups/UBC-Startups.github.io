@@ -1,0 +1,18 @@
+/* Keep legacy browser defaults; Tailwind utilities remain available for new UI. */
+/* The original Google Fonts stylesheet loads from the shared root layout. */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+html { scroll-behavior: smooth; }
+body { margin: 0; font-family: "Roboto Flex", sans-serif; }
+:focus-visible { outline: 2px solid #ff5a1f; outline-offset: 3px; }
+[id] { scroll-margin-top: 90px; }
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 2000; padding: 12px 20px; background: #fff; color: #0a0a0a; transform: translateY(-200%); }
+.skip-link:focus { transform: translateY(0); }
+.status-page { min-height: 70vh; display: grid; align-content: center; justify-items: center; gap: 24px; padding: 120px 24px; background: #efefec; text-align: center; }
+.status-page a, .status-page button { color: #fff; background: #0a0a0a; border: 0; border-radius: 999px; padding: 12px 24px; text-decoration: none; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

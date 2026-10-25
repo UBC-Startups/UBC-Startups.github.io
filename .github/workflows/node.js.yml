@@ -21,6 +21,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: legacy
+
     strategy:
       matrix:
         node-version: [22.x, 24.x, 26.x]
@@ -33,8 +37,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+        cache-dependency-path: legacy/package-lock.json
     - run: npm ci
-    - run: npm run build --if-present
+    - run: npm run build
     - run: npm test -- --watchAll=false --passWithNoTests
     - name: Configure GitHub Pages
       if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.node-version == '24.x'
@@ -43,7 +48,7 @@ jobs:
       if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.node-version == '24.x'
       uses: actions/upload-pages-artifact@v4
       with:
-        path: build
+        path: legacy/build
 
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'

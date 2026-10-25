@@ -24,17 +24,17 @@
   gap: 64px;
   overflow: hidden;
   padding: 64px 24px;
-  border-radius: 24px;
-  background: #0a0a0a;
+  border-radius: var(--radius-panel);
+  background: var(--color-inverse);
   @media (min-width: 640px) { padding: 64px 40px; }
   h2 {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: clamp(40px, 4.5vw, 64px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-xl);
+  font-weight: var(--text-heading-xl--font-weight);
+  line-height: var(--text-heading-xl--line-height);
+  letter-spacing: var(--text-heading-xl--letter-spacing);
   margin: 0;
-; color: #ffffff; align-self: flex-start; max-width: 562px; }
+; color: var(--color-ink-inverse); align-self: flex-start; max-width: 562px; }
 
 }
 
@@ -44,8 +44,8 @@
   margin: 0 -24px;
   overflow: hidden;
   /* Faded edges, standing in for the design's fading last avatars */
-  mask-image: linear-gradient(to right, transparent 0, #000 64px, #000 calc(100% - 160px), transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 64px, #000 calc(100% - 160px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, var(--color-black) 64px, var(--color-black) calc(100% - 160px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, var(--color-black) 64px, var(--color-black) calc(100% - 160px), transparent 100%);
   @media (min-width: 640px) { width: calc(100% + 80px); margin: 0 -40px; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -111,12 +111,12 @@
   border-radius: 50%;
   text-align: center;
   background: rgba(10, 10, 10, 0.78);
-  color: #fff;
+  color: var(--color-ink-inverse);
   opacity: 0;
   transition: opacity 0.2s;
   .Avatar:hover &, .Avatar:focus-within & { opacity: 1; }
   :global(.name) {
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: var(--font-brand);
   font-size: 14px;
   font-weight: 500;
   line-height: 1.2;
@@ -124,12 +124,12 @@
   margin: 0;
 ; font-weight: 600; }
   :global(.role) {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: 0;
+  font-family: var(--font-brand);
+  font-size: var(--text-caption);
+  font-weight: var(--text-caption--font-weight);
+  line-height: var(--text-caption--line-height);
+  letter-spacing: var(--text-caption--letter-spacing);
   margin: 0;
-; color: #8a8a8a; margin-top: 2px; }
+; color: var(--color-ink-inverse-muted); margin-top: 2px; }
 
 }

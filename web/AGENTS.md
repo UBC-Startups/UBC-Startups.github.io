@@ -5,10 +5,19 @@
   shared UI in `home/` and `components/`, and content in `data/` and `home/content.js`.
 - Existing migrated components remain JavaScript for an incremental port. Use
   TypeScript for new features. Preserve copied content, asset casing, and routes.
-- Keep the existing CSS Modules during migration. Tailwind utilities are enabled
-  without Preflight so they do not reset existing browser defaults.
+- Read `docs/design-system.md` before styling UI. Use Tailwind and the primitives
+  in `components/ui/` for new/shared UI. All reusable values live in `styles/tokens.css`.
+- Existing CSS Modules consume those tokens and remain during section-by-section
+  conversion, especially for animations/artwork. Do not create a separate portal
+  styling system or duplicate token values in features. Preflight remains disabled.
 - Restrict `use client` to interactive components. Do not pass event handlers or
   ordinary functions from Server Components to Client Components.
+- Use `lib/use-prefers-reduced-motion` for motion decisions in rendered JSX so
+  server and initial client styles agree. Preserve the shared font stylesheet.
+- Keep native forms mounted through submission; verify the request contract with
+  mocked endpoints when changing forms. Never send real subscriptions in tests.
+- Compare shared styling changes at mobile, tablet, and desktop widths with fonts
+  loaded, preserving existing typography, colors, focus behavior, and layout.
 - After changes run lint, typecheck, build, and the relevant Playwright tests.
 - Do not deploy `web/` through the legacy Pages workflow or modify `legacy/` as
   part of routine new-app development.

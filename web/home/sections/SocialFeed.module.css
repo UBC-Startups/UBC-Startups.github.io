@@ -19,21 +19,21 @@
   padding-bottom: 24px;
   border-bottom: 1px solid rgba(10, 10, 10, 0.12);
   h2 {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: clamp(40px, 4.5vw, 64px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-xl);
+  font-weight: var(--text-heading-xl--font-weight);
+  line-height: var(--text-heading-xl--line-height);
+  letter-spacing: var(--text-heading-xl--letter-spacing);
   margin: 0;
-; color: #0a0a0a; }
+; color: var(--color-ink); }
   p:global(.body) {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 17px;
-  font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: 0;
+  font-family: var(--font-brand);
+  font-size: var(--text-body-l);
+  font-weight: var(--text-body-l--font-weight);
+  line-height: var(--text-body-l--line-height);
+  letter-spacing: var(--text-body-l--letter-spacing);
   margin: 0;
-; color: #6b6b6b; }
+; color: var(--color-ink-secondary); }
 
 }
 
@@ -56,20 +56,20 @@
 
 .PlatformLink {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-family: var(--font-brand);
+  font-size: var(--text-label-l);
+  font-weight: var(--text-label-l--font-weight);
+  line-height: var(--text-label-l--line-height);
+  letter-spacing: var(--text-label-l--letter-spacing);
   margin: 0;
 ;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #0a0a0a;
+  color: var(--color-ink);
   text-decoration: none;
   transition: color 0.2s;
-  &:hover { color: #ff5a1f; }
+  &:hover { color: var(--color-accent); }
 
 }
 
@@ -86,9 +86,9 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--color-surface);
   border: 1px solid rgba(10, 10, 10, 0.08);
-  border-radius: 20px;
+  border-radius: var(--radius-card);
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.06);
 
 }
@@ -104,14 +104,14 @@
 
 .CardName {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: 0;
+  font-family: var(--font-brand);
+  font-size: var(--text-label-m);
+  font-weight: var(--text-label-m--font-weight);
+  line-height: var(--text-label-m--line-height);
+  letter-spacing: var(--text-label-m--letter-spacing);
   margin: 0;
 ;
-  color: #0a0a0a;
+  color: var(--color-ink);
 
 }
 
@@ -140,51 +140,51 @@
   min-height: 460px;
   padding: 24px;
   text-align: center;
-  border-radius: 16px;
-  background: #efefec;
+  border-radius: var(--radius-field);
+  background: var(--color-canvas);
 
 }
 
 .FallbackTitle {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 17px;
-  font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: 0;
+  font-family: var(--font-brand);
+  font-size: var(--text-body-l);
+  font-weight: var(--text-body-l--font-weight);
+  line-height: var(--text-body-l--line-height);
+  letter-spacing: var(--text-body-l--letter-spacing);
   margin: 0;
 ;
-  color: #0a0a0a;
+  color: var(--color-ink);
 
 }
 
 .FallbackText {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: 0;
+  font-family: var(--font-brand);
+  font-size: var(--text-body-m);
+  font-weight: var(--text-body-m--font-weight);
+  line-height: var(--text-body-m--line-height);
+  letter-spacing: var(--text-body-m--letter-spacing);
   margin: 0;
 ;
-  color: #6b6b6b;
+  color: var(--color-ink-secondary);
 
 }
 
 .FallbackLink {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-family: var(--font-brand);
+  font-size: var(--text-label-l);
+  font-weight: var(--text-label-l--font-weight);
+  line-height: var(--text-label-l--line-height);
+  letter-spacing: var(--text-label-l--letter-spacing);
   margin: 0;
 ;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   margin-top: 4px;
-  color: #ff5a1f;
+  color: var(--color-accent);
   text-decoration: none;
   &:hover { text-decoration: underline; }
 

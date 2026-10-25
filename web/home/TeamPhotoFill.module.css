@@ -9,7 +9,7 @@
     height: 100%;
     padding: 3.4%;
     border-radius: 50%;
-    background: #000;
+    background: var(--color-black);
   }
   & > div > div {
     width: 100%;

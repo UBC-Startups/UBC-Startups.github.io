@@ -6,7 +6,7 @@ import EventCard from "../components/eventCard";
 const Events = () => {
   const term1Events = events.filter(e => e.term === "Term 1");
   const term2Events = events.filter(e => e.term === "Term 2");
-  return <Layout title="Events | UBC Startups" active="Events" footerTitle="Stay in the loop.">
+  return <Layout active="Events" footerTitle="Stay in the loop.">
             <PageHero eyebrow="Events 2026–27" title="Events" subtitle="Seven events across two terms, from our September kickoff to SOAR in March" />
 
             <section className={styles.Term}>

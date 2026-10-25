@@ -67,7 +67,12 @@ test("FAQ, carousel, and newsletter keep working", async ({ page }) => {
   await photo.click();
   await expect(page.getByRole("tab").nth(1)).toHaveAttribute("aria-selected", "true");
   await page.getByRole("textbox", { name: "Email address" }).fill("migration-test@example.com");
+  const subscription = page.waitForRequest(request => request.method() === "POST" && request.url().includes("assets.mailerlite.com/jsonp/"));
   await page.getByRole("button", { name: "Subscribe", exact: true }).click();
+  const payload = new URLSearchParams((await subscription).postData() ?? "");
+  expect(payload.get("fields[email]")).toBe("migration-test@example.com");
+  expect(payload.get("ml-submit")).toBe("1");
+  expect(payload.get("anticsrf")).toBe("true");
   await expect(page.getByText("Thanks — you're on the list!", { exact: true })).toBeVisible();
 });
 
@@ -93,4 +98,22 @@ test("unknown pages and event IDs show not-found content and prevent indexing", 
     await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
     await expect(page.locator('meta[name="robots"]').first()).toHaveAttribute("content", /noindex/);
   }
+});
+
+test.describe("server-rendered content", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("homepage introduction emits opaque stationary styles before hydration", async ({ page }) => {
+    await page.goto("/");
+    const title = page.locator("#hero-title");
+    // Next may stage streamed HTML in a hidden container until hydration.
+    // Verify the hero's own SSR styles, independently of that transport.
+    await expect(title).toBeAttached();
+    await expect(title).toHaveCSS("opacity", "1");
+    await expect(title).toHaveCSS("transform", "none");
+    const introduction = page.getByText("Building a Startup Ecosystem on Campus", { exact: true });
+    await expect(introduction).toBeAttached();
+    await expect(introduction).toHaveCSS("opacity", "1");
+    await expect(introduction).toHaveCSS("transform", "none");
+  });
 });

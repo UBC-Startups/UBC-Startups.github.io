@@ -4,7 +4,7 @@ import styles from "./Team.module.css";
 import { useState } from "react";
 import Link from "next/link";
 import { team } from "../content";
-import { Button } from "../ui";
+import { Button } from "../../components/ui";
 import TeamPhotoFill from "../TeamPhotoFill";
 const SECONDS_PER_PERSON = 2.5;
 

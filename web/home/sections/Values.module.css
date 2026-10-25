@@ -13,13 +13,13 @@
   padding-top: 112px;
   @media (min-width: 640px) { padding-top: 180px; }
   h2 {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: clamp(40px, 4.5vw, 64px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-xl);
+  font-weight: var(--text-heading-xl--font-weight);
+  line-height: var(--text-heading-xl--line-height);
+  letter-spacing: var(--text-heading-xl--letter-spacing);
   margin: 0;
-; color: #0a0a0a; }
+; color: var(--color-ink); }
 
 }
 
@@ -72,8 +72,8 @@
   overflow: hidden;
   box-sizing: border-box;
   width: 100%;
-  border-radius: 20px;
-  background: #ffffff;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
   text-align: left;
   font: inherit;
   border: 0;
@@ -127,15 +127,15 @@
   gap: var(--text-0);
   :global(.name) {
     font-size: var(--text-1); font-weight: 600; line-height: 1.2; letter-spacing: var(--text-2);
-    color: #0a0a0a;
+    color: var(--color-ink);
   }
   :global(.body) {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: 0;
+  font-family: var(--font-brand);
+  font-size: var(--text-body-m);
+  font-weight: var(--text-body-m--font-weight);
+  line-height: var(--text-body-m--line-height);
+  letter-spacing: var(--text-body-m--letter-spacing);
   margin: 0;
-; color: #6b6b6b; }
+; color: var(--color-ink-secondary); }
 
 }

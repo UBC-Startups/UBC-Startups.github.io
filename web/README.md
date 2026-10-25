@@ -1,8 +1,11 @@
 # UBC Startups — Next.js
 
 Public-site migration using Next.js App Router, React, TypeScript, and Tailwind.
-Existing components use CSS Modules to preserve the website's design; those
-components remain JavaScript while new routes and components use TypeScript.
+The shared design system uses Tailwind and TypeScript components. Existing
+page-specific components retain scoped styles during incremental migration.
+
+**New contributors:** read [the design-system guide](docs/design-system.md) before
+adding UI. It covers tokens, component APIs, styling conventions, and validation.
 
 ## Development
 
@@ -41,6 +44,9 @@ and installs Chromium with its Linux dependencies. It does not deploy the app.
 - `views/`: Public page compositions. Do not rename this to `pages/`.
 - `home/`: Shared public-site layout, sections, content, design tokens, and UI.
 - `components/`: Navigation, event cards, and photo gallery.
+- `components/ui/`: Shared buttons, fields, typography, cards, badges, and containers.
+- `styles/tokens.css`: The single source of truth for the existing design values.
+- `docs/design-system.md`: Styling and onboarding guide.
 - `data/`: Team roster, event lineup, and event poster content.
 - `public/figma/` and `public/images/`: Local checked-in assets copied from legacy.
 - `tests/e2e/`: Browser regression coverage.

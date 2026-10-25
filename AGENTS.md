@@ -17,7 +17,9 @@ is planned but has not been created yet. Each app uses its own npm lockfile.
   Do not use a root `web/pages/` directory for ordinary components, because Next.js
   treats it as the Pages Router.
 - `web/home/`, `web/components/`, and `web/data/` contain the migrated UI and copy.
-  CSS Modules preserve existing styles; Tailwind utilities are available for new UI.
+  Use the shared Tailwind primitives in `web/components/ui/` and central values in
+  `web/styles/tokens.css`; read `web/docs/design-system.md` before styling changes.
+  Existing scoped CSS consumes the same tokens during incremental conversion.
 - Use Next.js links and metadata in `web/`, not React Router or React Helmet.
 - Use Node 26.12.0 from `web/.nvmrc`. From `web/`, run `npm ci`, `npm run dev`,
   `npm run lint`, `npm run typecheck`, and `npm run build`.
@@ -27,7 +29,7 @@ is planned but has not been created yet. Each app uses its own npm lockfile.
 - Keep the legacy GitHub Pages deployment unchanged until an authorized cutover.
   `.github/workflows/web.yml` validates the new app without deploying it.
 
-## Where to make changes
+## Legacy application: where to make changes
 
 Application paths below are relative to `legacy/`, except `.github/workflows/`,
 which remains at the repository root.
@@ -54,7 +56,7 @@ which remains at the repository root.
 - `public/index.html` and `public/404.html`: paired GitHub Pages SPA redirect logic.
 - `.github/workflows/node.js.yml`: CI and GitHub Pages deployment.
 
-## Development commands
+## Legacy application: development commands
 
 Use Node 24 to match the deployed build. CI also checks Node 22 and 26.
 
@@ -79,7 +81,7 @@ npm test -- --watchAll=false --passWithNoTests
 - Documentation-only changes need a content review, not a full application build.
   Report which checks ran and any checks that could not be completed.
 
-## Implementation conventions
+## Legacy application: implementation conventions
 
 - Follow the surrounding JavaScript/JSX style and use functional React components.
   Keep changes focused; avoid unrelated formatting or framework migrations.

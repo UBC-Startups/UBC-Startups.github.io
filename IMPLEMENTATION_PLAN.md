@@ -18,7 +18,8 @@ Verified from the local repository unless otherwise noted:
 | Developer runtime | `web/.nvmrc` pins Node 26.12.0; the new-app workflow uses that file. Legacy deployment remains on Node 24. |
 | Supabase | Root `supabase/` directory has not been created; local services, schema, and auth integration remain pending. |
 | New application CI | Added `.github/workflows/web.yml` with lint, types, production build, and desktop/mobile Playwright checks. Its stable job name is `web checks`; first remote execution is pending. |
-| Local verification | New-app lint/build/type checks and 22 browser checks passed. Legacy build/test command passed (legacy still has no automated tests). Desktop/mobile screenshots were compared against the rebuilt legacy app. |
+| Shared design system | Central Tailwind theme in `web/styles/tokens.css`; typed primitives in `web/components/ui/`; onboarding guide in `web/docs/design-system.md`. Shared layout/navigation/headers/newsletter and event-card surfaces/tags use them; remaining scoped styles consume the same tokens during incremental conversion. |
+| Local verification | New-app lint/build/type checks and 24 browser checks passed, including the newsletter POST contract and initial hero styles. Typography/colors were compared with loaded fonts at 390, 768, 1024, and 1440px. Legacy build/test command passed (legacy still has no automated tests). |
 
 The application root is now `web/`. Production still serves the legacy app;
 Next.js hosting, live third-party service acceptance, and production cutover remain pending.
@@ -45,13 +46,13 @@ This document plans future implementation. It does not authorize production prov
 | Authorization | PostgreSQL row-level security (RLS) and server authorization | Enforce access in the database and at each server operation. |
 | Files | Supabase Storage | Bucket and object policies for avatars and startup logos. |
 | Application workflows | Next.js Server Actions and Route Handlers | Shared server modules contain business logic. |
-| Styling | CSS Modules for migrated UI; Tailwind CSS 4 utilities for new UI | Legacy styled-components are extracted into native styles. Tailwind Preflight is omitted to preserve the existing design. |
+| Styling | Tailwind CSS 4 plus shared TypeScript primitives | One central token source preserves the existing design. Existing page-specific CSS Modules reference those tokens during incremental conversion; retain scoped CSS for complex artwork/animations. Preflight remains disabled. |
 | Hosting | Managed hosting with full Next.js support | Provider, account ownership, and budget remain to be selected. |
-| Package management | Independent npm projects in `legacy/` and the Next.js application root, each with a committed `package-lock.json` | No npm workspaces initially. Standardize a tested Node 26 version for new-app development; legacy deployment remains Node 24 until intentionally changed. |
+| Package management | Independent npm projects in `legacy/` and `web/`, each with a committed `package-lock.json` | No npm workspaces initially. Use the new-app Node version pinned in `web/.nvmrc`; legacy deployment remains Node 24 until intentionally changed. |
 | Local development | Native Node/npm for applications; Docker-compatible runtime and Supabase CLI for local Supabase, recommended | Five-person team: isolate database work per developer. No custom application Dockerfile or mandatory WSL setup. |
 | Caching | Cache Components enabled in the scaffold | Preserve this fact in the plan; review the selected version's guidance before caching public data. Never share-cache personal data or auth responses. |
 | Validation | Zod, proposed | Validate untrusted input on the server; database constraints remain authoritative. |
-| Testing | Vitest/React Testing Library, Playwright, and database integration tests, proposed | Cover business rules, user flows, and permissions. |
+| Testing | Playwright is implemented; Vitest/React Testing Library and database integration tests remain proposed | Current suite has 24 desktop/mobile checks. Add focused business-rule and permission coverage with backend features. |
 | Email | Transactional email provider, to be selected | Production authentication email and application notifications need delivery configuration. |
 
 Use the Supabase client and generated database types initially; an additional ORM is unnecessary for the first version. Commit SQL migrations and regenerate types when the schema changes.
@@ -94,6 +95,9 @@ The existing CRA application lives in `legacy/`, and the new application lives i
 `web/`. Keep future database infrastructure in root `supabase/`. Follow the
 no-`src/` convention:
 
+The target tree below includes planned auth routes, feature modules, and database
+tooling that have not been created yet. Current progress is recorded above.
+
 ```text
 legacy/                       # Existing CRA app and its own package/lockfile
 web/                          # Target Next.js root and its own package/lockfile
@@ -106,6 +110,11 @@ web/                          # Target Next.js root and its own package/lockfile
     api/                      # Integrations and external endpoints
     layout.tsx
   components/                 # Shared UI
+    ui/                       # Typed Tailwind primitives
+  styles/
+    tokens.css                # Shared design values
+  docs/
+    design-system.md          # Team styling and onboarding guide
   views/                      # Migrated page compositions, not a Pages Router
   home/                       # Existing public-site layout, sections, and copy
   data/                       # Team, event lineup, and event poster data
@@ -200,7 +209,7 @@ RLS controls rows, not which fields are safe to disclose. Separate private data 
 
 - Completed: consolidated the scaffold into `web/` while keeping `legacy/` independently runnable. Keep each application's manifest and lockfile together.
 - Pin compatible framework, React, TypeScript, and Supabase packages at implementation time. Review existing dependency overrides before retaining or removing them.
-- Completed: ported existing styles to CSS Modules, retaining colors, spacing, typography, and responsive behavior. Tailwind utilities remain available for new UI; styled-components is not installed in the new application.
+- Completed: ported existing styles and established a shared Tailwind theme and TypeScript UI primitives, retaining colors, spacing, typography, and responsive behavior. New/shared UI uses these components; remaining page-specific styles consume the same tokens during incremental conversion. Styled-components is not installed in the new application.
 - Review the scaffold's Cache Components, partial prefetching, and experimental agent feedback settings against the installed Next.js documentation. Make deliberate configuration choices; establish public/private data boundaries before adding caches.
 - Adapt the legacy CRA entry point, React Router navigation, and React Helmet metadata to Next.js equivalents in `web/`; retain the deployed legacy implementation during migration.
 - Preserve `/`, `/meetOurTeam`, `/events`, `/event-poster/soar-2026`, and `/event-poster/[eventId]`. Keep SOAR's dedicated page behavior.
@@ -289,7 +298,7 @@ Open focused feature PRs against `development`: public-site migration, database/
 
 Payments, guest tickets, real-time chat, feeds, algorithmic matching, fundraising transactions, advanced search infrastructure, and a separate API service are outside the first release. Revisit them after the core workflows are used successfully.
 
-The public-site port, directory cleanup, Node pin, and new-app CI configuration
+The public-site port, shared design system, onboarding guide, directory cleanup, Node pin, and new-app CI configuration
 are implemented locally. Next: review the migrated site with the team, run the new
 checks on GitHub, and arrange a separate preview host. Third-party embeds and actual
 newsletter delivery need manual acceptance; automated checks mock those services.

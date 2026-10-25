@@ -67,7 +67,7 @@
   :is(svg, img) {
     width: 32px;
     height: 32px;
-    fill: #ffffff;
+    fill: var(--color-surface);
     opacity: 0.85;
   }
 
@@ -91,7 +91,7 @@
 
 .HeroButton {
   display: inline-block;
-  background: #ffffff;
+  background: var(--color-surface);
   color: #111111;
   text-decoration: none;
   padding: 14px 42px;
@@ -103,7 +103,7 @@
 
   &:hover {
     background: #111111;
-    color: #ffffff;
+    color: var(--color-ink-inverse);
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   }
 
@@ -127,7 +127,7 @@
 
 .HeroButtonOutline {
   background: transparent;
-  color: #ffffff;
+  color: var(--color-ink-inverse);
   border: 2px solid rgba(255,255,255,0.75);
   box-shadow: none;
 
@@ -145,9 +145,9 @@
   flex-wrap: wrap;
   gap: 20px;
   padding: 30px 8%;
-  background: #ffffff;
+  background: var(--color-surface);
   border: 1.5px solid #e0e0e0;
-  border-radius: 16px;
+  border-radius: var(--radius-field);
   margin: 40px 8%;
   box-shadow: 0 4px 20px rgba(0,0,0,0.06);
 
@@ -213,7 +213,7 @@
 }
 
 .WhatTitle {
-  font-family: 'Sansation', sans-serif;
+  font-family: var(--font-editorial);
   font-size: 3.2rem;
   color: #111111;
   margin-bottom: 60px;
@@ -261,7 +261,7 @@
 }
 
 .HighlightsTitle {
-  font-family: 'Sansation', sans-serif;
+  font-family: var(--font-editorial);
   font-size: 2.4rem;
   color: #111111;
   margin-bottom: 50px;
@@ -277,8 +277,8 @@
 }
 
 .HighlightCard {
-  background: #ffffff;
-  border-radius: 20px;
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
   padding: 36px 28px;
   width: 220px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.1);
@@ -316,7 +316,7 @@
 }
 
 .TimelineTitle {
-  font-family: 'Sansation', sans-serif;
+  font-family: var(--font-editorial);
   font-size: 2.4rem;
   color: #111111;
   text-align: center;
@@ -408,7 +408,7 @@
 .CTAButton {
   display: inline-block;
   background: #222222;
-  color: #ffffff;
+  color: var(--color-ink-inverse);
   text-decoration: none;
   padding: 16px 40px;
   border-radius: 30px;
@@ -418,7 +418,7 @@
   box-shadow: 0 6px 20px rgba(0,0,0,0.18);
 
   &:hover {
-    background: #000000;
+    background: var(--color-black);
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
   }
 
@@ -452,7 +452,7 @@
   display: inline-flex;
   align-items: center;
   gap: 56px;
-  background: #ffffff;
+  background: var(--color-surface);
   border: 1.5px solid #e0e0e0;
   border-radius: 28px;
   padding: 52px 64px;
@@ -531,7 +531,7 @@
 .WinnerFounderPhoto {
   width: 170px;
   height: 210px;
-  border-radius: 16px;
+  border-radius: var(--radius-field);
   object-fit: cover;
   border: 2px solid #e0e0e0;
 
@@ -543,7 +543,7 @@
 }
 
 .WinnerName {
-  font-family: 'Sansation', sans-serif;
+  font-family: var(--font-editorial);
   font-size: 1.6rem;
   color: #111111;
   margin: 0 0 8px;
@@ -575,7 +575,7 @@
 }
 
 .PeopleSectionTitle {
-  font-family: 'Sansation', sans-serif;
+  font-family: var(--font-editorial);
   font-size: 2.4rem;
   color: #111111;
   margin-bottom: 50px;
@@ -649,7 +649,7 @@
   color: #888888;
   font-size: 0.8rem;
   padding: 6px 18px;
-  border-radius: 20px;
+  border-radius: var(--radius-card);
   margin-top: 10px;
 
 }

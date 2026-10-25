@@ -1,20 +1,24 @@
-// Shared brand values for interactive components; layout styles live in CSS Modules.
+// Compatibility aliases for migrated interactive sections. Actual values live
+// only in styles/tokens.css, shared by Tailwind, CSS Modules, and inline styles.
 export const color = {
-  canvas: "#efefec",
-  surface: "#ffffff",
-  inverse: "#0a0a0a",
-  inverseSubtle: "#2a2a2a",
-  muted: "#dad9d4",
-  ink: "#0a0a0a",
-  inkSecondary: "#6b6b6b",
-  inkTertiary: "#b5b5b0",
-  inkInverse: "#ffffff",
-  inkInverseMuted: "#8a8a8a",
-  accent: "#ff5a1f",
-  red: "#dd3322",
-  green: "#88dcbe",
-  charcoal: "#1a1a1a",
+  canvas: "var(--color-canvas)",
+  surface: "var(--color-surface)",
+  inverse: "var(--color-inverse)",
+  inverseSubtle: "var(--color-inverse-subtle)",
+  muted: "var(--color-muted)",
+  ink: "var(--color-ink)",
+  inkSecondary: "var(--color-ink-secondary)",
+  inkTertiary: "var(--color-ink-tertiary)",
+  inkInverse: "var(--color-ink-inverse)",
+  inkInverseMuted: "var(--color-ink-inverse-muted)",
+  accent: "var(--color-accent)",
+  red: "var(--color-brand-red)",
+  green: "var(--color-brand-green)",
+  charcoal: "var(--color-charcoal)",
 } as const;
 
-export const radius = { sm: "12px", md: "16px", lg: "20px", xl: "24px", full: "999px" } as const;
+export const radius = {
+  sm: "var(--radius-thumbnail)", md: "var(--radius-field)",
+  lg: "var(--radius-card)", xl: "var(--radius-panel)", full: "var(--radius-pill)",
+} as const;
 export const figma = (file: string) => `/figma/${file}`;

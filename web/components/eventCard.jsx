@@ -1,5 +1,6 @@
 import styles from "./eventCard.module.css";
 import Link from "next/link";
+import { Badge, Card } from "./ui";
 const EventCard = ({
   number,
   termTag,
@@ -22,7 +23,7 @@ const EventCard = ({
   photos = [],
   image
 }) => {
-  return <div className={styles.Card}>
+  return <Card padding="compact" className="flex items-stretch [@media(max-width:800px)]:flex-col">
             <div className={styles.Visual} style={{
       "--visual-0": image ? `linear-gradient(to bottom, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.65)), url(${image})` : `linear-gradient(to bottom, ${gradientFrom}, ${gradientTo})`,
       "--visual-1": status === "past" ? "grayscale(0.7)" : "none",
@@ -30,14 +31,8 @@ const EventCard = ({
     }}>
                 <p className={styles.BigNumber}>{number}</p>
                 <div className={styles.Tags}>
-                    <div className={styles.Tag} style={{
-          "--tag-0": "#cc4414",
-          "--tag-1": "#fff"
-        }}>{termTag}</div>
-                    {extraTags.map(tag => <div key={tag} className={styles.Tag} style={{
-          "--tag-0": "#fff",
-          "--tag-1": "#0a0a0a"
-        }}>{tag}</div>)}
+                    <Badge>{termTag}</Badge>
+                    {extraTags.map(tag => <Badge key={tag} variant="surface">{tag}</Badge>)}
                 </div>
                 <div className={styles.DateBlock}>
                     <p className={styles.DateText}>{date}</p>
@@ -82,6 +77,6 @@ const EventCard = ({
                 {status === "default" && signUpLink && (signUpLink.startsWith("/") ? <Link href={signUpLink} className={styles.SignUpRouterLink}>Sign up</Link> : <a href={signUpLink} target="_blank" rel="noreferrer" className={styles.SignUpButton}>Sign up</a>)}
                 {status === "past" && detailsLink && <a href={detailsLink} target="_blank" rel="noreferrer" className={styles.DetailsLink}>See more details →</a>}
             </div>
-        </div>;
+        </Card>;
 };
 export default EventCard;

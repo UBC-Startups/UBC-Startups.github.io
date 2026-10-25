@@ -11,7 +11,7 @@ import Faq from "../home/sections/Faq";
 
 // Homepage redesign (Figma: "UBC Startups — Website Remix", HOMEPAGE frame).
 
-const HomePage = () => <Layout title="UBC Startups">
+const HomePage = () => <Layout>
     <Hero />
     <SocialFeed />
     <Partners />

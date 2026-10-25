@@ -4,8 +4,8 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-radius: 24px;
-  background: #0a0a0a;
+  border-radius: var(--radius-panel);
+  background: var(--color-inverse);
   padding: 40px 20px;
   @media (min-width: 640px) { padding: 51px 36px 40px; }
   @media (min-width: 1024px) { min-height: 947px; padding-bottom: 48px; }
@@ -43,7 +43,7 @@
 
 .Title {
 
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: var(--font-brand);
   font-size: clamp(72px, 15.5vw, 220px);
   font-weight: 700;
   line-height: 0.82;
@@ -51,22 +51,21 @@
   margin: 0;
 ;
   font-size: clamp(56px, 11vw, 160px);
-  color: #ffffff;
+  color: var(--color-ink-inverse);
 
 }
 
 .Tagline {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: clamp(20px, 2vw, 28px);
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-m);
+  font-weight: var(--text-heading-m--font-weight);
+  line-height: var(--text-heading-m--line-height);
+  letter-spacing: var(--text-heading-m--letter-spacing);
   margin: 0;
 ;
-  color: #ffffff;
+  color: var(--color-ink-inverse);
   margin-top: 52px !important;
-  @media (min-width: 640px) { margin-left: 12px; }
 
 }
 
@@ -112,12 +111,12 @@
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  color: #fff;
+  color: var(--color-ink-inverse);
   cursor: pointer;
   transition: color 0.2s, transform 0.2s;
 
   &:hover {
-    color: #ff5a1f;
+    color: var(--color-accent);
     transform: scale(1.08);
   }
 
@@ -130,18 +129,18 @@
 
 .MilestoneLabel {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: 0;
+  font-family: var(--font-brand);
+  font-size: var(--text-label-m);
+  font-weight: var(--text-label-m--font-weight);
+  line-height: var(--text-label-m--line-height);
+  letter-spacing: var(--text-label-m--letter-spacing);
   margin: 0;
 ;
   color: inherit;
   text-align: center;
   white-space: nowrap;
   padding: 4px 10px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: rgba(255, 255, 255, 0);
   transition: background 0.2s;
 
@@ -159,7 +158,7 @@
   transition: background 0.2s;
 
   .MilestoneLink:hover & {
-    background: #ff5a1f;
+    background: var(--color-accent);
   }
 
 }
@@ -170,12 +169,12 @@
   height: 9px;
   margin: 0 auto;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-surface);
   box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.12);
   transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
 
   .MilestoneLink:hover & {
-    background: #ff5a1f;
+    background: var(--color-accent);
     box-shadow: 0 0 0 6px rgba(255, 90, 31, 0.25);
     transform: scale(1.15);
   }
@@ -207,13 +206,13 @@
   align-items: flex-start;
   gap: 24px;
   p {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: clamp(19px, 1.85vw, 26px);
-  font-weight: 500;
-  line-height: 1.18;
-  letter-spacing: -0.01em;
+  font-family: var(--font-brand);
+  font-size: var(--text-body-xl);
+  font-weight: var(--text-body-xl--font-weight);
+  line-height: var(--text-body-xl--line-height);
+  letter-spacing: var(--text-body-xl--letter-spacing);
   margin: 0;
-; color: #ffffff; max-width: 560px; }
+; color: var(--color-ink-inverse); max-width: 560px; }
 
 }
 

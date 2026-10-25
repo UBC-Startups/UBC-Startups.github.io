@@ -1,7 +1,8 @@
 "use client";
 
 import styles from "./SOAR.module.css";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { usePrefersReducedMotion } from "../lib/use-prefers-reduced-motion";
 import NavigationBar from "../components/navigationBar";
 const SoarEventPhoto1 = "/images/eventPhotos/soar1.jpg";
 const SoarEventPhoto2 = "/images/eventPhotos/soar2.jpg";
@@ -75,7 +76,7 @@ const timelineEvents = [{
 const SOAR = ({
   footer
 }) => {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   return <>
       <NavigationBar />
       <main id="main-content" className={styles.PageWrapper}>
@@ -200,7 +201,7 @@ const SOAR = ({
             {timelineEvents.map((event, index) => <div key={index} className={styles.TimelineItem}>
                 <div className={styles.TimelineDot} style={{
               "--timelinedot-0": event.active ? "#4db6e8" : "#aaaaaa",
-              "--timelinedot-1": event.active ? "#4db6e8" : "#ffffff"
+              "--timelinedot-1": event.active ? "#4db6e8" : "var(--color-surface)"
             }} />
                 <span className={styles.TimelineDate}>{event.date}</span>
                 <h4 className={styles.TimelineEventTitle}>{event.title}</h4>

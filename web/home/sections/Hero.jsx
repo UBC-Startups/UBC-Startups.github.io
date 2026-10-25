@@ -1,11 +1,13 @@
 "use client";
 
 import styles from "./Hero.module.css";
-import { motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
+import { usePrefersReducedMotion } from "../../lib/use-prefers-reduced-motion";
 import Link from "next/link";
 import { figma } from "../theme";
 import { timeline } from "../content";
-import { Button, Glow } from "../ui";
+import { Glow } from "../ui";
+import { Button } from "../../components/ui";
 const LINE_Y = 95; // distance from top of the timeline box to the arrow
 
 const entrance = (reduceMotion, delay = 0, distance = 20) => ({
@@ -98,7 +100,7 @@ function Timeline({
 /* ---------- Bottom row ---------- */
 
 export default function Hero() {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = usePrefersReducedMotion();
   return <section aria-labelledby="hero-title" className={styles.Section}>
       <motion.div aria-hidden {...entrance(reduceMotion, 0, 0)} className={styles.Glows}>
         <Glow $inset="-22.22%" style={{
@@ -158,7 +160,7 @@ export default function Hero() {
             community.
           </p>
           <div className={styles.Buttons}>
-            <Button hash="/#subscription" variant="secondary">Subscribe to Newsletter</Button>
+            <Button href="/#subscription" variant="secondary">Subscribe to Newsletter</Button>
             <Button href="/events" variant="outline">Upcoming Events</Button>
           </div>
         </div>

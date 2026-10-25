@@ -1,27 +1,6 @@
-.button {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 11px 24px;
-  border-radius: 999px;
-  font: 500 14px/1.2 "Poppins", system-ui, sans-serif;
-  white-space: nowrap;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background .2s;
-}
-.withDot { padding: 11px 16px 11px 24px; }
-.primary { background: #0a0a0a; color: #fff; border: 1px solid #0a0a0a; }
-.primary:hover { background: #2a2a2a; }
-.secondary { background: #fff; color: #0a0a0a; border: 1px solid #fff; }
-.secondary:hover { background: #efefec; }
-.outline { background: transparent; color: #fff; border: 1px solid #fff; }
-.outline:hover { background: rgb(255 255 255 / .1); }
-.label { display: flex; align-items: center; gap: 8px; font: 500 14px/1.2 "Poppins", system-ui, sans-serif; }
-.plus { position: relative; display: block; width: 16px; height: 16px; border-radius: 50%; background: #0a0a0a; }
-.plus::before, .plus::after { content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: #fff; border-radius: 1px; }
+/* Decorative geometry only. Shared typography and controls use components/ui. */
+.plus { position: relative; display: block; width: 16px; height: 16px; border-radius: 50%; background: var(--color-inverse); }
+.plus::before, .plus::after { content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background: var(--color-surface); border-radius: 1px; }
 .plus::before { width: 8px; height: 1.6px; }
 .plus::after { width: 1.6px; height: 8px; }
 .glow { position: absolute; pointer-events: none; }

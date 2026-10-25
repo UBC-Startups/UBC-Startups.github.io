@@ -19,7 +19,7 @@ export default function Values() {
           {values.map((v, i) => <button key={v.name} type="button" aria-label={`Show ${v.name}`} aria-pressed={i === active} onClick={() => setActive(i)} className={styles.DotButton} style={{
           "--dotbutton-0": i === active ? "14px" : "10px",
           "--dotbutton-1": i === active ? "14px" : "10px",
-          "--dotbutton-2": i === active ? v.dotColor : "#b5b5b0"
+          "--dotbutton-2": i === active ? v.dotColor : "var(--color-ink-tertiary)"
         }} />)}
         </div>
 

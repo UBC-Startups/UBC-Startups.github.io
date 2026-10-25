@@ -27,21 +27,21 @@
   flex-direction: column;
   gap: 24px;
   h2 {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: clamp(40px, 4.5vw, 64px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-xl);
+  font-weight: var(--text-heading-xl--font-weight);
+  line-height: var(--text-heading-xl--line-height);
+  letter-spacing: var(--text-heading-xl--letter-spacing);
   margin: 0;
-; color: #0a0a0a; }
+; color: var(--color-ink); }
   p:global(.body) {
-  font-family: "Poppins", system-ui, sans-serif;
+  font-family: var(--font-brand);
   font-size: 17px;
   font-weight: 400;
   line-height: 1.45;
   letter-spacing: 0;
   margin: 0;
-; font-weight: 500; color: #0a0a0a; }
+; font-weight: 500; color: var(--color-ink); }
 
 }
 
@@ -52,8 +52,8 @@
   max-width: 460px;
   height: 260px;
   overflow: hidden;
-  border-radius: 24px;
-  background: #dad9d4;
+  border-radius: var(--radius-panel);
+  background: var(--color-muted);
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -93,10 +93,10 @@
   height: 32px;
   border: 0;
   padding: 0;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
   background: rgba(255, 255, 255, 0.85);
-  color: #1a1a1a;
+  color: var(--color-charcoal);
   transition: background 0.2s, color 0.2s;
   svg { display: block; }
   left: var(--navbtn-0); right: var(--navbtn-1);
@@ -105,8 +105,8 @@
     height: 40px;
   }
   &:hover, &:focus-visible {
-    background: #ff5a1f;
-    color: #ffffff;
+    background: var(--color-accent);
+    color: var(--color-ink-inverse);
   }
 
 }
@@ -116,7 +116,7 @@
   width: var(--dotbtn-0);
   border: 0;
   padding: 0;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
   background: var(--dotbtn-1);
   transition: width 0.2s;

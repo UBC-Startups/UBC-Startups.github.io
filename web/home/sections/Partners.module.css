@@ -18,13 +18,13 @@
   padding-top: 64px;
   @media (min-width: 640px) { padding-top: 63px; }
   h2 {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: clamp(40px, 4.5vw, 64px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-xl);
+  font-weight: var(--text-heading-xl--font-weight);
+  line-height: var(--text-heading-xl--line-height);
+  letter-spacing: var(--text-heading-xl--letter-spacing);
   margin: 0;
-; color: #0a0a0a; text-align: center; }
+; color: var(--color-ink); text-align: center; }
 
 }
 
@@ -34,8 +34,8 @@
   /* Bleed to the screen edges and fade the logos out at both ends */
   margin: 0 -16px;
   @media (min-width: 640px) { margin: 0 -32px; }
-  mask-image: linear-gradient(to right, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, var(--color-black) 80px, var(--color-black) calc(100% - 80px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, var(--color-black) 80px, var(--color-black) calc(100% - 80px), transparent 100%);
 
   @media (prefers-reduced-motion: reduce) {
     overflow-x: auto;
@@ -67,8 +67,8 @@
   width: 160px;
   height: 104px;
   @media (min-width: 640px) { width: 200px; height: 120px; }
-  border-radius: 16px;
-  background: #ffffff;
+  border-radius: var(--radius-field);
+  background: var(--color-surface);
   overflow: hidden;
 
   > a, > div {
@@ -80,7 +80,7 @@
     padding: 0 20px;
     box-sizing: border-box;
   }
-  > a:focus-visible { outline: 2px solid #ff5a1f; outline-offset: -2px; border-radius: 16px; }
+  > a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -2px; border-radius: var(--radius-field); }
 
   img {
     display: block;

@@ -28,6 +28,7 @@ npm run dev
 
 Open http://localhost:3000. No Supabase credentials or Docker are needed for the
 public pages. See [web/README.md](web/README.md) for validation and browser tests.
+New contributors should also read the [shared UI and styling guide](web/docs/design-system.md).
 
 ## Run the current website
 

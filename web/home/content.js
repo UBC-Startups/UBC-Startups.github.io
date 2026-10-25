@@ -193,22 +193,22 @@ export const programs = [{
   name: "Networking",
   number: "01",
   dots: figma("program-dots-networking.svg"),
-  from: "#dd3322",
-  to: "#000000",
+  from: "var(--color-brand-red)",
+  to: "var(--color-black)",
   body: "We offer dynamic and inclusive networking events to connect entrepreneurs, investors, and industry experts. Whether you're looking to pitch your startup, find a co-founder, or simply meet like-minded individuals, we have something for everyone."
 }, {
   name: "Workshops",
   number: "02",
   dots: figma("program-dots-workshops.svg"),
-  from: "#ff5a1f",
-  to: "#1a1a1a",
+  from: "var(--color-accent)",
+  to: "var(--color-charcoal)",
   body: "We offer workshops with experienced mentors who guide you through the startup journey, such as pitching workshops, pitch competitions, and startup fundamentals sessions. Whether you're refining an idea or getting ready to launch, you'll walk away with practical skills and the confidence to make it happen."
 }, {
   name: "Resources",
   number: "03",
   dots: figma("program-dots-resources.svg"),
-  from: "#88dcbe",
-  to: "#1a1a1a",
+  from: "var(--color-brand-green)",
+  to: "var(--color-charcoal)",
   body: "We offer and promote a variety of resources for aspiring entrepreneurs to help turn their ideas into reality! Follow us on Instagram or join our Discord community of aspiring and like-minded entrepreneurs. We're here to help you and your dreams!"
 }];
 export const values = [{
@@ -219,7 +219,7 @@ export const values = [{
     active: [26.918, 36],
     idle: [17.945, 24]
   },
-  dotColor: "#dd3322",
+  dotColor: "var(--color-brand-red)",
   accent: "linear-gradient(#dd3322, #000000)",
   circle: "linear-gradient(#dd3322 0%, #dd3322 40%, #63170f 100%)"
 }, {
@@ -230,7 +230,7 @@ export const values = [{
     active: [32.4, 36],
     idle: [21.6, 24]
   },
-  dotColor: "#88dcbe",
+  dotColor: "var(--color-brand-green)",
   accent: "linear-gradient(#88dcbe, #1a1a1a)",
   circle: "linear-gradient(#88dcbe 0%, #88dcbe 40%, #3d6356 100%)"
 }, {
@@ -241,7 +241,7 @@ export const values = [{
     active: [34.569, 36],
     idle: [23.046, 24]
   },
-  dotColor: "#ff5a1f",
+  dotColor: "var(--color-accent)",
   accent: "linear-gradient(#ff5a1f, #1a1a1a)",
   circle: "linear-gradient(#ff5a1f 0%, #ff5a1f 40%, #73290e 100%)"
 }, {

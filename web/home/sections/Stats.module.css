@@ -26,28 +26,28 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  &::before { content: ""; height: 3px; background: #0a0a0a; }
+  &::before { content: ""; height: 3px; background: var(--color-inverse); }
   :global(.label) {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-family: var(--font-brand);
+  font-size: var(--text-label-l);
+  font-weight: var(--text-label-l--font-weight);
+  line-height: var(--text-label-l--line-height);
+  letter-spacing: var(--text-label-l--letter-spacing);
   margin: 0;
-; color: #6b6b6b; }
+; color: var(--color-ink-secondary); }
 
 }
 
 .Value {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: clamp(48px, 5.6vw, 80px);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.05em;
+  font-family: var(--font-brand);
+  font-size: var(--text-display-s);
+  font-weight: var(--text-display-s--font-weight);
+  line-height: var(--text-display-s--line-height);
+  letter-spacing: var(--text-display-s--letter-spacing);
   margin: 0;
 ;
-  color: #0a0a0a;
+  color: var(--color-ink);
   white-space: nowrap;
   display: grid;
   font-variant-numeric: tabular-nums;

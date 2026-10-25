@@ -19,13 +19,13 @@
   gap: 40px;
   @media (min-width: 1024px) { flex-direction: row; align-items: flex-start; gap: 64px; }
   h2 {
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: clamp(40px, 4.5vw, 64px);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-xl);
+  font-weight: var(--text-heading-xl--font-weight);
+  line-height: var(--text-heading-xl--line-height);
+  letter-spacing: var(--text-heading-xl--letter-spacing);
   margin: 0;
-; color: #0a0a0a; }
+; color: var(--color-ink); }
   @media (min-width: 1024px) { h2 { width: 420px; flex-shrink: 0; } }
 
 }
@@ -50,11 +50,11 @@
 
 .Question {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-family: var(--font-brand);
+  font-size: var(--text-label-l);
+  font-weight: var(--text-label-l--font-weight);
+  line-height: var(--text-label-l--line-height);
+  letter-spacing: var(--text-label-l--letter-spacing);
   margin: 0;
 ;
   position: relative;
@@ -63,8 +63,8 @@
   border: 0;
   cursor: pointer;
   text-align: left;
-  color: #0a0a0a;
-  background: #ffffff;
+  color: var(--color-ink);
+  background: var(--color-surface);
   padding: 24px 64px 24px 24px;
   border-radius: var(--question-0);
   transition: border-radius 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding-bottom 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -87,17 +87,17 @@
 
 .Answer {
 
-  font-family: "Poppins", system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: 0;
+  font-family: var(--font-brand);
+  font-size: var(--text-body-m);
+  font-weight: var(--text-body-m--font-weight);
+  line-height: var(--text-body-m--line-height);
+  letter-spacing: var(--text-body-m--letter-spacing);
   margin: 0;
 ;
-  color: #6b6b6b;
-  background: #ffffff;
+  color: var(--color-ink-secondary);
+  background: var(--color-surface);
   padding: 12px 24px 24px;
-  border-radius: 0 0 16px 16px;
+  border-radius: 0 0 var(--radius-field) var(--radius-field);
 
 }
 

@@ -42,7 +42,7 @@ function rowsFor(title, members) {
   const rest = members.filter(m => !presidents.includes(m));
   return presidents.length ? [presidents, rest] : [members];
 }
-const MeetOurTeam = () => <Layout title="Team | UBC Startups" active="Team" footerTitle="Stay in the loop.">
+const MeetOurTeam = () => <Layout active="Team" footerTitle="Stay in the loop.">
     <PageHero eyebrow="Team 2026–27" title="Team" subtitle="The people behind UBC Startups" />
     <section aria-labelledby="exec-title" className={styles.Section}>
       <h2 id="exec-title">Meet the 2026/27 exec team</h2>

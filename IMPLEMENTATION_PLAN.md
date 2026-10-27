@@ -1,7 +1,28 @@
 # UBC Startups platform implementation plan
 
-Status: Draft for review  
-Updated: 2026-10-19
+Status: Migration started; product policies and launch decisions remain under review
+Updated: 2026-10-25
+
+## Current progress
+
+Verified from the local repository unless otherwise noted:
+
+| Item | Status |
+| --- | --- |
+| Legacy application relocation | Complete: source, assets, scripts, package manifest, and lockfile live in `legacy/`. |
+| Legacy CI paths | Updated: commands run in `legacy/`, dependency caching uses its lockfile, and the Pages artifact is `legacy/build/`. |
+| Legacy PR builds | User reports Node 22/24/26 checks passed. Production deployment still uses the Node 24 artifact. |
+| Next.js application | Consolidated to `web/`; all five public route patterns migrated, including the team, events, SOAR, and known event posters. |
+| Application tooling | Next.js 16.4.2, React 19.3.0, TypeScript routes/new UI, ESLint, Tailwind CSS 4, and CSS Modules for the existing design. Ported components remain JavaScript for incremental typing. |
+| Scaffold configuration | Cache Components, partial prefetching, and experimental agent feedback are enabled. |
+| Developer runtime | `web/.nvmrc` pins Node 26.12.0; the new-app workflow uses that file. Legacy deployment remains on Node 24. |
+| Supabase | Root `supabase/` directory has not been created; local services, schema, and auth integration remain pending. |
+| New application CI | Added `.github/workflows/web.yml` with lint, types, production build, and desktop/mobile Playwright checks. Its stable job name is `web checks`; first remote execution is pending. |
+| Shared design system | Central Tailwind theme in `web/styles/tokens.css`; typed primitives in `web/components/ui/`; onboarding guide in `web/docs/design-system.md`. Shared layout/navigation/headers/newsletter and event-card surfaces/tags use them; remaining scoped styles consume the same tokens during incremental conversion. |
+| Local verification | New-app lint/build/type checks and 24 browser checks passed, including the newsletter POST contract and initial hero styles. Typography/colors were compared with loaded fonts at 390, 768, 1024, and 1440px. Legacy build/test command passed (legacy still has no automated tests). |
+
+The application root is now `web/`. Production still serves the legacy app;
+Next.js hosting, live third-party service acceptance, and production cutover remain pending.
 
 ## 1. Goal and scope
 
@@ -25,11 +46,13 @@ This document plans future implementation. It does not authorize production prov
 | Authorization | PostgreSQL row-level security (RLS) and server authorization | Enforce access in the database and at each server operation. |
 | Files | Supabase Storage | Bucket and object policies for avatars and startup logos. |
 | Application workflows | Next.js Server Actions and Route Handlers | Shared server modules contain business logic. |
-| Styling | Retain styled-components initially | Validate App Router compatibility before migrating the full UI. |
+| Styling | Tailwind CSS 4 plus shared TypeScript primitives | One central token source preserves the existing design. Existing page-specific CSS Modules reference those tokens during incremental conversion; retain scoped CSS for complex artwork/animations. Preflight remains disabled. |
 | Hosting | Managed hosting with full Next.js support | Provider, account ownership, and budget remain to be selected. |
-| Package management | Independent npm projects in `legacy/` and `web/`, each with a committed `package-lock.json` | No npm workspaces initially. Keep Node 24 as the initial development baseline; verify framework compatibility. |
+| Package management | Independent npm projects in `legacy/` and `web/`, each with a committed `package-lock.json` | No npm workspaces initially. Use the new-app Node version pinned in `web/.nvmrc`; legacy deployment remains Node 24 until intentionally changed. |
+| Local development | Native Node/npm for applications; Docker-compatible runtime and Supabase CLI for local Supabase, recommended | Five-person team: isolate database work per developer. No custom application Dockerfile or mandatory WSL setup. |
+| Caching | Cache Components enabled in the scaffold | Preserve this fact in the plan; review the selected version's guidance before caching public data. Never share-cache personal data or auth responses. |
 | Validation | Zod, proposed | Validate untrusted input on the server; database constraints remain authoritative. |
-| Testing | Vitest/React Testing Library, Playwright, and database integration tests, proposed | Cover business rules, user flows, and permissions. |
+| Testing | Playwright is implemented; Vitest/React Testing Library and database integration tests remain proposed | Current suite has 24 desktop/mobile checks. Add focused business-rule and permission coverage with backend features. |
 | Email | Transactional email provider, to be selected | Production authentication email and application notifications need delivery configuration. |
 
 Use the Supabase client and generated database types initially; an additional ORM is unnecessary for the first version. Commit SQL migrations and regenerate types when the schema changes.
@@ -62,16 +85,22 @@ Before implementing dependent features, resolve:
 
 Public startup discovery is supported by the architecture, but only explicitly published data should become indexable.
 
+Directory audience, startup editing/ownership rules, and event guest/payment policies
+must also be recorded before their dependent features are implemented. Open membership
+does not by itself resolve those separate product decisions.
+
 ## 4. Application structure and boundaries
 
-The existing CRA application now lives in `legacy/`. Add the new application in
-`web/` and keep database infrastructure in root `supabase/`. The application
-structure shown below `web/src/` is relative to that directory:
+The existing CRA application lives in `legacy/`, and the new application lives in
+`web/`. Keep future database infrastructure in root `supabase/`. Follow the
+no-`src/` convention:
+
+The target tree below includes planned auth routes, feature modules, and database
+tooling that have not been created yet. Current progress is recorded above.
 
 ```text
 legacy/                       # Existing CRA app and its own package/lockfile
-web/                          # Planned Next.js app and its own package/lockfile
-web/src/
+web/                          # Target Next.js root and its own package/lockfile
   app/
     (public)/                 # Existing website and published profiles
     (auth)/                   # Sign-in, registration, recovery
@@ -81,6 +110,14 @@ web/src/
     api/                      # Integrations and external endpoints
     layout.tsx
   components/                 # Shared UI
+    ui/                       # Typed Tailwind primitives
+  styles/
+    tokens.css                # Shared design values
+  docs/
+    design-system.md          # Team styling and onboarding guide
+  views/                      # Migrated page compositions, not a Pages Router
+  home/                       # Existing public-site layout, sections, and copy
+  data/                       # Team, event lineup, and event poster data
   features/
     members/
     events/
@@ -101,6 +138,17 @@ web/tests/
 ```
 
 Route groups organize code without adding URL segments. Keep existing components and content modules during migration where useful rather than reorganizing everything at once.
+
+### Team development workflow
+
+- Plan for five contributors, each using their own clone and feature branch. Open focused PRs against `development`; coordinate ownership of shared schema and authentication changes.
+- Use the committed `web/.nvmrc` Node version; document npm and Supabase CLI versions when introducing database tooling. New-app Node 26 does not change the legacy production runtime automatically.
+- Run Next.js directly with npm. Recommend Docker Desktop or another supported Docker-compatible runtime for local Supabase; WSL is optional for application development.
+- Give each developer a local database with synthetic seeds. Commit schema and RLS changes as migrations; avoid unrecorded edits to a shared hosted database.
+- Verify migrations against a clean local database and review conflicting migrations before merging. Do not edit migrations already applied to shared environments; add corrective migrations.
+- Use hosted staging to test integrated changes, separate from production. Coordinate staging migration application through a documented release owner or CI process.
+- Commit environment variable names and safe examples, never actual secrets. Keep application environment files in the current Next.js root and document commands relative to that root.
+- Use stable required check names matching actual job results. For legacy CI, require `build (22.x)`, `build (24.x)`, and `build (26.x)` rather than the workflow title `Node.js CI`. Require `web checks` after its first successful GitHub run. Keep deployment optional on PRs; confirm the repository rules were saved in GitHub.
 
 - Use Server Components for initial reads and public page rendering; Client Components handle forms and interactive controls.
 - Use Server Actions for application form submissions and Route Handlers for callbacks, webhooks, and external clients.
@@ -159,9 +207,10 @@ RLS controls rows, not which fields are safe to disclose. Separate private data 
 
 ### Phase 1: Migrate the public website to Next.js
 
-- Create the Next.js/TypeScript application in `web/`, keeping `legacy/` independently runnable. Update `web/package.json` and its lockfile together.
+- Completed: consolidated the scaffold into `web/` while keeping `legacy/` independently runnable. Keep each application's manifest and lockfile together.
 - Pin compatible framework, React, TypeScript, and Supabase packages at implementation time. Review existing dependency overrides before retaining or removing them.
-- Prove styled-components SSR and hydration on one representative page. The current v5 setup may need an upgrade and a style registry; verify before migrating all pages.
+- Completed: ported existing styles and established a shared Tailwind theme and TypeScript UI primitives, retaining colors, spacing, typography, and responsive behavior. New/shared UI uses these components; remaining page-specific styles consume the same tokens during incremental conversion. Styled-components is not installed in the new application.
+- Review the scaffold's Cache Components, partial prefetching, and experimental agent feedback settings against the installed Next.js documentation. Make deliberate configuration choices; establish public/private data boundaries before adding caches.
 - Adapt the legacy CRA entry point, React Router navigation, and React Helmet metadata to Next.js equivalents in `web/`; retain the deployed legacy implementation during migration.
 - Preserve `/`, `/meetOurTeam`, `/events`, `/event-poster/soar-2026`, and `/event-poster/[eventId]`. Keep SOAR's dedicated page behavior.
 - Preserve section anchors, analytics, exact asset filename casing, existing copy, and signup links. Adapt imported image handling as needed; keep `public/figma` assets local.
@@ -173,7 +222,7 @@ RLS controls rows, not which fields are safe to disclose. Separate private data 
 
 ### Phase 2: Establish Supabase and authorization
 
-- Configure local development and isolated staging/production Supabase projects. Preview deployments must not use production data or privileged production credentials.
+- Initialize root `supabase/` and document running the pinned CLI from the repository root. Establish the recommended per-developer local stack through Docker and isolated hosted staging/production projects. Preview deployments must not use production data or privileged production credentials.
 - Commit initial schema, RLS, storage policies, constraints, indexes, and synthetic seeds through migrations.
 - Configure cookie-based auth, session refresh, verified server identity, safe callback redirects, email verification, sign-out, and password recovery.
 - Configure production email delivery and explicit callback URL allowlists per environment.
@@ -249,7 +298,12 @@ Open focused feature PRs against `development`: public-site migration, database/
 
 Payments, guest tickets, real-time chat, feeds, algorithmic matching, fundraising transactions, advanced search infrastructure, and a separate API service are outside the first release. Revisit them after the core workflows are used successfully.
 
-The immediate next implementation task is Phase 0, followed by a public-site migration PR. Infrastructure account creation and unresolved product policies can proceed alongside the frontend migration without embedding assumptions into production behavior.
+The public-site port, shared design system, onboarding guide, directory cleanup, Node pin, and new-app CI configuration
+are implemented locally. Next: review the migrated site with the team, run the new
+checks on GitHub, and arrange a separate preview host. Third-party embeds and actual
+newsletter delivery need manual acceptance; automated checks mock those services.
+Resolve remaining Phase 0 policies and begin local Supabase setup/schema design
+without treating backend features or production launch as complete.
 
 ## 9. Technical references
 
@@ -257,10 +311,11 @@ Verify implementation details against the selected package versions before codin
 
 - [Next.js server and client components](https://nextjs.org/docs/app/getting-started/server-and-client-components)
 - [Next.js data security](https://nextjs.org/docs/app/guides/data-security)
-- [Next.js CSS-in-JS integration](https://nextjs.org/docs/app/guides/css-in-js)
+- For scaffold-specific behavior, consult `node_modules/next/dist/docs/` from the actual Next.js application root, as directed by its generated AGENTS.md.
 - [Next.js static export limitations](https://nextjs.org/docs/app/guides/static-exports)
 - [Supabase server-side authentication](https://supabase.com/docs/guides/auth/server-side/nextjs)
 - [Supabase row-level security](https://supabase.com/docs/guides/database/postgres/row-level-security)
 - [Supabase storage access control](https://supabase.com/docs/guides/storage/security/access-control)
 - [Supabase database migrations](https://supabase.com/docs/guides/deployment/database-migrations)
+- [Supabase local development](https://supabase.com/docs/guides/local-development)
 - [PostgreSQL full-text search through Supabase](https://supabase.com/docs/guides/database/full-text-search)

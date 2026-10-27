@@ -1,0 +1,9 @@
+/* Art-directed background; layout and typography use shared Tailwind tokens. */
+.orangeGlow {
+  position: absolute;
+  left: -420px;
+  top: 360px;
+  width: 1400px;
+  height: 1000px;
+  background: radial-gradient(700px 500px at 50% 50%, rgba(255, 90, 31, 0.42) 0%, rgba(255, 90, 31, 0.14) 45%, rgba(255, 90, 31, 0) 100%);
+}

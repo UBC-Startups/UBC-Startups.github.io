@@ -1,0 +1,108 @@
+.Section {
+
+  padding-left: 16px;
+  padding-right: 16px;
+  @media (min-width: 640px) {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  padding-top: 80px;
+  @media (min-width: 640px) { padding-top: 100px; }
+  header { display: flex; flex-direction: column; gap: 4px; color: var(--color-ink); }
+  h2 {
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-xl);
+  font-weight: var(--text-heading-xl--font-weight);
+  line-height: var(--text-heading-xl--line-height);
+  letter-spacing: var(--text-heading-xl--letter-spacing);
+  margin: 0;
+; }
+  header p {
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-m);
+  font-weight: var(--text-heading-m--font-weight);
+  line-height: var(--text-heading-m--line-height);
+  letter-spacing: var(--text-heading-m--letter-spacing);
+  margin: 0;
+; }
+
+}
+
+.Grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  @media (min-width: 768px) { grid-template-columns: repeat(3, 1fr); }
+
+}
+
+.Card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border-radius: var(--radius-card);
+  background: var(--color-surface);
+  transition: transform 0.25s ease;
+
+  &:hover {
+    transform: scale(1.03);
+    z-index: 1;
+  }
+
+}
+
+.Head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px 4px;
+  h3 {
+  font-family: var(--font-brand);
+  font-size: var(--text-label-l);
+  font-weight: var(--text-label-l--font-weight);
+  line-height: var(--text-label-l--line-height);
+  letter-spacing: var(--text-label-l--letter-spacing);
+  margin: 0;
+; color: var(--color-ink); }
+  img { display: block; width: 29px; height: 7px; }
+
+}
+
+.Visual {
+  flex: 1;
+  min-height: 400px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 64px;
+  padding: 24px;
+  border-radius: var(--radius-field);
+  overflow: hidden;
+  color: var(--color-ink-inverse);
+  background: linear-gradient(var(--visual-0), var(--visual-1));
+  :global(.number) {
+  font-family: var(--font-brand);
+  font-size: var(--text-display-m);
+  font-weight: var(--text-display-m--font-weight);
+  line-height: var(--text-display-m--line-height);
+  letter-spacing: var(--text-display-m--letter-spacing);
+  margin: 0;
+; align-self: flex-end; opacity: 0.12; }
+  :global(.body) {
+  font-family: var(--font-brand);
+  font-size: var(--text-body-l);
+  font-weight: var(--text-body-l--font-weight);
+  line-height: var(--text-body-l--line-height);
+  letter-spacing: var(--text-body-l--letter-spacing);
+  margin: 0;
+; }
+
+}

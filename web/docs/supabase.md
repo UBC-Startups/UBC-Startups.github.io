@@ -4,6 +4,26 @@ The shared clients and session-refresh proxy are installed. Feature owners still
 implement signup/login, callbacks, authorization, schemas, migrations, RLS, and
 generated database types. No sample `todos` table or route is required.
 
+## First-time local setup
+
+Install and start Docker Desktop (or another supported Docker-compatible runtime).
+Use Node from `web/.nvmrc`. From the repository root:
+
+```sh
+npm ci
+npx supabase start
+npx supabase status
+```
+
+The root package pins the CLI version. Each developer gets an isolated local
+database; hosted linking is optional for local feature work. Do not rerun
+`supabase init` in a clone that already has `supabase/config.toml`. Install the
+web application's dependencies separately with `npm ci` from `web/`.
+
+Use `npx supabase stop` from the root to stop local services. Coordinate reviewed
+migrations to hosted staging through one designated maintainer. Linking a hosted
+project alone does not apply migrations. No feature schemas are included yet.
+
 ## Environment
 
 Copy `web/.env.example` to `web/.env.local` and fill in:

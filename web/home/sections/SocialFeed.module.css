@@ -1,0 +1,191 @@
+.Section {
+
+  padding-left: 16px;
+  padding-right: 16px;
+  @media (min-width: 640px) {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+;
+  padding-top: 80px;
+  @media (min-width: 640px) { padding-top: 100px; }
+
+}
+
+.Head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.12);
+  h2 {
+  font-family: var(--font-brand);
+  font-size: var(--text-heading-xl);
+  font-weight: var(--text-heading-xl--font-weight);
+  line-height: var(--text-heading-xl--line-height);
+  letter-spacing: var(--text-heading-xl--letter-spacing);
+  margin: 0;
+; color: var(--color-ink); }
+  p:global(.body) {
+  font-family: var(--font-brand);
+  font-size: var(--text-body-l);
+  font-weight: var(--text-body-l--font-weight);
+  line-height: var(--text-body-l--line-height);
+  letter-spacing: var(--text-body-l--letter-spacing);
+  margin: 0;
+; color: var(--color-ink-secondary); }
+
+}
+
+.TitleRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+
+}
+
+.PlatformLinks {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-bottom: 6px;
+
+}
+
+.PlatformLink {
+
+  font-family: var(--font-brand);
+  font-size: var(--text-label-l);
+  font-weight: var(--text-label-l--font-weight);
+  line-height: var(--text-label-l--line-height);
+  letter-spacing: var(--text-label-l--letter-spacing);
+  margin: 0;
+;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: color 0.2s;
+  &:hover { color: var(--color-accent); }
+
+}
+
+.Grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 32px;
+  @media (min-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
+
+}
+
+.Card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid rgba(10, 10, 10, 0.08);
+  border-radius: var(--radius-card);
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.06);
+
+}
+
+.CardHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(10, 10, 10, 0.08);
+
+}
+
+.CardName {
+
+  font-family: var(--font-brand);
+  font-size: var(--text-label-m);
+  font-weight: var(--text-label-m--font-weight);
+  line-height: var(--text-label-m--line-height);
+  letter-spacing: var(--text-label-m--letter-spacing);
+  margin: 0;
+;
+  color: var(--color-ink);
+
+}
+
+.CardBody {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  /* Instagram replaces the blockquote with an iframe and sizes it itself;
+     pin it to the shared embed height so both cards match. */
+  iframe:global(.instagram-media) { height: 460px !important; }
+
+}
+
+.EmbedSlot {
+  width: 100%;
+
+}
+
+.FallbackBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 460px;
+  padding: 24px;
+  text-align: center;
+  border-radius: var(--radius-field);
+  background: var(--color-canvas);
+
+}
+
+.FallbackTitle {
+
+  font-family: var(--font-brand);
+  font-size: var(--text-body-l);
+  font-weight: var(--text-body-l--font-weight);
+  line-height: var(--text-body-l--line-height);
+  letter-spacing: var(--text-body-l--letter-spacing);
+  margin: 0;
+;
+  color: var(--color-ink);
+
+}
+
+.FallbackText {
+
+  font-family: var(--font-brand);
+  font-size: var(--text-body-m);
+  font-weight: var(--text-body-m--font-weight);
+  line-height: var(--text-body-m--line-height);
+  letter-spacing: var(--text-body-m--letter-spacing);
+  margin: 0;
+;
+  color: var(--color-ink-secondary);
+
+}
+
+.FallbackLink {
+
+  font-family: var(--font-brand);
+  font-size: var(--text-label-l);
+  font-weight: var(--text-label-l--font-weight);
+  line-height: var(--text-label-l--line-height);
+  letter-spacing: var(--text-label-l--letter-spacing);
+  margin: 0;
+;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  color: var(--color-accent);
+  text-decoration: none;
+  &:hover { text-decoration: underline; }
+
+}

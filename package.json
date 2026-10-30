@@ -1,52 +1,24 @@
 {
-  "homepage": "https://ubcstartups.com",
-  "name": "ubc-startups-website",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "motion": "^12.34.4",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-helmet": "^6.1.0",
-    "react-image-gallery": "^1.4.0",
-    "react-router-dom": "^6.8.0",
-    "react-router-hash-link": "^2.4.3",
-    "react-scripts": "^5.0.1",
-    "styled-components": "^5.3.6",
-    "web-vitals": "^2.1.4"
+  "name": "ubc-startups-tooling",
+  "version": "1.0.0",
+  "description": "Shared development tooling for the UBC Startups website and Supabase backend",
+  "homepage": "https://github.com/UBC-Startups/UBC-Startups.github.io#readme",
+  "bugs": {
+    "url": "https://github.com/UBC-Startups/UBC-Startups.github.io/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UBC-Startups/UBC-Startups.github.io.git"
+  },
+  "license": "UNLICENSED",
+  "author": "UBC Startups",
+  "type": "commonjs",
+  "main": "index.js",
   "scripts": {
-    "assets": "node scripts/fetch-figma-assets.mjs",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "overrides": {
-    "nth-check": ">=2.0.1",
-    "postcss": ">=8.4.31",
-    "serialize-javascript": ">=6.0.2",
-    "webpack-dev-server": "4.15.1"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "private": true,
+  "devDependencies": {
+    "supabase": "2.122.0"
   }
 }

@@ -1,0 +1,179 @@
+.Container {
+  overflow-x: hidden;
+  position: relative;
+  padding-top: 150px;
+  min-height: 100vh;
+  background: #f5f5f5;
+
+}
+
+.PosterWrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
+
+}
+
+.BackButton {
+  display: inline-block;
+  text-decoration: none;
+  font-family: var(--font-native-control);
+  background: #333333;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  font-size: 1em;
+  cursor: pointer;
+  margin-bottom: 30px;
+  transition: all 0.3s;
+
+  &:hover {
+    background: var(--color-black);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+}
+
+.PosterCard {
+  background: white;
+  border-radius: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+
+}
+
+.PosterImage {
+  width: 100%;
+  height: 500px;
+  background-image: var(--posterimage-0);
+  background-position: var(--posterimage-1);
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+
+  @media (max-width: 768px) {
+    height: 350px;
+  }
+
+}
+
+.PosterContent {
+  padding: 50px;
+
+  @media (max-width: 768px) {
+    padding: 30px 20px;
+  }
+
+}
+
+.EventTitle {
+  font-family: var(--font-editorial);
+  font-size: 3em;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 2em;
+  }
+
+}
+
+.EventDate {
+  text-align: center;
+  font-size: 1.3em;
+  color: #333333;
+  margin-bottom: 30px;
+  font-weight: 500;
+
+}
+
+.EventDescription {
+  font-size: 1.1em;
+  color: #656464;
+  line-height: 1.8;
+  margin-bottom: 30px;
+  text-align: center;
+
+}
+
+.SignUpSection {
+  text-align: center;
+  padding: 40px 0;
+  border-top: 2px solid #f1f3f5;
+  margin-top: 30px;
+
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+}
+
+.SignUpButton {
+  display: inline-block;
+  background: #333333;
+  color: white;
+  text-decoration: none;
+  padding: 18px 50px;
+  border-radius: 30px;
+  font-size: 1.3em;
+  transition: all 0.3s;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+  &:hover {
+    background: var(--color-black);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    padding: 15px 35px;
+    font-size: 1.1em;
+  }
+
+}
+
+.DetailsSection {
+  margin: 30px 0;
+  padding: 30px;
+  background: #f8f9fa;
+  border-radius: var(--radius-card);
+
+}
+
+.DetailItem {
+  margin-bottom: 20px;
+
+  strong {
+    color: #333;
+    font-size: 1.1em;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  span {
+    color: #656464;
+    font-size: 1em;
+    line-height: 1.6;
+  }
+
+}
+
+.ContactInfo {
+  text-align: center;
+  color: #656464;
+  margin-top: 30px;
+  font-size: 0.95em;
+
+  a {
+    color: #333333;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+}

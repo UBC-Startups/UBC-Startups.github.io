@@ -1,0 +1,9 @@
+/* Art-directed background; controls and layout live in shared UI/Tailwind. */
+.orangeGlow {
+  position: absolute;
+  left: -210px;
+  top: 50px;
+  width: 980px;
+  height: 700px;
+  background: radial-gradient(490px 350px at 50% 50%, rgba(255, 90, 31, 0.42) 0%, rgba(255, 90, 31, 0.14) 45%, rgba(255, 90, 31, 0) 100%);
+}

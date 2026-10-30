@@ -20,11 +20,16 @@ Open http://localhost:3000. The public pages need no environment variables or
 backend services. To run alongside the legacy development server, choose another
 port with `npm run dev -- --port 3001`.
 
+Supabase client helpers and session refresh are available for upcoming features.
+See [Supabase setup and usage](docs/supabase.md) for environment variables, local
+versus hosted development, and server/browser client conventions.
+
 ## Verification
 
 ```sh
 npm run lint
 npm run typecheck
+npm run test:auth
 npm run build
 npx playwright install chromium
 npm test
@@ -61,8 +66,8 @@ Native CSS Modules are excluded from the Tailwind loader. The original Google
 Fonts stylesheet loads from `app/layout.tsx`, preserving the families and weights
 on every route. Desktop/mobile typography was compared against the legacy site
 with the actual web fonts loaded. The analytics measurement ID is retained. Public copyright-year
-data is cached; no session or member data exists in this migration.
+data is cached; existing public pages do not query member data.
 
 Production remains the legacy website on GitHub Pages. Hosting selection,
-Supabase integration, member accounts, registration workflows, and the networking
+member accounts, registration workflows, and the networking
 hub are separate implementation phases. See the root implementation plan.

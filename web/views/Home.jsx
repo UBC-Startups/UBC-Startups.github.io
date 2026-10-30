@@ -1,4 +1,5 @@
 import Layout from "../home/Layout";
+import HashScroll from "../components/HashScroll";
 import Hero from "../home/sections/Hero";
 import SocialFeed from "../home/sections/SocialFeed";
 import Partners from "../home/sections/Partners";
@@ -21,5 +22,6 @@ const HomePage = () => <Layout>
     <Values />
     <Team />
     <Faq />
+    <HashScroll />
   </Layout>;
 export default HomePage;

@@ -16,6 +16,7 @@ type NavigationItem = { label: string; to?: string; hash?: string };
 function NavItem({ item, active, onClick, mobile = false }: { item: NavigationItem; active?: string; onClick?: () => void; mobile?: boolean }) {
   return <Link
     href={item.hash ?? item.to ?? "/"}
+    prefetch={item.hash ? false : undefined}
     aria-current={active === item.label ? "page" : undefined}
     onClick={() => { if (!item.hash) window.scrollTo(0, 0); onClick?.(); }}
     className={`text-navigation text-ink no-underline aria-[current=page]:font-semibold ${mobile ? "py-xs leading-[normal]" : "hover:text-accent"}`}

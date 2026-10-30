@@ -35,22 +35,40 @@ for (const [path, title] of routes) {
 }
 
 test("navigation and cross-page hash links", async ({ page }, testInfo) => {
+  const clickSection = async (name: string) => {
+    if (testInfo.project.name === "mobile") {
+      await page.getByRole("button", { name: "Menu", exact: true }).click();
+      await expect(page.getByRole("button", { name: "Close", exact: true })).toHaveAttribute("aria-expanded", "true");
+      await page.locator("#home-mobile-menu").getByRole("link", { name, exact: true }).click();
+    } else {
+      await page.getByRole("navigation", { name: "Main", exact: true }).getByRole("link", { name, exact: true }).click();
+    }
+  };
+
   await page.goto("/meetOurTeam");
-  if (testInfo.project.name === "mobile") {
-    const menu = page.getByRole("button", { name: "Menu", exact: true });
-    await menu.click();
-    await expect(page.getByRole("button", { name: "Close", exact: true })).toHaveAttribute("aria-expanded", "true");
-    await page.locator("#home-mobile-menu").getByRole("link", { name: "About Us" }).click();
-  } else {
-    await page.getByRole("navigation", { name: "Main", exact: true }).getByRole("link", { name: "About Us" }).click();
+  // Cover both a cold destination and revisiting it from the client router cache.
+  for (let visit = 0; visit < 2; visit++) {
+    await clickSection("About Us");
+    await expect(page).toHaveURL(/\/#aboutUs$/);
+    await expect(page.locator("#aboutUs")).toBeInViewport();
+    await clickSection("FAQ");
+    await expect(page).toHaveURL(/\/#faq$/);
+    await expect(page.locator("#faq")).toBeInViewport();
+    await page.getByRole("link", { name: "Upcoming Events", exact: true }).click();
+    await expect(page).toHaveURL(/\/events$/);
+    await expect(page.getByText("Sign up details coming soon", { exact: true })).toBeVisible();
   }
-  await expect(page).toHaveURL(/\/#aboutUs$/);
-  await expect(page.locator("#aboutUs")).toBeInViewport();
-  await page.getByRole("link", { name: "Upcoming Events", exact: true }).click();
-  await expect(page).toHaveURL(/\/events$/);
-  await expect(page.getByText("Sign up details coming soon", { exact: true })).toBeVisible();
   await page.goto("/events#pitch-propel");
   await expect(page.locator("#pitch-propel")).toBeInViewport();
+});
+
+test("homepage section direct links and refresh scroll to the destination", async ({ page }) => {
+  for (const id of ["aboutUs", "faq"]) {
+    await page.goto(`/#${id}`);
+    await expect(page.locator(`#${id}`)).toBeInViewport();
+    await page.reload();
+    await expect(page.locator(`#${id}`)).toBeInViewport();
+  }
 });
 
 test("FAQ, carousel, and newsletter keep working", async ({ page }) => {

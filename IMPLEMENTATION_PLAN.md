@@ -1,7 +1,7 @@
 # UBC Startups platform implementation plan
 
 Status: Migration started; product policies and launch decisions remain under review
-Updated: 2026-10-25
+Updated: 2026-10-30
 
 ## Current progress
 
@@ -11,12 +11,12 @@ Verified from the local repository unless otherwise noted:
 | --- | --- |
 | Legacy application relocation | Complete: source, assets, scripts, package manifest, and lockfile live in `legacy/`. |
 | Legacy CI paths | Updated: commands run in `legacy/`, dependency caching uses its lockfile, and the Pages artifact is `legacy/build/`. |
-| Legacy PR builds | User reports Node 22/24/26 checks passed. Production deployment still uses the Node 24 artifact. |
+| Legacy PR builds | CI now runs only the pinned Node 26 version, retaining the `build (26.x)` check name. The same verified build supplies the Pages artifact; the updated workflow still needs a GitHub run. |
 | Next.js application | Consolidated to `web/`; all five public route patterns migrated, including the team, events, SOAR, and known event posters. |
 | Application tooling | Next.js 16.4.2, React 19.3.0, TypeScript routes/new UI, ESLint, Tailwind CSS 4, and CSS Modules for the existing design. Ported components remain JavaScript for incremental typing. |
 | Scaffold configuration | Cache Components, partial prefetching, and experimental agent feedback are enabled. |
-| Developer runtime | `web/.nvmrc` pins Node 26.12.0; the new-app workflow uses that file. Legacy deployment remains on Node 24. |
-| Supabase | Root `supabase/` directory has not been created; local services, schema, and auth integration remain pending. |
+| Developer runtime | `web/.nvmrc` pins Node 26.12.0 for local development and both application workflows, including the legacy deployment build. |
+| Supabase | Root CLI configuration exists; user reports local startup and hosted project linking complete. Next.js browser/server clients and a Next.js 16 session-refresh proxy are implemented, with mocked refresh tests. Auth screens/callbacks, feature schemas, RLS, and generated types remain pending and belong to feature owners. |
 | New application CI | Added `.github/workflows/web.yml` with lint, types, production build, and desktop/mobile Playwright checks. Its stable job name is `web checks`; first remote execution is pending. |
 | Shared design system | Central Tailwind theme in `web/styles/tokens.css`; typed primitives in `web/components/ui/`; onboarding guide in `web/docs/design-system.md`. Shared layout/navigation/headers/newsletter and event-card surfaces/tags use them; remaining scoped styles consume the same tokens during incremental conversion. |
 | Local verification | New-app lint/build/type checks and 24 browser checks passed, including the newsletter POST contract and initial hero styles. Typography/colors were compared with loaded fonts at 390, 768, 1024, and 1440px. Legacy build/test command passed (legacy still has no automated tests). |
@@ -48,7 +48,7 @@ This document plans future implementation. It does not authorize production prov
 | Application workflows | Next.js Server Actions and Route Handlers | Shared server modules contain business logic. |
 | Styling | Tailwind CSS 4 plus shared TypeScript primitives | One central token source preserves the existing design. Existing page-specific CSS Modules reference those tokens during incremental conversion; retain scoped CSS for complex artwork/animations. Preflight remains disabled. |
 | Hosting | Managed hosting with full Next.js support | Provider, account ownership, and budget remain to be selected. |
-| Package management | Independent npm projects in `legacy/` and `web/`, each with a committed `package-lock.json` | No npm workspaces initially. Use the new-app Node version pinned in `web/.nvmrc`; legacy deployment remains Node 24 until intentionally changed. |
+| Package management | Independent npm projects in `legacy/` and `web/`, each with a committed `package-lock.json`; root package pins shared tooling | No npm workspaces initially. Both apps and shared tooling use Node 26.12.0 pinned in `web/.nvmrc`. |
 | Local development | Native Node/npm for applications; Docker-compatible runtime and Supabase CLI for local Supabase, recommended | Five-person team: isolate database work per developer. No custom application Dockerfile or mandatory WSL setup. |
 | Caching | Cache Components enabled in the scaffold | Preserve this fact in the plan; review the selected version's guidance before caching public data. Never share-cache personal data or auth responses. |
 | Validation | Zod, proposed | Validate untrusted input on the server; database constraints remain authoritative. |
@@ -92,7 +92,7 @@ does not by itself resolve those separate product decisions.
 ## 4. Application structure and boundaries
 
 The existing CRA application lives in `legacy/`, and the new application lives in
-`web/`. Keep future database infrastructure in root `supabase/`. Follow the
+`web/`. Keep database infrastructure in root `supabase/`. Follow the
 no-`src/` convention:
 
 The target tree below includes planned auth routes, feature modules, and database
@@ -124,7 +124,7 @@ web/                          # Target Next.js root and its own package/lockfile
     networking/
     admin/
   lib/
-    supabase/                 # Browser, server, and restricted privileged clients
+    supabase/                 # Browser/server clients; privileged client deferred
     auth/                     # Identity and permission helpers
     validation/
   server/                     # Server-only data access and business workflows
@@ -148,7 +148,7 @@ Route groups organize code without adding URL segments. Keep existing components
 - Verify migrations against a clean local database and review conflicting migrations before merging. Do not edit migrations already applied to shared environments; add corrective migrations.
 - Use hosted staging to test integrated changes, separate from production. Coordinate staging migration application through a documented release owner or CI process.
 - Commit environment variable names and safe examples, never actual secrets. Keep application environment files in the current Next.js root and document commands relative to that root.
-- Use stable required check names matching actual job results. For legacy CI, require `build (22.x)`, `build (24.x)`, and `build (26.x)` rather than the workflow title `Node.js CI`. Require `web checks` after its first successful GitHub run. Keep deployment optional on PRs; confirm the repository rules were saved in GitHub.
+- Use stable required check names matching actual job results. For legacy CI, require `build (26.x)` rather than the workflow title `Node.js CI`; remove obsolete `build (22.x)` and `build (24.x)` requirements. Require `web checks` for the new app. Keep deployment optional on PRs; repository rules must be updated in GitHub separately from workflow files.
 
 - Use Server Components for initial reads and public page rendering; Client Components handle forms and interactive controls.
 - Use Server Actions for application form submissions and Route Handlers for callbacks, webhooks, and external clients.
@@ -222,7 +222,7 @@ RLS controls rows, not which fields are safe to disclose. Separate private data 
 
 ### Phase 2: Establish Supabase and authorization
 
-- Initialize root `supabase/` and document running the pinned CLI from the repository root. Establish the recommended per-developer local stack through Docker and isolated hosted staging/production projects. Preview deployments must not use production data or privileged production credentials.
+- Root `supabase/` initialization and pinned CLI tooling are complete; local startup and hosted linking are user-confirmed. Next.js clients, session refresh, environment template, and mocked auth tests are implemented. See `web/docs/supabase.md`. Establish isolated hosted staging/production projects before launch; preview deployments must not use production data or privileged production credentials.
 - Commit initial schema, RLS, storage policies, constraints, indexes, and synthetic seeds through migrations.
 - Configure cookie-based auth, session refresh, verified server identity, safe callback redirects, email verification, sign-out, and password recovery.
 - Configure production email delivery and explicit callback URL allowlists per environment.
@@ -271,7 +271,7 @@ RLS controls rows, not which fields are safe to disclose. Separate private data 
 - Complete mobile, desktop, keyboard, focus, reduced-motion, and horizontal-overflow checks on old and new flows.
 - Configure error reporting, structured logs, health checks, and alerts for authentication, registration failures, and notification backlog without logging credentials or unnecessary personal data.
 - Configure and test backups and restoration. Review provider limits, storage growth, email delivery, and monthly budget.
-- Update CI to run locked installs, type checks, linting, unit/integration tests, production builds, and critical browser flows. Retain the existing Node matrix where supported or document changes.
+- Update CI to run locked installs, type checks, linting, unit/integration tests, production builds, and critical browser flows. Both application workflows use the pinned Node 26 version; a compatibility matrix is unnecessary for this deployed website.
 - Preserve feature PRs to `development` and releases through `development` to `main`. Ensure hosting cannot publish production before required checks pass.
 - Rehearse staging migrations and a deployment with synthetic accounts. Use additive schema changes so application rollback remains possible.
 - Prepare the domain cutover, HTTPS, authentication callback changes, legacy redirects, and replacement of the Pages workflow. Preserve existing CNAME and SPA fallback behavior until cutover; remove obsolete behavior only as part of the hosting migration.
@@ -302,8 +302,13 @@ The public-site port, shared design system, onboarding guide, directory cleanup,
 are implemented locally. Next: review the migrated site with the team, run the new
 checks on GitHub, and arrange a separate preview host. Third-party embeds and actual
 newsletter delivery need manual acceptance; automated checks mock those services.
-Resolve remaining Phase 0 policies and begin local Supabase setup/schema design
-without treating backend features or production launch as complete.
+The Supabase tooling and client/session foundation are implemented. Next, feature
+owners design schemas, migrations, RLS, and database tests together: the portal
+owner handles identity, profiles, memberships, and shared permissions; the events
+owner handles events and registration workflows using the shared Auth identity.
+Coordinate migration application to staging through one maintainer. Resolve
+remaining Phase 0 policies before implementing dependent features; backend
+features and production launch remain incomplete.
 
 ## 9. Technical references
 

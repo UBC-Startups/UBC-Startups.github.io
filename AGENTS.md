@@ -6,8 +6,9 @@ UBC Startups' public website at `https://ubcstartups.com`. This is a client-side
 React 18 application built with Create React App (`react-scripts` 5), JavaScript,
 React Router 6, and styled-components 5. Use npm and the committed
 `legacy/package-lock.json`. The current application lives in `legacy/`.
-The Next.js application lives in `web/`. Root `supabase/` database infrastructure
-is planned but has not been created yet. Each app uses its own npm lockfile.
+The Next.js application lives in `web/`. Root `supabase/` contains CLI
+configuration; feature schemas, migrations, and database tests remain pending.
+Each app uses its own npm lockfile. The root package/lockfile pins shared tooling.
 
 ## Next.js application
 
@@ -28,6 +29,10 @@ is planned but has not been created yet. Each app uses its own npm lockfile.
   requests and cover desktop/mobile navigation, routes, assets, and interactions.
 - Keep the legacy GitHub Pages deployment unchanged until an authorized cutover.
   `.github/workflows/web.yml` validates the new app without deploying it.
+- Supabase browser/server clients and session refresh live in `web/lib/supabase/`
+  and `web/proxy.ts`. Read `web/docs/supabase.md` for setup and usage. Run CLI
+  commands from the repository root and `npm run test:auth` from `web/` for auth
+  foundation changes. Feature owners implement schemas and access policies.
 
 ## Legacy application: where to make changes
 
@@ -58,7 +63,8 @@ which remains at the repository root.
 
 ## Legacy application: development commands
 
-Use Node 24 to match the deployed build. CI also checks Node 22 and 26.
+Use Node 26.12.0 from `web/.nvmrc` for local development and both CI workflows.
+Legacy CI uses one Node 26 build, keeping the check name `build (26.x)`.
 
 ```sh
 cd legacy
@@ -122,7 +128,7 @@ npm test -- --watchAll=false --passWithNoTests
 - Preserve existing user changes and keep the diff limited to the task.
 - Feature pull requests target `development`. Releases use a pull request from
   `development` to `main`.
-- Pushes to `main` deploy automatically after the full Node matrix passes, using
-  the Node 24 build artifact. Pull requests and pushes to `development` do not
+- Pushes to `main` deploy automatically after the Node 26 build and tests pass,
+  using the verified legacy artifact. Pull requests and pushes to `development` do not
   deploy. Local builds are for verification; deployment runs through Actions.
 - Do not push, merge, or change deployment settings unless requested.

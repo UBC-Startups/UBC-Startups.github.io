@@ -21,6 +21,10 @@
 - After changes run lint, typecheck, build, and the relevant Playwright tests.
 - Do not deploy `web/` through the legacy Pages workflow or modify `legacy/` as
   part of routine new-app development.
+- Supabase clients live in `lib/supabase/`; read `docs/supabase.md` before adding
+  auth/data access. Use the async server client per request and browser client
+  for Client Components. Proxy refreshes sessions; features still authorize
+  every protected operation. Run `npm run test:auth` when changing this foundation.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

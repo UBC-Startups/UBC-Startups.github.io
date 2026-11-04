@@ -31,6 +31,7 @@ Copy `web/.env.example` to `web/.env.local` and fill in:
 ```dotenv
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+APP_ORIGIN=http://127.0.0.1:3000
 ```
 
 For isolated development, run `npx supabase start` and `npx supabase status` from
@@ -52,6 +53,8 @@ service-role key there. No privileged client is included in this foundation.
   `const supabase = await createClient()`.
 - The server helper is marked `server-only` and creates a new user-scoped client
   per call. Do not share it across requests or wrap it in `use cache`.
+
+Use the same local origin in the browser and OAuth redirect allowlist. Set `APP_ORIGIN` to the application origin for each environment. Google must redirect to the Supabase OAuth callback, and the Supabase allowlist must include the application `/auth/callback`.
 
 The server helper reads cookies internally; callers do not pass a cookie store.
 With Cache Components enabled, place components reading request cookies inside

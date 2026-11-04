@@ -5,7 +5,47 @@ export type Database = {
   
   "public": {
           Tables: {
-            "profiles": {
+            "event_registrations": {
+                  Row: {
+                    "accepted_agreements": NonNullable<Json>,"answers": NonNullable<Json>,"event_id": string,"status": string,"submitted_at": string,"user_id": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "accepted_agreements": NonNullable<Json>,"answers": NonNullable<Json>,"event_id": string,"status": string,"submitted_at"?: string,"user_id": string
+                  }
+                  Update: {
+                    "accepted_agreements"?: NonNullable<Json>,"answers"?: NonNullable<Json>,"event_id"?: string,"status"?: string,"submitted_at"?: string,"user_id"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "event_registrations_event_id_fkey"
+      columns: ["event_id"]
+isOneToOne: false
+      referencedRelation: "events"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "event_registrations_user_id_fkey"
+      columns: ["user_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["user_id"]
+    }
+                  ]
+                },"events": {
+                  Row: {
+                    "capacity": number | null,"id": string,"registration_closes_at": string,"registration_opens_at": string,"signup_mode": string,"slug": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "capacity"?: number | null,"id"?: string,"registration_closes_at": string,"registration_opens_at": string,"signup_mode"?: string,"slug": string
+                  }
+                  Update: {
+                    "capacity"?: number | null,"id"?: string,"registration_closes_at"?: string,"registration_opens_at"?: string,"signup_mode"?: string,"slug"?: string
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"profiles": {
                   Row: {
                     "first_name": string,"last_name": string,"user_id": string
                   }

@@ -3,11 +3,23 @@
 "use server";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { parseBasicProfile, saveBasicProfileRow } from "@/lib/auth/profile-setup";
+import {
+  parseBasicProfile,
+  saveBasicProfileRow,
+  type BasicProfileFieldErrors,
+} from "@/lib/auth/profile-setup";
 
-export async function saveBasicProfile(_previousState: { error?: string }, formData: FormData): Promise<{ error?: string }> {
+type BasicProfileFormState = {
+  error?: string;
+  fieldErrors?: BasicProfileFieldErrors;
+};
+
+export async function saveBasicProfile(
+  _previousState: BasicProfileFormState,
+  formData: FormData,
+): Promise<BasicProfileFormState> {
   const parsed = parseBasicProfile(formData);
-  if ("error" in parsed) return { error: parsed.error };
+  if (parsed.fieldErrors) return { fieldErrors: parsed.fieldErrors };
   const supabase = await createClient();
   const { data, error: authError } = await supabase.auth.getClaims();
   if (authError || !data?.claims?.sub) redirect(`/sign-in?next=${encodeURIComponent(parsed.destination)}`);

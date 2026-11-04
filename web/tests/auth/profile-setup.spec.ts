@@ -22,23 +22,107 @@ test("trims names and keeps the validated destination", () => {
   });
 });
 
-test("rejects a whitespace-only name and keeps the destination", () => {
+test("rejects both blank names with separate field errors and keeps the destination", () => {
+  const parsed = parseBasicProfile(form({ next: event }));
+
+  expect(parsed).toEqual({
+    destination: event,
+    firstName: "",
+    lastName: "",
+    fieldErrors: {
+      firstName: "Enter your first name.",
+      lastName: "Enter your last name.",
+    },
+  });
+});
+
+test("rejects a whitespace-only first name and retains the other typed name", () => {
   const parsed = parseBasicProfile(
-    form({ first_name: "   ", last_name: "Lovelace", next: event }),
+    form({ first_name: "   ", last_name: " Lovelace ", next: event }),
   );
 
   expect(parsed).toEqual({
     destination: event,
-    error: "Enter your first and last name.",
+    firstName: "",
+    lastName: "Lovelace",
+    fieldErrors: { firstName: "Enter your first name." },
   });
 });
 
-test("rejects a missing name and keeps the destination", () => {
+test("accepts trimmed names with exactly 100 Unicode code points", () => {
+  const maxName = "😀".repeat(100);
+
+  const parsed = parseBasicProfile(
+    form({ first_name: ` ${maxName} `, last_name: maxName, next: event }),
+  );
+
+  expect(parsed).toEqual({
+    destination: event,
+    firstName: maxName,
+    lastName: maxName,
+  });
+});
+
+test("rejects a 101-code-point first name and retains the last name and destination", () => {
+  const tooLongName = "😀".repeat(101);
+
+  const parsed = parseBasicProfile(
+    form({ first_name: tooLongName, last_name: "Lovelace", next: event }),
+  );
+
+  expect(parsed).toEqual({
+    destination: event,
+    firstName: tooLongName,
+    lastName: "Lovelace",
+    fieldErrors: {
+      firstName: "First name must be 100 characters or fewer.",
+    },
+  });
+});
+
+test("rejects a 101-code-point last name and retains the first name and destination", () => {
+  const tooLongName = "😀".repeat(101);
+
+  const parsed = parseBasicProfile(
+    form({ first_name: "Ada", last_name: tooLongName, next: event }),
+  );
+
+  expect(parsed).toEqual({
+    destination: event,
+    firstName: "Ada",
+    lastName: tooLongName,
+    fieldErrors: {
+      lastName: "Last name must be 100 characters or fewer.",
+    },
+  });
+});
+
+test("rejects both 101-code-point names with separate field errors", () => {
+  const tooLongName = "😀".repeat(101);
+
+  const parsed = parseBasicProfile(
+    form({ first_name: tooLongName, last_name: tooLongName, next: event }),
+  );
+
+  expect(parsed).toEqual({
+    destination: event,
+    firstName: tooLongName,
+    lastName: tooLongName,
+    fieldErrors: {
+      firstName: "First name must be 100 characters or fewer.",
+      lastName: "Last name must be 100 characters or fewer.",
+    },
+  });
+});
+
+test("rejects a missing last name, retains the first name, and keeps the destination", () => {
   const parsed = parseBasicProfile(form({ first_name: "Ada", next: event }));
 
   expect(parsed).toEqual({
     destination: event,
-    error: "Enter your first and last name.",
+    firstName: "Ada",
+    lastName: "",
+    fieldErrors: { lastName: "Enter your last name." },
   });
 });
 

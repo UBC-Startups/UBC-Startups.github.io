@@ -4,17 +4,39 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "../supabase/database.types";
 import { getSignupDestination } from "./signup-routing";
 
-export type BasicProfileInput =
-  | { destination: string; firstName: string; lastName: string }
-  | { destination: string; error: string };
+export type BasicProfileFieldErrors = {
+  firstName?: string;
+  lastName?: string;
+};
+
+export type BasicProfileInput = {
+  destination: string;
+  firstName: string;
+  lastName: string;
+  fieldErrors?: BasicProfileFieldErrors;
+};
+
+const MAX_NAME_CODE_POINTS = 100;
+
+function exceedsNameLimit(name: string): boolean {
+  return Array.from(name).length > MAX_NAME_CODE_POINTS;
+}
 
 export function parseBasicProfile(formData: FormData): BasicProfileInput {
   const destination = getSignupDestination(formData.get("next")?.toString());
   const firstName = formData.get("first_name")?.toString().trim() ?? "";
   const lastName = formData.get("last_name")?.toString().trim() ?? "";
+  const fieldErrors: BasicProfileFieldErrors = {};
 
-  if (!firstName || !lastName) {
-    return { destination, error: "Enter your first and last name." };
+  if (!firstName) fieldErrors.firstName = "Enter your first name.";
+  else if (exceedsNameLimit(firstName))
+    fieldErrors.firstName = `First name must be ${MAX_NAME_CODE_POINTS} characters or fewer.`;
+  if (!lastName) fieldErrors.lastName = "Enter your last name.";
+  else if (exceedsNameLimit(lastName))
+    fieldErrors.lastName = `Last name must be ${MAX_NAME_CODE_POINTS} characters or fewer.`;
+
+  if (fieldErrors.firstName || fieldErrors.lastName) {
+    return { destination, firstName, lastName, fieldErrors };
   }
 
   return { destination, firstName, lastName };

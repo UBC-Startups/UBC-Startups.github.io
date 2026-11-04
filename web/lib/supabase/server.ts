@@ -2,6 +2,7 @@ import "server-only";
 
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import type { Database } from "./database.types";
 import { getSupabaseEnv } from "./env";
 
 export async function createClient() {
@@ -9,7 +10,7 @@ export async function createClient() {
   const cookieStore = await cookies();
 
   // Create a user-scoped client per request; never cache this client or its data.
-  return createServerClient(url, key, {
+  return createServerClient<Database>(url, key, {
     cookies: {
       getAll() {
         return cookieStore.getAll();

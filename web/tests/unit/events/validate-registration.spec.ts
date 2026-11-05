@@ -536,6 +536,7 @@ test("validates a complete CaseHack application against the agreed contract", ()
       "agreement:participant_conduct": "yes",
       "agreement:application_data": "yes",
       "agreement:photo_video_consent": "yes",
+      "agreement:submission_finality": "yes",
     }),
     acceptedAt,
   );
@@ -572,6 +573,11 @@ test("validates a complete CaseHack application against the agreed contract", ()
         text: "I consent to photographs and videos of me being taken during CaseHack and used by UBC Startups to promote CaseHack through its website and social media channels.",
         accepted_at: acceptedAt,
       },
+      {
+        key: "submission_finality",
+        text: "I understand that I will not be able to change my answers after submission.",
+        accepted_at: acceptedAt,
+      },
     ],
   });
 });
@@ -594,6 +600,7 @@ test("omits stale CaseHack dependent answers for inactive conditions", () => {
       "agreement:participant_conduct": "yes",
       "agreement:application_data": "yes",
       "agreement:photo_video_consent": "yes",
+      "agreement:submission_finality": "yes",
     }),
     acceptedAt,
   );

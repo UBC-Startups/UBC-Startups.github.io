@@ -118,6 +118,12 @@ const eventForms = new Map<string, EventForm>([
           text: "I consent to photographs and videos of me being taken during CaseHack and used by UBC Startups to promote CaseHack through its website and social media channels.",
           required: true,
         },
+        {
+          id: "submission_finality",
+          label: "Final submission",
+          text: "I understand that I will not be able to change my answers after submission.",
+          required: true,
+        },
       ],
     },
   ],

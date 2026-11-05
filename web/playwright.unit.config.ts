@@ -1,7 +1,7 @@
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./tests/auth",
+  testDir: "./tests/unit",
   workers: 1,
   reporter: "list",
 });

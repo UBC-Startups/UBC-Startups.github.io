@@ -77,7 +77,7 @@ and use RLS. Do not trust `getSession()` alone for server authorization.
 From `web/`:
 
 ```sh
-npm run test:auth
+npm run test:unit
 npm run lint
 npm run typecheck
 npm run build

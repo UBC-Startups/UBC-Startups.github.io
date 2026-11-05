@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { resolveSignupCallback } from "../../lib/auth/signup-routing";
+import { resolveSignupCallback } from "../../../lib/auth/signup-routing";
 
 const event = "/events/sample-event/register";
 const retryPath = `/sign-in?next=${encodeURIComponent(event)}&error=oauth`;

@@ -18,13 +18,16 @@
   mocked endpoints when changing forms. Never send real subscriptions in tests.
 - Compare shared styling changes at mobile, tablet, and desktop widths with fonts
   loaded, preserving existing typography, colors, focus behavior, and layout.
-- After changes run lint, typecheck, build, and the relevant Playwright tests.
+- After changes run lint, typecheck, build, and the relevant Playwright tests:
+  `npm run test:unit` for the browser-free specs in `tests/unit/`, and `npm test`
+  for the browser suite after a production build.
 - Do not deploy `web/` through the legacy Pages workflow or modify `legacy/` as
   part of routine new-app development.
 - Supabase clients live in `lib/supabase/`; read `docs/supabase.md` before adding
   auth/data access. Use the async server client per request and browser client
   for Client Components. Proxy refreshes sessions; features still authorize
-  every protected operation. Run `npm run test:auth` when changing this foundation.
+  every protected operation. Run `npm run test:unit` when changing this
+  foundation.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
+import Loading from "@/app/loading";
 import { Card, Heading, PageContainer, Text } from "@/components/ui";
 import { readSignupAccount } from "@/lib/auth/basic-profile";
 import { getSignupDestination } from "@/lib/auth/signup-routing";
@@ -34,5 +35,5 @@ async function Setup({ searchParams }: { searchParams: Promise<{ next?: string }
 }
 
 export default function Page(props: { searchParams: Promise<{ next?: string }> }) {
-  return <Suspense fallback={<p>Loading…</p>}><Setup {...props} /></Suspense>;
+  return <Suspense fallback={<Loading />}><Setup {...props} /></Suspense>;
 }

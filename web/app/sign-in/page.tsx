@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { connection } from "next/server";
+import Loading from "@/app/loading";
 import { Button, Card, Heading, PageContainer, Text } from "@/components/ui";
 import { getOnboardingPath, getSignupDestination } from "@/lib/auth/signup-routing";
 import { readSignupAccount } from "@/lib/auth/basic-profile";
@@ -38,5 +39,5 @@ async function SignIn({ searchParams }: { searchParams: Promise<{ next?: string;
 }
 
 export default function Page(props: { searchParams: Promise<{ next?: string; error?: string }> }) {
-  return <Suspense fallback={<p>Loading…</p>}><SignIn {...props} /></Suspense>;
+  return <Suspense fallback={<Loading />}><SignIn {...props} /></Suspense>;
 }

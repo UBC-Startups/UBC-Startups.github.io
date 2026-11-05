@@ -65,7 +65,16 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            [_ in never]: never
+            "get_event_registration_availability":
+{ Args: { "p_event_id": string }; Returns: {
+              "outcome": string
+            }[]
+                           },
+"submit_event_registration":
+{ Args: { "p_accepted_agreements": Json,"p_answers": Json,"p_event_id": string,"p_user_id": string }; Returns: {
+              "outcome": string,"status": string,"submitted_at": string
+            }[]
+                           }
           }
           Enums: {
             [_ in never]: never

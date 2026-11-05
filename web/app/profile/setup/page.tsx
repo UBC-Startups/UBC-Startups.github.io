@@ -1,12 +1,14 @@
 import Image from "next/image";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { Card, Heading, PageContainer, Text } from "@/components/ui";
 import { readSignupAccount } from "@/lib/auth/basic-profile";
 import { getSignupDestination } from "@/lib/auth/signup-routing";
 import { ProfileForm } from "./profile-form";
 
 async function Setup({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+  await connection();
   const destination = getSignupDestination((await searchParams).next);
   const account = await readSignupAccount();
   if (!account) redirect(`/sign-in?next=${encodeURIComponent(destination)}`);

@@ -1,12 +1,14 @@
 import Image from "next/image";
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { Button, Card, Heading, PageContainer, Text } from "@/components/ui";
 import { getOnboardingPath, getSignupDestination } from "@/lib/auth/signup-routing";
 import { readSignupAccount } from "@/lib/auth/basic-profile";
 import { startGoogleSignIn } from "./actions";
 
 async function SignIn({ searchParams }: { searchParams: Promise<{ next?: string; error?: string }> }) {
+  await connection();
   const params = await searchParams;
   const destination = getSignupDestination(params.next);
   const account = await readSignupAccount();

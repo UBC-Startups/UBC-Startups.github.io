@@ -5,7 +5,12 @@
 @import "tailwindcss/utilities.css" layer(utilities);
 @import "../styles/tokens.css";
 
-html { scroll-behavior: smooth; }
+/* Lets a section's background span the full viewport width even though its
+   parent (PageContainer) is a centered, max-width column. Pair with an inner
+   wrapper that restores the page's normal max-width + gutters for content. */
+.full-bleed { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body { margin: 0; font-family: var(--font-body); }
 @layer base {
   .public-frame *, .public-frame *::before, .public-frame *::after { box-sizing: border-box; }

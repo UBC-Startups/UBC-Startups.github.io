@@ -1,14 +1,20 @@
 .Section {
   position: relative;
   isolation: isolate;
+  overflow: hidden;
+  background: var(--color-inverse);
+
+}
+
+.Inner {
+  position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  border-radius: var(--radius-panel);
-  background: var(--color-inverse);
-  padding: 40px 20px;
-  @media (min-width: 640px) { padding: 51px 36px 40px; }
-  @media (min-width: 1024px) { min-height: 947px; padding-bottom: 48px; }
+  max-width: var(--container-site);
+  margin: 0 auto;
+  padding: 40px var(--spacing-page-gutter);
+  @media (min-width: 640px) { padding: 51px var(--spacing-page-gutter-sm) 40px; }
+  @media (min-width: 1024px) { min-height: 947px; padding-bottom: 48px; padding-left: var(--spacing-page-gutter-lg); padding-right: var(--spacing-page-gutter-lg); }
 
 }
 

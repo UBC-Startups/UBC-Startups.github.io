@@ -31,21 +31,23 @@ function SocialIcons() {
 
 export default function Nav({ active }: { active?: string }) {
   const [open, setOpen] = useState(false);
-  return <header className="sticky top-0 z-50 bg-canvas">
-    <nav aria-label="Main" className="flex items-center justify-between py-md pl-lg pr-xs">
-      <Link href="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-xs text-brand text-ink no-underline">
-        <Image src="/figma/logo-mark.svg" alt="" width={34} height={34} className="block" />
-        UBC Startups
-      </Link>
-      <ul className="m-0 hidden list-none gap-[clamp(32px,5vw,72px)] p-0 lg:flex">
-        {navLinks.map(item => <li key={item.label}><NavItem item={item} active={active} /></li>)}
-      </ul>
-      <div className="hidden items-center gap-md lg:flex"><SocialIcons /></div>
-      <button type="button" aria-expanded={open} aria-controls="home-mobile-menu" onClick={() => setOpen(!open)} className="m-0 cursor-pointer rounded-pill border-0 bg-transparent px-md py-xs font-brand text-label-m text-ink hover:bg-muted lg:hidden">{open ? "Close" : "Menu"}</button>
-    </nav>
-    {open && <div id="home-mobile-menu" className="flex flex-col gap-xxs px-lg pb-lg lg:hidden">
-      {navLinks.map(item => <NavItem key={item.label} item={item} active={active} mobile onClick={() => setOpen(false)} />)}
-      <div className="mt-xs flex gap-md"><SocialIcons /></div>
-    </div>}
+  return <header className="full-bleed sticky top-0 z-50 bg-canvas">
+    <div className="mx-auto max-w-site px-page-gutter sm:px-page-gutter-sm lg:px-page-gutter-lg">
+      <nav aria-label="Main" className="flex items-center justify-between py-md pl-lg pr-xs">
+        <Link href="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-xs text-brand text-ink no-underline">
+          <Image src="/figma/logo-mark.svg" alt="" width={34} height={34} className="block" />
+          UBC Startups
+        </Link>
+        <ul className="m-0 hidden list-none gap-[clamp(32px,5vw,72px)] p-0 lg:flex">
+          {navLinks.map(item => <li key={item.label}><NavItem item={item} active={active} /></li>)}
+        </ul>
+        <div className="hidden items-center gap-md lg:flex"><SocialIcons /></div>
+        <button type="button" aria-expanded={open} aria-controls="home-mobile-menu" onClick={() => setOpen(!open)} className="m-0 cursor-pointer rounded-pill border-0 bg-transparent px-md py-xs font-brand text-label-m text-ink hover:bg-muted lg:hidden">{open ? "Close" : "Menu"}</button>
+      </nav>
+      {open && <div id="home-mobile-menu" className="flex flex-col gap-xxs px-lg pb-lg lg:hidden">
+        {navLinks.map(item => <NavItem key={item.label} item={item} active={active} mobile onClick={() => setOpen(false)} />)}
+        <div className="mt-xs flex gap-md"><SocialIcons /></div>
+      </div>}
+    </div>
   </header>;
 }

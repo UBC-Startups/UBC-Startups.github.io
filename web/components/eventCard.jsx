@@ -13,7 +13,6 @@ const EventCard = ({
   description,
   highlight,
   duration,
-  expected,
   format,
   venue,
   whoFor,
@@ -51,10 +50,6 @@ const EventCard = ({
                         <p className={styles.DetailLabel}>DURATION</p>
                         <p className={styles.DetailValue}>{duration}</p>
                     </div>
-                    {expected && <div className={styles.DetailBlock}>
-                        <p className={styles.DetailLabel}>EXPECTED</p>
-                        <p className={styles.DetailValue}>{expected}</p>
-                    </div>}
                     <div className={styles.DetailBlock}>
                         <p className={styles.DetailLabel}>FORMAT</p>
                         <p className={styles.DetailValue}>{format}</p>

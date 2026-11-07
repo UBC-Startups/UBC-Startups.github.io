@@ -57,6 +57,7 @@ test("navigation and cross-page hash links", async ({ page }, testInfo) => {
     await page.getByRole("link", { name: "Upcoming Events", exact: true }).click();
     await expect(page).toHaveURL(/\/events$/);
     await expect(page.getByText("Sign up details coming soon", { exact: true })).toBeVisible();
+    await expect(page.locator("#casehack").getByRole("link", { name: "Sign up", exact: true })).toHaveAttribute("href", "/events/casehack");
   }
   await page.goto("/events#pitch-propel");
   await expect(page.locator("#pitch-propel")).toBeInViewport();

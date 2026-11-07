@@ -75,7 +75,8 @@ const events = [{
   expected: "90–120 attendees (16–20 teams)",
   format: "Challenge reveal, team formation, mentorship, prototyping, final pitches, awards",
   whoFor: "Business, Computer Science, Engineering, and Design students interested in startups, innovation, and product development.",
-  status: "next",
+  status: "default",
+  signUpLink: "/events/casehack",
   extraTags: ["Flagship", "New"],
   image: caseHackImg
 }, {
@@ -94,6 +95,7 @@ const events = [{
   venue: "Large networking space",
   whoFor: "Students seeking internships, co-op, or full-time opportunities in startups and innovation-focused companies.",
   status: "default",
+  signUpLink: "/events/launchlink",
   image: launchLinkImg
 }, {
   term: "Term 2",

@@ -56,11 +56,22 @@ test("navigation and cross-page hash links", async ({ page }, testInfo) => {
     await expect(page.locator("#faq")).toBeInViewport();
     await page.getByRole("link", { name: "Upcoming Events", exact: true }).click();
     await expect(page).toHaveURL(/\/events$/);
-    await expect(page.getByText("Sign up details coming soon", { exact: true })).toBeVisible();
     await expect(page.locator("#casehack").getByRole("link", { name: "Sign up", exact: true })).toHaveAttribute("href", "/events/casehack");
   }
   await page.goto("/events#pitch-propel");
   await expect(page.locator("#pitch-propel")).toBeInViewport();
+});
+
+test("CaseHack sign up opens the CaseHack event page", async ({ page }) => {
+  await page.goto("/events");
+  await page.locator("#casehack").getByRole("link", { name: "Sign up", exact: true }).click();
+  await expect(page).toHaveURL(/\/events\/casehack$/);
+  await expect(page.getByRole("heading", { level: 1, name: /CASE\s*HACK/ })).toBeVisible();
+  await expect(page.getByRole("complementary", { name: "Registration" })).toBeVisible();
+  const firstFaq = page.locator("details").first();
+  await expect(firstFaq).toHaveAttribute("open", "");
+  await page.getByText("Do I need to know how to code?", { exact: true }).click();
+  await expect(page.locator("details").nth(1)).toHaveAttribute("open", "");
 });
 
 test("homepage section direct links and refresh scroll to the destination", async ({ page }) => {

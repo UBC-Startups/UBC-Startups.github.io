@@ -19,11 +19,22 @@
   --color-charcoal: #1a1a1a;
   --color-event-tag: #cc4414;
 
+  /* CaseHack event page palette (Figma: casehack/*). */
+  --color-casehack-forest: #0b1c15;
+  --color-casehack-forest-raised: #11271e;
+  --color-casehack-line: #1f3b2f;
+  --color-casehack-mint: #88dcbe;
+  --color-casehack-mint-dim: #3f7a62;
+  --color-casehack-mint-bright: #b4f3d6;
+  --color-casehack-muted: #8db3a2;
+  --color-casehack-paper: #eaf4ef;
+
   --font-brand: "Poppins", system-ui, sans-serif;
   --font-body: "Roboto Flex", sans-serif;
   --font-editorial: "Sansation", sans-serif;
   --font-ui: "Inter";
   --font-native-control: Arial;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --spacing: 4px;
   --spacing-xxs: 4px;

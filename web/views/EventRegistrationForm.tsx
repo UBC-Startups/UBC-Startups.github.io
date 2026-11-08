@@ -16,6 +16,7 @@ import {
 } from "@/lib/events/form-definition";
 import type { RegistrationResult } from "@/lib/events/registration-result";
 import { RegistrationReceipt } from "@/views/EventRegistration";
+import { RegistrationDropdown } from "@/views/RegistrationDropdown";
 
 type ClientAnswer = string | string[];
 type Answers = Record<string, ClientAnswer>;
@@ -29,12 +30,8 @@ type EventRegistrationFormProps = {
   ) => Promise<RegistrationResult>;
 };
 
-const inputClasses =
-  "box-border w-full min-w-0 rounded-pill border border-solid border-muted bg-surface px-lg py-field-y font-brand text-label-m text-ink placeholder:text-ink-secondary outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-50";
 const textareaClasses =
   "box-border w-full min-w-0 resize-y rounded-field border border-solid border-muted bg-surface px-lg py-field-y font-brand text-label-m text-ink placeholder:text-ink-secondary outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-50";
-const summaryClasses =
-  "flex w-full cursor-pointer list-none items-center justify-between gap-sm rounded-pill border border-solid border-muted bg-surface px-lg py-field-y font-brand text-label-m text-ink outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent [&::-webkit-details-marker]:hidden";
 
 function questionKey(id: string): string {
   return `question:${id}`;
@@ -174,6 +171,7 @@ function QuestionControl({
         onChange={(event) => onChange(event.target.value)}
         hint={`Up to ${question.maxLength} characters.`}
         error={error}
+        className="min-h-12"
         containerClassName="min-w-0"
       />
     );
@@ -255,30 +253,21 @@ function QuestionControl({
   if (question.kind === "select") {
     return (
       <div className="min-w-0">
-        <label
-          htmlFor={controlId}
-          className="mb-xs block font-brand text-label-m"
-        >
-          {question.label}
-          {required && <RequiredMark />}
-        </label>
-        <select
+        <RegistrationDropdown
           id={controlId}
-          name={field}
-          required={required}
+          label={question.label}
+          fieldName={field}
+          mode="single"
+          choices={question.choices}
           value={typeof answer === "string" ? answer : ""}
-          onChange={(event) => onChange(event.target.value)}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={error ? errorId : undefined}
-          className={inputClasses}
-        >
-          <option value="">Select an option</option>
-          {question.choices.map((choice) => (
-            <option key={choice.value} value={choice.value}>
-              {choice.label}
-            </option>
-          ))}
-        </select>
+          placeholder="Select an option"
+          required={required}
+          error={error}
+          errorId={errorId}
+          onChange={(next) => {
+            if (typeof next === "string") onChange(next);
+          }}
+        />
         <FieldFeedback id={errorId} error={error} />
       </div>
     );
@@ -286,86 +275,26 @@ function QuestionControl({
 
   if (question.kind !== "multiselect") return null;
 
-  const selected = Array.isArray(answer) ? answer : [];
-  const choices = question.choices;
-  const exclusiveValues = new Set(question.exclusiveValues ?? []);
-  const selectedLabels = choices
-    .filter((choice) => selected.includes(choice.value))
-    .map((choice) => choice.label);
-
-  function toggleChoice(value: string, checked: boolean) {
-    let next: string[];
-    if (!checked) {
-      next = selected.filter((selectedValue) => selectedValue !== value);
-    } else if (exclusiveValues.has(value)) {
-      next = [value];
-    } else {
-      next = selected.filter(
-        (selectedValue) =>
-          selectedValue !== value && !exclusiveValues.has(selectedValue),
-      );
-      next.push(value);
-    }
-
-    const nextSet = new Set(next);
-    onChange(
-      choices
-        .map((choice) => choice.value)
-        .filter((choiceValue) => nextSet.has(choiceValue)),
-    );
-  }
-
   return (
-    <fieldset
-      className="m-0 min-w-0 border-0 p-0"
-      aria-required={required}
-      aria-describedby={error ? errorId : undefined}
-    >
-      <legend className="mb-xs p-0 font-brand text-label-m">
-        {question.label}
-        {required && <RequiredMark />}
-      </legend>
-      <details className="min-w-0">
-        <summary
-          id={`${controlId}-summary`}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={error ? errorId : undefined}
-          className={summaryClasses}
-        >
-          <span className="block min-w-0 truncate">
-            {selectedLabels.length > 0
-              ? selectedLabels.join(", ")
-              : "Select options"}
-          </span>
-          <span aria-hidden="true" className="shrink-0 text-ink-secondary">
-            ▾
-          </span>
-        </summary>
-        <div className="mt-xs flex flex-col gap-xs rounded-field border border-solid border-muted bg-surface p-sm">
-          {choices.map((choice) => (
-            <label
-              key={choice.value}
-              htmlFor={`${controlId}-choice-${safeIdPart(choice.value)}`}
-              className="flex min-w-0 items-start gap-xs font-brand text-label-m"
-            >
-              <input
-                id={`${controlId}-choice-${safeIdPart(choice.value)}`}
-                type="checkbox"
-                name={field}
-                value={choice.value}
-                checked={selected.includes(choice.value)}
-                onChange={(event) =>
-                  toggleChoice(choice.value, event.target.checked)
-                }
-                className="mt-0.5 h-4 w-4 shrink-0 accent-accent"
-              />
-              <span className="min-w-0 break-words">{choice.label}</span>
-            </label>
-          ))}
-        </div>
-      </details>
+    <div className="min-w-0">
+      <RegistrationDropdown
+        id={controlId}
+        label={question.label}
+        fieldName={field}
+        mode="multi"
+        choices={question.choices}
+        value={Array.isArray(answer) ? answer : []}
+        placeholder="Select options"
+        required={required}
+        error={error}
+        errorId={errorId}
+        exclusiveValues={question.exclusiveValues}
+        onChange={(next) => {
+          if (Array.isArray(next)) onChange(next);
+        }}
+      />
       <FieldFeedback id={errorId} error={error} />
-    </fieldset>
+    </div>
   );
 }
 
@@ -414,7 +343,9 @@ export function EventRegistrationForm({
   useEffect(() => {
     if (state.kind !== "invalid" || pending) return;
     formRef.current
-      ?.querySelector<HTMLElement>('[aria-invalid="true"]')
+      ?.querySelector<HTMLElement>(
+        '[aria-invalid="true"], [data-invalid="true"]',
+      )
       ?.focus();
   }, [state, pending, formRevision]);
 
@@ -604,11 +535,14 @@ export function EventRegistrationForm({
         </fieldset>
       )}
 
-      <div className="flex flex-col gap-sm sm:flex-row sm:items-center sm:justify-end">
+      <div className="flex flex-col gap-sm pt-sm">
+        <Text variant="body-s" className="text-ink-secondary">
+          You won’t be able to change your answers after you submit.
+        </Text>
         <Button
           type="submit"
           disabled={pending}
-          className="w-full sm:w-auto"
+          className="min-h-12 w-full"
         >
           {pending
             ? "Submitting..."

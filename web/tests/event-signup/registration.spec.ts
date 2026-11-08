@@ -58,11 +58,43 @@ function closedInstantEvent(
   });
 }
 
+const dietaryLabels: Record<string, string> = {
+  none: "No dietary restrictions",
+  vegetarian: "Vegetarian",
+  vegan: "Vegan",
+  halal: "Halal",
+  gluten_free: "Gluten-free",
+  food_allergy: "Food allergy",
+  other: "Other",
+};
+
+function dropdownTrigger(page: Page, label: RegExp) {
+  return page.getByRole("button", { name: label });
+}
+
+async function chooseSingleOption(
+  page: Page,
+  label: RegExp,
+  optionName: string,
+): Promise<void> {
+  await dropdownTrigger(page, label).click();
+  await page.getByRole("option", { name: optionName, exact: true }).click();
+}
+
 async function openDietaryOptions(page: Page): Promise<void> {
-  await page
-    .locator("summary")
-    .filter({ hasText: "Select options" })
-    .click();
+  await dropdownTrigger(
+    page,
+    /Do you have any dietary restrictions\?/,
+  ).click();
+}
+
+async function chooseDietaryOption(
+  page: Page,
+  value: string,
+): Promise<void> {
+  const label = dietaryLabels[value];
+  if (!label) throw new Error(`Unknown dietary option: ${value}`);
+  await page.getByRole("option", { name: label, exact: true }).click();
 }
 
 async function fillCasehackApplication(
@@ -74,28 +106,31 @@ async function fillCasehackApplication(
   },
 ): Promise<void> {
   await page.locator('input[name="question:program"]').fill("Computer Science");
-  await page
-    .locator('select[name="question:year_of_study"]')
-    .selectOption("1");
-  await page
-    .locator('select[name="question:previous_hackathons"]')
-    .selectOption("0");
+  await chooseSingleOption(
+    page,
+    /What year of study are you in\?/,
+    "First year",
+  );
+  await chooseSingleOption(
+    page,
+    /How many hackathons have you participated in before\?/,
+    "0",
+  );
 
   if (options.dietary.length > 0) {
     await openDietaryOptions(page);
     for (const value of options.dietary) {
-      await page
-        .locator(
-          `input[name="question:dietary_restrictions"][value="${value}"]`,
-        )
-        .check();
+      await chooseDietaryOption(page, value);
     }
+    await page.keyboard.press("Escape");
   }
 
   if (options.referralOther !== undefined) {
-    await page
-      .locator('select[name="question:referral_source"]')
-      .selectOption("other");
+    await chooseSingleOption(
+      page,
+      /How did you hear about CaseHack\?/,
+      "Other",
+    );
     await page
       .locator('input[name="question:referral_other"]')
       .fill(options.referralOther);
@@ -224,26 +259,29 @@ test("conditional details and the final agreement report server errors and keep 
     expect(overflow).toBeLessThanOrEqual(0);
 
     await page.locator('input[name="question:program"]').fill("Computer Science");
-    await page
-      .locator('select[name="question:year_of_study"]')
-      .selectOption("1");
-    await page
-      .locator('select[name="question:previous_hackathons"]')
-      .selectOption("0");
-
-    await openDietaryOptions(page);
-    const allergy = page.locator(
-      'input[name="question:dietary_restrictions"][value="food_allergy"]',
+    await chooseSingleOption(
+      page,
+      /What year of study are you in\?/,
+      "First year",
+    );
+    await chooseSingleOption(
+      page,
+      /How many hackathons have you participated in before\?/,
+      "0",
     );
 
-    await allergy.check();
+    await openDietaryOptions(page);
+    await chooseDietaryOption(page, "food_allergy");
     await expect(
       page.locator('textarea[name="question:dietary_details"]'),
     ).toBeVisible();
+    await page.keyboard.press("Escape");
 
-    await page
-      .locator('select[name="question:referral_source"]')
-      .selectOption("other");
+    await chooseSingleOption(
+      page,
+      /How did you hear about CaseHack\?/,
+      "Other",
+    );
     await expect(
       page.locator('input[name="question:referral_other"]'),
     ).toBeVisible();
@@ -268,14 +306,18 @@ test("conditional details and the final agreement report server errors and keep 
       "Computer Science",
     );
     await expect(
-      page.locator('select[name="question:year_of_study"]'),
+      page.locator('input[name="question:year_of_study"]'),
     ).toHaveValue("1");
     await expect(
-      page.locator('select[name="question:previous_hackathons"]'),
+      page.locator('input[name="question:previous_hackathons"]'),
     ).toHaveValue("0");
-    await expect(allergy).toBeChecked();
     await expect(
-      page.locator('select[name="question:referral_source"]'),
+      page.locator(
+        'input[name="question:dietary_restrictions"][value="food_allergy"]',
+      ),
+    ).toHaveCount(1);
+    await expect(
+      page.locator('input[name="question:referral_source"]'),
     ).toHaveValue("other");
     await expect(
       page.locator('textarea[name="question:dietary_details"]'),
@@ -307,33 +349,193 @@ test("selecting none clears conditional details and stays exclusive", async ({
     await page.goto("/events/casehack-2026/register");
 
     await openDietaryOptions(page);
-    const allergy = page.locator(
-      'input[name="question:dietary_restrictions"][value="food_allergy"]',
-    );
-    const none = page.locator(
-      'input[name="question:dietary_restrictions"][value="none"]',
-    );
-    const vegetarian = page.locator(
-      'input[name="question:dietary_restrictions"][value="vegetarian"]',
-    );
+    const allergy = page.getByRole("option", {
+      name: "Food allergy",
+      exact: true,
+    });
+    const none = page.getByRole("option", {
+      name: "No dietary restrictions",
+      exact: true,
+    });
+    const vegetarian = page.getByRole("option", {
+      name: "Vegetarian",
+      exact: true,
+    });
 
-    await allergy.check();
+    await allergy.click();
     await page
       .locator('textarea[name="question:dietary_details"]')
       .fill("Peanuts");
 
+    // The detail field takes focus outside the menu, so reopen it before
+    // exercising the exclusive option.
+    await openDietaryOptions(page);
+
     // Selecting none clears the other choices and removes the now-inactive
     // conditional detail field from the request.
-    await none.check();
-    await expect(allergy).not.toBeChecked();
-    await expect(none).toBeChecked();
+    await none.click();
+    await expect(allergy).toHaveAttribute("aria-selected", "false");
+    await expect(none).toHaveAttribute("aria-selected", "true");
+    await expect(
+      page.locator(
+        'input[name="question:dietary_restrictions"][value="food_allergy"]',
+      ),
+    ).toHaveCount(0);
+    await expect(
+      page.locator(
+        'input[name="question:dietary_restrictions"][value="none"]',
+      ),
+    ).toHaveCount(1);
     await expect(
       page.locator('textarea[name="question:dietary_details"]'),
     ).toHaveCount(0);
 
-    await vegetarian.check();
-    await expect(none).not.toBeChecked();
-    await expect(vegetarian).toBeChecked();
+    await vegetarian.click();
+    await expect(none).toHaveAttribute("aria-selected", "false");
+    await expect(vegetarian).toHaveAttribute("aria-selected", "true");
+    await expect(
+      page.locator('input[name="question:dietary_restrictions"]'),
+    ).toHaveCount(1);
+  } finally {
+    await harness.cleanup();
+  }
+});
+
+test("custom dropdowns support keyboard selection, Escape, and inset chevrons", async ({
+  page,
+}) => {
+  const harness = createFixtureHarness();
+  try {
+    const user = await harness.createUser("dropdown-keyboard");
+    await signIn(page, user);
+    const event = await harness.createEvent({
+      slug: "casehack-2026",
+      signupMode: "application",
+      opensAt: hoursAgo(1),
+      closesAt: hoursFromNow(2),
+      capacity: null,
+    });
+    expect(event.created).toBe(true);
+
+    await page.goto("/events/casehack-2026/register");
+    await expect(page.locator("select")).toHaveCount(0);
+
+    const yearTrigger = page.getByRole("button", {
+      name: /What year of study are you in\?/,
+    });
+
+    await yearTrigger.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(page.getByRole("listbox")).toBeVisible();
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+
+    await expect(page.getByRole("listbox")).toHaveCount(0);
+    await expect(
+      page.locator('input[name="question:year_of_study"]'),
+    ).toHaveValue("2");
+    await expect(yearTrigger).toBeFocused();
+
+    const triggerBox = await yearTrigger.boundingBox();
+    const chevronBox = await yearTrigger.locator("svg").boundingBox();
+    if (!triggerBox || !chevronBox) {
+      throw new Error("Could not measure the dropdown trigger.");
+    }
+    const chevronInset =
+      triggerBox.x + triggerBox.width - (chevronBox.x + chevronBox.width);
+    expect(chevronInset).toBeGreaterThanOrEqual(19);
+    expect(chevronInset).toBeLessThanOrEqual(24);
+
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("listbox")).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("listbox")).toHaveCount(0);
+    await expect(yearTrigger).toBeFocused();
+    await expect(
+      page.locator('input[name="question:year_of_study"]'),
+    ).toHaveValue("2");
+
+    // Required questions never offer the blank option.
+    await yearTrigger.click();
+    await expect(
+      page.getByRole("option", { name: "No selection", exact: true }),
+    ).toHaveCount(0);
+    await page.keyboard.press("Escape");
+
+    const referralTrigger = page.getByRole("button", {
+      name: /How did you hear about CaseHack\?/,
+    });
+
+    // Typeahead moves to the matching option without leaving the listbox.
+    await referralTrigger.click();
+    await expect(
+      page.getByRole("option", { name: "No selection", exact: true }),
+    ).toBeVisible();
+    await page.keyboard.press("l");
+    await page.keyboard.press("Enter");
+    await expect(page.getByRole("listbox")).toHaveCount(0);
+    await expect(
+      page.locator('input[name="question:referral_source"]'),
+    ).toHaveValue("linkedin");
+    await expect(referralTrigger).toBeFocused();
+
+    // An optional answer can return to the blank placeholder.
+    await referralTrigger.click();
+    await page
+      .getByRole("option", { name: "No selection", exact: true })
+      .click();
+    await expect(
+      page.locator('input[name="question:referral_source"]'),
+    ).toHaveCount(0);
+    await expect(referralTrigger).toContainText("Select an option");
+
+    // Clearing "Other" removes its conditional detail field.
+    await chooseSingleOption(
+      page,
+      /How did you hear about CaseHack\?/,
+      "Other",
+    );
+    await expect(
+      page.locator('input[name="question:referral_other"]'),
+    ).toBeVisible();
+    await referralTrigger.click();
+    await page
+      .getByRole("option", { name: "No selection", exact: true })
+      .click();
+    await expect(
+      page.locator('input[name="question:referral_other"]'),
+    ).toHaveCount(0);
+    await expect(
+      page.locator('input[name="question:referral_source"]'),
+    ).toHaveCount(0);
+
+    const dietaryTrigger = page.getByRole("button", {
+      name: /Do you have any dietary restrictions\?/,
+    });
+    await dietaryTrigger.click();
+    await page.getByRole("option", { name: "Vegetarian", exact: true }).click();
+    await expect(page.getByRole("listbox")).toBeVisible();
+    await page
+      .getByRole("option", { name: "Gluten-free", exact: true })
+      .click();
+    await expect(
+      page.locator('input[name="question:dietary_restrictions"]'),
+    ).toHaveCount(2);
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("listbox")).toHaveCount(0);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    const overflow = await page.evaluate(
+      () =>
+        document.documentElement.scrollWidth -
+        document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+
+    const mobileTrigger = await dietaryTrigger.boundingBox();
+    if (!mobileTrigger) throw new Error("Could not measure the mobile trigger.");
+    expect(mobileTrigger.x).toBeGreaterThanOrEqual(0);
+    expect(mobileTrigger.x + mobileTrigger.width).toBeLessThanOrEqual(390);
   } finally {
     await harness.cleanup();
   }

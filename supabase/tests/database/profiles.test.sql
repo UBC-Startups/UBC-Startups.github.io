@@ -1,7 +1,7 @@
 -- Shared basic profile: public.profiles
 --
--- Verifies the constraints and owner-only access rules from
--- 20261104011811_create_profiles.sql by acting as three different callers:
+-- Verifies the constraints and access rules from 20261104011811_create_profiles.sql
+-- and 20261108031411_allow_member_directory_reads.sql by acting as three callers:
 -- the profile owner, another signed-in account, and an anonymous request.
 --
 -- Everything runs in one transaction and is rolled back, so the synthetic
@@ -38,8 +38,7 @@ select set_config('request.jwt.claim.sub', '11111111-1111-1111-1111-111111111111
 -- The insert policy's WITH CHECK requires the new row's user_id to equal
 -- auth.uid(), so an owner can create exactly their own profile.
 select lives_ok($$insert into public.profiles values ('11111111-1111-1111-1111-111111111111','Ada','Lovelace')$$, 'owner can create profile');
--- The select policy filters rows rather than denying access, so the owner sees
--- exactly one row: their own.
+-- Only user 1's profile exists so far, so the owner sees exactly one row.
 select is((select count(*) from public.profiles), 1::bigint, 'owner can read profile');
 select lives_ok($$update public.profiles set first_name = 'Grace'$$, 'owner can edit name');
 
@@ -69,11 +68,10 @@ select throws_ok($$insert into public.profiles values ('22222222-2222-2222-2222-
 -- ===========================================================================
 select set_config('request.jwt.claim.sub', '22222222-2222-2222-2222-222222222222', true);
 
--- Still a filtered read, not a denial: user 1's row exists but is invisible,
--- so the count is 0 rather than an error.
-select is((select count(*) from public.profiles), 0::bigint, 'other user cannot read profile');
--- An UPDATE that matches no visible row raises no error and changes nothing,
--- so count the rows the statement actually touched instead of expecting a throw.
+-- The member directory lets any signed-in account read every profile.
+select is((select count(*) from public.profiles), 1::bigint, 'other signed-in user can read profile');
+-- The update policy still limits writes to the owner. A filtered UPDATE raises
+-- no error, so count the rows the statement actually touched instead.
 with changed as (update public.profiles set first_name = 'Other' returning 1) select is((select count(*) from changed), 0::bigint, 'other user cannot update profile');
 
 -- ===========================================================================

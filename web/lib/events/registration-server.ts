@@ -76,6 +76,11 @@ export async function readEventRegistration(
     if (!isRegistrationStatus(receipt.status)) {
       throw new Error("Event registration status is unavailable.");
     }
+    // Draft rows have no receipt timestamp; the full draft read arrives with
+    // the autosave server work. Existing submitted receipts still require one.
+    if (!receipt.submitted_at) {
+      throw new Error("Event registration submission timestamp is unavailable.");
+    }
     return {
       eventId: event.id,
       receipt: {

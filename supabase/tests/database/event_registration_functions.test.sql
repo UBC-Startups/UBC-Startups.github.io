@@ -80,11 +80,11 @@ insert into public.event_registrations (event_id, user_id, answers, accepted_agr
 -- Privileges: only service_role may execute, and it may lock the event row
 -- ===========================================================================
 select ok(has_function_privilege('service_role', 'public.get_event_registration_availability(uuid)', 'EXECUTE'), 'service_role can execute availability');
-select ok(has_function_privilege('service_role', 'public.submit_event_registration(uuid,uuid,jsonb,jsonb)', 'EXECUTE'), 'service_role can execute submission');
+select ok(has_function_privilege('service_role', 'public.submit_event_registration(uuid,uuid,jsonb,jsonb,integer)', 'EXECUTE'), 'service_role can execute submission');
 select ok(not has_function_privilege('anon', 'public.get_event_registration_availability(uuid)', 'EXECUTE'), 'anon cannot execute availability');
-select ok(not has_function_privilege('anon', 'public.submit_event_registration(uuid,uuid,jsonb,jsonb)', 'EXECUTE'), 'anon cannot execute submission');
+select ok(not has_function_privilege('anon', 'public.submit_event_registration(uuid,uuid,jsonb,jsonb,integer)', 'EXECUTE'), 'anon cannot execute submission');
 select ok(not has_function_privilege('authenticated', 'public.get_event_registration_availability(uuid)', 'EXECUTE'), 'authenticated cannot execute availability');
-select ok(not has_function_privilege('authenticated', 'public.submit_event_registration(uuid,uuid,jsonb,jsonb)', 'EXECUTE'), 'authenticated cannot execute submission');
+select ok(not has_function_privilege('authenticated', 'public.submit_event_registration(uuid,uuid,jsonb,jsonb,integer)', 'EXECUTE'), 'authenticated cannot execute submission');
 select ok(has_table_privilege('service_role', 'public.events', 'UPDATE'), 'service_role has the UPDATE privilege needed to lock events');
 select ok(has_table_privilege('service_role', 'public.event_registrations', 'INSERT'), 'service_role can insert registrations');
 select ok(has_table_privilege('service_role', 'public.profiles', 'SELECT'), 'service_role can check profiles');

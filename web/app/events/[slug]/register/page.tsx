@@ -41,8 +41,8 @@ async function Register({ params }: RegisterPageProps) {
   const state = resolveEventRegistrationPageState(registration, form);
   if (state.kind === "not_found") notFound();
 
-  // Only the fixed form definition and derived status reach the view. Saved
-  // answers are never read or serialized into the page payload.
+  // Only the fixed form definition and derived state reach the view. A draft
+  // stays in this server render until the autosave UI consumes it.
   const formSlot =
     state.kind === "open" ? (
       <EventRegistrationForm

@@ -6,7 +6,7 @@ import type {
   RegistrationAnswers,
 } from "./form-definition";
 import {
-  isRegistrationStatus,
+  isSubmittedRegistrationStatus,
   type EventRegistrationRead,
   type RegistrationResult,
 } from "./registration-result";
@@ -17,6 +17,8 @@ export type RegistrationSubmissionInput = {
   userId: string;
   answers: RegistrationAnswers;
   acceptedAgreements: AcceptedAgreement[];
+  /** Present only when the client is promoting an autosaved draft. */
+  expectedRevision?: number;
 };
 
 export type RegistrationSubmissionOutcome = {
@@ -41,13 +43,37 @@ export type RegistrationSubmissionDependencies = {
   ) => Promise<RegistrationSubmissionOutcome>;
 };
 
+const DRAFT_REVISION_FIELD = "draft_revision";
+const DRAFT_REVISION_MESSAGE = "Reload the page and try submitting again.";
+const DRAFT_REVISION_PATTERN = /^\d+$/;
+
+function readExpectedRevision(
+  data: FormData,
+): { ok: true; value: number | undefined } | { ok: false } {
+  const values = data.getAll(DRAFT_REVISION_FIELD);
+  if (values.length === 0) return { ok: true, value: undefined };
+  if (values.length > 1) return { ok: false };
+
+  const value = values[0];
+  if (typeof value !== "string" || !DRAFT_REVISION_PATTERN.test(value)) {
+    return { ok: false };
+  }
+
+  const revision = Number(value);
+  if (!Number.isSafeInteger(revision) || revision < 0) {
+    return { ok: false };
+  }
+
+  return { ok: true, value: revision };
+}
+
 function mapSubmissionOutcome(
   outcome: RegistrationSubmissionOutcome,
 ): RegistrationResult {
   switch (outcome.outcome) {
     case "saved":
       if (
-        !isRegistrationStatus(outcome.status) ||
+        !isSubmittedRegistrationStatus(outcome.status) ||
         typeof outcome.submittedAt !== "string" ||
         outcome.submittedAt.length === 0
       ) {
@@ -58,6 +84,8 @@ function mapSubmissionOutcome(
         status: outcome.status,
         submittedAt: outcome.submittedAt,
       };
+    case "conflict":
+      return { kind: "conflict" };
     case "not_open":
       return { kind: "not_open" };
     case "closed":
@@ -103,6 +131,14 @@ export async function runRegistrationSubmission(
     const definition = dependencies.getDefinition(slug);
     if (!definition) return { kind: "unavailable" };
 
+    const expectedRevision = readExpectedRevision(data);
+    if (!expectedRevision.ok) {
+      return {
+        kind: "invalid",
+        fieldErrors: { [DRAFT_REVISION_FIELD]: DRAFT_REVISION_MESSAGE },
+      };
+    }
+
     // Preflight availability is advisory only. The locked RPC checks for an
     // existing receipt before deciding on the window or capacity, so a
     // concurrent same-account submission must not be rejected from a stale
@@ -118,6 +154,9 @@ export async function runRegistrationSubmission(
       userId: account.userId,
       answers: validation.answers,
       acceptedAgreements: validation.acceptedAgreements,
+      ...(expectedRevision.value === undefined
+        ? {}
+        : { expectedRevision: expectedRevision.value }),
     });
 
     return mapSubmissionOutcome(outcome);

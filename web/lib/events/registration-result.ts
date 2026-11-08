@@ -1,7 +1,20 @@
 // Serializable result and read contracts shared by the Server Action and page.
 
-export const registrationStatuses = ["pending", "confirmed", "declined"] as const;
+export const registrationStatuses = [
+  "draft",
+  "pending",
+  "confirmed",
+  "declined",
+] as const;
 export type RegistrationStatus = (typeof registrationStatuses)[number];
+
+export const submittedRegistrationStatuses = [
+  "pending",
+  "confirmed",
+  "declined",
+] as const;
+export type SubmittedRegistrationStatus =
+  (typeof submittedRegistrationStatuses)[number];
 
 export const registrationAvailability = [
   "open",
@@ -12,24 +25,58 @@ export const registrationAvailability = [
 ] as const;
 export type RegistrationAvailability = (typeof registrationAvailability)[number];
 
+export type RegistrationDraftAnswers = Record<string, string | string[]>;
+
+export type RegistrationDraftSnapshot = {
+  answers: RegistrationDraftAnswers;
+  agreementKeys: string[];
+};
+
+export type RegistrationDraft = RegistrationDraftSnapshot & {
+  revision: number;
+  updatedAt: string;
+};
+
 export type EventRegistrationRead = {
   eventId: string;
   receipt: {
-    status: RegistrationStatus;
+    status: SubmittedRegistrationStatus;
     submittedAt: string;
   } | null;
+  draft?: RegistrationDraft | null;
   availability: RegistrationAvailability;
 };
 
 export type RegistrationResult =
   | { kind: "idle" }
-  | { kind: "submitted"; status: RegistrationStatus; submittedAt: string }
+  | {
+      kind: "submitted";
+      status: SubmittedRegistrationStatus;
+      submittedAt: string;
+    }
   | { kind: "invalid"; fieldErrors: Record<string, string> }
   | { kind: "sign_in_required" }
   | { kind: "profile_required" }
   | { kind: "not_open" }
   | { kind: "closed" }
   | { kind: "full" }
+  | { kind: "conflict" }
+  | { kind: "unavailable" }
+  | { kind: "retry" };
+
+export type RegistrationDraftSaveResult =
+  | { kind: "saved"; revision: number; savedAt: string }
+  | { kind: "conflict" }
+  | {
+      kind: "submitted";
+      status: SubmittedRegistrationStatus;
+      submittedAt: string;
+    }
+  | { kind: "invalid"; fieldErrors: Record<string, string> }
+  | { kind: "sign_in_required" }
+  | { kind: "profile_required" }
+  | { kind: "not_open" }
+  | { kind: "closed" }
   | { kind: "unavailable" }
   | { kind: "retry" };
 
@@ -39,6 +86,15 @@ export function isRegistrationStatus(
   return (
     typeof value === "string" &&
     (registrationStatuses as ReadonlyArray<string>).includes(value)
+  );
+}
+
+export function isSubmittedRegistrationStatus(
+  value: unknown,
+): value is SubmittedRegistrationStatus {
+  return (
+    typeof value === "string" &&
+    (submittedRegistrationStatuses as ReadonlyArray<string>).includes(value)
   );
 }
 

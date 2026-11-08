@@ -3,12 +3,17 @@
 import type { EventForm } from "./form-definition";
 import type {
   EventRegistrationRead,
-  RegistrationStatus,
+  RegistrationDraft,
+  SubmittedRegistrationStatus,
 } from "./registration-result";
 
 export type EventRegistrationViewState =
-  | { kind: "open"; form: EventForm }
-  | { kind: "receipt"; status: RegistrationStatus; submittedAt: string }
+  | { kind: "open"; form: EventForm; initialDraft?: RegistrationDraft }
+  | {
+      kind: "receipt";
+      status: SubmittedRegistrationStatus;
+      submittedAt: string;
+    }
   | { kind: "not_open" }
   | { kind: "closed" }
   | { kind: "full" }
@@ -36,7 +41,10 @@ export function resolveEventRegistrationPageState(
 
   // An open event without a committed definition must never render a form.
   if (registration.availability === "open") {
-    return form ? { kind: "open", form } : { kind: "unavailable" };
+    if (!form) return { kind: "unavailable" };
+    return registration.draft
+      ? { kind: "open", form, initialDraft: registration.draft }
+      : { kind: "open", form };
   }
 
   return { kind: registration.availability };

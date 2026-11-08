@@ -68,7 +68,7 @@ const openRegistration: EventRegistrationRead = {
   availability: "open",
 };
 
-function form(fields: Record<string, string | string[]>): FormData {
+function form(fields: Record<string, string | string[] | File>): FormData {
   const data = new FormData();
   for (const [key, value] of Object.entries(fields)) {
     for (const entry of Array.isArray(value) ? value : [value]) {
@@ -546,3 +546,187 @@ for (const [name, override] of [
     expect(result).toEqual({ kind: "retry" });
   });
 }
+
+test("forwards a single valid draft revision to the submission RPC", async () => {
+  const { dependencies, calls } = createDependencies();
+
+  const result = await runRegistrationSubmission(
+    slug,
+    form({ ...validFields(), draft_revision: "3" }),
+    dependencies,
+  );
+
+  expect(result.kind).toBe("submitted");
+  expect(calls.submissions).toHaveLength(1);
+  expect(calls.submissions[0].expectedRevision).toBe(3);
+});
+
+test("keeps legacy submissions without draft metadata supported", async () => {
+  const { dependencies, calls } = createDependencies();
+
+  const result = await runRegistrationSubmission(
+    slug,
+    form(validFields()),
+    dependencies,
+  );
+
+  expect(result.kind).toBe("submitted");
+  expect(calls.submissions).toHaveLength(1);
+  expect(calls.submissions[0]).not.toHaveProperty("expectedRevision");
+});
+
+test("rejects malformed draft revision metadata without a write", async () => {
+  for (const draftRevision of [
+    ["1", "2"],
+    new File(["3"], "revision.txt"),
+    "",
+    "-1",
+    "1.5",
+    "three",
+    "9007199254740992",
+  ]) {
+    const { dependencies, calls } = createDependencies();
+
+    const result = await runRegistrationSubmission(
+      slug,
+      form({ ...validFields(), draft_revision: draftRevision }),
+      dependencies,
+    );
+
+    expect(result).toEqual({
+      kind: "invalid",
+      fieldErrors: {
+        draft_revision: "Reload the page and try submitting again.",
+      },
+    });
+    expect(calls.submissions).toEqual([]);
+  }
+});
+
+test("a conflict RPC outcome maps to conflict", async () => {
+  const { dependencies } = createDependencies({
+    submitRegistration: async () => ({
+      outcome: "conflict",
+      status: null,
+      submittedAt: null,
+    }),
+  });
+
+  const result = await runRegistrationSubmission(
+    slug,
+    form({ ...validFields(), draft_revision: "2" }),
+    dependencies,
+  );
+
+  expect(result).toEqual({ kind: "conflict" });
+});
+
+test("a newer own draft makes a stale submitted revision conflict without overwriting", async () => {
+  const { dependencies, calls } = createDependencies({
+    readRegistration: async () => ({
+      eventId,
+      receipt: null,
+      draft: {
+        answers: { name: "Newer draft answer" },
+        agreementKeys: [],
+        revision: 5,
+        updatedAt: savedAt,
+      },
+      availability: "open",
+    }),
+    submitRegistration: async (input) => {
+      calls.submissions.push(input);
+      return { outcome: "conflict", status: null, submittedAt: null };
+    },
+  });
+
+  const result = await runRegistrationSubmission(
+    slug,
+    form({ ...validFields(), draft_revision: "3" }),
+    dependencies,
+  );
+
+  expect(result).toEqual({ kind: "conflict" });
+  expect(calls.submissions).toHaveLength(1);
+  expect(calls.submissions[0].expectedRevision).toBe(3);
+  expect(calls.submissions[0].answers).toEqual({
+    name: "Ada",
+    topics: ["ai", "web"],
+  });
+});
+
+test("an own draft without revision metadata stays legacy-forwarded and conflicts in the RPC", async () => {
+  const { dependencies, calls } = createDependencies({
+    readRegistration: async () => ({
+      eventId,
+      receipt: null,
+      draft: {
+        answers: { name: "Draft answer" },
+        agreementKeys: [],
+        revision: 4,
+        updatedAt: savedAt,
+      },
+      availability: "open",
+    }),
+    submitRegistration: async (input) => {
+      calls.submissions.push(input);
+      return { outcome: "conflict", status: null, submittedAt: null };
+    },
+  });
+
+  const result = await runRegistrationSubmission(
+    slug,
+    form(validFields()),
+    dependencies,
+  );
+
+  expect(result).toEqual({ kind: "conflict" });
+  expect(calls.submissions).toHaveLength(1);
+  expect(calls.submissions[0]).not.toHaveProperty("expectedRevision");
+});
+
+test("an existing receipt wins before malformed draft metadata is inspected", async () => {
+  const { dependencies, calls } = createDependencies({
+    readRegistration: async () => ({
+      eventId,
+      receipt: { status: "confirmed", submittedAt: savedAt },
+      availability: "closed",
+    }),
+    getDefinition: () => undefined,
+  });
+
+  const result = await runRegistrationSubmission(
+    slug,
+    form({
+      "question:name": "",
+      draft_revision: new File(["3"], "revision.txt"),
+    }),
+    dependencies,
+  );
+
+  expect(result).toEqual({
+    kind: "submitted",
+    status: "confirmed",
+    submittedAt: savedAt,
+  });
+  expect(calls.definitions).toEqual([]);
+  expect(calls.submissions).toEqual([]);
+});
+
+test("saved outcomes never accept a draft receipt status", async () => {
+  const { dependencies } = createDependencies({
+    submitRegistration: async () => ({
+      outcome: "saved",
+      status: "draft",
+      submittedAt: savedAt,
+    }),
+  });
+
+  const result = await runRegistrationSubmission(
+    slug,
+    form(validFields()),
+    dependencies,
+  );
+
+  expect(result).toEqual({ kind: "retry" });
+});

@@ -6,11 +6,18 @@ import {
 } from "../../../lib/events/registration-page-state";
 import type {
   EventRegistrationRead,
-  RegistrationStatus,
+  RegistrationDraft,
+  SubmittedRegistrationStatus,
 } from "../../../lib/events/registration-result";
 
 const eventId = "22222222-2222-4222-8222-222222222222";
 const submittedAt = "2026-11-01T12:00:00.000Z";
+const draft: RegistrationDraft = {
+  answers: { name: "  Ada  ", topics: ["ai"] },
+  agreementKeys: ["terms"],
+  revision: 3,
+  updatedAt: submittedAt,
+};
 
 const form: EventForm = {
   title: "CaseHack",
@@ -30,13 +37,17 @@ function registration(
 }
 
 function receiptState(
-  status: RegistrationStatus,
+  status: SubmittedRegistrationStatus,
 ): EventRegistrationPageState {
   return { kind: "receipt", status, submittedAt };
 }
 
 test("an own receipt wins over availability and a missing definition", () => {
-  const statuses: RegistrationStatus[] = ["pending", "confirmed", "declined"];
+  const statuses: SubmittedRegistrationStatus[] = [
+    "pending",
+    "confirmed",
+    "declined",
+  ];
   const availabilityStates: EventRegistrationRead["availability"][] = [
     "open",
     "not_open",
@@ -86,4 +97,53 @@ test("maps non-receipt availability and missing editions", () => {
       ),
     ).toEqual({ kind: availability });
   }
+});
+
+test("an open event carries its own draft for the view to resume", () => {
+  expect(
+    resolveEventRegistrationPageState(registration({ draft }), form),
+  ).toEqual({
+    kind: "open",
+    form,
+    initialDraft: draft,
+  });
+});
+
+test("a saved receipt wins over a draft, availability, and a missing definition", () => {
+  for (const availability of [
+    "open",
+    "not_open",
+    "closed",
+    "full",
+    "not_found",
+  ] as const) {
+    expect(
+      resolveEventRegistrationPageState(
+        registration({
+          receipt: { status: "confirmed", submittedAt },
+          draft,
+          availability,
+        }),
+        undefined,
+      ),
+    ).toEqual(receiptState("confirmed"));
+  }
+});
+
+test("a draft never turns a closed or missing edition into an open form", () => {
+  for (const availability of ["not_open", "closed", "full"] as const) {
+    expect(
+      resolveEventRegistrationPageState(
+        registration({ draft, availability }),
+        form,
+      ),
+    ).toEqual({ kind: availability });
+  }
+
+  expect(
+    resolveEventRegistrationPageState(
+      registration({ draft, availability: "not_found" }),
+      undefined,
+    ),
+  ).toEqual({ kind: "not_found" });
 });

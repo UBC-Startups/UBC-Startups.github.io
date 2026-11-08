@@ -8,6 +8,7 @@ import {
   type RegistrationAnswers,
   type ValidationResult,
 } from "./form-definition";
+import type { RegistrationDraftAnswers } from "./registration-result";
 import { countWords } from "./word-count";
 
 const QUESTION_PREFIX = "question:";
@@ -234,4 +235,188 @@ export function validateRegistration(
     answers: Object.fromEntries(answers) as RegistrationAnswers,
     acceptedAgreements,
   };
+}
+
+export const REGISTRATION_DRAFT_MAX_BYTES = 65536;
+
+const DRAFT_FIELD = "draft";
+const DRAFT_TOO_LARGE_MESSAGE =
+  "Your saved answers are too large. Shorten some answers and try again.";
+
+export type RegistrationDraftValidationResult =
+  | {
+      ok: true;
+      answers: RegistrationDraftAnswers;
+      agreementKeys: string[];
+    }
+  | {
+      ok: false;
+      fieldErrors: Record<string, string>;
+    };
+
+const utf8 = new TextEncoder();
+
+function draftPayloadBytes(
+  answers: RegistrationDraftAnswers,
+  agreementKeys: string[],
+): number {
+  // Match the RPC's octet_length(p_answers::text) + octet_length(p_keys::text)
+  // bound as closely as JavaScript can without a database round trip.
+  return (
+    utf8.encode(JSON.stringify(answers)).byteLength +
+    utf8.encode(JSON.stringify(agreementKeys)).byteLength
+  );
+}
+
+function validateDraftQuestion(
+  question: EventFormQuestion,
+  values: ReadonlyArray<FormDataEntryValue>,
+  field: string,
+  fieldErrors: Map<string, string>,
+): string | string[] | undefined {
+  // Missing answers are allowed: an unfinished draft has no required fields.
+  if (values.length === 0) return undefined;
+
+  if (question.kind === "multiselect") {
+    const selected: string[] = [];
+    for (const value of values) {
+      if (typeof value !== "string") {
+        fieldErrors.set(field, NON_TEXT_MESSAGE);
+        return undefined;
+      }
+      selected.push(value);
+    }
+
+    if (new Set(selected).size !== selected.length) {
+      fieldErrors.set(field, DUPLICATE_SELECTION_MESSAGE);
+      return undefined;
+    }
+
+    const choices = new Set(question.choices.map((choice) => choice.value));
+    if (selected.some((value) => !choices.has(value))) {
+      fieldErrors.set(field, INVALID_OPTION_MESSAGE);
+      return undefined;
+    }
+
+    const exclusiveValues = new Set(question.exclusiveValues ?? []);
+    if (
+      selected.some((value) => exclusiveValues.has(value)) &&
+      selected.some((value) => !exclusiveValues.has(value))
+    ) {
+      fieldErrors.set(field, EXCLUSIVE_OPTION_MESSAGE);
+      return undefined;
+    }
+
+    return selected;
+  }
+
+  if (values.length > 1) {
+    fieldErrors.set(field, DUPLICATE_QUESTION_MESSAGE);
+    return undefined;
+  }
+
+  const value = values[0];
+  if (typeof value !== "string") {
+    fieldErrors.set(field, NON_TEXT_MESSAGE);
+    return undefined;
+  }
+
+  if (question.kind === "boolean") {
+    // Draft answers keep the browser's raw radio value as a string.
+    if (value !== "true" && value !== "false") {
+      fieldErrors.set(field, INVALID_BOOLEAN_MESSAGE);
+      return undefined;
+    }
+    return value;
+  }
+
+  if (question.kind === "select") {
+    if (value === "") return value;
+    if (!question.choices.some((choice) => choice.value === value)) {
+      fieldErrors.set(field, INVALID_OPTION_MESSAGE);
+      return undefined;
+    }
+    return value;
+  }
+
+  // Text and textarea drafts preserve the exact raw value, including
+  // whitespace, blank progress, and text beyond the final submission limits.
+  return value;
+}
+
+export function validateRegistrationDraft(
+  definition: EventForm,
+  data: FormData,
+): RegistrationDraftValidationResult {
+  const questions = new Map(
+    definition.questions.map((question) => [question.id, question]),
+  );
+  const agreements = new Map(
+    definition.agreements.map((agreement) => [agreement.id, agreement]),
+  );
+  const fieldErrors = new Map<string, string>();
+  const answerEntries: Array<[string, string | string[]]> = [];
+  const agreementKeys: string[] = [];
+
+  const inspectedFields = new Set<string>();
+  for (const key of data.keys()) {
+    if (inspectedFields.has(key)) continue;
+    inspectedFields.add(key);
+
+    if (key.startsWith(QUESTION_PREFIX)) {
+      if (!questions.has(key.slice(QUESTION_PREFIX.length))) {
+        fieldErrors.set(key, UNKNOWN_FIELD_MESSAGE);
+      }
+    } else if (key.startsWith(AGREEMENT_PREFIX)) {
+      if (!agreements.has(key.slice(AGREEMENT_PREFIX.length))) {
+        fieldErrors.set(key, UNKNOWN_FIELD_MESSAGE);
+      }
+    }
+  }
+
+  for (const question of definition.questions) {
+    const field = `${QUESTION_PREFIX}${question.id}`;
+    const answer = validateDraftQuestion(
+      question,
+      data.getAll(field),
+      field,
+      fieldErrors,
+    );
+    if (answer !== undefined) answerEntries.push([question.id, answer]);
+  }
+
+  for (const agreement of definition.agreements) {
+    const field = `${AGREEMENT_PREFIX}${agreement.id}`;
+    const values = data.getAll(field);
+
+    if (values.length === 0) continue;
+
+    if (values.length > 1) {
+      fieldErrors.set(field, DUPLICATE_AGREEMENT_MESSAGE);
+      continue;
+    }
+
+    const value = values[0];
+    if (typeof value !== "string" || value !== "yes") {
+      fieldErrors.set(field, AGREEMENT_MESSAGE);
+      continue;
+    }
+
+    agreementKeys.push(agreement.id);
+  }
+
+  const answers = Object.fromEntries(answerEntries) as RegistrationDraftAnswers;
+
+  if (
+    fieldErrors.size === 0 &&
+    draftPayloadBytes(answers, agreementKeys) > REGISTRATION_DRAFT_MAX_BYTES
+  ) {
+    fieldErrors.set(DRAFT_FIELD, DRAFT_TOO_LARGE_MESSAGE);
+  }
+
+  if (fieldErrors.size > 0) {
+    return { ok: false, fieldErrors: Object.fromEntries(fieldErrors) };
+  }
+
+  return { ok: true, answers, agreementKeys };
 }

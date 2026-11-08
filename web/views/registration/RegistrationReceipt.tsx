@@ -1,8 +1,8 @@
 import { Card, Heading, Text } from "@/components/ui";
-import type { RegistrationStatus } from "@/lib/events/registration-result";
+import type { SubmittedRegistrationStatus } from "@/lib/events/registration-result";
 
 export const statusCopy: Record<
-  RegistrationStatus,
+  SubmittedRegistrationStatus,
   { heading: string; body: string }
 > = {
   confirmed: {
@@ -80,7 +80,7 @@ export function RegistrationReceipt({
   status,
   submittedAt,
 }: {
-  status: RegistrationStatus;
+  status: SubmittedRegistrationStatus;
   submittedAt: string;
 }) {
   return (

@@ -1,28 +1,45 @@
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { Heading, Text } from "@/components/ui";
+import type { EventForm } from "@/lib/events/form-definition";
 import type { EventRegistrationViewState } from "@/lib/events/registration-page-state";
+import type {
+  RegistrationDraft,
+  RegistrationDraftSaveResult,
+  RegistrationResult,
+} from "@/lib/events/registration-result";
 import styles from "./EventRegistration.module.css";
 import {
   RegistrationReceipt,
   StatusCard,
   stateCopy,
 } from "./registration/RegistrationReceipt";
+import { EventRegistrationForm } from "./registration/EventRegistrationForm";
 
 type EventRegistrationProps = {
   title: string;
   blurb?: string;
   state: EventRegistrationViewState;
-  /** Task 2 supplies the native registration form here when the event is open. */
-  formSlot?: ReactNode;
+  registrationForm?: {
+    definition: EventForm;
+    slug: string;
+    initialDraft?: RegistrationDraft;
+    action: (
+      state: RegistrationResult,
+      data: FormData,
+    ) => Promise<RegistrationResult>;
+    saveDraftAction: (
+      expectedRevision: number,
+      data: FormData,
+    ) => Promise<RegistrationDraftSaveResult>;
+  };
 };
 
 export function EventRegistration({
   title,
   blurb,
   state,
-  formSlot,
+  registrationForm,
 }: EventRegistrationProps) {
   return (
     <main id="main-content" className="min-h-screen bg-canvas">
@@ -118,8 +135,16 @@ export function EventRegistration({
                 status={state.status}
                 submittedAt={state.submittedAt}
               />
+            ) : state.kind === "open" && registrationForm ? (
+              <EventRegistrationForm
+                key={registrationForm.slug}
+                {...registrationForm}
+              />
             ) : state.kind === "open" ? (
-              formSlot
+              <StatusCard
+                heading={stateCopy.unavailable.heading}
+                body={stateCopy.unavailable.body}
+              />
             ) : (
               <StatusCard
                 heading={stateCopy[state.kind].heading}

@@ -651,9 +651,22 @@ test("valid progression preserves answers, counters, and agreements", async ({
       'p[id$="participation_motivation-description-counter"]',
     );
     await expect(motivationCounter).toHaveText("150 / 150 words");
-    await continueStep(page);
 
+    // Let the debounced draft save finish, then reload into the same session.
+    await expect(
+      page.getByText("Progress saved", { exact: true }),
+    ).toBeVisible({ timeout: 15_000 });
+    await page.reload();
+    await expect(
+      page.getByRole("heading", { name: "Registration", exact: true }),
+    ).toBeVisible();
+
+    // The first incomplete step is Agreements; no required errors appear
+    // until the attendee tries to advance.
     await expect(currentStep(page)).toHaveText(/Agreements/);
+    await expect(
+      page.getByText("This field is required.", { exact: true }),
+    ).toHaveCount(0);
     await expect(
       page.getByText(
         "I understand that submitting this application does not confirm my place at CaseHack. UBC Startups will contact me about my application outcome.",
@@ -1084,6 +1097,28 @@ test("a complete application submits as pending and reloads with its receipt", a
       }),
     ).toHaveCount(0);
 
+    // Wait for the debounced save before submitting. The working row is a
+    // draft with checkbox ids only, not a terminal acceptance snapshot.
+    await expect(
+      page.getByText("Progress saved", { exact: true }),
+    ).toBeVisible({ timeout: 15_000 });
+    const draft = await harness.readRegistration({
+      eventId: event.id,
+      userId: user.id,
+    });
+    expect(draft?.status).toBe("draft");
+    expect(draft?.submitted_at).toBeNull();
+    expect(draft?.accepted_agreements).toEqual([]);
+    expect(draft?.draft_agreement_keys).toEqual(
+      expect.arrayContaining([
+        "application_status",
+        "participant_conduct",
+        "application_data",
+        "photo_video_consent",
+        "submission_finality",
+      ]),
+    );
+
     await submitRegistration(page);
 
     await expect(
@@ -1096,6 +1131,8 @@ test("a complete application submits as pending and reloads with its receipt", a
       userId: user.id,
     });
     expect(saved?.status).toBe("pending");
+    expect(saved?.submitted_at).not.toBeNull();
+    expect(saved?.accepted_agreements).toHaveLength(5);
     expect(saved?.answers).toMatchObject({
       faculty: "science",
       major: "Computer Science",

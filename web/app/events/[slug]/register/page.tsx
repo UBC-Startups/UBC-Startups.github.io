@@ -9,8 +9,10 @@ import { getOnboardingPath } from "@/lib/auth/signup-routing";
 import { resolveEventRegistrationPageState } from "@/lib/events/registration-page-state";
 import { readEventRegistration } from "@/lib/events/registration-server";
 import { EventRegistration } from "@/views/EventRegistration";
-import { EventRegistrationForm } from "@/views/registration/EventRegistrationForm";
-import { submitEventRegistration } from "./actions";
+import {
+  saveEventRegistrationDraft,
+  submitEventRegistration,
+} from "./actions";
 
 export const metadata: Metadata = {
   title: "Event registration | UBC Startups",
@@ -41,23 +43,25 @@ async function Register({ params }: RegisterPageProps) {
   const state = resolveEventRegistrationPageState(registration, form);
   if (state.kind === "not_found") notFound();
 
-  // Only the fixed form definition and derived state reach the view. A draft
-  // stays in this server render until the autosave UI consumes it.
-  const formSlot =
-    state.kind === "open" ? (
-      <EventRegistrationForm
-        definition={state.form}
-        slug={slug}
-        action={submitEventRegistration.bind(null, slug)}
-      />
-    ) : undefined;
+  // Only the fixed form definition and derived state reach the view. The
+  // client form owns autosave and receives the loaded snapshot as its baseline.
+  const registrationForm =
+    state.kind === "open"
+      ? {
+          definition: state.form,
+          slug,
+          initialDraft: state.initialDraft,
+          action: submitEventRegistration.bind(null, slug),
+          saveDraftAction: saveEventRegistrationDraft.bind(null, slug),
+        }
+      : undefined;
 
   return (
     <EventRegistration
       title={form?.title ?? "Event registration"}
       blurb={form?.blurb}
       state={state}
-      formSlot={formSlot}
+      registrationForm={registrationForm}
     />
   );
 }

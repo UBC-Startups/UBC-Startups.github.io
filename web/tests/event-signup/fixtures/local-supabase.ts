@@ -86,6 +86,10 @@ export type RegistrationOptions = {
 export type FixtureRegistration = {
   status: string;
   answers: Json;
+  draft_agreement_keys: Json;
+  revision: number;
+  submitted_at: string | null;
+  accepted_agreements: Json;
 };
 
 export type FixtureHarness = {
@@ -243,6 +247,9 @@ export function createFixtureHarness(): FixtureHarness {
       answers: options.answers ?? {},
       accepted_agreements: [],
       status: options.status,
+      // Terminal states require submitted_at; the database default was
+      // removed so every insert supplies it explicitly.
+      submitted_at: new Date().toISOString(),
     });
     if (error) throw error;
     createdRegistrations.push({
@@ -257,7 +264,9 @@ export function createFixtureHarness(): FixtureHarness {
   }): Promise<FixtureRegistration | null> {
     const { data, error } = await service
       .from("event_registrations")
-      .select("status, answers")
+      .select(
+        "status, answers, draft_agreement_keys, revision, submitted_at, accepted_agreements",
+      )
       .eq("event_id", options.eventId)
       .eq("user_id", options.userId)
       .maybeSingle();

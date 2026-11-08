@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  startTransition,
   useActionState,
   useEffect,
   useId,
@@ -12,27 +13,46 @@ import {
   type ReactNode,
 } from "react";
 import { Button, Heading, Text, TextField } from "@/components/ui";
+import type { DraftAutosaveStatus } from "@/lib/events/draft-autosave";
 import {
   isQuestionActive,
   type EventForm,
   type EventFormQuestion,
 } from "@/lib/events/form-definition";
-import type { RegistrationResult } from "@/lib/events/registration-result";
+import type {
+  RegistrationDraft,
+  RegistrationDraftSaveResult,
+  RegistrationResult,
+} from "@/lib/events/registration-result";
 import { validateRegistration } from "@/lib/events/validate-registration";
 import { countWords } from "@/lib/events/word-count";
 import { RegistrationDropdown } from "./RegistrationDropdown";
 import { RegistrationReceipt } from "./RegistrationReceipt";
-
-type ClientAnswer = string | string[];
-type Answers = Record<string, ClientAnswer>;
+import {
+  DRAFT_VALIDATION_ACCEPTED_AT,
+  clearInactiveAnswers,
+  initialAnswer,
+  restoreAnswers,
+  restoreAgreements,
+  snapshotFromFormData,
+  snapshotFromState,
+  type Answers,
+  type ClientAnswer,
+} from "./registration-draft";
+import { useDraftAutosave } from "./use-draft-autosave";
 
 type EventRegistrationFormProps = {
   definition: EventForm;
   slug: string;
+  initialDraft?: RegistrationDraft;
   action: (
     state: RegistrationResult,
     data: FormData,
   ) => Promise<RegistrationResult>;
+  saveDraftAction: (
+    expectedRevision: number,
+    data: FormData,
+  ) => Promise<RegistrationDraftSaveResult>;
 };
 
 type RegistrationStepId =
@@ -72,10 +92,6 @@ function sectionOf(question: EventFormQuestion): RegistrationStepId {
   return question.section ?? "background";
 }
 
-function initialAnswer(question: EventFormQuestion): ClientAnswer {
-  return question.kind === "multiselect" ? [] : "";
-}
-
 function getRegistrationSteps(definition: EventForm): RegistrationStep[] {
   const steps: RegistrationStep[] = [
     { id: "background", label: "Background" },
@@ -92,38 +108,6 @@ function getRegistrationSteps(definition: EventForm): RegistrationStep[] {
   }
 
   return steps;
-}
-
-function clearInactiveQuestions(
-  definition: EventForm,
-  answers: Answers,
-): Answers {
-  const next = { ...answers };
-  let changed = true;
-
-  while (changed) {
-    changed = false;
-    for (const question of definition.questions) {
-      if (!question.requiredWhen) continue;
-      if (
-        Object.prototype.hasOwnProperty.call(next, question.id) &&
-        !isQuestionActive(question, next)
-      ) {
-        delete next[question.id];
-        changed = true;
-      }
-    }
-  }
-
-  return next;
-}
-
-function initialAnswers(definition: EventForm): Answers {
-  const answers: Answers = {};
-  for (const question of definition.questions) {
-    answers[question.id] = initialAnswer(question);
-  }
-  return clearInactiveQuestions(definition, answers);
 }
 
 function scopedDefinition(
@@ -182,7 +166,7 @@ function validateStep(
   const result = validateRegistration(
     scopedDefinition(definition, stepId),
     scopedFormData(definition, stepId, answers, agreements),
-    new Date().toISOString(),
+    DRAFT_VALIDATION_ACCEPTED_AT,
   );
 
   return result.ok ? {} : result.fieldErrors;
@@ -217,6 +201,48 @@ function firstErrorStep(
   }
 
   return steps[0]?.id ?? "background";
+}
+
+function stepIsComplete(
+  definition: EventForm,
+  stepId: RegistrationStepId,
+  answers: Answers,
+  agreements: Record<string, boolean>,
+): boolean {
+  return (
+    Object.keys(validateStep(definition, stepId, answers, agreements)).length ===
+    0
+  );
+}
+
+function buildInitialFormState(
+  definition: EventForm,
+  steps: ReadonlyArray<RegistrationStep>,
+  draft: RegistrationDraft | undefined,
+): {
+  answers: Answers;
+  agreements: Record<string, boolean>;
+  currentStep: RegistrationStepId;
+} {
+  const answers = restoreAnswers(definition, draft);
+  const agreements = restoreAgreements(definition, draft);
+
+  // A brand-new application always starts on the first step, even when that
+  // step is optional. Only an existing saved draft resumes at the first step
+  // that still needs work.
+  if (!draft) {
+    return { answers, agreements, currentStep: steps[0].id };
+  }
+
+  // Resume the first step that still needs work without surfacing field errors
+  // until the attendee actually tries to advance. If every step is valid,
+  // resume on the final step so submission is one action away.
+  const firstIncomplete = steps.find(
+    (step) => !stepIsComplete(definition, step.id, answers, agreements),
+  );
+  const currentStep = firstIncomplete?.id ?? steps[steps.length - 1].id;
+
+  return { answers, agreements, currentStep };
 }
 
 function RequiredMark() {
@@ -279,6 +305,128 @@ function FormNotice({
   );
 }
 
+const compactActionClass = "min-h-8 px-sm py-xs text-label-s";
+
+function AutosaveFeedback({
+  status,
+  signInHref,
+  profileHref,
+  onRetry,
+}: {
+  status: DraftAutosaveStatus;
+  signInHref: string;
+  profileHref: string;
+  onRetry: () => void;
+}) {
+  if (status.kind === "idle") {
+    // Keep a stable slot so the first keystroke does not shift the form.
+    return <div aria-hidden="true" className="min-h-5" />;
+  }
+
+  let message = "";
+  let action: ReactNode;
+
+  switch (status.kind) {
+    case "saving":
+      message = "Saving progress…";
+      break;
+    case "saved":
+      message = "Progress saved";
+      break;
+    case "retry":
+      message = "Couldn’t save your progress";
+      action = (
+        <Button
+          type="button"
+          variant="secondary"
+          className={compactActionClass}
+          onClick={onRetry}
+        >
+          Retry
+        </Button>
+      );
+      break;
+    case "conflict":
+      message =
+        "Your saved progress changed in another tab. Reload to get the latest version.";
+      action = (
+        <Button
+          type="button"
+          variant="secondary"
+          className={compactActionClass}
+          onClick={() => window.location.reload()}
+        >
+          Reload
+        </Button>
+      );
+      break;
+    case "blocked":
+      switch (status.reason) {
+        case "sign_in_required":
+          message =
+            "Your session ended, so progress couldn’t be saved. Sign in to keep working.";
+          action = (
+            <Button
+              href={signInHref}
+              variant="secondary"
+              className={compactActionClass}
+            >
+              Sign in
+            </Button>
+          );
+          break;
+        case "profile_required":
+          message = "Finish your profile to keep saving progress.";
+          action = (
+            <Button
+              href={profileHref}
+              variant="secondary"
+              className={compactActionClass}
+            >
+              Finish profile
+            </Button>
+          );
+          break;
+        case "not_open":
+          message =
+            "Registration hasn’t opened yet, so progress couldn’t be saved.";
+          break;
+        case "closed":
+          message = "Registration is closed, so progress couldn’t be saved.";
+          break;
+        case "unavailable":
+          message = "Progress saving is unavailable right now.";
+          break;
+        case "invalid":
+          message =
+            "Some answers couldn’t be saved. Review them and try again.";
+          break;
+      }
+      break;
+  }
+
+  const polite = status.kind === "saving" || status.kind === "saved";
+  const isError =
+    status.kind === "retry" ||
+    status.kind === "conflict" ||
+    status.kind === "blocked";
+
+  return (
+    <div
+      role={polite ? "status" : "alert"}
+      className="flex min-h-5 min-w-0 flex-col gap-xs sm:flex-row sm:items-center sm:justify-between"
+    >
+      <Text
+        variant="body-s"
+        className={`m-0 ${isError ? "text-brand-red" : "text-ink-secondary"}`}
+      >
+        {message}
+      </Text>
+      {action}
+    </div>
+  );
+}
+
 function QuestionControl({
   question,
   answer,
@@ -311,6 +459,7 @@ function QuestionControl({
         maxLength={question.maxLength}
         value={typeof answer === "string" ? answer : ""}
         onChange={(event) => onChange(event.target.value)}
+        disabled={disabled}
         hint={`Up to ${question.maxLength} characters.`}
         error={error}
         className="min-h-12"
@@ -356,6 +505,7 @@ function QuestionControl({
           maxLength={wordLimited ? undefined : question.maxLength}
           value={value}
           onChange={(event) => onChange(event.target.value)}
+          disabled={disabled}
           aria-invalid={error || overWordLimit ? true : undefined}
           aria-describedby={describedBy || undefined}
           className={[
@@ -416,6 +566,7 @@ function QuestionControl({
                 checked={answer === option.value}
                 required={required}
                 onChange={() => onChange(option.value)}
+                disabled={disabled}
                 aria-describedby={error ? errorId : undefined}
                 className="h-4 w-4 shrink-0 accent-accent"
               />
@@ -465,6 +616,7 @@ function QuestionControl({
         value={Array.isArray(answer) ? answer : []}
         placeholder="Select options"
         required={required}
+        disabled={disabled}
         error={error}
         errorId={errorId}
         exclusiveValues={question.exclusiveValues}
@@ -480,48 +632,101 @@ function QuestionControl({
 export function EventRegistrationForm({
   definition,
   slug,
+  initialDraft,
   action,
+  saveDraftAction,
 }: EventRegistrationFormProps) {
   const formInstanceId = useId().replace(/[^a-zA-Z0-9_-]+/g, "");
   const formRef = useRef<HTMLFormElement>(null);
-  const [answers, setAnswers] = useState<Answers>(() =>
-    initialAnswers(definition),
-  );
-  const [agreements, setAgreements] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(
-      definition.agreements.map((agreement) => [agreement.id, false]),
-    ),
-  );
   const steps = useMemo(() => getRegistrationSteps(definition), [definition]);
-  const [currentStep, setCurrentStep] = useState<RegistrationStepId>(
-    steps[0].id,
+  const [initialState] = useState(() =>
+    buildInitialFormState(definition, steps, initialDraft),
   );
-  const [completedSteps, setCompletedSteps] = useState<Set<RegistrationStepId>>(
-    () => new Set(),
+  const [answers, setAnswers] = useState<Answers>(initialState.answers);
+  const [agreements, setAgreements] = useState<Record<string, boolean>>(
+    initialState.agreements,
+  );
+  const [currentStep, setCurrentStep] = useState<RegistrationStepId>(
+    initialState.currentStep,
   );
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [focusRequest, setFocusRequest] = useState(0);
   const [formRevision, setFormRevision] = useState(0);
-  const [state, formAction, pending] = useActionState<
+  const [finalSubmitting, setFinalSubmitting] = useState(false);
+  const finalSubmitRef = useRef(false);
+  const finalActionResolveRef = useRef<
+    ((result: RegistrationResult) => void) | null
+  >(null);
+  const [state, formAction, actionPending] = useActionState<
     RegistrationResult,
     FormData
   >(async (previous, data) => {
-    const result = await action(previous, data);
-    // React resets native form fields after an action completes. Bump the
-    // form key so the controlled values from state are applied again.
-    setFormRevision((current) => current + 1);
+    let result: RegistrationResult = { kind: "retry" };
 
-    // Server validation remains authoritative. Select the first affected
-    // panel before focusing its first invalid control, even when that control
-    // was hidden on an earlier step.
-    if (result.kind === "invalid") {
-      setFieldErrors(result.fieldErrors);
-      setCurrentStep(firstErrorStep(result.fieldErrors, definition, steps));
-      setFocusRequest((current) => current + 1);
+    try {
+      try {
+        result = await action(previous, data);
+      } catch {
+        // An unexpected request failure must stay inside the form: keep the
+        // answers and draft, and surface the existing retry result.
+        result = { kind: "retry" };
+      }
+
+      // React resets native form fields after an action completes. Bump the
+      // form key so the controlled values from state are applied again.
+      setFormRevision((current) => current + 1);
+
+      // Server validation remains authoritative. Select the first affected
+      // panel before focusing its first invalid control, even when that
+      // control was hidden on an earlier step.
+      if (result.kind === "invalid") {
+        setFieldErrors(result.fieldErrors);
+        setCurrentStep(firstErrorStep(result.fieldErrors, definition, steps));
+        setFocusRequest((current) => current + 1);
+      }
+
+      return result;
+    } finally {
+      // Let the submit handler release the frozen form once the whole action
+      // settles, including after an unexpected failure.
+      finalActionResolveRef.current?.(result);
     }
-
-    return result;
   }, { kind: "idle" });
+
+  const {
+    status: autosaveStatus,
+    queueDraft,
+    retry: retryDraftSave,
+    flush: flushDraftSave,
+    stop: stopDraftSave,
+  } = useDraftAutosave({
+    initialRevision: initialDraft?.revision ?? 0,
+    initialSnapshot: snapshotFromState(
+      definition,
+      initialState.answers,
+      initialState.agreements,
+    ),
+    initialSavedAt: initialDraft?.updatedAt ?? null,
+    saveDraftAction,
+  });
+
+  // Pills reflect the current answers rather than only past navigation, so a
+  // resumed draft and later edits always show which steps are truly complete.
+  const completedSteps = useMemo(() => {
+    const completed = new Set<RegistrationStepId>();
+    for (const step of steps) {
+      if (stepIsComplete(definition, step.id, answers, agreements)) {
+        completed.add(step.id);
+      }
+    }
+    return completed;
+  }, [definition, steps, answers, agreements]);
+
+  const finalPending = finalSubmitting || actionPending;
+
+  useEffect(() => {
+    if (state.kind === "submitted") stopDraftSave();
+  }, [state.kind, stopDraftSave]);
 
   const registerPath = `/events/${encodeURIComponent(slug)}/register`;
   const next = encodeURIComponent(registerPath);
@@ -547,25 +752,13 @@ export function EventRegistrationForm({
       ?.focus();
   }, [focusRequest, currentStep, formInstanceId]);
 
-  function invalidateCompletedFrom(stepId: RegistrationStepId) {
-    const index = steps.findIndex((step) => step.id === stepId);
-    if (index < 0) return;
-
-    setCompletedSteps((current) => {
-      const next = new Set(current);
-      for (let offset = index; offset < steps.length; offset += 1) {
-        next.delete(steps[offset].id);
-      }
-      return next;
-    });
-  }
-
   function updateAnswer(questionId: string, value: ClientAnswer) {
-    const nextAnswers = clearInactiveQuestions(definition, {
+    const nextAnswers = clearInactiveAnswers(definition, {
       ...answers,
       [questionId]: value,
     });
     setAnswers(nextAnswers);
+    queueDraft(snapshotFromState(definition, nextAnswers, agreements));
 
     const question = definition.questions.find(
       (entry) => entry.id === questionId,
@@ -604,20 +797,17 @@ export function EventRegistrationForm({
 
       return nextErrors;
     });
-
-    invalidateCompletedFrom(
-      question ? sectionOf(question) : "background",
-    );
   }
 
   function updateAgreement(agreementId: string, checked: boolean) {
-    setAgreements((current) => ({ ...current, [agreementId]: checked }));
+    const nextAgreements = { ...agreements, [agreementId]: checked };
+    setAgreements(nextAgreements);
+    queueDraft(snapshotFromState(definition, answers, nextAgreements));
     setFieldErrors((current) => {
       const next = { ...current };
       delete next[agreementKey(agreementId)];
       return next;
     });
-    invalidateCompletedFrom("agreements");
   }
 
   function tryAdvance(targetIndex: number): boolean {
@@ -658,13 +848,6 @@ export function EventRegistrationForm({
       }
       return nextErrors;
     });
-    setCompletedSteps((current) => {
-      const nextCompleted = new Set(current);
-      for (let index = 0; index < targetIndex; index += 1) {
-        nextCompleted.add(steps[index].id);
-      }
-      return nextCompleted;
-    });
     setCurrentStep(steps[targetIndex].id);
     return true;
   }
@@ -688,13 +871,56 @@ export function EventRegistrationForm({
     tryAdvance(currentStepIndex + 1);
   }
 
-  function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleFormSubmit(event: FormEvent<HTMLFormElement>) {
     // A native implicit or requestSubmit submission on an earlier step must
     // validate and advance instead of running the server action.
-    if (isFinalStep) return;
+    if (!isFinalStep) {
+      event.preventDefault();
+      tryAdvance(currentStepIndex + 1);
+      return;
+    }
 
     event.preventDefault();
-    tryAdvance(currentStepIndex + 1);
+    if (finalSubmitRef.current || finalPending) return;
+
+    // Capture the native values before any await or disabled state can alter
+    // the form, then flush exactly this snapshot before strict submission.
+    const captured = new FormData(event.currentTarget);
+    const snapshot = snapshotFromFormData(definition, captured);
+
+    finalSubmitRef.current = true;
+    setFinalSubmitting(true);
+
+    let submitted = false;
+    try {
+      const saved = await flushDraftSave(snapshot);
+      if (saved.kind !== "saved") return;
+
+      captured.set("draft_revision", String(saved.revision));
+
+      // Server Actions invoked outside a form action must run in a transition.
+      // Keep the captured FormData and wait for the action wrapper to settle so
+      // the controls stay frozen through the whole request, not just the flush.
+      const result = await new Promise<RegistrationResult>((resolve) => {
+        finalActionResolveRef.current = resolve;
+        startTransition(() => {
+          formAction(captured);
+        });
+      });
+      submitted = result.kind === "submitted";
+    } catch {
+      // The action wrapper maps request failures to the retry result. A
+      // synchronous dispatch failure still releases the controls below.
+    } finally {
+      finalActionResolveRef.current = null;
+
+      // A completed submission immediately renders the receipt. Every other
+      // outcome must release the frozen controls so the attendee can retry.
+      if (!submitted) {
+        finalSubmitRef.current = false;
+        setFinalSubmitting(false);
+      }
+    }
   }
 
   const errorFor = (field: string) => fieldErrors[field];
@@ -708,13 +934,21 @@ export function EventRegistrationForm({
     );
   }
 
+  if (autosaveStatus.kind === "submitted") {
+    return (
+      <RegistrationReceipt
+        status={autosaveStatus.status}
+        submittedAt={autosaveStatus.submittedAt}
+      />
+    );
+  }
+
   return (
     <form
       key={formRevision}
       ref={formRef}
-      action={formAction}
       noValidate
-      aria-busy={pending}
+      aria-busy={finalPending}
       onKeyDown={handleFormKeyDown}
       onSubmit={handleFormSubmit}
       className="flex min-h-0 flex-col gap-lg lg:flex-1 lg:gap-md"
@@ -790,6 +1024,38 @@ export function EventRegistrationForm({
         </FormNotice>
       )}
 
+      {state.kind === "conflict" && (
+        <FormNotice
+          tone="error"
+          action={
+            <Button
+              type="button"
+              variant="secondary"
+              className={compactActionClass}
+              onClick={() => window.location.reload()}
+            >
+              Reload
+            </Button>
+          }
+        >
+          <Text variant="body-s">
+            Your saved progress changed in another tab. Reload before submitting
+            so no answer is lost.
+          </Text>
+        </FormNotice>
+      )}
+
+      <AutosaveFeedback
+        status={autosaveStatus}
+        signInHref={signInHref}
+        profileHref={profileHref}
+        onRetry={retryDraftSave}
+      />
+
+      <Text variant="body-s" className="m-0 text-ink-secondary">
+        Saved progress is not a submitted application.
+      </Text>
+
       <nav aria-label="Registration steps" className="min-w-0 shrink-0">
         <ol className="m-0 grid list-none auto-cols-fr grid-flow-col gap-xs p-0">
           {steps.map((step, index) => {
@@ -802,7 +1068,7 @@ export function EventRegistrationForm({
                   type="button"
                   id={tabId(step.id)}
                   onClick={() => tryAdvance(index)}
-                  disabled={pending}
+                  disabled={finalPending}
                   aria-label={step.label}
                   aria-current={isCurrent ? "step" : undefined}
                   aria-controls={panelId(step.id)}
@@ -871,7 +1137,7 @@ export function EventRegistrationForm({
                       error={errorFor(field)}
                       controlId={controlId}
                       errorId={`${controlId}-description`}
-                      disabled={pending}
+                      disabled={finalPending}
                       placeholder={placeholder}
                       onChange={(value) => updateAnswer(question.id, value)}
                     />
@@ -902,6 +1168,7 @@ export function EventRegistrationForm({
                                 value="yes"
                                 checked={checked}
                                 required={agreement.required}
+                                disabled={finalPending}
                                 onChange={(event) =>
                                   updateAgreement(
                                     agreement.id,
@@ -951,7 +1218,7 @@ export function EventRegistrationForm({
             <Button
               type="button"
               variant="secondary"
-              disabled={pending}
+              disabled={finalPending}
               onClick={() => setCurrentStep(steps[currentStepIndex - 1].id)}
               className="min-h-12 w-full sm:w-auto"
             >
@@ -964,7 +1231,7 @@ export function EventRegistrationForm({
           {!isFinalStep ? (
             <Button
               type="button"
-              disabled={pending}
+              disabled={finalPending}
               onClick={() => tryAdvance(currentStepIndex + 1)}
               className="min-h-12 w-full sm:w-auto sm:min-w-[150px]"
             >
@@ -973,10 +1240,10 @@ export function EventRegistrationForm({
           ) : (
             <Button
               type="submit"
-              disabled={pending}
+              disabled={finalPending}
               className="min-h-12 w-full sm:w-auto sm:min-w-[190px]"
             >
-              {pending
+              {finalPending
                 ? "Submitting..."
                 : state.kind === "retry"
                   ? "Try again"

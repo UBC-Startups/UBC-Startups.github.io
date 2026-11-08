@@ -22,7 +22,33 @@ web application's dependencies separately with `npm ci` from `web/`.
 
 Use `npx supabase stop` from the root to stop local services. Coordinate reviewed
 migrations to hosted staging through one designated maintainer. Linking a hosted
-project alone does not apply migrations. No feature schemas are included yet.
+project alone does not apply migrations.
+
+## Local seed data
+
+`npx supabase db reset --local` applies `supabase/seed.sql` to the local
+database, which creates a synthetic `casehack-2026` event with
+`signup_mode = application`, no capacity, and an open window of one day before
+reset through seven days after.
+Use that row only for manual new-account registration testing; it does not
+represent real approved event timing. The seed uses `on conflict (slug) do
+nothing`, so rerunning the seed SQL against an existing database preserves
+matching rows. A local reset itself deletes existing data before applying
+migrations and seeds.
+
+Seeds are local development data, not deployed schema. `npx supabase db push`
+excludes seed rows unless you pass `--include-seed`, and repository CI does not
+deploy seeds.
+
+The opt-in event-signup suite in `web/tests/event-signup/` does not use the seeded
+manual row. Its CaseHack cases create the event fixture and require it to be newly
+created (`created: true`), deliberately refusing an existing `casehack-2026` row
+so manual data is never reused or modified. Run that stateful suite only against
+a disposable local stack reset without seeds
+(`npx supabase db reset --local --no-seed`), with `LOCAL_SUPABASE_URL`,
+`LOCAL_SUPABASE_SERVICE_KEY`, and `LOCAL_SUPABASE_PUBLISHABLE_KEY` pointing at
+that stack. The test runner never resets your normal local stack, so do not aim
+the suite at a database whose seeded manual CaseHack row you want to keep.
 
 ## Environment
 

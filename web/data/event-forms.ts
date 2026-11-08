@@ -1,6 +1,15 @@
 // Fixed signup form definitions keyed by the event edition slug.
 
 import type { EventForm } from "../lib/events/form-definition";
+import { ubcVancouverFaculties } from "./ubc-vancouver-faculties";
+
+const facultyChoices = [
+  ...ubcVancouverFaculties.map((faculty) => ({
+    value: faculty.value,
+    label: faculty.label,
+  })),
+  { value: "other", label: "Other" },
+];
 
 const eventForms = new Map<string, EventForm>([
   [
@@ -9,8 +18,15 @@ const eventForms = new Map<string, EventForm>([
       title: "CaseHack",
       questions: [
         {
-          id: "program",
-          label: "What program are you studying?",
+          id: "faculty",
+          label: "Faculty / school",
+          required: true,
+          kind: "select",
+          choices: facultyChoices,
+        },
+        {
+          id: "major",
+          label: "Major / program",
           required: true,
           kind: "text",
           maxLength: 120,
@@ -33,6 +49,7 @@ const eventForms = new Map<string, EventForm>([
           label: "How many hackathons have you participated in before?",
           required: true,
           kind: "select",
+          section: "event",
           choices: [
             { value: "0", label: "0" },
             { value: "1", label: "1" },
@@ -46,6 +63,7 @@ const eventForms = new Map<string, EventForm>([
           label: "Do you have any dietary restrictions?",
           required: true,
           kind: "multiselect",
+          section: "event",
           exclusiveValues: ["none"],
           choices: [
             { value: "none", label: "No dietary restrictions" },
@@ -62,6 +80,7 @@ const eventForms = new Map<string, EventForm>([
           label: "Please describe your dietary restrictions or allergy.",
           required: false,
           kind: "textarea",
+          section: "event",
           maxLength: 500,
           requiredWhen: {
             questionId: "dietary_restrictions",
@@ -73,6 +92,7 @@ const eventForms = new Map<string, EventForm>([
           label: "How did you hear about CaseHack?",
           required: false,
           kind: "select",
+          section: "event",
           choices: [
             { value: "instagram", label: "Instagram" },
             { value: "linkedin", label: "LinkedIn" },
@@ -86,11 +106,28 @@ const eventForms = new Map<string, EventForm>([
           label: "Please tell us how you heard about CaseHack.",
           required: false,
           kind: "text",
+          section: "event",
           maxLength: 120,
           requiredWhen: {
             questionId: "referral_source",
             includesAny: ["other"],
           },
+        },
+        {
+          id: "participation_motivation",
+          label: "Why do you want to participate in CaseHack?",
+          required: true,
+          kind: "textarea",
+          section: "application",
+          maxWords: 150,
+        },
+        {
+          id: "team_contribution",
+          label: "What would you bring to a team?",
+          required: true,
+          kind: "textarea",
+          section: "application",
+          maxWords: 150,
         },
       ],
       agreements: [

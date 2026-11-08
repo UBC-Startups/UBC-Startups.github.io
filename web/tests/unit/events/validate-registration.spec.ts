@@ -518,6 +518,212 @@ test("evaluates conditions only from validated controlling answers", () => {
   });
 });
 
+const freeTextForm: EventForm = {
+  title: "Free text form",
+  questions: [
+    {
+      id: "major",
+      kind: "text",
+      label: "Major / program",
+      required: true,
+      maxLength: 120,
+    },
+  ],
+  agreements: [],
+};
+
+test("trims a required free-text major and accepts 120 characters", () => {
+  const trimmed = validateRegistration(
+    freeTextForm,
+    formValues({ "question:major": "  Computer Science  " }),
+    acceptedAt,
+  );
+
+  expect(trimmed).toEqual({
+    ok: true,
+    answers: { major: "Computer Science" },
+    acceptedAgreements: [],
+  });
+
+  const exact = validateRegistration(
+    freeTextForm,
+    formValues({ "question:major": "x".repeat(120) }),
+    acceptedAt,
+  );
+
+  expect(exact).toEqual({
+    ok: true,
+    answers: { major: "x".repeat(120) },
+    acceptedAgreements: [],
+  });
+});
+
+test("rejects a blank free-text major and more than 120 characters", () => {
+  const blank = validateRegistration(
+    freeTextForm,
+    formValues({ "question:major": "   " }),
+    acceptedAt,
+  );
+
+  expect(blank).toEqual({
+    ok: false,
+    fieldErrors: { "question:major": "This field is required." },
+  });
+
+  const tooLong = validateRegistration(
+    freeTextForm,
+    formValues({ "question:major": "x".repeat(121) }),
+    acceptedAt,
+  );
+
+  expect(tooLong).toEqual({
+    ok: false,
+    fieldErrors: { "question:major": "Use 120 characters or fewer." },
+  });
+});
+
+const wordForm: EventForm = {
+  title: "Word limited form",
+  questions: [
+    {
+      id: "motivation",
+      kind: "textarea",
+      label: "Motivation",
+      required: true,
+      section: "application",
+      maxWords: 150,
+    },
+    {
+      id: "notes",
+      kind: "textarea",
+      label: "Notes",
+      required: false,
+      maxLength: 20,
+    },
+    {
+      id: "name",
+      kind: "text",
+      label: "Name",
+      required: true,
+      maxLength: 10,
+    },
+  ],
+  agreements: [],
+};
+
+function words(count: number, separator = " "): string {
+  return Array.from({ length: count }, (_, index) => `word${index}`).join(
+    separator,
+  );
+}
+
+test("accepts a word-limited answer at 149 and 150 words", () => {
+  for (const count of [149, 150]) {
+    const motivation = `  ${words(count)}  `;
+    const result = validateRegistration(
+      wordForm,
+      formValues({
+        "question:motivation": motivation,
+        "question:name": "Ada",
+      }),
+      acceptedAt,
+    );
+
+    expect(result).toEqual({
+      ok: true,
+      answers: { motivation: words(count), name: "Ada" },
+      acceptedAgreements: [],
+    });
+  }
+});
+
+test("rejects a 151-word answer with a word-specific message", () => {
+  const result = validateRegistration(
+    wordForm,
+    formValues({
+      "question:motivation": words(151),
+      "question:name": "Ada",
+    }),
+    acceptedAt,
+  );
+
+  expect(result).toEqual({
+    ok: false,
+    fieldErrors: { "question:motivation": "Use 150 words or fewer." },
+  });
+});
+
+test("treats blank and whitespace-only word answers as empty", () => {
+  for (const motivation of ["", "   ", "\t\n  "]) {
+    const result = validateRegistration(
+      wordForm,
+      formValues({
+        "question:motivation": motivation,
+        "question:name": "Ada",
+      }),
+      acceptedAt,
+    );
+
+    expect(result).toEqual({
+      ok: false,
+      fieldErrors: { "question:motivation": "This field is required." },
+    });
+  }
+});
+
+test("counts words across tabs, newlines, and Unicode whitespace", () => {
+  const result = validateRegistration(
+    wordForm,
+    formValues({
+      "question:motivation": words(150, "\u00a0\t\n"),
+      "question:name": "Ada",
+    }),
+    acceptedAt,
+  );
+
+  expect(result.ok).toBe(true);
+  if (!result.ok) return;
+  expect(result.answers.motivation).toBe(words(150, "\u00a0\t\n"));
+});
+
+test("counts one very long token as one word, not its characters", () => {
+  const motivation = "a".repeat(500);
+  const result = validateRegistration(
+    wordForm,
+    formValues({
+      "question:motivation": motivation,
+      "question:name": "Ada",
+    }),
+    acceptedAt,
+  );
+
+  expect(result).toEqual({
+    ok: true,
+    answers: { motivation, name: "Ada" },
+    acceptedAgreements: [],
+  });
+});
+
+test("keeps character limits for text and textarea questions", () => {
+  const result = validateRegistration(
+    wordForm,
+    formValues({
+      "question:motivation": "A short answer",
+      "question:notes": "x".repeat(21),
+      "question:name": "😀".repeat(11),
+    }),
+    acceptedAt,
+  );
+
+  expect(result).toEqual({
+    ok: false,
+    fieldErrors: {
+      "question:notes": "Use 20 characters or fewer.",
+      "question:name": "Use 10 characters or fewer.",
+    },
+  });
+});
+
 test("validates a complete CaseHack application against the agreed contract", () => {
   const form = getEventForm("casehack-2026");
   if (!form) throw new Error("CaseHack form is missing.");
@@ -525,13 +731,16 @@ test("validates a complete CaseHack application against the agreed contract", ()
   const result = validateRegistration(
     form,
     formValues({
-      "question:program": "Computer Science",
+      "question:faculty": "science",
+      "question:major": "Computer Science",
       "question:year_of_study": "3",
       "question:previous_hackathons": "2_3",
       "question:dietary_restrictions": ["vegetarian", "food_allergy"],
       "question:dietary_details": "Peanuts",
       "question:referral_source": "other",
       "question:referral_other": "A friend's poster",
+      "question:participation_motivation": "I want to build something useful with a team.",
+      "question:team_contribution": "I bring calm prototyping and frontend skills.",
       "agreement:application_status": "yes",
       "agreement:participant_conduct": "yes",
       "agreement:application_data": "yes",
@@ -544,13 +753,16 @@ test("validates a complete CaseHack application against the agreed contract", ()
   expect(result).toEqual({
     ok: true,
     answers: {
-      program: "Computer Science",
+      faculty: "science",
+      major: "Computer Science",
       year_of_study: "3",
       previous_hackathons: "2_3",
       dietary_restrictions: ["vegetarian", "food_allergy"],
       dietary_details: "Peanuts",
       referral_source: "other",
       referral_other: "A friend's poster",
+      participation_motivation: "I want to build something useful with a team.",
+      team_contribution: "I bring calm prototyping and frontend skills.",
     },
     acceptedAgreements: [
       {
@@ -582,20 +794,23 @@ test("validates a complete CaseHack application against the agreed contract", ()
   });
 });
 
-test("omits stale CaseHack dependent answers for inactive conditions", () => {
+test("omits stale CaseHack conditional answers for inactive conditions", () => {
   const form = getEventForm("casehack-2026");
   if (!form) throw new Error("CaseHack form is missing.");
 
   const result = validateRegistration(
     form,
     formValues({
-      "question:program": "Computer Science",
+      "question:faculty": "science",
+      "question:major": "Computer Science",
       "question:year_of_study": "1",
       "question:previous_hackathons": "0",
       "question:dietary_restrictions": ["none"],
       "question:dietary_details": "stale answer",
       "question:referral_source": "friend",
       "question:referral_other": "stale answer",
+      "question:participation_motivation": "A short motivation.",
+      "question:team_contribution": "A short contribution.",
       "agreement:application_status": "yes",
       "agreement:participant_conduct": "yes",
       "agreement:application_data": "yes",
@@ -608,10 +823,13 @@ test("omits stale CaseHack dependent answers for inactive conditions", () => {
   expect(result.ok).toBe(true);
   if (!result.ok) return;
   expect(result.answers).toEqual({
-    program: "Computer Science",
+    faculty: "science",
+    major: "Computer Science",
     year_of_study: "1",
     previous_hackathons: "0",
     dietary_restrictions: ["none"],
     referral_source: "friend",
+    participation_motivation: "A short motivation.",
+    team_contribution: "A short contribution.",
   });
 });

@@ -32,14 +32,31 @@ function expectValidDefinition(form: EventForm) {
   );
 
   for (const question of form.questions) {
-    if (question.kind === "text" || question.kind === "textarea") {
+    if (question.kind === "text") {
       expect(Number.isInteger(question.maxLength)).toBe(true);
       expect(question.maxLength).toBeGreaterThan(0);
+    }
+
+    if (question.kind === "textarea") {
+      const hasLength =
+        typeof question.maxLength === "number" &&
+        Number.isInteger(question.maxLength) &&
+        question.maxLength > 0;
+      const hasWords =
+        typeof question.maxWords === "number" &&
+        Number.isInteger(question.maxWords) &&
+        question.maxWords > 0;
+      expect(hasLength !== hasWords).toBe(true);
+    }
+
+    if (question.section !== undefined) {
+      expect(["background", "event", "application"]).toContain(question.section);
     }
 
     if (question.kind === "select" || question.kind === "multiselect") {
       const values = question.choices.map((choice) => choice.value);
       expect(new Set(values).size).toBe(values.length);
+      expect(question.choices.length).toBeGreaterThan(0);
     }
 
     if (question.kind === "multiselect") {
@@ -106,3 +123,68 @@ for (const [slug, form] of registeredEventForms) {
     expectValidDefinition(form);
   });
 }
+
+test("defines the CaseHack education and application contract", () => {
+  const form = getEventForm("casehack-2026");
+  if (!form) throw new Error("CaseHack form is missing.");
+  const questions = new Map(
+    form.questions.map((question) => [question.id, question]),
+  );
+
+  expect(questions.has("program")).toBe(false);
+
+  const faculty = questions.get("faculty");
+  expect(faculty).toMatchObject({
+    kind: "select",
+    label: "Faculty / school",
+    required: true,
+  });
+  if (faculty?.kind !== "select") throw new Error("Faculty must be a select.");
+  expect(faculty.choices.some((choice) => choice.value === "other")).toBe(true);
+
+  const major = questions.get("major");
+  expect(major).toEqual({
+    id: "major",
+    kind: "text",
+    label: "Major / program",
+    required: true,
+    maxLength: 120,
+  });
+  expect(major).not.toHaveProperty("section");
+
+  const motivation = questions.get("participation_motivation");
+  expect(motivation).toMatchObject({
+    kind: "textarea",
+    label: "Why do you want to participate in CaseHack?",
+    required: true,
+    section: "application",
+    maxWords: 150,
+  });
+  expect(motivation).not.toHaveProperty("maxLength");
+
+  const contribution = questions.get("team_contribution");
+  expect(contribution).toMatchObject({
+    kind: "textarea",
+    label: "What would you bring to a team?",
+    required: true,
+    section: "application",
+    maxWords: 150,
+  });
+  expect(contribution).not.toHaveProperty("maxLength");
+
+  for (const question of form.questions) {
+    if (question.id === "participation_motivation") continue;
+    if (question.id === "team_contribution") continue;
+
+    const expectedSection = [
+      "previous_hackathons",
+      "dietary_restrictions",
+      "dietary_details",
+      "referral_source",
+      "referral_other",
+    ].includes(question.id)
+      ? "event"
+      : "background";
+    expect(question.section ?? "background").toBe(expectedSection);
+  }
+});

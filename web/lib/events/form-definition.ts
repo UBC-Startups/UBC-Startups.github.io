@@ -10,18 +10,27 @@ export type EventFormCondition = {
   includesAny: ReadonlyArray<string>;
 };
 
+export type EventFormSection = "background" | "event" | "application";
+
 type EventFormQuestionBase = {
   id: string;
   label: string;
   required: boolean;
   requiredWhen?: EventFormCondition;
+  section?: EventFormSection;
 };
 
 export type EventFormQuestion =
   | (EventFormQuestionBase & {
-      kind: "text" | "textarea";
+      kind: "text";
       maxLength: number;
     })
+  | (EventFormQuestionBase & {
+      kind: "textarea";
+    } & (
+      | { maxLength: number; maxWords?: never }
+      | { maxWords: number; maxLength?: never }
+    ))
   | (EventFormQuestionBase & {
       kind: "boolean";
     })

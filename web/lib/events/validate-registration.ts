@@ -8,6 +8,7 @@ import {
   type RegistrationAnswers,
   type ValidationResult,
 } from "./form-definition";
+import { countWords } from "./word-count";
 
 const QUESTION_PREFIX = "question:";
 const AGREEMENT_PREFIX = "agreement:";
@@ -111,6 +112,15 @@ function validateQuestion(
     if (required) fieldErrors.set(field, REQUIRED_MESSAGE);
     return undefined;
   }
+
+  if ("maxWords" in question && question.maxWords !== undefined) {
+    if (countWords(trimmed) > question.maxWords) {
+      fieldErrors.set(field, `Use ${question.maxWords} words or fewer.`);
+      return undefined;
+    }
+    return trimmed;
+  }
+
   if (textLength(trimmed) > question.maxLength) {
     fieldErrors.set(
       field,

@@ -9,6 +9,8 @@ import { getOnboardingPath } from "@/lib/auth/signup-routing";
 import { resolveEventRegistrationPageState } from "@/lib/events/registration-page-state";
 import { readEventRegistration } from "@/lib/events/registration-server";
 import { EventRegistration } from "@/views/EventRegistration";
+import { EventRegistrationForm } from "@/views/EventRegistrationForm";
+import { submitEventRegistration } from "./actions";
 
 export const metadata: Metadata = {
   title: "Event registration | UBC Startups",
@@ -39,10 +41,22 @@ async function Register({ params }: RegisterPageProps) {
   const state = resolveEventRegistrationPageState(registration, form);
   if (state.kind === "not_found") notFound();
 
+  // Only the fixed form definition and derived status reach the view. Saved
+  // answers are never read or serialized into the page payload.
+  const formSlot =
+    state.kind === "open" ? (
+      <EventRegistrationForm
+        definition={state.form}
+        slug={slug}
+        action={submitEventRegistration.bind(null, slug)}
+      />
+    ) : undefined;
+
   return (
     <EventRegistration
       title={form?.title ?? "Event registration"}
       state={state}
+      formSlot={formSlot}
     />
   );
 }

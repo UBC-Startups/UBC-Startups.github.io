@@ -25,7 +25,7 @@
 begin;
 
 -- plan() must match the number of assertions in this file.
-select plan(32);
+select plan(35);
 
 -- Three synthetic accounts and their shared basic profiles (Task 1's table).
 -- The third account owns the pending/declined fixtures so the read-count
@@ -89,6 +89,13 @@ select throws_ok($$insert into public.event_registrations (event_id, user_id, an
 select lives_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('33333333-3333-3333-3333-333333333333','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa','{}','[]','pending')$$, 'pending status is valid');
 select lives_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('55555555-5555-5555-5555-555555555555','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa','{}','[]','declined')$$, 'declined status is valid');
 select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('33333333-3333-3333-3333-333333333333','bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb','{}','[]',null)$$, '23502', null, 'missing status rejected');
+
+-- Account deletion must cascade through the profile to the registrations.
+-- Without ON DELETE CASCADE on user_id, deleting the account would fail while
+-- a registration still referenced the profile.
+select lives_ok($$delete from auth.users where id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'$$, 'deleting an account with registrations succeeds');
+select is((select count(*) from public.profiles where user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'), 0::bigint, 'profile cascades with the account');
+select is((select count(*) from public.event_registrations where user_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'), 0::bigint, 'registrations cascade with the account');
 
 -- ===========================================================================
 -- Signed-in caller (RLS and grants)

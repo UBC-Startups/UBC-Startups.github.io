@@ -17,6 +17,7 @@ type RegistrationDropdownProps = {
   value: string | string[];
   placeholder: string;
   required?: boolean;
+  disabled?: boolean;
   error?: string;
   errorId: string;
   exclusiveValues?: ReadonlyArray<string>;
@@ -78,6 +79,7 @@ export function RegistrationDropdown({
   value,
   placeholder,
   required = false,
+  disabled = false,
   error,
   errorId,
   exclusiveValues = [],
@@ -85,6 +87,10 @@ export function RegistrationDropdown({
 }: RegistrationDropdownProps) {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [menuPlacement, setMenuPlacement] = useState<"below" | "above">(
+    "below",
+  );
+  const [menuMaxHeight, setMenuMaxHeight] = useState(288);
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const listboxRef = useRef<HTMLUListElement>(null);
@@ -118,6 +124,12 @@ export function RegistrationDropdown({
   const listboxId = `${id}-listbox`;
   const optionId = (index: number) => `${listboxId}-option-${index}`;
 
+  // Adjust state during render so a control that becomes locked cannot keep a
+  // stale open menu; this avoids an effect that only mirrors props to state.
+  if (disabled && open) {
+    setOpen(false);
+  }
+
   useEffect(() => {
     if (!open) return;
     listboxRef.current?.focus();
@@ -144,6 +156,33 @@ export function RegistrationDropdown({
   }, [open]);
 
   function openMenu() {
+    if (disabled) return;
+
+    // Keep the absolute menu inside the active panel's scroll region. Prefer
+    // opening upward when there is more room above than below.
+    const trigger = triggerRef.current;
+    if (trigger) {
+      const rect = trigger.getBoundingClientRect();
+      const region = trigger.closest<HTMLElement>("[data-registration-scroll]");
+      const regionRect = region?.getBoundingClientRect();
+      const upperBound = Math.max(regionRect?.top ?? 0, 0);
+      const lowerBound = Math.min(
+        regionRect?.bottom ?? window.innerHeight,
+        window.innerHeight,
+      );
+      const spaceBelow = lowerBound - rect.bottom - 8;
+      const spaceAbove = rect.top - upperBound - 8;
+      const placement =
+        spaceBelow < 200 && spaceAbove > spaceBelow ? "above" : "below";
+      setMenuPlacement(placement);
+      setMenuMaxHeight(
+        Math.max(
+          120,
+          Math.min(288, placement === "above" ? spaceAbove : spaceBelow),
+        ),
+      );
+    }
+
     typeaheadRef.current = { text: "", at: 0 };
     setActiveIndex(selectedIndex >= 0 ? selectedIndex : 0);
     setOpen(true);
@@ -155,6 +194,8 @@ export function RegistrationDropdown({
   }
 
   function choose(choice: EventFormChoice) {
+    if (disabled) return;
+
     if (mode === "single") {
       onChange(choice.value);
       closeAndFocusTrigger();
@@ -253,6 +294,7 @@ export function RegistrationDropdown({
   }
 
   function handleTriggerKeyDown(event: KeyboardEvent<HTMLButtonElement>) {
+    if (disabled) return;
     if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
     event.preventDefault();
     if (!open) openMenu();
@@ -281,6 +323,7 @@ export function RegistrationDropdown({
           ref={triggerRef}
           id={id}
           type="button"
+          disabled={disabled}
           aria-haspopup="listbox"
           aria-expanded={open}
           aria-controls={open ? listboxId : undefined}
@@ -290,7 +333,7 @@ export function RegistrationDropdown({
           onClick={() => (open ? setOpen(false) : openMenu())}
           onKeyDown={handleTriggerKeyDown}
           className={[
-            "relative box-border flex min-h-12 w-full min-w-0 cursor-pointer items-center rounded-pill border border-solid bg-surface py-field-y pl-lg pr-14 text-left font-brand text-label-m outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent",
+            "relative box-border flex min-h-12 w-full min-w-0 cursor-pointer items-center rounded-pill border border-solid bg-surface py-field-y pl-lg pr-14 text-left font-brand text-label-m outline-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-accent disabled:cursor-not-allowed disabled:opacity-50",
             error ? "border-brand-red" : "border-muted",
             open ? "border-ink" : null,
           ]
@@ -310,7 +353,7 @@ export function RegistrationDropdown({
           </span>
           <ChevronIcon open={open} />
         </button>
-        {open && (
+        {open && !disabled && (
           <ul
             ref={listboxRef}
             id={listboxId}
@@ -323,7 +366,11 @@ export function RegistrationDropdown({
             aria-activedescendant={optionId(activeChoiceIndex)}
             tabIndex={-1}
             onKeyDown={handleListboxKeyDown}
-            className="absolute left-0 right-0 top-full z-30 m-0 mt-xs box-border max-h-72 min-w-0 list-none overflow-y-auto overflow-x-hidden overscroll-contain rounded-field border border-solid border-muted bg-surface p-xs shadow-lg outline-none"
+            style={{ maxHeight: menuMaxHeight }}
+            className={[
+              "absolute left-0 right-0 z-30 m-0 box-border min-w-0 list-none overflow-y-auto overflow-x-hidden overscroll-contain rounded-field border border-solid border-muted bg-surface p-xs shadow-lg outline-none",
+              menuPlacement === "above" ? "bottom-full mb-xs" : "top-full mt-xs",
+            ].join(" ")}
           >
             {menuChoices.map((choice, index) => {
               const isSelected =

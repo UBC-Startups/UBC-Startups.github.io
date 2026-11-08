@@ -97,24 +97,45 @@ async function chooseDietaryOption(
   await page.getByRole("option", { name: label, exact: true }).click();
 }
 
-async function fillCasehackApplication(
+async function chooseCasehackEducation(
   page: Page,
-  options: {
-    dietary: string[];
-    referralOther?: string;
-    includeFinalAgreement?: boolean;
-  },
+  options: { faculty?: string; major?: string } = {},
 ): Promise<void> {
-  await page.locator('input[name="question:program"]').fill("Computer Science");
+  await chooseSingleOption(
+    page,
+    /Faculty \/ school/,
+    options.faculty ?? "Faculty of Science",
+  );
+  await page
+    .locator('input[name="question:major"]')
+    .fill(options.major ?? "Computer Science");
+}
+
+async function fillCasehackBackground(
+  page: Page,
+  options: { faculty?: string; major?: string } = {},
+): Promise<void> {
+  await chooseCasehackEducation(page, options);
   await chooseSingleOption(
     page,
     /What year of study are you in\?/,
     "First year",
   );
+}
+
+async function fillCasehackEventDetails(
+  page: Page,
+  options: {
+    dietary: string[];
+    dietaryDetails?: string;
+    referralOther?: string;
+    hackathons?: string;
+  },
+): Promise<void> {
   await chooseSingleOption(
     page,
     /How many hackathons have you participated in before\?/,
-    "0",
+    options.hackathons ?? "0",
   );
 
   if (options.dietary.length > 0) {
@@ -123,6 +144,11 @@ async function fillCasehackApplication(
       await chooseDietaryOption(page, value);
     }
     await page.keyboard.press("Escape");
+    if (options.dietaryDetails !== undefined) {
+      await page
+        .locator('textarea[name="question:dietary_details"]')
+        .fill(options.dietaryDetails);
+    }
   }
 
   if (options.referralOther !== undefined) {
@@ -135,6 +161,34 @@ async function fillCasehackApplication(
       .locator('input[name="question:referral_other"]')
       .fill(options.referralOther);
   }
+}
+
+async function continueStep(page: Page): Promise<void> {
+  await page.getByRole("button", { name: "Continue", exact: true }).click();
+}
+
+async function fillCasehackApplication(
+  page: Page,
+  options: {
+    dietary: string[];
+    dietaryDetails?: string;
+    referralOther?: string;
+    includeFinalAgreement?: boolean;
+    motivation?: string;
+    contribution?: string;
+  },
+): Promise<void> {
+  await fillCasehackBackground(page);
+  await continueStep(page);
+  await fillCasehackEventDetails(page, options);
+  await continueStep(page);
+  await page
+    .locator('textarea[name="question:participation_motivation"]')
+    .fill(options.motivation ?? "I want to build something useful with a team.");
+  await page
+    .locator('textarea[name="question:team_contribution"]')
+    .fill(options.contribution ?? "I bring calm prototyping and frontend skills.");
+  await continueStep(page);
 
   const agreementIds = [
     "application_status",
@@ -146,6 +200,16 @@ async function fillCasehackApplication(
   for (const id of agreementIds) {
     await page.locator(`input[name="agreement:${id}"]`).check();
   }
+}
+
+function words(count: number): string {
+  return Array.from({ length: count }, (_, index) => `word${index}`).join(" ");
+}
+
+function currentStep(page: Page) {
+  return page.locator(
+    'nav[aria-label="Registration steps"] button[aria-current="step"]',
+  );
 }
 
 async function submitRegistration(page: Page): Promise<void> {
@@ -230,7 +294,7 @@ test("a closed event without a receipt shows the closed state", async ({
   }
 });
 
-test("conditional details and the final agreement report server errors and keep answers", async ({
+test("server errors in a hidden earlier step select that panel and keep answers", async ({
   page,
 }) => {
   const harness = createFixtureHarness();
@@ -258,36 +322,61 @@ test("conditional details and the final agreement report server errors and keep 
     );
     expect(overflow).toBeLessThanOrEqual(0);
 
-    await page.locator('input[name="question:program"]').fill("Computer Science");
-    await chooseSingleOption(
-      page,
-      /What year of study are you in\?/,
-      "First year",
-    );
-    await chooseSingleOption(
-      page,
-      /How many hackathons have you participated in before\?/,
-      "0",
-    );
-
-    await openDietaryOptions(page);
-    await chooseDietaryOption(page, "food_allergy");
+    await fillCasehackBackground(page);
+    await continueStep(page);
+    await fillCasehackEventDetails(page, {
+      dietary: ["food_allergy"],
+      dietaryDetails: "Peanuts",
+      referralOther: "A friend's poster",
+    });
     await expect(
       page.locator('textarea[name="question:dietary_details"]'),
     ).toBeVisible();
-    await page.keyboard.press("Escape");
-
-    await chooseSingleOption(
-      page,
-      /How did you hear about CaseHack\?/,
-      "Other",
-    );
     await expect(
       page.locator('input[name="question:referral_other"]'),
     ).toBeVisible();
 
-    await fillCasehackApplication(page, {
-      dietary: [],
+    await continueStep(page);
+    await page
+      .locator('textarea[name="question:participation_motivation"]')
+      .fill("I want to build something useful with a team.");
+    await page
+      .locator('textarea[name="question:team_contribution"]')
+      .fill("I bring calm prototyping and frontend skills.");
+    await continueStep(page);
+
+    for (const id of [
+      "application_status",
+      "participant_conduct",
+      "application_data",
+      "photo_video_consent",
+    ]) {
+      await page.locator(`input[name="agreement:${id}"]`).check();
+    }
+
+    // Clear the now-hidden background details so the authoritative server
+    // reports them missing after the final step. This exercises the panel
+    // selection for errors that are no longer visible on the current step.
+    await page.evaluate(() => {
+      const textarea = document.querySelector<HTMLTextAreaElement>(
+        'textarea[name="question:dietary_details"]',
+      );
+      const input = document.querySelector<HTMLInputElement>(
+        'input[name="question:referral_other"]',
+      );
+      if (!textarea || !input) throw new Error("Hidden fields are missing.");
+      const textareaSetter = Object.getOwnPropertyDescriptor(
+        HTMLTextAreaElement.prototype,
+        "value",
+      )?.set;
+      const inputSetter = Object.getOwnPropertyDescriptor(
+        HTMLInputElement.prototype,
+        "value",
+      )?.set;
+      textareaSetter?.call(textarea, "");
+      textarea.dispatchEvent(new Event("input", { bubbles: true }));
+      inputSetter?.call(input, "");
+      input.dispatchEvent(new Event("input", { bubbles: true }));
     });
 
     await submitRegistration(page);
@@ -298,13 +387,14 @@ test("conditional details and the final agreement report server errors and keep 
     await expect(
       page.getByText("Check this agreement to continue.", { exact: true }),
     ).toHaveCount(1);
+    await expect(currentStep(page)).toHaveText(/Event details/);
     await expect(
       page.locator('textarea[name="question:dietary_details"]'),
     ).toBeFocused();
 
-    await expect(page.locator('input[name="question:program"]')).toHaveValue(
-      "Computer Science",
-    );
+    await expect(
+      page.locator('input[name="question:major"]'),
+    ).toHaveValue("Computer Science");
     await expect(
       page.locator('input[name="question:year_of_study"]'),
     ).toHaveValue("1");
@@ -323,8 +413,346 @@ test("conditional details and the final agreement report server errors and keep 
       page.locator('textarea[name="question:dietary_details"]'),
     ).toHaveValue("");
     await expect(
+      page.locator('input[name="question:referral_other"]'),
+    ).toHaveValue("");
+    await expect(
+      page.locator('textarea[name="question:participation_motivation"]'),
+    ).toHaveValue("I want to build something useful with a team.");
+    await expect(
       page.locator('input[name="agreement:submission_finality"]'),
     ).not.toBeChecked();
+  } finally {
+    await harness.cleanup();
+  }
+});
+
+test("blank background Continue stays on the first step with inline errors", async ({
+  page,
+}) => {
+  const harness = createFixtureHarness();
+  try {
+    const user = await harness.createUser("steps-blank");
+    await signIn(page, user);
+    const event = await harness.createEvent({
+      slug: "casehack-2026",
+      signupMode: "application",
+      opensAt: hoursAgo(1),
+      closesAt: hoursFromNow(2),
+      capacity: null,
+    });
+    expect(event.created).toBe(true);
+
+    await page.goto("/events/casehack-2026/register");
+
+    await expect(currentStep(page)).toHaveText(/Background/);
+    await continueStep(page);
+
+    await expect(currentStep(page)).toHaveText(/Background/);
+    await expect(
+      page.getByRole("button", { name: "Event details" }),
+    ).not.toHaveAttribute("aria-current", "step");
+    await expect(
+      page.getByText("This field is required.", { exact: true }),
+    ).toHaveCount(3);
+    await expect(
+      page.getByRole("button", { name: /Faculty \/ school/ }),
+    ).toBeFocused();
+  } finally {
+    await harness.cleanup();
+  }
+});
+
+test("major is required free text and stays independent of faculty", async ({
+  page,
+}) => {
+  const harness = createFixtureHarness();
+  try {
+    const user = await harness.createUser("steps-faculty");
+    await signIn(page, user);
+    const event = await harness.createEvent({
+      slug: "casehack-2026",
+      signupMode: "application",
+      opensAt: hoursAgo(1),
+      closesAt: hoursFromNow(2),
+      capacity: null,
+    });
+    expect(event.created).toBe(true);
+
+    await page.goto("/events/casehack-2026/register");
+
+    const major = page.locator('input[name="question:major"]');
+    await expect(major).toHaveJSProperty("type", "text");
+    await expect(major).toHaveAttribute("maxlength", "120");
+    await expect(
+      page.getByRole("button", { name: /Major \/ program/ }),
+    ).toHaveCount(0);
+
+    await chooseSingleOption(
+      page,
+      /Faculty \/ school/,
+      "Faculty of Science",
+    );
+    await major.fill("Computer Science");
+    await chooseSingleOption(page, /Faculty \/ school/, "Faculty of Arts");
+
+    await expect(major).toHaveValue("Computer Science");
+  } finally {
+    await harness.cleanup();
+  }
+});
+
+test("progress pills expose four accessible steps and the desktop form fits the viewport", async ({
+  page,
+}) => {
+  const harness = createFixtureHarness();
+  try {
+    const user = await harness.createUser("steps-viewport");
+    await signIn(page, user);
+    const event = await harness.createEvent({
+      slug: "casehack-2026",
+      signupMode: "application",
+      opensAt: hoursAgo(1),
+      closesAt: hoursFromNow(2),
+      capacity: null,
+    });
+    expect(event.created).toBe(true);
+
+    await page.goto("/events/casehack-2026/register");
+
+    const nav = page.getByRole("navigation", { name: "Registration steps" });
+    await expect(nav.getByRole("button")).toHaveCount(4);
+
+    for (const name of [
+      "Background",
+      "Event details",
+      "Application questions",
+      "Agreements",
+    ]) {
+      const button = nav.getByRole("button", { name, exact: true });
+      await expect(button).toBeVisible();
+      await expect(button).toHaveAttribute("aria-label", name);
+    }
+
+    await expect(currentStep(page)).toHaveAccessibleName("Background");
+    await expect(currentStep(page)).toHaveAttribute("aria-current", "step");
+
+    const barHeights = await nav
+      .locator("button > span")
+      .evaluateAll((bars) =>
+        bars.map((bar) => bar.getBoundingClientRect().height),
+      );
+    expect(barHeights).toHaveLength(4);
+    for (const height of barHeights) expect(height).toBeGreaterThanOrEqual(5);
+    expect(Math.max(...barHeights) - Math.min(...barHeights)).toBeLessThanOrEqual(
+      1,
+    );
+
+    for (const viewport of [
+      { width: 1440, height: 900 },
+      { width: 1366, height: 768 },
+    ]) {
+      await page.setViewportSize(viewport);
+      const metrics = await page.evaluate(() => {
+        const grid = document.querySelector("main > div");
+        const [brand, panel] = grid
+          ? Array.from(grid.children).map((child) =>
+              child.getBoundingClientRect(),
+            )
+          : [];
+        return {
+          scrollHeight: document.documentElement.scrollHeight,
+          innerHeight: window.innerHeight,
+          brandBottom: brand?.bottom ?? null,
+          panelBottom: panel?.bottom ?? null,
+        };
+      });
+
+      expect(metrics.scrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 1);
+      expect(metrics.brandBottom).not.toBeNull();
+      expect(metrics.panelBottom).not.toBeNull();
+      expect(
+        Math.abs((metrics.brandBottom ?? 0) - (metrics.panelBottom ?? 0)),
+      ).toBeLessThanOrEqual(1);
+
+      const continueButton = page.getByRole("button", {
+        name: "Continue",
+        exact: true,
+      });
+      await expect(continueButton).toBeVisible();
+      const box = await continueButton.boundingBox();
+      if (!box) throw new Error("Could not measure the Continue footer.");
+      expect(box.y + box.height).toBeLessThanOrEqual(viewport.height + 1);
+
+      // The scrolling panel's padding must leave room for the native focus
+      // outline (2px at 3px offset) instead of clipping it at the left edge.
+      const major = page.locator('input[name="question:major"]');
+      await major.focus();
+      const focusMetrics = await major.evaluate((element) => {
+        const region = element.closest<HTMLElement>(
+          "[data-registration-scroll]",
+        );
+        if (!region) throw new Error("Missing registration scroll region.");
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        const reach =
+          (Number.parseFloat(style.outlineWidth) || 0) +
+          (Number.parseFloat(style.outlineOffset) || 0);
+        return {
+          focusVisible: element.matches(":focus-visible"),
+          outlineLeft: rect.left - reach,
+          regionLeft: region.getBoundingClientRect().left,
+        };
+      });
+      expect(focusMetrics.focusVisible).toBe(true);
+      expect(focusMetrics.outlineLeft).toBeGreaterThanOrEqual(
+        focusMetrics.regionLeft,
+      );
+    }
+  } finally {
+    await harness.cleanup();
+  }
+});
+
+test("valid progression preserves answers, counters, and agreements", async ({
+  page,
+}) => {
+  const harness = createFixtureHarness();
+  try {
+    const user = await harness.createUser("steps-progress");
+    await signIn(page, user);
+    const event = await harness.createEvent({
+      slug: "casehack-2026",
+      signupMode: "application",
+      opensAt: hoursAgo(1),
+      closesAt: hoursFromNow(2),
+      capacity: null,
+    });
+    expect(event.created).toBe(true);
+
+    await page.goto("/events/casehack-2026/register");
+
+    await fillCasehackBackground(page);
+    await continueStep(page);
+    await expect(currentStep(page)).toHaveText(/Event details/);
+    await fillCasehackEventDetails(page, { dietary: ["vegetarian"] });
+    await continueStep(page);
+    await expect(currentStep(page)).toHaveText(/Application questions/);
+
+    const motivation = words(150);
+    const contribution = "I bring calm prototyping and frontend skills.";
+    await page
+      .locator('textarea[name="question:participation_motivation"]')
+      .fill(motivation);
+    await page
+      .locator('textarea[name="question:team_contribution"]')
+      .fill(contribution);
+
+    const motivationCounter = page.locator(
+      'p[id$="participation_motivation-description-counter"]',
+    );
+    await expect(motivationCounter).toHaveText("150 / 150 words");
+    await continueStep(page);
+
+    await expect(currentStep(page)).toHaveText(/Agreements/);
+    await expect(
+      page.getByText(
+        "I understand that submitting this application does not confirm my place at CaseHack. UBC Startups will contact me about my application outcome.",
+        { exact: true },
+      ),
+    ).toBeVisible();
+    await page
+      .locator('input[name="agreement:application_status"]')
+      .check();
+
+    await page
+      .getByRole("navigation", { name: "Registration steps" })
+      .getByRole("button", { name: "Application questions" })
+      .click();
+    await expect(
+      page.locator('textarea[name="question:participation_motivation"]'),
+    ).toHaveValue(motivation);
+    await expect(motivationCounter).toHaveText("150 / 150 words");
+
+    await page
+      .getByRole("navigation", { name: "Registration steps" })
+      .getByRole("button", { name: "Background" })
+      .click();
+    await expect(
+      page.locator('input[name="question:year_of_study"]'),
+    ).toHaveValue("1");
+    await expect(
+      page.locator('input[name="question:major"]'),
+    ).toHaveValue("Computer Science");
+    await expect(
+      page.locator('input[name="question:dietary_restrictions"]'),
+    ).toHaveCount(1);
+
+    await continueStep(page);
+    await continueStep(page);
+    await continueStep(page);
+    await expect(currentStep(page)).toHaveText(/Agreements/);
+    await expect(
+      page.locator('input[name="agreement:application_status"]'),
+    ).toBeChecked();
+  } finally {
+    await harness.cleanup();
+  }
+});
+
+test("word counters block 151 words and clear after trimming to 150", async ({
+  page,
+}) => {
+  const harness = createFixtureHarness();
+  try {
+    const user = await harness.createUser("steps-words");
+    await signIn(page, user);
+    const event = await harness.createEvent({
+      slug: "casehack-2026",
+      signupMode: "application",
+      opensAt: hoursAgo(1),
+      closesAt: hoursFromNow(2),
+      capacity: null,
+    });
+    expect(event.created).toBe(true);
+
+    await page.goto("/events/casehack-2026/register");
+    await fillCasehackBackground(page);
+    await continueStep(page);
+    await fillCasehackEventDetails(page, { dietary: ["none"] });
+    await continueStep(page);
+
+    const motivation = page.locator(
+      'textarea[name="question:participation_motivation"]',
+    );
+    const counter = page.locator(
+      'p[id$="participation_motivation-description-counter"]',
+    );
+    await motivation.fill(words(150));
+    await expect(counter).toHaveText("150 / 150 words");
+    await expect(
+      page.getByText("Use 150 words or fewer.", { exact: true }),
+    ).toHaveCount(0);
+
+    await motivation.fill(words(151));
+    await expect(counter).toHaveText("151 / 150 words");
+    await expect(
+      page.getByText("Use 150 words or fewer.", { exact: true }),
+    ).toHaveCount(1);
+
+    await continueStep(page);
+    await expect(currentStep(page)).toHaveText(/Application questions/);
+
+    await motivation.fill(words(150));
+    await expect(counter).toHaveText("150 / 150 words");
+    await expect(
+      page.getByText("Use 150 words or fewer.", { exact: true }),
+    ).toHaveCount(0);
+
+    await page
+      .locator('textarea[name="question:team_contribution"]')
+      .fill("A short contribution.");
+    await continueStep(page);
+    await expect(currentStep(page)).toHaveText(/Agreements/);
   } finally {
     await harness.cleanup();
   }
@@ -347,6 +775,8 @@ test("selecting none clears conditional details and stays exclusive", async ({
     expect(event.created).toBe(true);
 
     await page.goto("/events/casehack-2026/register");
+    await fillCasehackBackground(page);
+    await continueStep(page);
 
     await openDietaryOptions(page);
     const allergy = page.getByRole("option", {
@@ -396,6 +826,50 @@ test("selecting none clears conditional details and stays exclusive", async ({
     await expect(
       page.locator('input[name="question:dietary_restrictions"]'),
     ).toHaveCount(1);
+  } finally {
+    await harness.cleanup();
+  }
+});
+
+test("keyboard Enter in a dropdown selects without advancing or injecting errors", async ({
+  page,
+}) => {
+  const harness = createFixtureHarness();
+  try {
+    const user = await harness.createUser("dropdown-enter");
+    await signIn(page, user);
+    const event = await harness.createEvent({
+      slug: "casehack-2026",
+      signupMode: "application",
+      opensAt: hoursAgo(1),
+      closesAt: hoursFromNow(2),
+      capacity: null,
+    });
+    expect(event.created).toBe(true);
+
+    await page.goto("/events/casehack-2026/register");
+
+    const yearTrigger = page.getByRole("button", {
+      name: /What year of study are you in\?/,
+    });
+    await yearTrigger.focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(page.getByRole("listbox")).toBeVisible();
+    await page.keyboard.press("ArrowDown");
+    await page.keyboard.press("Enter");
+
+    await expect(page.getByRole("listbox")).toHaveCount(0);
+    await expect(
+      page.locator('input[name="question:year_of_study"]'),
+    ).toHaveValue("2");
+    await expect(yearTrigger).toBeFocused();
+    await expect(currentStep(page)).toHaveText(/Background/);
+    await expect(
+      page.getByRole("button", { name: "Event details" }),
+    ).not.toHaveAttribute("aria-current", "step");
+    await expect(
+      page.getByText("This field is required.", { exact: true }),
+    ).toHaveCount(0);
   } finally {
     await harness.cleanup();
   }
@@ -462,6 +936,15 @@ test("custom dropdowns support keyboard selection, Escape, and inset chevrons", 
     ).toHaveCount(0);
     await page.keyboard.press("Escape");
 
+    await chooseSingleOption(
+      page,
+      /Faculty \/ school/,
+      "Faculty of Science",
+    );
+    await page.locator('input[name="question:major"]').fill("Computer Science");
+    await continueStep(page);
+    await expect(currentStep(page)).toHaveText(/Event details/);
+
     const referralTrigger = page.getByRole("button", {
       name: /How did you hear about CaseHack\?/,
     });
@@ -524,6 +1007,22 @@ test("custom dropdowns support keyboard selection, Escape, and inset chevrons", 
     await page.keyboard.press("Escape");
     await expect(page.getByRole("listbox")).toHaveCount(0);
 
+    await page.setViewportSize({ width: 1024, height: 768 });
+    await referralTrigger.click();
+    const scrollRegion = page.locator(
+      "section:not([hidden]) [data-registration-scroll]",
+    );
+    const regionBox = await scrollRegion.boundingBox();
+    const menuBox = await page.getByRole("listbox").boundingBox();
+    if (!regionBox || !menuBox) {
+      throw new Error("Could not measure the dropdown inside its scroll region.");
+    }
+    expect(menuBox.y).toBeGreaterThanOrEqual(regionBox.y - 1);
+    expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(
+      regionBox.y + regionBox.height + 1,
+    );
+    await page.keyboard.press("Escape");
+
     await page.setViewportSize({ width: 390, height: 844 });
     const overflow = await page.evaluate(
       () =>
@@ -565,6 +1064,19 @@ test("a complete application submits as pending and reloads with its receipt", a
         "I understand that submitting this application does not confirm my place at CaseHack. UBC Startups will contact me about my application outcome.",
         { exact: true },
       ),
+    ).not.toBeVisible();
+
+    await fillCasehackApplication(page, {
+      dietary: ["vegetarian", "gluten_free"],
+      referralOther: "Met a volunteer",
+      includeFinalAgreement: true,
+    });
+    await expect(currentStep(page)).toHaveText(/Agreements/);
+    await expect(
+      page.getByText(
+        "I understand that submitting this application does not confirm my place at CaseHack. UBC Startups will contact me about my application outcome.",
+        { exact: true },
+      ),
     ).toBeVisible();
     await expect(
       page.getByRole("link", {
@@ -572,11 +1084,6 @@ test("a complete application submits as pending and reloads with its receipt", a
       }),
     ).toHaveCount(0);
 
-    await fillCasehackApplication(page, {
-      dietary: ["vegetarian", "gluten_free"],
-      referralOther: "Met a volunteer",
-      includeFinalAgreement: true,
-    });
     await submitRegistration(page);
 
     await expect(
@@ -590,12 +1097,16 @@ test("a complete application submits as pending and reloads with its receipt", a
     });
     expect(saved?.status).toBe("pending");
     expect(saved?.answers).toMatchObject({
-      program: "Computer Science",
+      faculty: "science",
+      major: "Computer Science",
       year_of_study: "1",
       previous_hackathons: "0",
       dietary_restrictions: ["vegetarian", "gluten_free"],
       referral_source: "other",
       referral_other: "Met a volunteer",
+      participation_motivation:
+        "I want to build something useful with a team.",
+      team_contribution: "I bring calm prototyping and frontend skills.",
     });
 
     await page.reload();

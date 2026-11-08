@@ -1,10 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Card, Heading, Text } from "@/components/ui";
+import { Heading, Text } from "@/components/ui";
 import type { EventRegistrationViewState } from "@/lib/events/registration-page-state";
-import type { RegistrationStatus } from "@/lib/events/registration-result";
 import styles from "./EventRegistration.module.css";
+import {
+  RegistrationReceipt,
+  StatusCard,
+  stateCopy,
+} from "./registration/RegistrationReceipt";
 
 type EventRegistrationProps = {
   title: string;
@@ -13,101 +17,6 @@ type EventRegistrationProps = {
   formSlot?: ReactNode;
 };
 
-const statusCopy: Record<
-  RegistrationStatus,
-  { heading: string; body: string }
-> = {
-  confirmed: {
-    heading: "You’re registered",
-    body: "Your place is confirmed. You don’t need to submit the form again.",
-  },
-  pending: {
-    heading: "Application received",
-    body: "Your application is pending review. You don’t need to submit it again.",
-  },
-  declined: {
-    heading: "Application not accepted",
-    body: "This application was not accepted. You don’t need to submit it again.",
-  },
-};
-
-const stateCopy = {
-  not_open: {
-    heading: "Registration isn’t open yet",
-    body: "Registration for this event hasn’t opened yet. Check back later.",
-  },
-  closed: {
-    heading: "Registration is closed",
-    body: "Registration for this event has closed.",
-  },
-  full: {
-    heading: "Registration is full",
-    body: "This event has reached its attendance capacity.",
-  },
-  unavailable: {
-    heading: "Registration is unavailable",
-    body: "Registration isn’t available for this event right now.",
-  },
-} as const;
-
-function formatSubmittedAt(value: string): string | null {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return null;
-  return new Intl.DateTimeFormat("en-CA", {
-    dateStyle: "long",
-    timeZone: "America/Vancouver",
-  }).format(date);
-}
-
-function StatusCard({
-  heading,
-  body,
-  submittedAt,
-}: {
-  heading: string;
-  body: string;
-  submittedAt?: string | null;
-}) {
-  return (
-    <Card
-      as="section"
-      role="status"
-      aria-labelledby="registration-state-heading"
-      className="flex w-full flex-col gap-xs"
-    >
-      <Heading
-        id="registration-state-heading"
-        as="h2"
-        variant="heading-m"
-      >
-        {heading}
-      </Heading>
-      <Text className="text-ink-secondary">{body}</Text>
-      {submittedAt && (
-        <Text as="p" variant="body-s" className="text-ink-secondary">
-          Submitted {submittedAt}
-        </Text>
-      )}
-    </Card>
-  );
-}
-
-export function RegistrationReceipt({
-  status,
-  submittedAt,
-}: {
-  status: RegistrationStatus;
-  submittedAt: string;
-}) {
-  return (
-    <StatusCard
-      heading={statusCopy[status].heading}
-      body={statusCopy[status].body}
-      submittedAt={formatSubmittedAt(submittedAt)}
-    />
-  );
-}
-
 export function EventRegistration({
   title,
   state,
@@ -115,17 +24,17 @@ export function EventRegistration({
 }: EventRegistrationProps) {
   return (
     <main id="main-content" className="min-h-screen bg-canvas">
-      <div className="mx-auto box-border grid min-h-screen max-w-site gap-md p-md lg:grid-cols-[42%_1fr] lg:items-start">
+      <div className="mx-auto box-border grid min-h-[100dvh] max-w-site content-start gap-md p-md sm:max-w-[800px] lg:h-[100dvh] lg:min-h-0 lg:max-w-site lg:grid-cols-[42%_1fr] lg:items-stretch lg:content-normal">
         <section
           aria-labelledby="registration-event-title"
           className={[
             styles.brandPanel,
-            "box-border flex min-h-[280px] flex-col justify-between gap-xxl rounded-panel bg-inverse p-lg text-ink-inverse sm:min-h-[340px] sm:p-xl lg:sticky lg:top-md lg:h-[calc(100dvh-32px)] lg:min-h-0 lg:self-start lg:p-xxl",
+            "box-border flex min-h-[280px] flex-col justify-between gap-xxl rounded-panel bg-inverse p-lg text-ink-inverse sm:min-h-0 sm:flex-row sm:items-center sm:gap-xl sm:p-xl lg:h-full lg:min-h-0 lg:flex-col lg:items-stretch lg:justify-between lg:gap-xxl lg:p-xxl",
           ].join(" ")}
         >
           <Link
             href="/"
-            className="flex w-fit items-center gap-xs text-ink-inverse no-underline"
+            className="flex w-fit shrink-0 items-center gap-xs text-ink-inverse no-underline"
           >
             <Image
               src="/figma/logo-mark-inverse.svg"
@@ -140,7 +49,7 @@ export function EventRegistration({
             </Text>
           </Link>
 
-          <div className="flex max-w-[34ch] flex-col gap-sm">
+          <div className="flex min-w-0 max-w-[34ch] flex-col gap-sm">
             <Text as="span" variant="eyebrow" className="text-brand-green">
               Event registration
             </Text>
@@ -159,11 +68,11 @@ export function EventRegistration({
           </div>
         </section>
 
-        <div className="flex min-w-0 flex-col items-center py-sm lg:py-xl">
-          <div className="flex w-full max-w-[440px] flex-col gap-lg">
+        <div className="flex min-w-0 flex-col items-center py-sm lg:h-full lg:min-h-0 lg:justify-start lg:py-0">
+          <div className="flex w-full max-w-[440px] flex-col gap-lg sm:max-w-[640px] lg:h-full lg:min-h-0 lg:max-w-[440px] lg:gap-md">
             <Link
               href="/events"
-              className="inline-flex w-fit items-center gap-xs font-brand text-label-s text-ink-secondary no-underline hover:text-ink"
+              className="inline-flex w-fit shrink-0 items-center gap-xs font-brand text-label-s text-ink-secondary no-underline hover:text-ink"
             >
               <svg
                 aria-hidden="true"
@@ -181,14 +90,11 @@ export function EventRegistration({
               Back to events
             </Link>
 
-            <div className="flex flex-col gap-xs">
+            <div className="flex shrink-0 flex-col gap-xs">
               <span
                 aria-hidden="true"
                 className="mb-xs block h-1 w-10 rounded-pill bg-brand-green"
               />
-              <Text as="span" variant="eyebrow" className="text-accent">
-                UBC Startups
-              </Text>
               <Heading
                 id="registration-form-heading"
                 as="h2"

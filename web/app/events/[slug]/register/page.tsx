@@ -9,7 +9,7 @@ import { getOnboardingPath } from "@/lib/auth/signup-routing";
 import { resolveEventRegistrationPageState } from "@/lib/events/registration-page-state";
 import { readEventRegistration } from "@/lib/events/registration-server";
 import { EventRegistration } from "@/views/EventRegistration";
-import { EventRegistrationForm } from "@/views/EventRegistrationForm";
+import { EventRegistrationForm } from "@/views/registration/EventRegistrationForm";
 import { submitEventRegistration } from "./actions";
 
 export const metadata: Metadata = {

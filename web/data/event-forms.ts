@@ -16,6 +16,8 @@ const eventForms = new Map<string, EventForm>([
     "casehack-2026",
     {
       title: "CaseHack",
+      blurb:
+        "Two days, one real-world challenge, and a team with complementary skills. Apply below.",
       questions: [
         {
           id: "faculty",

@@ -12,6 +12,7 @@ import {
 
 type EventRegistrationProps = {
   title: string;
+  blurb?: string;
   state: EventRegistrationViewState;
   /** Task 2 supplies the native registration form here when the event is open. */
   formSlot?: ReactNode;
@@ -19,6 +20,7 @@ type EventRegistrationProps = {
 
 export function EventRegistration({
   title,
+  blurb,
   state,
   formSlot,
 }: EventRegistrationProps) {
@@ -61,10 +63,9 @@ export function EventRegistration({
             >
               {title}
             </Heading>
-            <Text className="text-ink-inverse-soft">
-              Register for {title}. It’s a single submission, so review your
-              answers before you send them.
-            </Text>
+            {state.kind === "open" && blurb && (
+              <Text className="text-ink-inverse-soft">{blurb}</Text>
+            )}
           </div>
         </section>
 

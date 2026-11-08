@@ -53,6 +53,8 @@ export type EventFormAgreement = {
 
 export type EventForm = {
   title: string;
+  /** Short invitation shown beside the event title while registration is open. */
+  blurb?: string;
   questions: ReadonlyArray<EventFormQuestion>;
   agreements: ReadonlyArray<EventFormAgreement>;
 };

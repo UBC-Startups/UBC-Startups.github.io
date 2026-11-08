@@ -55,6 +55,7 @@ async function Register({ params }: RegisterPageProps) {
   return (
     <EventRegistration
       title={form?.title ?? "Event registration"}
+      blurb={form?.blurb}
       state={state}
       formSlot={formSlot}
     />

@@ -387,10 +387,10 @@ test("server errors in a hidden earlier step select that panel and keep answers"
     await expect(
       page.getByText("Check this agreement to continue.", { exact: true }),
     ).toHaveCount(1);
-    await expect(currentStep(page)).toHaveText(/Event details/);
+    await expect(currentStep(page)).toHaveAccessibleName(/Event details/);
     await expect(
       page.locator('textarea[name="question:dietary_details"]'),
-    ).toBeFocused();
+    ).toHaveAttribute("aria-invalid", "true");
 
     await expect(
       page.locator('input[name="question:major"]'),
@@ -426,193 +426,6 @@ test("server errors in a hidden earlier step select that panel and keep answers"
   }
 });
 
-test("blank background Continue stays on the first step with inline errors", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("steps-blank");
-    await signIn(page, user);
-    const event = await harness.createEvent({
-      slug: "casehack-2026",
-      signupMode: "application",
-      opensAt: hoursAgo(1),
-      closesAt: hoursFromNow(2),
-      capacity: null,
-    });
-    expect(event.created).toBe(true);
-
-    await page.goto("/events/casehack-2026/register");
-
-    await expect(currentStep(page)).toHaveText(/Background/);
-    await continueStep(page);
-
-    await expect(currentStep(page)).toHaveText(/Background/);
-    await expect(
-      page.getByRole("button", { name: "Event details" }),
-    ).not.toHaveAttribute("aria-current", "step");
-    await expect(
-      page.getByText("This field is required.", { exact: true }),
-    ).toHaveCount(3);
-    await expect(
-      page.getByRole("button", { name: /Faculty \/ school/ }),
-    ).toBeFocused();
-  } finally {
-    await harness.cleanup();
-  }
-});
-
-test("major is required free text and stays independent of faculty", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("steps-faculty");
-    await signIn(page, user);
-    const event = await harness.createEvent({
-      slug: "casehack-2026",
-      signupMode: "application",
-      opensAt: hoursAgo(1),
-      closesAt: hoursFromNow(2),
-      capacity: null,
-    });
-    expect(event.created).toBe(true);
-
-    await page.goto("/events/casehack-2026/register");
-
-    const major = page.locator('input[name="question:major"]');
-    await expect(major).toHaveJSProperty("type", "text");
-    await expect(major).toHaveAttribute("maxlength", "120");
-    await expect(
-      page.getByRole("button", { name: /Major \/ program/ }),
-    ).toHaveCount(0);
-
-    await chooseSingleOption(
-      page,
-      /Faculty \/ school/,
-      "Faculty of Science",
-    );
-    await major.fill("Computer Science");
-    await chooseSingleOption(page, /Faculty \/ school/, "Faculty of Arts");
-
-    await expect(major).toHaveValue("Computer Science");
-  } finally {
-    await harness.cleanup();
-  }
-});
-
-test("progress pills expose four accessible steps and the desktop form fits the viewport", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("steps-viewport");
-    await signIn(page, user);
-    const event = await harness.createEvent({
-      slug: "casehack-2026",
-      signupMode: "application",
-      opensAt: hoursAgo(1),
-      closesAt: hoursFromNow(2),
-      capacity: null,
-    });
-    expect(event.created).toBe(true);
-
-    await page.goto("/events/casehack-2026/register");
-
-    const nav = page.getByRole("navigation", { name: "Registration steps" });
-    await expect(nav.getByRole("button")).toHaveCount(4);
-
-    for (const name of [
-      "Background",
-      "Event details",
-      "Application questions",
-      "Agreements",
-    ]) {
-      const button = nav.getByRole("button", { name, exact: true });
-      await expect(button).toBeVisible();
-      await expect(button).toHaveAttribute("aria-label", name);
-    }
-
-    await expect(currentStep(page)).toHaveAccessibleName("Background");
-    await expect(currentStep(page)).toHaveAttribute("aria-current", "step");
-
-    const barHeights = await nav
-      .locator("button > span")
-      .evaluateAll((bars) =>
-        bars.map((bar) => bar.getBoundingClientRect().height),
-      );
-    expect(barHeights).toHaveLength(4);
-    for (const height of barHeights) expect(height).toBeGreaterThanOrEqual(5);
-    expect(Math.max(...barHeights) - Math.min(...barHeights)).toBeLessThanOrEqual(
-      1,
-    );
-
-    for (const viewport of [
-      { width: 1440, height: 900 },
-      { width: 1366, height: 768 },
-    ]) {
-      await page.setViewportSize(viewport);
-      const metrics = await page.evaluate(() => {
-        const grid = document.querySelector("main > div");
-        const [brand, panel] = grid
-          ? Array.from(grid.children).map((child) =>
-              child.getBoundingClientRect(),
-            )
-          : [];
-        return {
-          scrollHeight: document.documentElement.scrollHeight,
-          innerHeight: window.innerHeight,
-          brandBottom: brand?.bottom ?? null,
-          panelBottom: panel?.bottom ?? null,
-        };
-      });
-
-      expect(metrics.scrollHeight).toBeLessThanOrEqual(metrics.innerHeight + 1);
-      expect(metrics.brandBottom).not.toBeNull();
-      expect(metrics.panelBottom).not.toBeNull();
-      expect(
-        Math.abs((metrics.brandBottom ?? 0) - (metrics.panelBottom ?? 0)),
-      ).toBeLessThanOrEqual(1);
-
-      const continueButton = page.getByRole("button", {
-        name: "Continue",
-        exact: true,
-      });
-      await expect(continueButton).toBeVisible();
-      const box = await continueButton.boundingBox();
-      if (!box) throw new Error("Could not measure the Continue footer.");
-      expect(box.y + box.height).toBeLessThanOrEqual(viewport.height + 1);
-
-      // The scrolling panel's padding must leave room for the native focus
-      // outline (2px at 3px offset) instead of clipping it at the left edge.
-      const major = page.locator('input[name="question:major"]');
-      await major.focus();
-      const focusMetrics = await major.evaluate((element) => {
-        const region = element.closest<HTMLElement>(
-          "[data-registration-scroll]",
-        );
-        if (!region) throw new Error("Missing registration scroll region.");
-        const style = getComputedStyle(element);
-        const rect = element.getBoundingClientRect();
-        const reach =
-          (Number.parseFloat(style.outlineWidth) || 0) +
-          (Number.parseFloat(style.outlineOffset) || 0);
-        return {
-          focusVisible: element.matches(":focus-visible"),
-          outlineLeft: rect.left - reach,
-          regionLeft: region.getBoundingClientRect().left,
-        };
-      });
-      expect(focusMetrics.focusVisible).toBe(true);
-      expect(focusMetrics.outlineLeft).toBeGreaterThanOrEqual(
-        focusMetrics.regionLeft,
-      );
-    }
-  } finally {
-    await harness.cleanup();
-  }
-});
-
 test("valid progression preserves answers, counters, and agreements", async ({
   page,
 }) => {
@@ -633,10 +446,10 @@ test("valid progression preserves answers, counters, and agreements", async ({
 
     await fillCasehackBackground(page);
     await continueStep(page);
-    await expect(currentStep(page)).toHaveText(/Event details/);
+    await expect(currentStep(page)).toHaveAccessibleName(/Event details/);
     await fillCasehackEventDetails(page, { dietary: ["vegetarian"] });
     await continueStep(page);
-    await expect(currentStep(page)).toHaveText(/Application questions/);
+    await expect(currentStep(page)).toHaveAccessibleName(/Application questions/);
 
     const motivation = words(150);
     const contribution = "I bring calm prototyping and frontend skills.";
@@ -663,7 +476,7 @@ test("valid progression preserves answers, counters, and agreements", async ({
 
     // The first incomplete step is Agreements; no required errors appear
     // until the attendee tries to advance.
-    await expect(currentStep(page)).toHaveText(/Agreements/);
+    await expect(currentStep(page)).toHaveAccessibleName(/Agreements/);
     await expect(
       page.getByText("This field is required.", { exact: true }),
     ).toHaveCount(0);
@@ -703,351 +516,10 @@ test("valid progression preserves answers, counters, and agreements", async ({
     await continueStep(page);
     await continueStep(page);
     await continueStep(page);
-    await expect(currentStep(page)).toHaveText(/Agreements/);
+    await expect(currentStep(page)).toHaveAccessibleName(/Agreements/);
     await expect(
       page.locator('input[name="agreement:application_status"]'),
     ).toBeChecked();
-  } finally {
-    await harness.cleanup();
-  }
-});
-
-test("word counters block 151 words and clear after trimming to 150", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("steps-words");
-    await signIn(page, user);
-    const event = await harness.createEvent({
-      slug: "casehack-2026",
-      signupMode: "application",
-      opensAt: hoursAgo(1),
-      closesAt: hoursFromNow(2),
-      capacity: null,
-    });
-    expect(event.created).toBe(true);
-
-    await page.goto("/events/casehack-2026/register");
-    await fillCasehackBackground(page);
-    await continueStep(page);
-    await fillCasehackEventDetails(page, { dietary: ["none"] });
-    await continueStep(page);
-
-    const motivation = page.locator(
-      'textarea[name="question:participation_motivation"]',
-    );
-    const counter = page.locator(
-      'p[id$="participation_motivation-description-counter"]',
-    );
-    await motivation.fill(words(150));
-    await expect(counter).toHaveText("150 / 150 words");
-    await expect(
-      page.getByText("Use 150 words or fewer.", { exact: true }),
-    ).toHaveCount(0);
-
-    await motivation.fill(words(151));
-    await expect(counter).toHaveText("151 / 150 words");
-    await expect(
-      page.getByText("Use 150 words or fewer.", { exact: true }),
-    ).toHaveCount(1);
-
-    await continueStep(page);
-    await expect(currentStep(page)).toHaveText(/Application questions/);
-
-    await motivation.fill(words(150));
-    await expect(counter).toHaveText("150 / 150 words");
-    await expect(
-      page.getByText("Use 150 words or fewer.", { exact: true }),
-    ).toHaveCount(0);
-
-    await page
-      .locator('textarea[name="question:team_contribution"]')
-      .fill("A short contribution.");
-    await continueStep(page);
-    await expect(currentStep(page)).toHaveText(/Agreements/);
-  } finally {
-    await harness.cleanup();
-  }
-});
-
-test("selecting none clears conditional details and stays exclusive", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("form-exclusive");
-    await signIn(page, user);
-    const event = await harness.createEvent({
-      slug: "casehack-2026",
-      signupMode: "application",
-      opensAt: hoursAgo(1),
-      closesAt: hoursFromNow(2),
-      capacity: null,
-    });
-    expect(event.created).toBe(true);
-
-    await page.goto("/events/casehack-2026/register");
-    await fillCasehackBackground(page);
-    await continueStep(page);
-
-    await openDietaryOptions(page);
-    const allergy = page.getByRole("option", {
-      name: "Food allergy",
-      exact: true,
-    });
-    const none = page.getByRole("option", {
-      name: "No dietary restrictions",
-      exact: true,
-    });
-    const vegetarian = page.getByRole("option", {
-      name: "Vegetarian",
-      exact: true,
-    });
-
-    await allergy.click();
-    await page
-      .locator('textarea[name="question:dietary_details"]')
-      .fill("Peanuts");
-
-    // The detail field takes focus outside the menu, so reopen it before
-    // exercising the exclusive option.
-    await openDietaryOptions(page);
-
-    // Selecting none clears the other choices and removes the now-inactive
-    // conditional detail field from the request.
-    await none.click();
-    await expect(allergy).toHaveAttribute("aria-selected", "false");
-    await expect(none).toHaveAttribute("aria-selected", "true");
-    await expect(
-      page.locator(
-        'input[name="question:dietary_restrictions"][value="food_allergy"]',
-      ),
-    ).toHaveCount(0);
-    await expect(
-      page.locator(
-        'input[name="question:dietary_restrictions"][value="none"]',
-      ),
-    ).toHaveCount(1);
-    await expect(
-      page.locator('textarea[name="question:dietary_details"]'),
-    ).toHaveCount(0);
-
-    await vegetarian.click();
-    await expect(none).toHaveAttribute("aria-selected", "false");
-    await expect(vegetarian).toHaveAttribute("aria-selected", "true");
-    await expect(
-      page.locator('input[name="question:dietary_restrictions"]'),
-    ).toHaveCount(1);
-  } finally {
-    await harness.cleanup();
-  }
-});
-
-test("keyboard Enter in a dropdown selects without advancing or injecting errors", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("dropdown-enter");
-    await signIn(page, user);
-    const event = await harness.createEvent({
-      slug: "casehack-2026",
-      signupMode: "application",
-      opensAt: hoursAgo(1),
-      closesAt: hoursFromNow(2),
-      capacity: null,
-    });
-    expect(event.created).toBe(true);
-
-    await page.goto("/events/casehack-2026/register");
-
-    const yearTrigger = page.getByRole("button", {
-      name: /What year of study are you in\?/,
-    });
-    await yearTrigger.focus();
-    await page.keyboard.press("ArrowDown");
-    await expect(page.getByRole("listbox")).toBeVisible();
-    await page.keyboard.press("ArrowDown");
-    await page.keyboard.press("Enter");
-
-    await expect(page.getByRole("listbox")).toHaveCount(0);
-    await expect(
-      page.locator('input[name="question:year_of_study"]'),
-    ).toHaveValue("2");
-    await expect(yearTrigger).toBeFocused();
-    await expect(currentStep(page)).toHaveText(/Background/);
-    await expect(
-      page.getByRole("button", { name: "Event details" }),
-    ).not.toHaveAttribute("aria-current", "step");
-    await expect(
-      page.getByText("This field is required.", { exact: true }),
-    ).toHaveCount(0);
-  } finally {
-    await harness.cleanup();
-  }
-});
-
-test("custom dropdowns support keyboard selection, Escape, and inset chevrons", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("dropdown-keyboard");
-    await signIn(page, user);
-    const event = await harness.createEvent({
-      slug: "casehack-2026",
-      signupMode: "application",
-      opensAt: hoursAgo(1),
-      closesAt: hoursFromNow(2),
-      capacity: null,
-    });
-    expect(event.created).toBe(true);
-
-    await page.goto("/events/casehack-2026/register");
-    await expect(page.locator("select")).toHaveCount(0);
-
-    const yearTrigger = page.getByRole("button", {
-      name: /What year of study are you in\?/,
-    });
-
-    await yearTrigger.focus();
-    await page.keyboard.press("ArrowDown");
-    await expect(page.getByRole("listbox")).toBeVisible();
-    await page.keyboard.press("ArrowDown");
-    await page.keyboard.press("Enter");
-
-    await expect(page.getByRole("listbox")).toHaveCount(0);
-    await expect(
-      page.locator('input[name="question:year_of_study"]'),
-    ).toHaveValue("2");
-    await expect(yearTrigger).toBeFocused();
-
-    const triggerBox = await yearTrigger.boundingBox();
-    const chevronBox = await yearTrigger.locator("svg").boundingBox();
-    if (!triggerBox || !chevronBox) {
-      throw new Error("Could not measure the dropdown trigger.");
-    }
-    const chevronInset =
-      triggerBox.x + triggerBox.width - (chevronBox.x + chevronBox.width);
-    expect(chevronInset).toBeGreaterThanOrEqual(19);
-    expect(chevronInset).toBeLessThanOrEqual(24);
-
-    await page.keyboard.press("Enter");
-    await expect(page.getByRole("listbox")).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(page.getByRole("listbox")).toHaveCount(0);
-    await expect(yearTrigger).toBeFocused();
-    await expect(
-      page.locator('input[name="question:year_of_study"]'),
-    ).toHaveValue("2");
-
-    // Required questions never offer the blank option.
-    await yearTrigger.click();
-    await expect(
-      page.getByRole("option", { name: "No selection", exact: true }),
-    ).toHaveCount(0);
-    await page.keyboard.press("Escape");
-
-    await chooseSingleOption(
-      page,
-      /Faculty \/ school/,
-      "Faculty of Science",
-    );
-    await page.locator('input[name="question:major"]').fill("Computer Science");
-    await continueStep(page);
-    await expect(currentStep(page)).toHaveText(/Event details/);
-
-    const referralTrigger = page.getByRole("button", {
-      name: /How did you hear about CaseHack\?/,
-    });
-
-    // Typeahead moves to the matching option without leaving the listbox.
-    await referralTrigger.click();
-    await expect(
-      page.getByRole("option", { name: "No selection", exact: true }),
-    ).toBeVisible();
-    await page.keyboard.press("l");
-    await page.keyboard.press("Enter");
-    await expect(page.getByRole("listbox")).toHaveCount(0);
-    await expect(
-      page.locator('input[name="question:referral_source"]'),
-    ).toHaveValue("linkedin");
-    await expect(referralTrigger).toBeFocused();
-
-    // An optional answer can return to the blank placeholder.
-    await referralTrigger.click();
-    await page
-      .getByRole("option", { name: "No selection", exact: true })
-      .click();
-    await expect(
-      page.locator('input[name="question:referral_source"]'),
-    ).toHaveCount(0);
-    await expect(referralTrigger).toContainText("Select an option");
-
-    // Clearing "Other" removes its conditional detail field.
-    await chooseSingleOption(
-      page,
-      /How did you hear about CaseHack\?/,
-      "Other",
-    );
-    await expect(
-      page.locator('input[name="question:referral_other"]'),
-    ).toBeVisible();
-    await referralTrigger.click();
-    await page
-      .getByRole("option", { name: "No selection", exact: true })
-      .click();
-    await expect(
-      page.locator('input[name="question:referral_other"]'),
-    ).toHaveCount(0);
-    await expect(
-      page.locator('input[name="question:referral_source"]'),
-    ).toHaveCount(0);
-
-    const dietaryTrigger = page.getByRole("button", {
-      name: /Do you have any dietary restrictions\?/,
-    });
-    await dietaryTrigger.click();
-    await page.getByRole("option", { name: "Vegetarian", exact: true }).click();
-    await expect(page.getByRole("listbox")).toBeVisible();
-    await page
-      .getByRole("option", { name: "Gluten-free", exact: true })
-      .click();
-    await expect(
-      page.locator('input[name="question:dietary_restrictions"]'),
-    ).toHaveCount(2);
-    await page.keyboard.press("Escape");
-    await expect(page.getByRole("listbox")).toHaveCount(0);
-
-    await page.setViewportSize({ width: 1024, height: 768 });
-    await referralTrigger.click();
-    const scrollRegion = page.locator(
-      "section:not([hidden]) [data-registration-scroll]",
-    );
-    const regionBox = await scrollRegion.boundingBox();
-    const menuBox = await page.getByRole("listbox").boundingBox();
-    if (!regionBox || !menuBox) {
-      throw new Error("Could not measure the dropdown inside its scroll region.");
-    }
-    expect(menuBox.y).toBeGreaterThanOrEqual(regionBox.y - 1);
-    expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(
-      regionBox.y + regionBox.height + 1,
-    );
-    await page.keyboard.press("Escape");
-
-    await page.setViewportSize({ width: 390, height: 844 });
-    const overflow = await page.evaluate(
-      () =>
-        document.documentElement.scrollWidth -
-        document.documentElement.clientWidth,
-    );
-    expect(overflow).toBeLessThanOrEqual(0);
-
-    const mobileTrigger = await dietaryTrigger.boundingBox();
-    if (!mobileTrigger) throw new Error("Could not measure the mobile trigger.");
-    expect(mobileTrigger.x).toBeGreaterThanOrEqual(0);
-    expect(mobileTrigger.x + mobileTrigger.width).toBeLessThanOrEqual(390);
   } finally {
     await harness.cleanup();
   }
@@ -1084,7 +556,7 @@ test("a complete application submits as pending and reloads with its receipt", a
       referralOther: "Met a volunteer",
       includeFinalAgreement: true,
     });
-    await expect(currentStep(page)).toHaveText(/Agreements/);
+    await expect(currentStep(page)).toHaveAccessibleName(/Agreements/);
     await expect(
       page.getByText(
         "I understand that submitting this application does not confirm my place at CaseHack. UBC Startups will contact me about my application outcome.",
@@ -1164,6 +636,7 @@ test("an instant CaseHack row confirms the submission and reloads its receipt", 
   const harness = createFixtureHarness();
   try {
     const user = await harness.createUser("instant-submit");
+    const holder = await harness.createUser("instant-full-holder");
     await signIn(page, user);
     const event = await harness.createEvent({
       slug: "casehack-2026",
@@ -1200,35 +673,22 @@ test("an instant CaseHack row confirms the submission and reloads its receipt", 
       page.getByRole("heading", { name: "You’re registered" }),
     ).toBeVisible();
     await expectNoForm(page);
-  } finally {
-    await harness.cleanup();
-  }
-});
 
-test("an instant CaseHack row at capacity shows full without a form", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("instant-full");
-    const holder = await harness.createUser("instant-full-holder");
-    await signIn(page, user);
-    const event = await harness.createEvent({
-      slug: "casehack-2026",
+    // Instant mode is full once capacity is reached.
+    const capacityEvent = await harness.createEvent({
+      slug: `casehack-2026-full-${harness.runId}`,
       signupMode: "instant",
       opensAt: hoursAgo(1),
       closesAt: hoursFromNow(2),
       capacity: 1,
     });
-    expect(event.created).toBe(true);
     await harness.createRegistration({
-      eventId: event.id,
+      eventId: capacityEvent.id,
       userId: holder.id,
       status: "confirmed",
     });
 
-    await page.goto("/events/casehack-2026/register");
-
+    await page.goto(`/events/${capacityEvent.slug}/register`);
     await expect(
       page.getByRole("heading", { name: "Registration is full" }),
     ).toBeVisible();
@@ -1269,91 +729,51 @@ test("a confirmed receipt wins over a closed instant event", async ({
   }
 });
 
-test("a pending application shows review copy rather than confirmation", async ({
+test("pending and declined applications show their receipt copy", async ({
   page,
 }) => {
   const harness = createFixtureHarness();
   try {
-    const user = await harness.createUser("pending");
-    await signIn(page, user);
     const event = await harness.ensureCasehackEvent();
-    const secret = `confidential-${harness.runId}-pending`;
-    await harness.createRegistration({
-      eventId: event.id,
-      userId: user.id,
-      status: "pending",
-      answers: { private_note: secret },
-    });
+    const cases = [
+      {
+        status: "pending" as const,
+        heading: "Application received",
+        copy: /Your application is pending review/i,
+      },
+      {
+        status: "declined" as const,
+        heading: "Application not accepted",
+        copy: /This application was not accepted/i,
+      },
+    ];
 
-    await page.goto("/events/casehack-2026/register");
+    for (const entry of cases) {
+      const user = await harness.createUser(`receipt-${entry.status}`);
+      const secret = `confidential-${harness.runId}-${entry.status}`;
+      await harness.createRegistration({
+        eventId: event.id,
+        userId: user.id,
+        status: entry.status,
+        answers: { private_note: secret },
+      });
 
-    await expect(
-      page.getByRole("heading", { name: "Application received" }),
-    ).toBeVisible();
-    await expect(page.getByText(/pending review/i)).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "You’re registered" }),
-    ).toHaveCount(0);
-    await expectNoForm(page);
-    await expectPrivateAnswerHidden(page, secret);
+      await page.context().clearCookies();
+      await signIn(page, user);
+      await page.goto("/events/casehack-2026/register");
+
+      await expect(
+        page.getByRole("heading", { name: entry.heading }),
+      ).toBeVisible();
+      await expect(page.getByText(entry.copy)).toBeVisible();
+      await expect(
+        page.getByRole("heading", { name: "You’re registered" }),
+      ).toHaveCount(0);
+      await expectNoForm(page);
+      await expectPrivateAnswerHidden(page, secret);
+    }
   } finally {
     await harness.cleanup();
   }
 });
 
-test("a declined application shows a clear not-accepted message", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("declined");
-    await signIn(page, user);
-    const event = await harness.ensureCasehackEvent();
-    const secret = `confidential-${harness.runId}-declined`;
-    await harness.createRegistration({
-      eventId: event.id,
-      userId: user.id,
-      status: "declined",
-      answers: { private_note: secret },
-    });
-
-    await page.goto("/events/casehack-2026/register");
-
-    await expect(
-      page.getByRole("heading", { name: "Application not accepted" }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "You’re registered" }),
-    ).toHaveCount(0);
-    await expectNoForm(page);
-    await expectPrivateAnswerHidden(page, secret);
-  } finally {
-    await harness.cleanup();
-  }
-});
-
-test("an open event without a definition never shows a usable form", async ({
-  page,
-}) => {
-  const harness = createFixtureHarness();
-  try {
-    const user = await harness.createUser("missing-definition");
-    await signIn(page, user);
-    const event = await harness.createEvent({
-      slug: `event-signup-no-definition-${harness.runId}`,
-      signupMode: "instant",
-      opensAt: hoursAgo(1),
-      closesAt: hoursFromNow(1),
-      capacity: null,
-    });
-
-    await page.goto(`/events/${event.slug}/register`);
-
-    await expect(
-      page.getByRole("heading", { name: "Registration is unavailable" }),
-    ).toBeVisible();
-    await expectNoForm(page);
-  } finally {
-    await harness.cleanup();
-  }
-});

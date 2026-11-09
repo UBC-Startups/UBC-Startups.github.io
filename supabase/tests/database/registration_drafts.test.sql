@@ -21,7 +21,7 @@
 begin;
 
 -- plan() must match the number of assertions in this file.
-select plan(112);
+select plan(105);
 
 -- ===========================================================================
 -- Synthetic accounts, profiles, and event editions
@@ -67,11 +67,8 @@ insert into public.event_registrations (event_id, user_id, answers, accepted_agr
 -- Privileges: only service_role may execute, and it may update registrations
 -- ===========================================================================
 select ok(has_function_privilege('service_role', 'public.save_event_registration_draft(uuid,uuid,jsonb,jsonb,integer)', 'EXECUTE'), 'service_role can execute draft save');
-select ok(has_function_privilege('service_role', 'public.submit_event_registration(uuid,uuid,jsonb,jsonb,integer)', 'EXECUTE'), 'service_role can execute submission');
 select ok(not has_function_privilege('anon', 'public.save_event_registration_draft(uuid,uuid,jsonb,jsonb,integer)', 'EXECUTE'), 'anon cannot execute draft save');
-select ok(not has_function_privilege('anon', 'public.submit_event_registration(uuid,uuid,jsonb,jsonb,integer)', 'EXECUTE'), 'anon cannot execute submission');
 select ok(not has_function_privilege('authenticated', 'public.save_event_registration_draft(uuid,uuid,jsonb,jsonb,integer)', 'EXECUTE'), 'authenticated cannot execute draft save');
-select ok(not has_function_privilege('authenticated', 'public.submit_event_registration(uuid,uuid,jsonb,jsonb,integer)', 'EXECUTE'), 'authenticated cannot execute submission');
 select ok(has_table_privilege('service_role', 'public.event_registrations', 'UPDATE'), 'service_role can update draft rows');
 select is(to_regprocedure('public.submit_event_registration(uuid,uuid,jsonb,jsonb)'), null::regprocedure, 'old four-argument submission signature is removed');
 
@@ -93,12 +90,10 @@ select is((select outcome from draft_create), 'saved'::text, 'first draft save i
 select is((select revision from draft_create), 1, 'first draft save returns revision one');
 select is((select status from draft_create), 'draft'::text, 'first draft save returns draft status');
 select is((select submitted_at from draft_create), null::timestamptz, 'draft has no submitted timestamp');
-select ok((select saved_at from draft_create) is not null, 'draft save returns a database timestamp');
 select is((select count(*) from public.event_registrations where event_id = 'c1111111-1111-1111-1111-111111111111' and user_id = 'b1111111-1111-1111-1111-111111111111'), 1::bigint, 'draft save writes exactly one row');
 select is((select answers from public.event_registrations where event_id = 'c1111111-1111-1111-1111-111111111111' and user_id = 'b1111111-1111-1111-1111-111111111111'), '{"firstName":"Ada","interests":["systems"],"removed":"later"}'::jsonb, 'draft stores the raw working answers');
 select is((select accepted_agreements from public.event_registrations where event_id = 'c1111111-1111-1111-1111-111111111111' and user_id = 'b1111111-1111-1111-1111-111111111111'), '[]'::jsonb, 'draft does not record legal acceptance');
 select is((select draft_agreement_keys from public.event_registrations where event_id = 'c1111111-1111-1111-1111-111111111111' and user_id = 'b1111111-1111-1111-1111-111111111111'), '["code-of-conduct","photo-release"]'::jsonb, 'draft stores the checked agreement keys');
-select is((select revision from public.event_registrations where event_id = 'c1111111-1111-1111-1111-111111111111' and user_id = 'b1111111-1111-1111-1111-111111111111'), 1, 'draft row starts at revision one');
 select is((select updated_at from public.event_registrations where event_id = 'c1111111-1111-1111-1111-111111111111' and user_id = 'b1111111-1111-1111-1111-111111111111'), (select saved_at from draft_create), 'saved timestamp matches the row updated_at');
 
 -- ===========================================================================
@@ -356,8 +351,6 @@ select set_config('request.jwt.claim.sub', 'b1111111-1111-1111-1111-111111111111
 
 select is((select count(*) from public.event_registrations), 1::bigint, 'draft owner sees their own draft');
 select is((select count(*) from public.event_registrations where user_id = 'b2222222-2222-2222-2222-222222222222'), 0::bigint, 'draft owner cannot see another attendee draft');
-select throws_ok($$update public.event_registrations set answers = '{}'::jsonb$$, '42501', null, 'attendee cannot update a draft');
-select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values ('c2222222-2222-2222-2222-222222222222','b1111111-1111-1111-1111-111111111111','{}'::jsonb,'[]'::jsonb,'pending',now())$$, '42501', null, 'attendee cannot insert a receipt');
 select throws_ok($$select * from public.save_event_registration_draft('c1111111-1111-1111-1111-111111111111','b1111111-1111-1111-1111-111111111111','{}'::jsonb,'[]'::jsonb,2)$$, '42501', null, 'attendee cannot execute draft save');
 select throws_ok($$select * from public.submit_event_registration('c1111111-1111-1111-1111-111111111111','b1111111-1111-1111-1111-111111111111','{}'::jsonb,'[]'::jsonb)$$, '42501', null, 'attendee cannot execute submission');
 

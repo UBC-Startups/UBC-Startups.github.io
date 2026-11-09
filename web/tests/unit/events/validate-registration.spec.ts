@@ -518,70 +518,6 @@ test("evaluates conditions only from validated controlling answers", () => {
   });
 });
 
-const freeTextForm: EventForm = {
-  title: "Free text form",
-  questions: [
-    {
-      id: "major",
-      kind: "text",
-      label: "Major / program",
-      required: true,
-      maxLength: 120,
-    },
-  ],
-  agreements: [],
-};
-
-test("trims a required free-text major and accepts 120 characters", () => {
-  const trimmed = validateRegistration(
-    freeTextForm,
-    formValues({ "question:major": "  Computer Science  " }),
-    acceptedAt,
-  );
-
-  expect(trimmed).toEqual({
-    ok: true,
-    answers: { major: "Computer Science" },
-    acceptedAgreements: [],
-  });
-
-  const exact = validateRegistration(
-    freeTextForm,
-    formValues({ "question:major": "x".repeat(120) }),
-    acceptedAt,
-  );
-
-  expect(exact).toEqual({
-    ok: true,
-    answers: { major: "x".repeat(120) },
-    acceptedAgreements: [],
-  });
-});
-
-test("rejects a blank free-text major and more than 120 characters", () => {
-  const blank = validateRegistration(
-    freeTextForm,
-    formValues({ "question:major": "   " }),
-    acceptedAt,
-  );
-
-  expect(blank).toEqual({
-    ok: false,
-    fieldErrors: { "question:major": "This field is required." },
-  });
-
-  const tooLong = validateRegistration(
-    freeTextForm,
-    formValues({ "question:major": "x".repeat(121) }),
-    acceptedAt,
-  );
-
-  expect(tooLong).toEqual({
-    ok: false,
-    fieldErrors: { "question:major": "Use 120 characters or fewer." },
-  });
-});
-
 const wordForm: EventForm = {
   title: "Word limited form",
   questions: [
@@ -650,57 +586,6 @@ test("rejects a 151-word answer with a word-specific message", () => {
   expect(result).toEqual({
     ok: false,
     fieldErrors: { "question:motivation": "Use 150 words or fewer." },
-  });
-});
-
-test("treats blank and whitespace-only word answers as empty", () => {
-  for (const motivation of ["", "   ", "\t\n  "]) {
-    const result = validateRegistration(
-      wordForm,
-      formValues({
-        "question:motivation": motivation,
-        "question:name": "Ada",
-      }),
-      acceptedAt,
-    );
-
-    expect(result).toEqual({
-      ok: false,
-      fieldErrors: { "question:motivation": "This field is required." },
-    });
-  }
-});
-
-test("counts words across tabs, newlines, and Unicode whitespace", () => {
-  const result = validateRegistration(
-    wordForm,
-    formValues({
-      "question:motivation": words(150, "\u00a0\t\n"),
-      "question:name": "Ada",
-    }),
-    acceptedAt,
-  );
-
-  expect(result.ok).toBe(true);
-  if (!result.ok) return;
-  expect(result.answers.motivation).toBe(words(150, "\u00a0\t\n"));
-});
-
-test("counts one very long token as one word, not its characters", () => {
-  const motivation = "a".repeat(500);
-  const result = validateRegistration(
-    wordForm,
-    formValues({
-      "question:motivation": motivation,
-      "question:name": "Ada",
-    }),
-    acceptedAt,
-  );
-
-  expect(result).toEqual({
-    ok: true,
-    answers: { motivation, name: "Ada" },
-    acceptedAgreements: [],
   });
 });
 

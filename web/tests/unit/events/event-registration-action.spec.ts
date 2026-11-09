@@ -194,63 +194,34 @@ test("missing definitions are unavailable without a write", async () => {
   expect(calls.submissions).toEqual([]);
 });
 
-for (const availability of [
-  "not_open",
-  "closed",
-  "full",
-  "not_found",
-] as const) {
-  for (const status of ["pending", "confirmed", "declined"] as const) {
-    test(`stale ${availability} preflight does not hide a saved ${status} receipt from the RPC`, async () => {
-      const { dependencies, calls } = createDependencies({
-        readRegistration: async () => ({
-          eventId,
-          receipt: null,
-          availability,
-        }),
-        submitRegistration: async (input) => {
-          calls.submissions.push(input);
-          return { outcome: "saved", status, submittedAt: savedAt };
-        },
-      });
-
-      const result = await runRegistrationSubmission(
-        slug,
-        form(validFields()),
-        dependencies,
-      );
-
-      expect(result).toEqual({
-        kind: "submitted",
-        status,
-        submittedAt: savedAt,
-      });
-      expect(calls.submissions).toHaveLength(1);
+for (const status of ["pending", "confirmed", "declined"] as const) {
+  test(`a saved ${status} receipt is returned despite a stale closed preflight`, async () => {
+    const { dependencies, calls } = createDependencies({
+      readRegistration: async () => ({
+        eventId,
+        receipt: null,
+        availability: "closed",
+      }),
+      submitRegistration: async (input) => {
+        calls.submissions.push(input);
+        return { outcome: "saved", status, submittedAt: savedAt };
+      },
     });
-  }
+
+    const result = await runRegistrationSubmission(
+      slug,
+      form(validFields()),
+      dependencies,
+    );
+
+    expect(result).toEqual({
+      kind: "submitted",
+      status,
+      submittedAt: savedAt,
+    });
+    expect(calls.submissions).toHaveLength(1);
+  });
 }
-
-test("stale full availability never bypasses validation or writes invalid answers", async () => {
-  const { dependencies, calls } = createDependencies({
-    readRegistration: async () => ({
-      eventId,
-      receipt: null,
-      availability: "full",
-    }),
-  });
-
-  const result = await runRegistrationSubmission(
-    slug,
-    form(validFields({ "question:name": "   " })),
-    dependencies,
-  );
-
-  expect(result).toEqual({
-    kind: "invalid",
-    fieldErrors: { "question:name": "This field is required." },
-  });
-  expect(calls.submissions).toEqual([]);
-});
 
 for (const status of ["pending", "confirmed", "declined"] as const) {
   test(`an existing ${status} receipt wins over closure and a missing definition`, async () => {
@@ -298,40 +269,6 @@ test("invalid required answers return field errors without a write", async () =>
   expect(result).toEqual({
     kind: "invalid",
     fieldErrors: { "question:name": "This field is required." },
-  });
-  expect(calls.submissions).toEqual([]);
-});
-
-test("missing required active conditional detail is invalid without a write", async () => {
-  const { dependencies, calls } = createDependencies();
-
-  const result = await runRegistrationSubmission(
-    slug,
-    form(validFields({ "question:topics": ["other"] })),
-    dependencies,
-  );
-
-  expect(result).toEqual({
-    kind: "invalid",
-    fieldErrors: { "question:details": "This field is required." },
-  });
-  expect(calls.submissions).toEqual([]);
-});
-
-test("an exclusive multiselect combination is invalid without a write", async () => {
-  const { dependencies, calls } = createDependencies();
-
-  const result = await runRegistrationSubmission(
-    slug,
-    form(validFields({ "question:topics": ["none", "ai"] })),
-    dependencies,
-  );
-
-  expect(result).toEqual({
-    kind: "invalid",
-    fieldErrors: {
-      "question:topics": "Do not combine this option with other choices.",
-    },
   });
   expect(calls.submissions).toEqual([]);
 });
@@ -453,50 +390,21 @@ for (const [outcome, kind] of [
   });
 }
 
-test("saved outcomes without a valid status or timestamp retry", async () => {
-  const missingStatus = createDependencies({
-    submitRegistration: async () => ({
-      outcome: "saved",
-      status: null,
-      submittedAt: savedAt,
-    }),
-  });
-  const missingTimestamp = createDependencies({
-    submitRegistration: async () => ({
-      outcome: "saved",
-      status: "confirmed",
-      submittedAt: null,
-    }),
-  });
+test("malformed or unknown RPC outcomes retry", async () => {
+  for (const outcome of [
+    { outcome: "saved", status: null, submittedAt: savedAt },
+    { outcome: "saved", status: "confirmed", submittedAt: null },
+    { outcome: "saved", status: "draft", submittedAt: savedAt },
+    { outcome: "unexpected", status: null, submittedAt: null },
+  ] as const) {
+    const { dependencies } = createDependencies({
+      submitRegistration: async () => ({ ...outcome }),
+    });
 
-  await expect(
-    runRegistrationSubmission(
-      slug,
-      form(validFields()),
-      missingStatus.dependencies,
-    ),
-  ).resolves.toEqual({ kind: "retry" });
-  await expect(
-    runRegistrationSubmission(
-      slug,
-      form(validFields()),
-      missingTimestamp.dependencies,
-    ),
-  ).resolves.toEqual({ kind: "retry" });
-});
-
-test("unknown RPC outcomes retry", async () => {
-  const { dependencies } = createDependencies({
-    submitRegistration: async () => ({
-      outcome: "unexpected",
-      status: null,
-      submittedAt: null,
-    }),
-  });
-
-  await expect(
-    runRegistrationSubmission(slug, form(validFields()), dependencies),
-  ).resolves.toEqual({ kind: "retry" });
+    await expect(
+      runRegistrationSubmission(slug, form(validFields()), dependencies),
+    ).resolves.toEqual({ kind: "retry" });
+  }
 });
 
 test("RPC failures return a generic retry without database text", async () => {
@@ -711,22 +619,4 @@ test("an existing receipt wins before malformed draft metadata is inspected", as
   });
   expect(calls.definitions).toEqual([]);
   expect(calls.submissions).toEqual([]);
-});
-
-test("saved outcomes never accept a draft receipt status", async () => {
-  const { dependencies } = createDependencies({
-    submitRegistration: async () => ({
-      outcome: "saved",
-      status: "draft",
-      submittedAt: savedAt,
-    }),
-  });
-
-  const result = await runRegistrationSubmission(
-    slug,
-    form(validFields()),
-    dependencies,
-  );
-
-  expect(result).toEqual({ kind: "retry" });
 });

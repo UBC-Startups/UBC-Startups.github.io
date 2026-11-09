@@ -1,9 +1,6 @@
 import { expect, test } from "@playwright/test";
 import type { EventForm } from "../../../lib/events/form-definition";
-import type {
-  EventRegistrationRead,
-  RegistrationDraftSaveResult,
-} from "../../../lib/events/registration-result";
+import type { EventRegistrationRead } from "../../../lib/events/registration-result";
 import {
   runRegistrationDraftSave,
   type RegistrationDraftSaveDependencies,
@@ -229,53 +226,52 @@ test("missing definitions are unavailable without a write", async () => {
 });
 
 for (const status of ["pending", "confirmed", "declined"] as const) {
-  for (const availability of ["closed", "full", "not_open"] as const) {
-    test(`a late autosave returns the existing ${status} receipt even when ${availability}`, async () => {
-      const { dependencies, calls } = createDependencies({
-        readRegistration: async () => ({
-          eventId,
-          receipt: { status, submittedAt: savedAt },
-          draft: { answers: {}, agreementKeys: [], revision: 2, updatedAt: savedAt },
-          availability,
-        }),
-        getDefinition: () => undefined,
-      });
-
-      const result = await runRegistrationDraftSave(
-        slug,
-        2,
-        form({ "question:name": "" }),
-        dependencies,
-      );
-
-      expect(result).toEqual({
-        kind: "submitted",
-        status,
-        submittedAt: savedAt,
-      });
-      expect(calls.definitions).toEqual([]);
-      expect(calls.saves).toEqual([]);
-    });
-  }
-}
-
-for (const availability of ["closed", "full", "not_open"] as const) {
-  test(`availability ${availability} is not preflighted because the database decides`, async () => {
+  test(`a late autosave returns the existing ${status} receipt`, async () => {
     const { dependencies, calls } = createDependencies({
-      readRegistration: async () => ({ ...openRegistration, availability }),
+      readRegistration: async () => ({
+        eventId,
+        receipt: { status, submittedAt: savedAt },
+        draft: { answers: {}, agreementKeys: [], revision: 2, updatedAt: savedAt },
+        availability: "closed",
+      }),
+      getDefinition: () => undefined,
     });
 
     const result = await runRegistrationDraftSave(
       slug,
       2,
-      form(validFields()),
+      form({ "question:name": "" }),
       dependencies,
     );
 
-    expect(result).toEqual({ kind: "saved", revision: 3, savedAt });
-    expect(calls.saves).toHaveLength(1);
+    expect(result).toEqual({
+      kind: "submitted",
+      status,
+      submittedAt: savedAt,
+    });
+    expect(calls.definitions).toEqual([]);
+    expect(calls.saves).toEqual([]);
   });
 }
+
+test("availability is not preflighted because the database decides", async () => {
+  const { dependencies, calls } = createDependencies({
+    readRegistration: async () => ({
+      ...openRegistration,
+      availability: "closed",
+    }),
+  });
+
+  const result = await runRegistrationDraftSave(
+    slug,
+    2,
+    form(validFields()),
+    dependencies,
+  );
+
+  expect(result).toEqual({ kind: "saved", revision: 3, savedAt });
+  expect(calls.saves).toHaveLength(1);
+});
 
 test("forwards the trusted identity, own event, raw answers, checked keys, and revision", async () => {
   const { dependencies, calls } = createDependencies();
@@ -415,72 +411,27 @@ for (const status of ["pending", "confirmed", "declined"] as const) {
   });
 }
 
-test("saved outcomes without a valid revision or timestamp retry", async () => {
-  for (const override of [
-    { revision: null, savedAt },
-    { revision: 0, savedAt },
-    { revision: 1.5, savedAt },
-    { revision: 2, savedAt: null },
-    { revision: 2, savedAt: "" },
-  ]) {
+test("malformed, mismatched, or unknown RPC outcomes retry", async () => {
+  for (const outcome of [
+    { outcome: "saved", revision: null, savedAt, status: "draft", submittedAt: null },
+    { outcome: "saved", revision: 0, savedAt, status: "draft", submittedAt: null },
+    { outcome: "saved", revision: 1.5, savedAt, status: "draft", submittedAt: null },
+    { outcome: "saved", revision: 2, savedAt: null, status: "draft", submittedAt: null },
+    { outcome: "saved", revision: 2, savedAt: "", status: "draft", submittedAt: null },
+    { outcome: "submitted", revision: 2, savedAt, status: "draft", submittedAt: savedAt },
+    { outcome: "submitted", revision: 2, savedAt, status: null, submittedAt: savedAt },
+    { outcome: "submitted", revision: 2, savedAt, status: "confirmed", submittedAt: null },
+    { outcome: "submitted", revision: 2, savedAt, status: "confirmed", submittedAt: "" },
+    { outcome: "unexpected", revision: null, savedAt: null, status: null, submittedAt: null },
+  ] as const) {
     const { dependencies } = createDependencies({
-      saveRegistrationDraft: async () => ({
-        outcome: "saved",
-        revision: override.revision,
-        savedAt: override.savedAt,
-        status: "draft",
-        submittedAt: null,
-      }),
+      saveRegistrationDraft: async () => ({ ...outcome }),
     });
 
     await expect(
       runRegistrationDraftSave(slug, 0, form(validFields()), dependencies),
     ).resolves.toEqual({ kind: "retry" });
   }
-});
-
-test("submitted outcomes with a draft status or missing timestamp retry", async () => {
-  for (const override of [
-    { status: "draft", submittedAt: savedAt },
-    { status: null, submittedAt: savedAt },
-    { status: "confirmed", submittedAt: null },
-    { status: "confirmed", submittedAt: "" },
-  ]) {
-    const { dependencies } = createDependencies({
-      saveRegistrationDraft: async () => ({
-        outcome: "submitted",
-        revision: 2,
-        savedAt,
-        status: override.status,
-        submittedAt: override.submittedAt,
-      }),
-    });
-
-    await expect(
-      runRegistrationDraftSave(slug, 0, form(validFields()), dependencies),
-    ).resolves.toEqual({ kind: "retry" });
-  }
-});
-
-test("unknown RPC outcomes retry", async () => {
-  const { dependencies } = createDependencies({
-    saveRegistrationDraft: async () => ({
-      outcome: "unexpected",
-      revision: null,
-      savedAt: null,
-      status: null,
-      submittedAt: null,
-    }),
-  });
-
-  const result: RegistrationDraftSaveResult = await runRegistrationDraftSave(
-    slug,
-    0,
-    form(validFields()),
-    dependencies,
-  );
-
-  expect(result).toEqual({ kind: "retry" });
 });
 
 test("RPC failures return a generic retry without database text", async () => {

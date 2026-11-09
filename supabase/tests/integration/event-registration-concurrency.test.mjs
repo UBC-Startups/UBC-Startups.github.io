@@ -205,6 +205,7 @@ test('event registration RPCs save one seat and reject browser roles', async (t)
       answers: { seed: true },
       accepted_agreements: [],
       status: 'confirmed',
+      submitted_at: new Date().toISOString(),
     });
   assert.ifError(occupantError);
 

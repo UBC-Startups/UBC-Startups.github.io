@@ -3,7 +3,7 @@
 const fallback = "/events";
 
 export function getSignupDestination(value: string | null | undefined): string {
-  if (value === "/members/profile" || /^\/events\/[a-z0-9]+(?:-[a-z0-9]+)*\/register$/.test(value ?? "")) {
+  if (value === "/members" || value === "/members/profile" || /^\/events\/[a-z0-9]+(?:-[a-z0-9]+)*\/register$/.test(value ?? "")) {
     return value as string;
   }
   return fallback;
@@ -13,6 +13,12 @@ export function getOnboardingPath(destination: string, profileComplete: boolean)
   const safeDestination = getSignupDestination(destination);
   if (profileComplete) return safeDestination;
   return `/profile/setup?next=${encodeURIComponent(safeDestination)}`;
+}
+
+export function getMembersRedirect(account: { profileComplete: boolean } | null): string | null {
+  if (!account) return `/sign-in?next=${encodeURIComponent("/members")}`;
+  if (!account.profileComplete) return getOnboardingPath("/members", false);
+  return null;
 }
 
 // Decides where to send the user after the OAuth callback: setup, destination, or retry.

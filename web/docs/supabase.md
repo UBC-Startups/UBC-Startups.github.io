@@ -1,8 +1,8 @@
 # Supabase integration
 
-The shared clients and session-refresh proxy are installed. Feature owners still
-implement signup/login, callbacks, authorization, schemas, migrations, RLS, and
-generated database types. No sample `todos` table or route is required.
+The shared clients, session-refresh proxy, Google sign-in, and profile setup are
+installed. Feature schemas live in root `supabase/migrations` with RLS and pgTAP
+tests; new features still own their migrations, policies, and database tests.
 
 ## First-time local setup
 
@@ -22,15 +22,37 @@ web application's dependencies separately with `npm ci` from `web/`.
 
 Use `npx supabase stop` from the root to stop local services. Coordinate reviewed
 migrations to hosted staging through one designated maintainer. Linking a hosted
-project alone does not apply migrations. No feature schemas are included yet.
+project alone does not apply migrations. Feature migrations and their pgTAP tests
+live in `supabase/migrations` and `supabase/tests/database`.
 
 ## Environment
+
+### Supabase CLI
+
+Copy the root `.env.example` to `.env` and fill in the Google OAuth client:
+
+```sh
+cp .env.example .env
+```
+
+```dotenv
+SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID=
+SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET=
+```
+
+`supabase/config.toml` reads these through `env(...)` when the Google provider is
+enabled, so create the root `.env` before `npx supabase start`. The client secret
+stays local and is never committed. The root `.env` configures the Supabase CLI;
+the Next.js app does not read it.
+
+### Web application
 
 Copy `web/.env.example` to `web/.env.local` and fill in:
 
 ```dotenv
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+APP_ORIGIN=http://127.0.0.1:3000
 ```
 
 For isolated development, run `npx supabase start` and `npx supabase status` from
@@ -38,10 +60,11 @@ the repository root. Use the local API URL and publishable key (or local legacy
 anon key). Use the hosted URL and its matching publishable key when intentionally
 testing against staging. Never mix keys and URLs from different instances.
 
-`.env.local` is ignored; `.env.example` contains committed placeholders. Restart
-the Next.js development server after editing environment values. `NEXT_PUBLIC_`
-values are included in browser bundles at build time. Never put a secret or
-service-role key there. No privileged client is included in this foundation.
+Both root `.env` and `web/.env.local` are ignored; the matching `.env.example`
+files contain committed placeholders. Restart the Next.js development server
+after editing environment values. `NEXT_PUBLIC_` values are included in browser
+bundles at build time. Never put a secret or service-role key there. No privileged
+client is included in this foundation.
 
 ## Client helpers
 
@@ -52,6 +75,8 @@ service-role key there. No privileged client is included in this foundation.
   `const supabase = await createClient()`.
 - The server helper is marked `server-only` and creates a new user-scoped client
   per call. Do not share it across requests or wrap it in `use cache`.
+
+Use the same local origin in the browser and OAuth redirect allowlist. Set `APP_ORIGIN` to the application origin for each environment. Google must redirect to the Supabase OAuth callback, and the Supabase allowlist must include the application `/auth/callback`.
 
 The server helper reads cookies internally; callers do not pass a cookie store.
 With Cache Components enabled, place components reading request cookies inside

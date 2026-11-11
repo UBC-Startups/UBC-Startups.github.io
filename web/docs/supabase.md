@@ -1,8 +1,8 @@
 # Supabase integration
 
-The shared clients and session-refresh proxy are installed. Feature owners still
-implement signup/login, callbacks, authorization, schemas, migrations, RLS, and
-generated database types. No sample `todos` table or route is required.
+The shared clients, session-refresh proxy, Google sign-in, and profile setup are
+installed. Feature schemas live in root `supabase/migrations` with RLS and pgTAP
+tests; new features still own their migrations, policies, and database tests.
 
 ## First-time local setup
 
@@ -22,7 +22,8 @@ web application's dependencies separately with `npm ci` from `web/`.
 
 Use `npx supabase stop` from the root to stop local services. Coordinate reviewed
 migrations to hosted staging through one designated maintainer. Linking a hosted
-project alone does not apply migrations.
+project alone does not apply migrations. Feature migrations and their pgTAP tests
+live in `supabase/migrations` and `supabase/tests/database`.
 
 ## Local seed data
 
@@ -97,6 +98,26 @@ autosave runtime behavior; verify it against the disposable local stack.
 
 ## Environment
 
+### Supabase CLI
+
+Copy the root `.env.example` to `.env` and fill in the Google OAuth client:
+
+```sh
+cp .env.example .env
+```
+
+```dotenv
+SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID=
+SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET=
+```
+
+`supabase/config.toml` reads these through `env(...)` when the Google provider is
+enabled, so create the root `.env` before `npx supabase start`. The client secret
+stays local and is never committed. The root `.env` configures the Supabase CLI;
+the Next.js app does not read it.
+
+### Web application
+
 Copy `web/.env.example` to `web/.env.local` and fill in:
 
 ```dotenv
@@ -110,10 +131,11 @@ the repository root. Use the local API URL and publishable key (or local legacy
 anon key). Use the hosted URL and its matching publishable key when intentionally
 testing against staging. Never mix keys and URLs from different instances.
 
-`.env.local` is ignored; `.env.example` contains committed placeholders. Restart
-the Next.js development server after editing environment values. `NEXT_PUBLIC_`
-values are included in browser bundles at build time. Never put a secret or
-service-role key there. No privileged client is included in this foundation.
+Both root `.env` and `web/.env.local` are ignored; the matching `.env.example`
+files contain committed placeholders. Restart the Next.js development server
+after editing environment values. `NEXT_PUBLIC_` values are included in browser
+bundles at build time. Never put a secret or service-role key there. No privileged
+client is included in this foundation.
 
 ## Client helpers
 

@@ -9,7 +9,7 @@ create table public.events (
 );
 create table public.event_registrations (
   event_id uuid not null references public.events(id),
-  user_id uuid not null references public.profiles(user_id),
+  user_id uuid not null references public.profiles(user_id) on delete cascade,
   answers jsonb not null check (jsonb_typeof(answers) = 'object'),
   accepted_agreements jsonb not null check (jsonb_typeof(accepted_agreements) = 'array'),
   status text not null check (status in ('pending', 'confirmed', 'declined')),

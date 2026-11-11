@@ -2,19 +2,37 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export type Database = {
-  
-  "public": {
+
+  "graphql_public": {
+          Tables: {
+            [_ in never]: never
+          }
+          Views: {
+            [_ in never]: never
+          }
+          Functions: {
+            "graphql":
+{ Args: { "extensions"?: Json,"operationName"?: string,"query"?: string,"variables"?: Json }; Returns: Json
+                           }
+          }
+          Enums: {
+            [_ in never]: never
+          }
+          CompositeTypes: {
+            [_ in never]: never
+          }
+        },"public": {
           Tables: {
             "event_registrations": {
                   Row: {
-                    "accepted_agreements": NonNullable<Json>,"answers": NonNullable<Json>,"event_id": string,"status": string,"submitted_at": string,"user_id": string
+                    "accepted_agreements": NonNullable<Json>,"answers": NonNullable<Json>,"draft_agreement_keys": NonNullable<Json>,"event_id": string,"revision": number,"status": string,"submitted_at": string | null,"updated_at": string,"user_id": string
                   }
                   ComputedFields: never
                   Insert: {
-                    "accepted_agreements": NonNullable<Json>,"answers": NonNullable<Json>,"event_id": string,"status": string,"submitted_at"?: string,"user_id": string
+                    "accepted_agreements": NonNullable<Json>,"answers": NonNullable<Json>,"draft_agreement_keys"?: NonNullable<Json>,"event_id": string,"revision"?: number,"status": string,"submitted_at"?: string | null,"updated_at"?: string,"user_id": string
                   }
                   Update: {
-                    "accepted_agreements"?: NonNullable<Json>,"answers"?: NonNullable<Json>,"event_id"?: string,"status"?: string,"submitted_at"?: string,"user_id"?: string
+                    "accepted_agreements"?: NonNullable<Json>,"answers"?: NonNullable<Json>,"draft_agreement_keys"?: NonNullable<Json>,"event_id"?: string,"revision"?: number,"status"?: string,"submitted_at"?: string | null,"updated_at"?: string,"user_id"?: string
                   }
                   Relationships: [
                     {
@@ -43,7 +61,7 @@ isOneToOne: false
                     "capacity"?: number | null,"id"?: string,"registration_closes_at"?: string,"registration_opens_at"?: string,"signup_mode"?: string,"slug"?: string
                   }
                   Relationships: [
-                    
+
                   ]
                 },"profiles": {
                   Row: {
@@ -57,7 +75,7 @@ isOneToOne: false
                     "first_name"?: string,"last_name"?: string,"user_id"?: string
                   }
                   Relationships: [
-                    
+
                   ]
                 }
           }
@@ -65,7 +83,21 @@ isOneToOne: false
             [_ in never]: never
           }
           Functions: {
-            [_ in never]: never
+            "get_event_registration_availability":
+{ Args: { "p_event_id": string }; Returns: {
+              "outcome": string
+            }[]
+                           },
+"save_event_registration_draft":
+{ Args: { "p_agreement_keys": Json,"p_answers": Json,"p_event_id": string,"p_expected_revision": number,"p_user_id": string }; Returns: {
+              "outcome": string,"revision": number,"saved_at": string,"status": string,"submitted_at": string
+            }[]
+                           },
+"submit_event_registration":
+{ Args: { "p_accepted_agreements": Json,"p_answers": Json,"p_event_id": string,"p_expected_revision"?: number,"p_user_id": string }; Returns: {
+              "outcome": string,"status": string,"submitted_at": string
+            }[]
+                           }
           }
           Enums: {
             [_ in never]: never
@@ -182,9 +214,13 @@ export type CompositeTypes<
   : never
 
 export const Constants = {
-  "public": {
+  "graphql_public": {
           Enums: {
-            
+
+          }
+        },"public": {
+          Enums: {
+
           }
         }
 } as const

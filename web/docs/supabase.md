@@ -25,6 +25,77 @@ migrations to hosted staging through one designated maintainer. Linking a hosted
 project alone does not apply migrations. Feature migrations and their pgTAP tests
 live in `supabase/migrations` and `supabase/tests/database`.
 
+## Local seed data
+
+`npx supabase db reset --local` applies `supabase/seed.sql` to the local
+database, which creates a synthetic `casehack-2026` event with
+`signup_mode = application`, no capacity, and an open window of one day before
+reset through seven days after.
+Use that row only for manual new-account registration testing; it does not
+represent real approved event timing. The seed uses `on conflict (slug) do
+nothing`, so rerunning the seed SQL against an existing database preserves
+matching rows. A local reset itself deletes existing data before applying
+migrations and seeds.
+
+Seeds are local development data, not deployed schema. `npx supabase db push`
+excludes seed rows unless you pass `--include-seed`, and repository CI does not
+deploy seeds.
+
+The opt-in event-signup suite in `web/tests/event-signup/` does not use the seeded
+manual row. Its CaseHack cases create the event fixture and require it to be newly
+created (`created: true`), deliberately refusing an existing `casehack-2026` row
+so manual data is never reused or modified. Run that stateful suite only against
+a disposable local stack reset without seeds
+(`npx supabase db reset --local --no-seed`), with `LOCAL_SUPABASE_URL`,
+`LOCAL_SUPABASE_SERVICE_KEY`, and `LOCAL_SUPABASE_PUBLISHABLE_KEY` pointing at
+that stack. The test runner never resets your normal local stack, so do not aim
+the suite at a database whose seeded manual CaseHack row you want to keep.
+
+## Registration drafts and local autosave checks
+
+The event registration form autosaves a working draft before the first
+submission. A draft is the same `public.event_registrations` row with
+`status = 'draft'`, `submitted_at IS NULL`, empty `accepted_agreements`, and the
+raw answers plus checked agreement ids in `draft_agreement_keys`. Final
+submission promotes that row in place and replaces the acceptance snapshot with
+trusted server timestamps. The schema and RPCs are in
+`supabase/migrations/20261108212134_add_registration_drafts.sql`; apply them to a
+local stack with the normal migration workflow.
+
+The browser sends a full snapshot through the `saveEventRegistrationDraft`
+Server Action, never through the native form action, so autosave cannot reset
+the form or caret. The form keeps one request in flight, coalesces newer edits,
+and only advances its expected revision after a successful save. Resuming a draft
+restores known answers and agreement ids, opens the first incomplete step, and
+does not show required-field errors until the attendee advances.
+
+To check autosave and resume manually, start the local stack and the web app,
+sign in with a complete local test profile, and open an open registration such
+as `/events/casehack-2026/register`:
+
+1. Enter an answer, wait for the “Progress saved” status, refresh the page, and
+   confirm the answer and first incomplete step are restored.
+2. Clear that answer, wait for “Progress saved” again, refresh, and confirm the
+   cleared value persists instead of the earlier text.
+3. Complete the required answers and submit. Confirm the receipt replaces the
+   form; saved progress alone must never be shown as a submission.
+
+The committed opt-in suite exercises autosave persistence/restore and draft
+promotion on submission. It does not automate forced retry, revision conflict,
+or final-flush coverage; check those manually using the steps above. The suite
+never runs in CI or in the backend-free `npm test` pass. Point the three
+`LOCAL_SUPABASE_*` variables at a disposable local stack reset without seeds,
+then from `web/` run:
+
+```sh
+npx playwright test --config playwright.event-signup.config.ts
+```
+
+The suite creates and deletes synthetic users, profiles, events, and
+registrations. Do not aim it at your normal local database or at a seeded
+`casehack-2026` row you want to keep. The backend-free checks do not cover
+autosave runtime behavior; verify it against the disposable local stack.
+
 ## Environment
 
 ### Supabase CLI
@@ -99,7 +170,7 @@ and use RLS. Do not trust `getSession()` alone for server authorization.
 From `web/`:
 
 ```sh
-npm run test:auth
+npm run test:unit
 npm run lint
 npm run typecheck
 npm run build

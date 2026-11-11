@@ -29,16 +29,19 @@ versus hosted development, and server/browser client conventions.
 ```sh
 npm run lint
 npm run typecheck
-npm run test:auth
+npm run test:unit
 npm run build
 npx playwright install chromium
 npm test
 ```
 
-Browser tests start the production server on port 3100 and run at desktop and
-mobile widths. Build before running them. Tests mock newsletter submissions,
-analytics, and social embeds; they never send real subscriptions. Live third-party
-embed behavior and email delivery still need separate manual acceptance.
+Unit tests cover auth and event form/validation logic without a browser or server.
+Append a path to `test:unit`, such as `npm run test:unit -- tests/unit/auth`, to
+run one subset. Browser tests start the production
+server on port 3100 and run at desktop and mobile widths. Build before running
+them. Tests mock newsletter submissions, analytics, and social embeds; they never
+send real subscriptions. Live third-party embed behavior and email delivery still
+need separate manual acceptance.
 
 The `web checks` GitHub Actions job installs dependencies, runs the checks above,
 and installs Chromium with its Linux dependencies. It does not deploy the app.
@@ -54,6 +57,7 @@ and installs Chromium with its Linux dependencies. It does not deploy the app.
 - `docs/design-system.md`: Styling and onboarding guide.
 - `data/`: Team roster, event lineup, and event poster content.
 - `public/figma/` and `public/images/`: Local checked-in assets copied from legacy.
+- `tests/unit/`: Auth and event logic tests without a browser.
 - `tests/e2e/`: Browser regression coverage.
 
 Existing routes are `/`, `/events`, `/meetOurTeam`, `/event-poster/soar-2026`,

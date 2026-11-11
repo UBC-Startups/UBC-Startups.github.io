@@ -24,6 +24,9 @@ Each app uses its own npm lockfile. The root package/lockfile pins shared toolin
 - Use Next.js links and metadata in `web/`, not React Router or React Helmet.
 - Use Node 26.12.0 from `web/.nvmrc`. From `web/`, run `npm ci`, `npm run dev`,
   `npm run lint`, `npm run typecheck`, and `npm run build`.
+- Unit tests: run `npm run test:unit` from `web/` for the browser-free specs in
+  `web/tests/unit/` (auth and event logic); no build or server is needed. Append a
+  path such as `tests/unit/auth` to run one subset.
 - Browser checks: install Chromium with `npx playwright install chromium`, then
   run `npm test` after a production build. Tests mock newsletter/social/analytics
   requests and cover desktop/mobile navigation, routes, assets, and interactions.
@@ -31,7 +34,7 @@ Each app uses its own npm lockfile. The root package/lockfile pins shared toolin
   `.github/workflows/web.yml` validates the new app without deploying it.
 - Supabase browser/server clients and session refresh live in `web/lib/supabase/`
   and `web/proxy.ts`. Read `web/docs/supabase.md` for setup and usage. Run CLI
-  commands from the repository root and `npm run test:auth` from `web/` for auth
+  commands from the repository root and `npm run test:unit` from `web/` after
   foundation changes. Feature owners implement schemas and access policies.
 
 ## Legacy application: where to make changes

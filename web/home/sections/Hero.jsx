@@ -101,7 +101,7 @@ function Timeline({
 
 export default function Hero() {
   const reduceMotion = usePrefersReducedMotion();
-  return <section aria-labelledby="hero-title" className={styles.Section}>
+  return <section aria-labelledby="hero-title" className={`${styles.Section} full-bleed`}>
       <motion.div aria-hidden {...entrance(reduceMotion, 0, 0)} className={styles.Glows}>
         <Glow $inset="-22.22%" style={{
         left: -200,
@@ -122,6 +122,7 @@ export default function Hero() {
         <div className={styles.OrangeGlow} />
       </motion.div>
 
+      <div className={styles.Inner}>
       <motion.img src={figma("hero-logo.svg")} alt="" aria-hidden initial={reduceMotion ? false : {
       opacity: 0,
       scale: 0.92,
@@ -165,5 +166,6 @@ export default function Hero() {
           </div>
         </div>
       </motion.div>
+      </div>
     </section>;
 }

@@ -65,11 +65,11 @@ export const timeline = [{
   side: "above",
   slug: "pitch-propel"
 }, {
-  name: "CaseHack",
-  date: "Nov 28-29",
+  name: "Capital Connect",
+  date: "Dec 3",
   x: 0.49,
   side: "below",
-  slug: "casehack"
+  slug: "capital-connect"
 }, {
   name: "LaunchLink",
   date: "Jan 14",
@@ -77,11 +77,11 @@ export const timeline = [{
   side: "above",
   slug: "launchlink"
 }, {
-  name: "Capital Connect",
-  date: "Feb 25",
+  name: "CaseHack",
+  date: "Feb 6-7",
   x: 0.74,
   side: "below",
-  slug: "capital-connect"
+  slug: "casehack"
 }, {
   name: "SOAR",
   date: "March 21",

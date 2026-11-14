@@ -90,7 +90,6 @@ const events = [
         gradientFrom: "#dd3322",
         gradientTo: "#000000",
         duration: "2 hours",
-        expected: "60–70 attendees",
         format: "Networking mixer with icebreakers and conversation prompts",
         venue: "Open event space with standing tables and seating",
         whoFor: "Students interested in entrepreneurship, founders, alumni, faculty, and campus entrepreneurship organizations.",
@@ -133,7 +132,6 @@ const events = [
         gradientFrom: "#ff5a1f",
         gradientTo: "#1a1a1a",
         duration: "2.5–3 hours",
-        expected: "80–90 attendees",
         format: "Workshop, pitch prep, elevator pitches, feedback, networking",
         whoFor: "Students interested in startups, first-time founders, and anyone looking to improve their pitching skills.",
         status: "next",
@@ -141,22 +139,21 @@ const events = [
     },
     {
         term: "Term 1",
-        slug: "casehack",
+        slug: "capital-connect",
         number: "04",
-        title: "CaseHack",
+        title: "Capital Connect",
         description:
-            "CaseHack is UBC Startups' flagship innovation competition. Students from business, computer science, engineering, and design work in interdisciplinary teams to solve a real-world challenge by developing both a business solution and a prototype. Teams receive mentorship throughout the event before presenting their final pitch and demo to a panel of judges, with the event designed to help students meet collaborators with complementary skill sets and build connections that can continue beyond the event.",
-        date: "Nov 28–29",
+            "Capital Connect is a networking event that brings together venture capitalists, angel investors, founders, and students interested in entrepreneurship. The goal is to make funding and investing more approachable while helping students build relationships with people in Vancouver's startup ecosystem. The event begins with a short networking activity to encourage conversation before transitioning into open networking, where investors and founders share insights on fundraising, venture capital, and startup growth.",
+        date: "Dec 3",
         year: 2026,
-        gradientFrom: "#88dcbe",
+        gradientFrom: "#ff5a1f",
         gradientTo: "#1a1a1a",
-        duration: "One day or weekend",
-        expected: "90–120 attendees (16–20 teams)",
-        format: "Challenge reveal, team formation, mentorship, prototyping, final pitches, awards",
-        whoFor: "Business, Computer Science, Engineering, and Design students interested in startups, innovation, and product development.",
+        duration: "2–2.5 hours",
+        format: "Icebreaker game, panel or fireside chat, open networking",
+        venue: "Open networking venue with standing tables",
+        whoFor: "Students interested in startups, venture capital, investing, and entrepreneurship, plus founders looking to grow their network.",
         status: "default",
-        extraTags: ["Flagship", "New"],
-        image: caseHackImg,
+        image: capitalConnectImg,
     },
     {
         term: "Term 2",
@@ -170,7 +167,6 @@ const events = [
         gradientFrom: "#dd3322",
         gradientTo: "#000000",
         duration: "2–3 hours",
-        expected: "60–80 attendees",
         format: "Opening remarks, company intros, open networking, career advice stations",
         venue: "Large networking space",
         whoFor: "Students seeking internships, co-op, or full-time opportunities in startups and innovation-focused companies.",
@@ -179,22 +175,21 @@ const events = [
     },
     {
         term: "Term 2",
-        slug: "capital-connect",
+        slug: "casehack",
         number: "06",
-        title: "Capital Connect",
+        title: "CaseHack",
         description:
-            "Capital Connect is a networking event that brings together venture capitalists, angel investors, founders, and students interested in entrepreneurship. The goal is to make funding and investing more approachable while helping students build relationships with people in Vancouver's startup ecosystem. The event begins with a short networking activity to encourage conversation before transitioning into open networking, where investors and founders share insights on fundraising, venture capital, and startup growth.",
-        date: "Feb 25",
+            "CaseHack is UBC Startups' flagship innovation competition. Students from business, computer science, engineering, and design work in interdisciplinary teams to solve a real-world challenge by developing both a business solution and a prototype. Teams receive mentorship throughout the event before presenting their final pitch and demo to a panel of judges, with the event designed to help students meet collaborators with complementary skill sets and build connections that can continue beyond the event.",
+        date: "Feb 6–7",
         year: 2027,
-        gradientFrom: "#ff5a1f",
+        gradientFrom: "#88dcbe",
         gradientTo: "#1a1a1a",
-        duration: "2–2.5 hours",
-        expected: "50–60 attendees",
-        format: "Icebreaker game, panel or fireside chat, open networking",
-        venue: "Open networking venue with standing tables",
-        whoFor: "Students interested in startups, venture capital, investing, and entrepreneurship, plus founders looking to grow their network.",
+        duration: "One day or weekend",
+        format: "Challenge reveal, team formation, mentorship, prototyping, final pitches, awards",
+        whoFor: "Business, Computer Science, Engineering, and Design students interested in startups, innovation, and product development.",
         status: "default",
-        image: capitalConnectImg,
+        extraTags: ["Flagship", "New"],
+        image: caseHackImg,
     },
     {
         term: "Term 2",
@@ -208,7 +203,6 @@ const events = [
         gradientFrom: "#88dcbe",
         gradientTo: "#1a1a1a",
         duration: "Full day",
-        expected: "100–120 attendees",
         format: "Opening ceremony, pitch sessions, judge Q&A, networking breaks, awards ceremony",
         venue: "Auditorium or large event venue",
         whoFor: "Student founders, aspiring entrepreneurs, investors, industry professionals, alumni, faculty, and the broader startup ecosystem.",
@@ -234,7 +228,7 @@ const Events = () => {
             <Term>
                 <TermHeader>
                     <TermTitle>Term 1</TermTitle>
-                    <TermDates>September to November 2026</TermDates>
+                    <TermDates>September to December 2026</TermDates>
                 </TermHeader>
                 <EventList>
                     {term1Events.map((event) => (

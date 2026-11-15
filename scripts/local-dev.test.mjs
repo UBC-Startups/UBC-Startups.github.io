@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, unlink, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import os from "node:os";
 import path from "node:path";
@@ -8,8 +8,11 @@ import {
   assertAppPortAvailable,
   localAppEnvironment,
   runCommand,
-  startLocalDevelopment,
+  prepareEnvironment,
+  runNextServer,
+  stopLocalDevelopment,
 } from "./local-dev.mjs";
+import { withDevSession } from "./dev-session.mjs";
 
 async function fixture(t) {
   const root = await mkdtemp(path.join(os.tmpdir(), "ubc-local-dev-"));
@@ -46,33 +49,98 @@ async function fixture(t) {
   return { root, status, calls, options };
 }
 
-test("default startup resets only the local DB before launching Next with local credentials", async (t) => {
+test("setup resets only the local DB and returns local credentials", async (t) => {
   const f = await fixture(t);
   f.options.env.NEXT_PUBLIC_SUPABASE_URL = "https://hosted.example.com";
   f.options.env.SUPABASE_SECRET_KEY = "hosted-secret";
-  await startLocalDevelopment(f.options);
+  const env = await prepareEnvironment(f.options);
   const commands = f.calls.filter((call) => !call.args.includes("ci"));
   assert.deepEqual(commands.map((call) => call.args.slice(1, 4)), [
-    ["stop", "--workdir", f.root], ["start", "--workdir", f.root], ["db", "reset", "--local"],
-    ["status", "--output", "json"], ["dev", "--hostname", "127.0.0.1"],
+    ["stop", "--workdir", f.root], ["start", "--workdir", f.root], ["db", "reset", "--yes"],
+    ["status", "--output", "json"],
   ]);
   const reset = commands[2];
   assert.ok(reset.args.includes("--yes"));
-  assert.ok(!reset.args.includes("--linked") && !reset.args.includes("--db-url"));
-  const next = commands.at(-1);
-  assert.equal(next.env.NEXT_PUBLIC_SUPABASE_URL, f.status.API_URL);
-  assert.equal(next.env.SUPABASE_SECRET_KEY, "local-secret");
-  assert.equal(next.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, "local-public");
-  assert.equal(next.env.APP_ORIGIN, "http://127.0.0.1:3000");
-  assert.equal(next.cwd, path.join(f.root, "web"));
+  assert.ok(!reset.args.some((arg) => /^--(?:remote|linked|db-url|local)(?:=|$)/.test(arg)));
+  assert.equal(env.NEXT_PUBLIC_SUPABASE_URL, f.status.API_URL);
+  assert.equal(env.SUPABASE_SECRET_KEY, "local-secret");
+  assert.equal(env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY, "local-public");
+  assert.equal(env.APP_ORIGIN, "http://127.0.0.1:3000");
   assert.ok(commands[1].capture && commands[3].capture);
 });
 
 test("resume applies pending migrations locally without resetting or seeding", async (t) => {
   const f = await fixture(t);
-  await startLocalDevelopment({ ...f.options, resume: true });
-  assert.ok(f.calls.some((call) => call.args?.slice(1, 4).join(" ") === "migration up --local"));
+  await prepareEnvironment({ ...f.options, resume: true });
+  const migration = f.calls.find((call) => call.args?.slice(1, 3).join(" ") === "migration up");
+  assert.ok(migration);
+  assert.ok(!migration.args.some((arg) => /^--(?:remote|linked|db-url|local)(?:=|$)/.test(arg)));
   assert.ok(!f.calls.some((call) => call.args?.includes("reset")));
+});
+
+test("the server terminal reads local settings and launches Next.js without reinstalling or resetting", async (t) => {
+  const f = await fixture(t);
+  await runNextServer(f.options);
+  assert.equal(f.calls.length, 2);
+  const next = f.calls[1];
+  assert.deepEqual(next.args.slice(1), ["dev", "--hostname", "127.0.0.1", "--port", "3000"]);
+  assert.equal(next.env.NEXT_PUBLIC_SUPABASE_URL, f.status.API_URL);
+  assert.equal(next.env.SUPABASE_SECRET_KEY, "local-secret");
+  assert.equal(next.cwd, path.join(f.root, "web"));
+});
+
+test("stop restores Supabase tooling removed by an interrupted root install, then stops the backend", async (t) => {
+  const f = await fixture(t);
+  const metadata = path.join(f.root, "node_modules", "supabase", "package.json");
+  let installing;
+  const enteredInstall = new Promise((resolve) => { installing = resolve; });
+  const setup = withDevSession(f.root, async (signal) => {
+    await unlink(metadata);
+    installing();
+    await new Promise((resolve) => signal.addEventListener("abort", resolve, { once: true }));
+  }, { phase: "setup" });
+  await enteredInstall;
+  await stopLocalDevelopment({ ...f.options, run: async (command, args, settings) => {
+    f.calls.push({ command, args, ...settings });
+    if (args.includes("ci")) await writeFile(metadata, JSON.stringify({ bin: { supabase: "cli.js" } }));
+  } });
+  await setup;
+  assert.equal(f.calls.length, 2);
+  assert.deepEqual(f.calls[0].args, [f.options.env.npm_execpath, "ci", "--include=dev", "--prefer-offline"]);
+  assert.deepEqual(f.calls[1].args.slice(1), ["stop", "--workdir", f.root]);
+});
+
+test("stop also repairs an install whose package metadata exists but executable is missing", async (t) => {
+  const f = await fixture(t);
+  const binary = path.join(f.root, "node_modules", "supabase", "cli.js");
+  await unlink(binary);
+  await stopLocalDevelopment({ ...f.options, run: async (command, args) => {
+    f.calls.push({ command, args });
+    if (args.includes("ci")) await writeFile(binary, "");
+  } });
+  assert.equal(f.calls.length, 2);
+  assert.ok(f.calls[0].args.includes("ci"));
+  assert.equal(f.calls[1].args[1], "stop");
+});
+
+test("stop shuts down the managed app before stopping Supabase without installing or resetting", async (t) => {
+  const f = await fixture(t);
+  let ready;
+  const started = new Promise((resolve) => { ready = resolve; });
+  let appStopped = false;
+  const session = withDevSession(f.root, async (signal) => {
+    ready();
+    await new Promise((resolve) => signal.addEventListener("abort", resolve, { once: true }));
+    appStopped = true;
+  });
+  await started;
+  await stopLocalDevelopment({ ...f.options, run: async (command, args) => {
+    assert.equal(appStopped, true);
+    assert.deepEqual(args.slice(1), ["stop", "--workdir", f.root]);
+    f.calls.push({ command, args });
+  } });
+  await session;
+  assert.equal(f.calls.length, 1);
 });
 
 test("startup stops after a failed reset", async (t) => {
@@ -82,13 +150,13 @@ test("startup stops after a failed reset", async (t) => {
     if (args.includes("reset")) throw new Error("migration failed");
     return run(command, args, settings);
   };
-  await assert.rejects(startLocalDevelopment(f.options), /migration failed/);
+  await assert.rejects(prepareEnvironment(f.options), /migration failed/);
   assert.ok(!f.calls.some((call) => call.args?.includes("dev")));
 });
 
 test("a port owned by an unrelated process prevents installation and any database reset", async (t) => {
   const f = await fixture(t);
-  await assert.rejects(startLocalDevelopment({
+  await assert.rejects(prepareEnvironment({
     ...f.options, checkPort: async () => { throw new Error("port busy"); },
   }), /port busy/);
   assert.equal(f.calls.length, 0);
@@ -103,11 +171,11 @@ test("a port owned by an unrelated process prevents installation and any databas
 
 test("startup creates a missing env template and preserves an existing env file", async (t) => {
   const f = await fixture(t);
-  await startLocalDevelopment(f.options);
+  await prepareEnvironment(f.options);
   assert.equal(await readFile(path.join(f.root, ".env"), "utf8"), await readFile(path.join(f.root, ".env.example"), "utf8"));
   const existing = "SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID=existing\nSUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET=existing-secret\n";
   await writeFile(path.join(f.root, ".env"), existing);
-  await startLocalDevelopment(f.options);
+  await prepareEnvironment(f.options);
   assert.equal(await readFile(path.join(f.root, ".env"), "utf8"), existing);
 });
 
@@ -124,8 +192,8 @@ test("only loopback status URLs are accepted, with legacy local key fallback", (
 
 test("every startup installs locked root and web dependencies", async (t) => {
   const f = await fixture(t);
-  await startLocalDevelopment(f.options);
-  await startLocalDevelopment({ ...f.options, resume: true });
+  await prepareEnvironment(f.options);
+  await prepareEnvironment({ ...f.options, resume: true });
   const installs = f.calls.filter((call) => call.args.includes("ci"));
   assert.deepEqual(installs.map((call) => call.cwd), [f.root, path.join(f.root, "web"), f.root, path.join(f.root, "web")]);
   for (const call of installs) {
@@ -135,7 +203,7 @@ test("every startup installs locked root and web dependencies", async (t) => {
 
 test("a failed dependency install prevents backend startup and reset", async (t) => {
   const f = await fixture(t);
-  await assert.rejects(startLocalDevelopment({
+  await assert.rejects(prepareEnvironment({
     ...f.options,
     run: async () => { throw new Error("install failed"); },
   }), /install failed/);

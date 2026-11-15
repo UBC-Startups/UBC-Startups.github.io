@@ -12,8 +12,10 @@ adding UI. It covers tokens, component APIs, styling conventions, and validation
 Use Node 26.12.0 (`.nvmrc`). For the full local environment, start Docker Desktop
 and run `npm run dev` from the **repository root**. This reinstalls dependencies,
 replaces the previous runner session, restarts Supabase, resets the local database,
-and starts Next.js. Use root `npm run dev:resume` to preserve data and apply pending
-migrations. See the [root startup guide](../README.md#run-the-nextjs-application)
+and shows setup progress in the current terminal. Next.js then opens in a separate
+terminal with live logs. Use root `npm run dev:resume` to preserve data and apply
+pending migrations, and `npm run dev stop` to stop Next.js and Supabase. See the
+[root startup guide](../README.md#run-the-nextjs-application)
 for Google OAuth setup, stopping services, and standalone CLI commands.
 
 For app-only development without Supabase, run from this directory:

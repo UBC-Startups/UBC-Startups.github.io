@@ -17,13 +17,13 @@
   "scripts": {
     "dev": "node scripts/local-dev.mjs",
     "dev:resume": "node scripts/local-dev.mjs --resume",
-    "dev:stop": "supabase stop",
-    "db:reset": "supabase db reset --local",
+    "dev:stop": "node scripts/local-dev.mjs stop",
+    "db:reset": "supabase db reset",
     "test:dev": "node --test scripts/local-dev.test.mjs scripts/dev-session.test.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "private": true,
   "devDependencies": {
-    "supabase": "2.122.0"
+    "supabase": "3.1.0"
   }
 }

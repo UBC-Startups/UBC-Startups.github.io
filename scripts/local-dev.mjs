@@ -1,12 +1,21 @@
 import { spawn } from "node:child_process";
 import { constants } from "node:fs";
-import { copyFile, readFile } from "node:fs/promises";
+import { access, copyFile, readFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { withDevSession } from "./dev-session.mjs";
+import { styleText } from "node:util";
+import { acceptDevHandoff, handoffDevSession, stopDevSession } from "./dev-session.mjs";
 
 const repositoryRoot = fileURLToPath(new URL("../", import.meta.url));
+
+function printDevLinks(appUrl, studioUrl) {
+  console.log(`\n${styleText("bold", "  LOCAL DEVELOPMENT")}`);
+  console.log(styleText("dim", "  -----------------------------------------------"));
+  console.log(`  App               ${styleText(["bold", "underline", "cyan"], appUrl)}`);
+  if (studioUrl) console.log(`  Supabase Studio   ${styleText(["bold", "underline", "green"], studioUrl)}`);
+  console.log(`${styleText("dim", "  -----------------------------------------------")}\n`);
+}
 
 // Run JS entry points directly so paths with spaces also work on Windows.
 export function runCommand(command, args, { cwd, env, capture = false, signal } = {}) {
@@ -35,7 +44,7 @@ export function runCommand(command, args, { cwd, env, capture = false, signal } 
     };
     const abort = () => terminate();
     signal?.addEventListener("abort", abort, { once: true });
-    const signals = new Map(["SIGINT", "SIGTERM"].map((name) => [name, () => terminate(name)]));
+    const signals = new Map(["SIGINT", "SIGTERM", "SIGHUP"].map((name) => [name, () => terminate(name)]));
     for (const [signal, forward] of signals) process.on(signal, forward);
     const cleanup = () => {
       for (const [signal, forward] of signals) process.off(signal, forward);
@@ -55,7 +64,9 @@ export function runCommand(command, args, { cwd, env, capture = false, signal } 
 async function packageBinary(directory, name) {
   const base = path.join(directory, "node_modules", name);
   const metadata = JSON.parse(await readFile(path.join(base, "package.json"), "utf8"));
-  return path.join(base, typeof metadata.bin === "string" ? metadata.bin : metadata.bin[name]);
+  const binary = path.join(base, typeof metadata.bin === "string" ? metadata.bin : metadata.bin[name]);
+  await access(binary);
+  return binary;
 }
 
 // After stopping our previous session, leave unrelated port users alone.
@@ -87,7 +98,7 @@ export function localAppEnvironment(status, inherited) {
   };
 }
 
-export async function startLocalDevelopment({
+export async function prepareEnvironment({
   resume = false, root = repositoryRoot, env = process.env, run = runCommand,
   checkPort = assertAppPortAvailable, signal,
 } = {}) {
@@ -112,28 +123,90 @@ export async function startLocalDevelopment({
   // The CLI's startup summary contains keys; only its progress on stderr is shown.
   await supabase(["start"], true);
   console.log(resume ? "Applying pending local migrations..." : "Resetting LOCAL database from this branch. Local accounts and data will be cleared.");
-  await supabase(resume ? ["migration", "up", "--local"] : ["db", "reset", "--local", "--yes"]);
+  // CLI v3 targets the local stack unless --remote is explicitly supplied.
+  await supabase(resume ? ["migration", "up"] : ["db", "reset", "--yes"]);
   const status = JSON.parse(await supabase(["status", "--output", "json"], true));
   const appEnv = localAppEnvironment(status, env);
-  console.log(`App: ${appEnv.APP_ORIGIN}`);
-  if (status.STUDIO_URL) console.log(`Supabase Studio: ${status.STUDIO_URL}`);
-  console.log("Ctrl+C stops Next.js. npm run dev:stop stops Supabase.");
-  await run(process.execPath, [await packageBinary(web, "next"), "dev", "--hostname", "127.0.0.1", "--port", "3000"], {
-    cwd: web, env: appEnv, signal,
-  });
+  printDevLinks(appEnv.APP_ORIGIN, status.STUDIO_URL);
+  return appEnv;
+}
+
+export async function runNextServer({ root = repositoryRoot, env = process.env, run = runCommand, signal } = {}) {
+  const cli = await packageBinary(root, "supabase");
+  const status = JSON.parse(await run(process.execPath, [cli, "status", "--output", "json", "--workdir", root], { cwd: root, env, capture: true, signal }));
+  const web = path.join(root, "web");
+  const appEnv = localAppEnvironment(status, env);
+  printDevLinks(appEnv.APP_ORIGIN, status.STUDIO_URL);
+  console.log("Next.js live logs. npm run dev stop stops Next.js and Supabase.");
+  await run(process.execPath, [await packageBinary(web, "next"), "dev", "--hostname", "127.0.0.1", "--port", "3000"], { cwd: web, env: appEnv, signal });
+}
+
+export async function stopLocalDevelopment({ root = repositoryRoot, env = process.env, run = runCommand } = {}) {
+  await stopDevSession(root);
+  let cli;
+  try { cli = await packageBinary(root, "supabase"); } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+    // An interrupted npm ci may have removed the executable needed to stop Docker.
+    if (!env.npm_execpath) throw new Error("Run npm ci in the root to restore Supabase tooling, then retry stop.");
+    console.log("Restoring root tooling after an interrupted install...");
+    await run(process.execPath, [env.npm_execpath, "ci", "--include=dev", "--prefer-offline"], { cwd: root, env });
+    cli = await packageBinary(root, "supabase");
+  }
+  await run(process.execPath, [cli, "stop", "--workdir", root], { cwd: root, env });
+  console.log("Local dev environment stopped. Database data is retained.");
+}
+
+export async function launchServerTerminal({
+  root = repositoryRoot, env = process.env, run = runCommand,
+  platform = process.platform, script = fileURLToPath(import.meta.url), token, signal,
+} = {}) {
+  signal?.throwIfAborted();
+  if (platform === "win32") {
+    // Use environment values instead of interpolating paths or secrets into shell code.
+    const command = "$ErrorActionPreference='Stop'; $ProgressPreference='SilentlyContinue'; Start-Process -FilePath $env:UBC_DEV_NODE -ArgumentList @(('\"' + $env:UBC_DEV_SCRIPT + '\"'), '--server', $env:UBC_DEV_TOKEN) -WorkingDirectory $env:UBC_DEV_ROOT -WindowStyle Normal";
+    await run("powershell.exe", ["-NoProfile", "-NonInteractive", "-EncodedCommand", Buffer.from(command, "utf16le").toString("base64")], {
+      cwd: root, env: { ...env, UBC_DEV_NODE: process.execPath, UBC_DEV_SCRIPT: script, UBC_DEV_ROOT: root, UBC_DEV_TOKEN: token }, signal,
+    });
+  } else if (platform === "darwin") {
+    const quote = (value) => `'${value.replaceAll("'", "'\\''")}'`;
+    const command = `cd ${quote(root)} && exec ${quote(process.execPath)} ${quote(script)} --server ${quote(token)}`;
+    await run("osascript", ["-e", `tell application "Terminal" to do script ${JSON.stringify(command)}`], { cwd: root, env, signal });
+  } else {
+    // On Linux, use the desktop's terminal emulator (override for non-Debian desktops).
+    const child = spawn(env.DEV_TERMINAL || "x-terminal-emulator", ["-e", process.execPath, script, "--server", token], {
+      cwd: root, env, detached: true, stdio: "ignore",
+    });
+    await new Promise((resolve, reject) => { child.once("spawn", resolve); child.once("error", reject); });
+    child.unref();
+  }
+  console.log("Backend setup complete. Next.js is starting in a separate terminal with live logs.");
+  console.log("Stop everything: npm run dev stop");
+}
+
+export async function launchDevelopment({ root = repositoryRoot, resume = false, prepare = prepareEnvironment, openTerminal = launchServerTerminal } = {}) {
+  await handoffDevSession(root,
+    (signal) => prepare({ root, resume, signal }),
+    (token, signal) => openTerminal({ root, token, signal }));
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  if (args.length === 1 && args[0] === "--help") {
-    console.log("npm run dev resets the local DB; npm run dev:resume preserves data.\nRequires Node from web/.nvmrc, Docker, and Google OAuth credentials in root .env.");
-  } else if (args.length > 1 || args.some((arg) => arg !== "--resume")) {
-    console.error("Usage: npm run dev [-- --resume]");
-    process.exitCode = 1;
-  } else {
-    withDevSession(repositoryRoot, (signal) => startLocalDevelopment({ resume: args.includes("--resume"), signal })).catch((error) => {
-      console.error(error.message);
-      process.exitCode = error.exitCode ?? 1;
-    });
-  }
+  const main = async () => {
+    if (args.length === 1 && args[0] === "--help") {
+      console.log("npm run dev shows setup here, then opens Next.js in a separate terminal.\nnpm run dev:resume preserves data.\nnpm run dev stop stops Next.js and Supabase.\nRequires Node from web/.nvmrc, Docker, and root .env Google OAuth credentials.");
+    } else if (args.length === 1 && args[0] === "stop") {
+      await stopLocalDevelopment();
+    } else if (args.length === 2 && args[0] === "--server") {
+      process.title = "UBC Startups - Next.js";
+      await acceptDevHandoff(repositoryRoot, args[1], (signal) => runNextServer({ signal }));
+    } else if (args.length === 0 || (args.length === 1 && args[0] === "--resume")) {
+      await launchDevelopment({ resume: args.includes("--resume") });
+    } else {
+      throw new Error("Usage: npm run dev | npm run dev:resume | npm run dev stop");
+    }
+  };
+  main().catch((error) => {
+    console.error(error.message);
+    process.exitCode = error.exitCode ?? 1;
+  });
 }

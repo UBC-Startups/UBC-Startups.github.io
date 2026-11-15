@@ -17,8 +17,15 @@ The root runner stops its previous Next.js session for this checkout, runs `npm 
 in the root and `web/` on every startup, restarts the
 pinned Supabase CLI's local stack, resets the local database from this branch's
 migrations and seeds, and starts Next.js on http://127.0.0.1:3000. **The default
-startup clears local accounts, profiles, and feature data.** It always passes
-`--local` to database reset commands, even when a hosted project is linked.
+startup clears local accounts, profiles, and feature data.** The root package pins
+Supabase CLI **3.1.0**, which targets the local database by default. The runner never
+passes `--remote`, even when a hosted project is linked.
+
+Setup runs in your current terminal so installation, migration progress, and
+errors stay visible. Once backend setup completes, Next.js opens in a separate
+terminal with live logs, and the original terminal returns to its prompt. Watch
+the new terminal for Next.js's ready message. On Linux, the terminal executable
+defaults to `x-terminal-emulator`; override it with `DEV_TERMINAL` if needed.
 
 The runner creates a missing root `.env` from `.env.example`. Fill in the Google
 OAuth credentials below once, then rerun the command. Local API keys and URLs are
@@ -32,11 +39,14 @@ configuration and root `.env`. Default startup rebuilds the database, including
 edits to existing migrations and seeds; resume only applies pending migrations.
 Use a fresh default startup after switching branches; resume does not undo another
 branch's migrations. `npm run db:reset` is a direct alias for
-`supabase db reset --local` and requires Supabase to be running. Stop the app before
+`supabase db reset` and requires Supabase to be running. Stop the app before
 resetting. If port 3000 belongs to a manually started server or another checkout,
-stop that process first. Standalone CLI aliases do not manage Next.js or install
-dependencies.
-Ctrl+C stops Next.js; `npm run dev:stop` stops Supabase while retaining its data.
+stop that process first. The standalone `db:reset` alias does not manage Next.js or
+install dependencies. `npm run dev stop` or `npm run dev:stop` stops both the
+managed Next.js session and Supabase while retaining database data.
+Stop also cancels an in-progress setup or terminal handoff. If an interrupted
+dependency install removed the CLI, shutdown restores the root tooling before
+stopping Supabase. Ordinary shutdown does not reinstall dependencies.
 
 Each developer gets an isolated local database; hosted linking is optional for
 local feature work. Do not rerun `supabase init` in a clone that already has
@@ -48,6 +58,13 @@ Use `npm run dev:stop` from the root to stop local services. Coordinate reviewed
 migrations to hosted staging through one designated maintainer. Linking a hosted
 project alone does not apply migrations. Feature migrations and their pgTAP tests
 live in `supabase/migrations` and `supabase/tests/database`.
+
+CLI v3 uses `--remote` to explicitly select a hosted target. Hosted changes run
+unattended require `--yes` as well. The former `--local`, `--linked`, and `--db-url`
+flags are deprecated; omit a target for local work. Keep the npm CLI pin and root
+lockfile together when upgrading. This CLI upgrade does not change the app's
+Supabase client libraries or deploy changes to a hosted project. See the
+[v3 migration guide](https://supabase.com/docs/guides/local-development/cli/migrating-to-v3).
 
 ## Environment
 

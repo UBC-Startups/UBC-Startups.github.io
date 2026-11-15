@@ -29,7 +29,9 @@ npm run dev
 
 This runs `npm ci` in the root and `web/` on every startup using their committed lockfiles,
 restarts Supabase, **resets the local database** using the current branch's migrations
-and seeds, then starts Next.js at http://127.0.0.1:3000. Existing local accounts,
+and seeds. Setup progress stays in your current terminal. Once the backend is ready,
+Next.js opens in a separate terminal with live logs, and your original terminal
+returns to its prompt. The app is at http://127.0.0.1:3000. Existing local accounts,
 profiles, and feature data are cleared on every default startup. No hosted project
 is changed. The first run can take longer while installing dependencies and
 downloading Docker images.
@@ -43,10 +45,10 @@ to Next.js; the runner does not overwrite `web/.env.local` or print the keys.
 
 | Root command | Behavior |
 | --- | --- |
-| `npm run dev` | Fresh local database from this branch, then Next.js |
-| `npm run dev:resume` | Preserve local data, apply pending local migrations, then Next.js |
-| `npm run dev:stop` | Alias for `supabase stop`; retain local data |
-| `npm run db:reset` | Alias for `supabase db reset --local`; requires Supabase running |
+| `npm run dev` | Fresh local database, then Next.js in a separate terminal |
+| `npm run dev:resume` | Preserve data, apply pending migrations, then open Next.js |
+| `npm run dev stop` / `npm run dev:stop` | Stop the managed Next.js session and Supabase; retain data |
+| `npm run db:reset` | Alias for `supabase db reset`; requires Supabase running |
 | `npm run test:dev` | Test the startup runner without Docker or credentials |
 
 Run `npm run dev` again after changing backend migrations, seeds, or configuration.
@@ -56,11 +58,14 @@ the local database, and starts Next.js again. `dev:resume` also restarts the ser
 but preserves data and applies only pending migrations. Editing an already-applied
 migration requires a fresh default startup.
 
-Ctrl+C stops Next.js and leaves Supabase available in the background. Use
-`npm run dev:stop` when finished. Processes started manually or by another checkout
+Use `npm run dev stop` when finished to stop both Next.js and Supabase. The
+`dev:stop` alias does the same, including during setup or terminal launch. If an
+interrupted install removed the Supabase CLI, stop first restores the root tooling
+with `npm ci` (preferring cached packages), then stops Supabase.
+Processes started manually or by another checkout
 are not stopped automatically: if one occupies port 3000, stop it manually first.
-Stop the app before using the standalone `db:reset` alias. The standalone CLI
-aliases do not manage Next.js or install dependencies. After switching
+Stop the app before using the standalone `db:reset` alias, which does not manage
+Next.js or install dependencies. After switching
 branches, use the default fresh startup: resume only applies pending migrations
 and does not remove migrations applied by another branch. Changes made manually
 in Studio must be captured in migrations or seeds to be reproducible.
@@ -68,6 +73,13 @@ in Studio must be captured in migrations or seeds to be reproducible.
 Runner replacement uses a local named pipe on Windows or a Unix socket in the
 system temporary directory. Each checkout has its own session; no PID files or
 credentials are stored in the repository.
+Setup retains control until the new terminal registers. Terminals from cancelled
+or replaced startups cannot start a server later.
+
+Next.js prints compilation errors and request logs in its own terminal; no hidden
+log file is needed. Windows opens a new console, macOS uses Terminal, and Linux
+uses `x-terminal-emulator` (set `DEV_TERMINAL` to another terminal executable if
+needed). The separate terminal's ready message confirms that Next.js has started.
 
 Both fresh and resume startup reinstall dependencies every time. There is no
 dependency cache check, automatic dependency upgrade, or Git pull.
@@ -86,6 +98,11 @@ See [web/README.md](web/README.md) for validation and browser tests. New contrib
 should also read the [shared UI and styling guide](web/docs/design-system.md).
 
 ## Supabase development
+
+The root package pins **Supabase CLI 3.1.0**. Database commands target the local
+stack by default; use `--remote` explicitly for an intentional hosted operation.
+Unattended hosted changes also require `--yes`. See the
+[CLI v3 migration guide](https://supabase.com/docs/guides/local-development/cli/migrating-to-v3).
 
 The root development commands above manage the local stack. For manual CLI work,
 use Node 26.12.0 and run from the repository root with Docker Desktop running:

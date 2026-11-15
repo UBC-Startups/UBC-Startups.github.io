@@ -10,17 +10,41 @@ Install and start Docker Desktop (or another supported Docker-compatible runtime
 Use Node from `web/.nvmrc`. From the repository root:
 
 ```sh
-npm ci
-npx supabase start
-npx supabase status
+npm run dev
 ```
 
-The root package pins the CLI version. Each developer gets an isolated local
-database; hosted linking is optional for local feature work. Do not rerun
-`supabase init` in a clone that already has `supabase/config.toml`. Install the
-web application's dependencies separately with `npm ci` from `web/`.
+The root runner stops its previous Next.js session for this checkout, runs `npm ci`
+in the root and `web/` on every startup, restarts the
+pinned Supabase CLI's local stack, resets the local database from this branch's
+migrations and seeds, and starts Next.js on http://127.0.0.1:3000. **The default
+startup clears local accounts, profiles, and feature data.** It always passes
+`--local` to database reset commands, even when a hosted project is linked.
 
-Use `npx supabase stop` from the root to stop local services. Coordinate reviewed
+The runner creates a missing root `.env` from `.env.example`. Fill in the Google
+OAuth credentials below once, then rerun the command. Local API keys and URLs are
+read from CLI status and passed directly to Next.js, overriding hosted values in
+the parent environment or `web/.env.local` without editing that file. Keys are not
+printed by the runner. No manual web environment setup is needed for this workflow.
+
+Use `npm run dev:resume` to preserve local data and apply pending local migrations.
+Rerun startup after backend changes: both modes restart Supabase to reload its
+configuration and root `.env`. Default startup rebuilds the database, including
+edits to existing migrations and seeds; resume only applies pending migrations.
+Use a fresh default startup after switching branches; resume does not undo another
+branch's migrations. `npm run db:reset` is a direct alias for
+`supabase db reset --local` and requires Supabase to be running. Stop the app before
+resetting. If port 3000 belongs to a manually started server or another checkout,
+stop that process first. Standalone CLI aliases do not manage Next.js or install
+dependencies.
+Ctrl+C stops Next.js; `npm run dev:stop` stops Supabase while retaining its data.
+
+Each developer gets an isolated local database; hosted linking is optional for
+local feature work. Do not rerun `supabase init` in a clone that already has
+`supabase/config.toml`. For manual CLI operation, install root dependencies with
+`npm ci`, then use `npx supabase start` and `npx supabase status`. For app-only
+development, install dependencies in `web/` and run its own `npm run dev`.
+
+Use `npm run dev:stop` from the root to stop local services. Coordinate reviewed
 migrations to hosted staging through one designated maintainer. Linking a hosted
 project alone does not apply migrations. Feature migrations and their pgTAP tests
 live in `supabase/migrations` and `supabase/tests/database`.
@@ -29,7 +53,8 @@ live in `supabase/migrations` and `supabase/tests/database`.
 
 ### Supabase CLI
 
-Copy the root `.env.example` to `.env` and fill in the Google OAuth client:
+The root runner creates `.env` if missing. For manual setup, copy the root
+`.env.example` to `.env` and fill in the Google OAuth client:
 
 ```sh
 cp .env.example .env
@@ -47,7 +72,8 @@ the Next.js app does not read it.
 
 ### Web application
 
-Copy `web/.env.example` to `web/.env.local` and fill in:
+When using the root runner, these values are injected into Next.js automatically.
+For manual app startup, copy `web/.env.example` to `web/.env.local` and fill in:
 
 ```dotenv
 NEXT_PUBLIC_SUPABASE_URL=

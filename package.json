@@ -15,6 +15,11 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
+    "dev": "node scripts/local-dev.mjs",
+    "dev:resume": "node scripts/local-dev.mjs --resume",
+    "dev:stop": "supabase stop",
+    "db:reset": "supabase db reset --local",
+    "test:dev": "node --test scripts/local-dev.test.mjs scripts/dev-session.test.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "private": true,

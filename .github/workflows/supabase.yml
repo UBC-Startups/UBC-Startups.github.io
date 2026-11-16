@@ -1,0 +1,41 @@
+name: Supabase CI
+
+on:
+  pull_request:
+    branches: [development, main]
+  push:
+    branches: [development, main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-${{ github.ref }}
+  cancel-in-progress: true
+
+# Config parsing requires Google values; CI never performs OAuth or pushes config.
+env:
+  SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID: ci-placeholder
+  SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET: ci-placeholder
+
+jobs:
+  test:
+    name: database checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: web/.nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - run: npm ci
+      - name: Build disposable database from migrations and seeds
+        run: npx --no-install supabase db start
+      - name: Run database tests
+        run: npx --no-install supabase test db
+      - name: Stop disposable database
+        if: always()
+        run: npx --no-install supabase stop

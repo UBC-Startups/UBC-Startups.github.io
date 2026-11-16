@@ -6,65 +6,44 @@ tests; new features still own their migrations, policies, and database tests.
 
 ## First-time local setup
 
-Install and start Docker Desktop (or another supported Docker-compatible runtime).
-Use Node from `web/.nvmrc`. From the repository root:
+Use Node from `web/.nvmrc`, start Docker Desktop, and run from the repository root:
 
 ```sh
 npm run dev
 ```
 
-The root runner stops its previous Next.js session for this checkout, runs `npm ci`
-in the root and `web/` on every startup, restarts the
-pinned Supabase CLI's local stack, resets the local database from this branch's
-migrations and seeds, and starts Next.js on http://127.0.0.1:3000. **The default
-startup clears local accounts, profiles, and feature data.** The root package pins
-Supabase CLI **3.1.0**, which targets the local database by default. The runner never
-passes `--remote`, even when a hosted project is linked.
+**Default startup resets local accounts and data.** Use `npm run dev:resume` to
+preserve data and apply pending migrations, or `npm run dev stop` to stop services.
+See the [root startup guide](../../README.md#run-the-nextjs-application) for daily
+commands and logs. Fill in the root `.env` credentials below on first use.
 
-Setup runs in your current terminal so installation, migration progress, and
-errors stay visible. Once backend setup completes, Next.js opens in a separate
-terminal with live logs, and the original terminal returns to its prompt. Watch
-the new terminal for Next.js's ready message. On Linux, the terminal executable
-defaults to `x-terminal-emulator`; override it with `DEV_TERMINAL` if needed.
+The runner injects local URLs and keys into Next.js, overriding hosted values in
+the parent environment or `web/.env.local` without editing that file. No manual
+web environment setup or hosted project link is required.
 
-The runner creates a missing root `.env` from `.env.example`. Fill in the Google
-OAuth credentials below once, then rerun the command. Local API keys and URLs are
-read from CLI status and passed directly to Next.js, overriding hosted values in
-the parent environment or `web/.env.local` without editing that file. Keys are not
-printed by the runner. No manual web environment setup is needed for this workflow.
+For manual CLI work, run root `npm ci`, `npx supabase start`, and
+`npx supabase status`. The existing `supabase/config.toml` is ready to use; do not
+rerun `supabase init`. Migrations and pgTAP tests live in `supabase/migrations`
+and `supabase/tests/database`.
 
-Use `npm run dev:resume` to preserve local data and apply pending local migrations.
-Rerun startup after backend changes: both modes restart Supabase to reload its
-configuration and root `.env`. Default startup rebuilds the database, including
-edits to existing migrations and seeds; resume only applies pending migrations.
-Use a fresh default startup after switching branches; resume does not undo another
-branch's migrations. `npm run db:reset` is a direct alias for
-`supabase db reset` and requires Supabase to be running. Stop the app before
-resetting. If port 3000 belongs to a manually started server or another checkout,
-stop that process first. The standalone `db:reset` alias does not manage Next.js or
-install dependencies. `npm run dev stop` or `npm run dev:stop` stops both the
-managed Next.js session and Supabase while retaining database data.
-Stop also cancels an in-progress setup or terminal handoff. If an interrupted
-dependency install removed the CLI, shutdown restores the root tooling before
-stopping Supabase. Ordinary shutdown does not reinstall dependencies.
-
-Each developer gets an isolated local database; hosted linking is optional for
-local feature work. Do not rerun `supabase init` in a clone that already has
-`supabase/config.toml`. For manual CLI operation, install root dependencies with
-`npm ci`, then use `npx supabase start` and `npx supabase status`. For app-only
-development, install dependencies in `web/` and run its own `npm run dev`.
-
-Use `npm run dev:stop` from the root to stop local services. Coordinate reviewed
-migrations to hosted staging through one designated maintainer. Linking a hosted
-project alone does not apply migrations. Feature migrations and their pgTAP tests
-live in `supabase/migrations` and `supabase/tests/database`.
-
-CLI v3 uses `--remote` to explicitly select a hosted target. Hosted changes run
-unattended require `--yes` as well. The former `--local`, `--linked`, and `--db-url`
-flags are deprecated; omit a target for local work. Keep the npm CLI pin and root
-lockfile together when upgrading. This CLI upgrade does not change the app's
-Supabase client libraries or deploy changes to a hosted project. See the
+The pinned CLI **3.1.0** targets the local database by default. Hosted work requires
+`--remote`, plus `--yes` for unattended changes. The startup runner never passes
+`--remote`. Keep the CLI pin and root lockfile together when upgrading. See the
 [v3 migration guide](https://supabase.com/docs/guides/local-development/cli/migrating-to-v3).
+
+## Shared development database
+
+Use the Supabase GitHub integration to deploy committed migrations to the shared
+development project. Set its working directory to `.` and its production branch
+name to `development`. In this integration, production means the connected
+Supabase project's primary database.
+
+`Supabase CI` separately rebuilds a disposable database and runs pgTAP tests on PRs.
+Require its `database checks` status check alongside the application checks.
+No hosted credentials are needed by this workflow.
+
+Commit schema changes as new migrations; do not edit migrations already deployed.
+Reverting a PR does not undo applied migrations; add a corrective migration.
 
 ## Environment
 
@@ -83,9 +62,10 @@ SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET=
 ```
 
 `supabase/config.toml` reads these through `env(...)` when the Google provider is
-enabled, so create the root `.env` before `npx supabase start`. The client secret
-stays local and is never committed. The root `.env` configures the Supabase CLI;
-the Next.js app does not read it.
+enabled, so create the root `.env` before `npx supabase start`. In the Google OAuth
+client, allow `http://127.0.0.1:54321/auth/v1/callback` as an authorized redirect URI.
+The client secret stays local and is never committed. The root `.env` configures
+the Supabase CLI; the Next.js app does not read it.
 
 ### Web application
 

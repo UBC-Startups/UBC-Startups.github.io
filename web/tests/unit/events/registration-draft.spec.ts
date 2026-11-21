@@ -1,5 +1,4 @@
 import { expect, test } from "@playwright/test";
-import { getEventForm } from "../../../data/event-forms";
 import type { EventForm } from "../../../lib/events/form-definition";
 import {
   DRAFT_VALIDATION_ACCEPTED_AT,
@@ -10,265 +9,263 @@ import {
   snapshotFromState,
 } from "../../../views/registration/registration-draft";
 
-const definition = getEventForm("casehack-2026");
-if (!definition) throw new Error("CaseHack fixture definition is missing.");
+const definition: EventForm = {
+  title: "Synthetic form",
+  questions: [
+    {
+      id: "name",
+      kind: "text",
+      label: "Name",
+      required: true,
+      maxLength: 120,
+    },
+    {
+      id: "track",
+      kind: "select",
+      label: "Track",
+      required: true,
+      choices: [
+        { value: "alpha", label: "Alpha" },
+        { value: "beta", label: "Beta" },
+      ],
+    },
+    {
+      id: "topics",
+      kind: "multiselect",
+      label: "Topics",
+      required: false,
+      choices: [
+        { value: "one", label: "One" },
+        { value: "two", label: "Two" },
+        { value: "other", label: "Other" },
+      ],
+    },
+    {
+      id: "source",
+      kind: "select",
+      label: "Source",
+      required: true,
+      choices: [
+        { value: "friend", label: "Friend" },
+        { value: "other", label: "Other" },
+      ],
+    },
+    {
+      id: "details",
+      kind: "text",
+      label: "Details",
+      required: false,
+      maxLength: 50,
+      requiredWhen: {
+        questionId: "source",
+        includesAny: ["other"],
+      },
+    },
+    {
+      id: "topic_notes",
+      kind: "textarea",
+      label: "Topic notes",
+      required: false,
+      maxLength: 100,
+      requiredWhen: {
+        questionId: "topics",
+        includesAny: ["other"],
+      },
+    },
+    {
+      id: "essay",
+      kind: "textarea",
+      label: "Essay",
+      required: false,
+      maxWords: 150,
+    },
+  ],
+  agreements: [
+    {
+      id: "terms",
+      label: "Terms",
+      text: "Terms text",
+      required: true,
+    },
+    {
+      id: "updates",
+      label: "Updates",
+      text: "Updates text",
+      required: false,
+    },
+    {
+      id: "conduct",
+      label: "Conduct",
+      text: "Conduct text",
+      required: true,
+    },
+  ],
+};
 
 function words(count: number): string {
   return Array.from({ length: count }, (_, index) => `word${index}`).join(" ");
 }
 
 test("restores known draft answers and preserves raw whitespace and long text", () => {
-  const motivation = `  ${words(151)}  `;
+  const essay = `  ${words(151)}  `;
   const answers = restoreAnswers(definition, {
     answers: {
-      faculty: "science",
-      major: "  Computer Science\n",
-      year_of_study: "2",
-      technical_skills: ["spreadsheets", "unknown", "spreadsheets"],
-      hackathon_experience: "three_to_five_or_two_top_three",
-      dietary_restrictions: ["vegetarian", "unknown", "vegetarian"],
-      referral_source: "other",
-      referral_other: "\tA friend's poster  ",
-      participation_motivation: motivation,
-      team_contribution: "Contribution",
-      problem_solution: "Problem response",
-      preferred_teammates: "Ada Lovelace",
+      name: "  Ada Lovelace\n",
+      track: "alpha",
+      topics: ["one", "unknown", "one"],
+      source: "other",
+      details: "\tSome detail  ",
+      topic_notes: "Should not be included",
+      essay,
       retired_question: "ignore me",
     },
   });
 
-  expect(answers.faculty).toBe("science");
-  expect(answers.major).toBe("  Computer Science\n");
-  expect(answers.year_of_study).toBe("2");
-  expect(answers.technical_skills).toEqual(["spreadsheets"]);
-  expect(answers.hackathon_experience).toBe(
-    "three_to_five_or_two_top_three",
-  );
-  expect(answers.dietary_restrictions).toEqual(["vegetarian"]);
-  expect(answers.referral_source).toBe("other");
-  expect(answers.referral_other).toBe("\tA friend's poster  ");
-  expect(answers.participation_motivation).toBe(motivation);
-  expect(answers.team_contribution).toBe("Contribution");
-  expect(answers.problem_solution).toBe("Problem response");
-  expect(answers.preferred_teammates).toBe("Ada Lovelace");
-  expect(answers).not.toHaveProperty("dietary_details");
-  expect(answers).not.toHaveProperty("technical_skills_details");
+  expect(answers.name).toBe("  Ada Lovelace\n");
+  expect(answers.track).toBe("alpha");
+  expect(answers.topics).toEqual(["one"]);
+  expect(answers.source).toBe("other");
+  expect(answers.details).toBe("\tSome detail  ");
+  expect(answers.essay).toBe(essay);
+  expect(answers).not.toHaveProperty("topic_notes");
   expect(answers).not.toHaveProperty("retired_question");
-});
-
-test("keeps unrelated answers from an old draft and leaves the new hackathon bracket blank", () => {
-  const answers = restoreAnswers(definition, {
-    answers: {
-      faculty: "science",
-      major: "Computer Science",
-      year_of_study: "2",
-      previous_hackathons: "2_3",
-      technical_skills: ["programming"],
-      dietary_restrictions: ["none"],
-      referral_source: "friend",
-      participation_motivation: "Old motivation",
-      team_contribution: "Old contribution",
-    },
-  });
-
-  expect(answers.hackathon_experience).toBe("");
-  expect(answers).not.toHaveProperty("previous_hackathons");
-  expect(answers.faculty).toBe("science");
-  expect(answers.major).toBe("Computer Science");
-  expect(answers.year_of_study).toBe("2");
-  expect(answers.technical_skills).toEqual(["programming"]);
-  expect(answers.dietary_restrictions).toEqual(["none"]);
-  expect(answers.referral_source).toBe("friend");
-  expect(answers.participation_motivation).toBe("Old motivation");
-  expect(answers.team_contribution).toBe("Old contribution");
-
-  const snapshot = snapshotFromState(definition, answers, {});
-  expect(snapshot.answers).not.toHaveProperty("previous_hackathons");
-  expect(snapshot.answers).not.toHaveProperty("hackathon_experience");
-  expect(snapshot.answers.faculty).toBe("science");
 });
 
 test("drops restored conditional answers whose controlling answer is inactive", () => {
   const answers = restoreAnswers(definition, {
     answers: {
-      faculty: "arts",
-      major: "History",
-      year_of_study: "1",
-      technical_skills: ["programming"],
-      technical_skills_details: "Stale other skills",
-      hackathon_experience: "first_hackathon",
-      dietary_restrictions: ["none"],
-      dietary_details: "Stale allergy details",
-      referral_source: "instagram",
-      referral_other: "Stale referral detail",
+      name: "Ada",
+      track: "alpha",
+      topics: ["one"],
+      source: "friend",
+      details: "Stale details",
+      topic_notes: "Stale topic notes",
     },
   });
 
-  expect(answers).not.toHaveProperty("technical_skills_details");
-  expect(answers).not.toHaveProperty("dietary_details");
-  expect(answers).not.toHaveProperty("referral_other");
+  expect(answers).not.toHaveProperty("details");
+  expect(answers).not.toHaveProperty("topic_notes");
 });
 
 test("restores only agreement ids that still exist in the definition", () => {
   const agreements = restoreAgreements(definition, {
-    agreementKeys: [
-      "application_status",
-      "removed_agreement",
-      "application_status",
-    ],
+    agreementKeys: ["terms", "removed_agreement", "terms"],
   });
 
-  expect(agreements.application_status).toBe(true);
-  expect(agreements.participant_conduct).toBe(false);
+  expect(agreements.terms).toBe(true);
+  expect(agreements.updates).toBe(false);
+  expect(agreements.conduct).toBe(false);
   expect(agreements).not.toHaveProperty("removed_agreement");
 });
 
 test("state snapshots omit cleared fields and inactive conditional answers", () => {
   const answers = restoreAnswers(definition, {
     answers: {
-      faculty: "science",
-      major: "Computer Science",
-      year_of_study: "1",
-      technical_skills: ["programming"],
-      hackathon_experience: "first_hackathon",
-      dietary_restrictions: ["none"],
-      dietary_details: "Stale",
-      referral_source: "",
+      name: "Ada",
+      track: "alpha",
+      topics: ["one"],
+      source: "friend",
+      details: "Stale details",
+      topic_notes: "Stale topic notes",
+      essay: "Essay response",
     },
   });
 
   const snapshot = snapshotFromState(definition, answers, {
-    application_status: true,
-    participant_conduct: false,
-    application_data: true,
-    photo_video_consent: false,
-    submission_finality: false,
+    terms: true,
+    updates: false,
+    conduct: true,
   });
 
   expect(snapshot.answers).toEqual({
-    faculty: "science",
-    major: "Computer Science",
-    year_of_study: "1",
-    technical_skills: ["programming"],
-    hackathon_experience: "first_hackathon",
-    dietary_restrictions: ["none"],
+    name: "Ada",
+    track: "alpha",
+    topics: ["one"],
+    source: "friend",
+    essay: "Essay response",
   });
-  expect(snapshot.agreementKeys).toEqual([
-    "application_status",
-    "application_data",
-  ]);
+  expect(snapshot.agreementKeys).toEqual(["terms", "conduct"]);
 
   const cleared = snapshotFromState(
     definition,
-    { ...answers, major: "", dietary_restrictions: [] },
+    { ...answers, name: "", topics: [] },
     {},
   );
-  expect(cleared.answers).not.toHaveProperty("major");
-  expect(cleared.answers).not.toHaveProperty("dietary_restrictions");
+  expect(cleared.answers).not.toHaveProperty("name");
+  expect(cleared.answers).not.toHaveProperty("topics");
   expect(cleared.agreementKeys).toEqual([]);
 });
 
 test("captures the latest raw FormData with active conditions and checked ids", () => {
   const data = new FormData();
-  data.set("question:faculty", "science");
-  data.set("question:major", "  Computer Science  ");
-  data.set("question:year_of_study", "1");
-  data.append("question:technical_skills", "programming");
-  data.append("question:technical_skills", "other");
-  data.set("question:technical_skills_details", "  Figma and CAD  ");
-  data.set("question:hackathon_experience", "six_plus_or_four_top_three");
-  data.append("question:dietary_restrictions", "food_allergy");
-  data.append("question:dietary_restrictions", "vegetarian");
-  data.set("question:dietary_details", "  Peanuts\n");
-  data.set("question:referral_source", "other");
-  data.set("question:referral_other", "  A poster  ");
-  data.set("question:participation_motivation", words(151));
-  data.set("question:team_contribution", "  Contribution  ");
-  data.set("question:problem_solution", words(150));
-  data.set("question:preferred_teammates", "  Ada Lovelace  ");
+  data.set("question:name", "  Ada Lovelace  ");
+  data.set("question:track", "alpha");
+  data.append("question:topics", "one");
+  data.append("question:topics", "other");
+  data.set("question:topic_notes", "  Topic notes  ");
+  data.set("question:source", "other");
+  data.set("question:details", "  More details  ");
+  data.set("question:essay", words(160));
   data.set("question:unknown", "ignored");
-  data.set("agreement:application_status", "yes");
-  data.set("agreement:participant_conduct", "yes");
+  data.set("agreement:terms", "yes");
+  data.set("agreement:conduct", "yes");
   data.set("draft_revision", "9");
 
   const snapshot = snapshotFromFormData(definition, data);
 
   expect(snapshot.answers).toEqual({
-    faculty: "science",
-    major: "  Computer Science  ",
-    year_of_study: "1",
-    technical_skills: ["programming", "other"],
-    technical_skills_details: "  Figma and CAD  ",
-    hackathon_experience: "six_plus_or_four_top_three",
-    dietary_restrictions: ["food_allergy", "vegetarian"],
-    dietary_details: "  Peanuts\n",
-    referral_source: "other",
-    referral_other: "  A poster  ",
-    participation_motivation: words(151),
-    team_contribution: "  Contribution  ",
-    problem_solution: words(150),
-    preferred_teammates: "  Ada Lovelace  ",
+    name: "  Ada Lovelace  ",
+    track: "alpha",
+    topics: ["one", "other"],
+    topic_notes: "  Topic notes  ",
+    source: "other",
+    details: "  More details  ",
+    essay: words(160),
   });
-  expect(snapshot.agreementKeys).toEqual([
-    "application_status",
-    "participant_conduct",
-  ]);
+  expect(snapshot.agreementKeys).toEqual(["terms", "conduct"]);
   expect(snapshot.answers).not.toHaveProperty("unknown");
 });
 
 test("FormData capture skips inactive conditional fields", () => {
   const data = new FormData();
-  data.set("question:faculty", "arts");
-  data.set("question:major", "History");
-  data.set("question:year_of_study", "1");
-  data.set("question:technical_skills", "programming");
-  data.set("question:technical_skills_details", "Should not be included");
-  data.set("question:hackathon_experience", "first_hackathon");
-  data.set("question:dietary_restrictions", "none");
-  data.set("question:dietary_details", "Should not be included");
-  data.set("question:referral_source", "instagram");
-  data.set("question:referral_other", "Should not be included");
+  data.set("question:name", "Ada");
+  data.set("question:track", "alpha");
+  data.set("question:topics", "one");
+  data.set("question:details", "Should not be included");
+  data.set("question:topic_notes", "Should not be included");
+  data.set("question:source", "friend");
 
   const snapshot = snapshotFromFormData(definition, data);
 
-  expect(snapshot.answers.dietary_restrictions).toEqual(["none"]);
-  expect(snapshot.answers).not.toHaveProperty("technical_skills_details");
-  expect(snapshot.answers).not.toHaveProperty("dietary_details");
-  expect(snapshot.answers).not.toHaveProperty("referral_other");
+  expect(snapshot.answers.topics).toEqual(["one"]);
+  expect(snapshot.answers).not.toHaveProperty("details");
+  expect(snapshot.answers).not.toHaveProperty("topic_notes");
 });
 
 test("serializes a snapshot into the draft action's FormData contract", () => {
   const source = new FormData();
-  source.set("question:major", "  Ada\n");
-  source.append("question:technical_skills", "programming");
-  source.set("question:hackathon_experience", "one_or_two");
-  source.append("question:dietary_restrictions", "none");
-  source.set("question:preferred_teammates", "  Grace Hopper  ");
-  source.set("agreement:application_status", "yes");
+  source.set("question:name", "  Ada\n");
+  source.append("question:topics", "one");
+  source.set("question:source", "friend");
+  source.set("question:essay", "Essay response");
+  source.set("agreement:terms", "yes");
 
   const snapshot = snapshotFromFormData(definition, source);
   const serialized = draftSnapshotToFormData(snapshot);
 
-  expect(serialized.getAll("question:major")).toEqual(["  Ada\n"]);
-  expect(serialized.getAll("question:technical_skills")).toEqual([
-    "programming",
-  ]);
-  expect(serialized.getAll("question:hackathon_experience")).toEqual([
-    "one_or_two",
-  ]);
-  expect(serialized.getAll("question:dietary_restrictions")).toEqual(["none"]);
-  expect(serialized.getAll("question:preferred_teammates")).toEqual([
-    "  Grace Hopper  ",
-  ]);
-  expect(serialized.getAll("agreement:application_status")).toEqual(["yes"]);
-  expect(serialized.getAll("agreement:participant_conduct")).toEqual([]);
+  expect(serialized.getAll("question:name")).toEqual(["  Ada\n"]);
+  expect(serialized.getAll("question:topics")).toEqual(["one"]);
+  expect(serialized.getAll("question:source")).toEqual(["friend"]);
+  expect(serialized.getAll("question:essay")).toEqual(["Essay response"]);
+  expect(serialized.getAll("agreement:terms")).toEqual(["yes"]);
+  expect(serialized.getAll("agreement:conduct")).toEqual([]);
 });
 
 test("accepts a non-empty draft without a top-level FormData field", () => {
   const data = new FormData();
-  data.append("question:faculty", "science");
+  data.append("question:name", "Ada");
   const snapshot = snapshotFromFormData(definition, data);
-  expect(snapshot.answers.faculty).toBe("science");
+  expect(snapshot.answers.name).toBe("Ada");
 });
 
 test("keeps a stable placeholder acceptance timestamp", () => {

@@ -28,6 +28,9 @@ jobs:
           node-version-file: web/.nvmrc
           cache: npm
           cache-dependency-path: web/package-lock.json
+      - name: Test local development runner
+        run: npm run test:dev
+        working-directory: .
       - run: npm ci
       - run: npm run lint
       - run: npm run typecheck

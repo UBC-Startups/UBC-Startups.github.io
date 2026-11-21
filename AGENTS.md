@@ -129,6 +129,8 @@ npm test -- --watchAll=false --passWithNoTests
 - Feature pull requests target `development`. Releases use a pull request from
   `development` to `main`.
 - Pushes to `main` deploy automatically after the Node 26 build and tests pass,
-  using the verified legacy artifact. Pull requests and pushes to `development` do not
-  deploy. Local builds are for verification; deployment runs through Actions.
+  using the verified legacy artifact. Pull requests and pushes to `development` do
+  not deploy the website. `Supabase CI` tests migrations and pgTAP policies on PRs;
+  the Supabase GitHub integration handles shared development database deployment.
+  See `web/docs/supabase.md`. Local builds are for verification.
 - Do not push, merge, or change deployment settings unless requested.

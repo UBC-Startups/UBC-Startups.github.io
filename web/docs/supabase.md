@@ -6,30 +6,52 @@ tests; new features still own their migrations, policies, and database tests.
 
 ## First-time local setup
 
-Install and start Docker Desktop (or another supported Docker-compatible runtime).
-Use Node from `web/.nvmrc`. From the repository root:
+Use Node from `web/.nvmrc`, start Docker Desktop, and run from the repository root:
 
 ```sh
-npm ci
-npx supabase start
-npx supabase status
+npm run dev
 ```
 
-The root package pins the CLI version. Each developer gets an isolated local
-database; hosted linking is optional for local feature work. Do not rerun
-`supabase init` in a clone that already has `supabase/config.toml`. Install the
-web application's dependencies separately with `npm ci` from `web/`.
+Default startup preserves local accounts and data and applies pending migrations.
+Use `npm run dev:reset` to **clear local data** and rebuild from migrations and seeds,
+or `npm run dev stop` to stop services.
+See the [root startup guide](../../README.md#run-the-nextjs-application) for daily
+commands and logs. Fill in the root `.env` credentials below on first use.
 
-Use `npx supabase stop` from the root to stop local services. Coordinate reviewed
-migrations to hosted staging through one designated maintainer. Linking a hosted
-project alone does not apply migrations. Feature migrations and their pgTAP tests
-live in `supabase/migrations` and `supabase/tests/database`.
+The runner injects local URLs and keys into Next.js, overriding hosted values in
+the parent environment or `web/.env.local` without editing that file. No manual
+web environment setup or hosted project link is required.
+
+For manual CLI work, run root `npm ci`, `npx supabase start`, and
+`npx supabase status`. The existing `supabase/config.toml` is ready to use; do not
+rerun `supabase init`. Migrations and pgTAP tests live in `supabase/migrations`
+and `supabase/tests/database`.
+
+The pinned CLI **3.1.0** targets the local database by default. Hosted work requires
+`--remote`, plus `--yes` for unattended changes. The startup runner never passes
+`--remote`. Keep the CLI pin and root lockfile together when upgrading. See the
+[v3 migration guide](https://supabase.com/docs/guides/local-development/cli/migrating-to-v3).
+
+## Shared development database
+
+Use the Supabase GitHub integration to deploy committed migrations to the shared
+development project. Set its working directory to `.` and its production branch
+name to `development`. In this integration, production means the connected
+Supabase project's primary database.
+
+`Supabase CI` separately rebuilds a disposable database and runs pgTAP tests on PRs.
+Require its `database checks` status check alongside the application checks.
+No hosted credentials are needed by this workflow.
+
+Commit schema changes as new migrations; do not edit migrations already deployed.
+Reverting a PR does not undo applied migrations; add a corrective migration.
 
 ## Environment
 
 ### Supabase CLI
 
-Copy the root `.env.example` to `.env` and fill in the Google OAuth client:
+The root runner creates `.env` if missing. For manual setup, copy the root
+`.env.example` to `.env` and fill in the Google OAuth client:
 
 ```sh
 cp .env.example .env
@@ -41,13 +63,15 @@ SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET=
 ```
 
 `supabase/config.toml` reads these through `env(...)` when the Google provider is
-enabled, so create the root `.env` before `npx supabase start`. The client secret
-stays local and is never committed. The root `.env` configures the Supabase CLI;
-the Next.js app does not read it.
+enabled, so create the root `.env` before `npx supabase start`. In the Google OAuth
+client, allow `http://127.0.0.1:54321/auth/v1/callback` as an authorized redirect URI.
+The client secret stays local and is never committed. The root `.env` configures
+the Supabase CLI; the Next.js app does not read it.
 
 ### Web application
 
-Copy `web/.env.example` to `web/.env.local` and fill in:
+When using the root runner, these values are injected into Next.js automatically.
+For manual app startup, copy `web/.env.example` to `web/.env.local` and fill in:
 
 ```dotenv
 NEXT_PUBLIC_SUPABASE_URL=

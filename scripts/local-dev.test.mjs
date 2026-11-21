@@ -49,11 +49,11 @@ async function fixture(t) {
   return { root, status, calls, options };
 }
 
-test("setup resets only the local DB and returns local credentials", async (t) => {
+test("explicit reset clears only the local DB and returns local credentials", async (t) => {
   const f = await fixture(t);
   f.options.env.NEXT_PUBLIC_SUPABASE_URL = "https://hosted.example.com";
   f.options.env.SUPABASE_SECRET_KEY = "hosted-secret";
-  const env = await prepareEnvironment(f.options);
+  const env = await prepareEnvironment({ ...f.options, reset: true });
   const commands = f.calls.filter((call) => !call.args.includes("ci"));
   assert.deepEqual(commands.map((call) => call.args.slice(1, 4)), [
     ["stop", "--workdir", f.root], ["start", "--workdir", f.root], ["db", "reset", "--yes"],
@@ -69,9 +69,9 @@ test("setup resets only the local DB and returns local credentials", async (t) =
   assert.ok(commands[1].capture && commands[3].capture);
 });
 
-test("resume applies pending migrations locally without resetting or seeding", async (t) => {
+test("default startup applies pending migrations locally without resetting or reseeding", async (t) => {
   const f = await fixture(t);
-  await prepareEnvironment({ ...f.options, resume: true });
+  await prepareEnvironment(f.options);
   const migration = f.calls.find((call) => call.args?.slice(1, 3).join(" ") === "migration up");
   assert.ok(migration);
   assert.ok(!migration.args.some((arg) => /^--(?:remote|linked|db-url|local)(?:=|$)/.test(arg)));
@@ -150,7 +150,7 @@ test("startup stops after a failed reset", async (t) => {
     if (args.includes("reset")) throw new Error("migration failed");
     return run(command, args, settings);
   };
-  await assert.rejects(prepareEnvironment(f.options), /migration failed/);
+  await assert.rejects(prepareEnvironment({ ...f.options, reset: true }), /migration failed/);
   assert.ok(!f.calls.some((call) => call.args?.includes("dev")));
 });
 
@@ -193,7 +193,7 @@ test("only loopback status URLs are accepted, with legacy local key fallback", (
 test("every startup installs locked root and web dependencies", async (t) => {
   const f = await fixture(t);
   await prepareEnvironment(f.options);
-  await prepareEnvironment({ ...f.options, resume: true });
+  await prepareEnvironment({ ...f.options, reset: true });
   const installs = f.calls.filter((call) => call.args.includes("ci"));
   assert.deepEqual(installs.map((call) => call.cwd), [f.root, path.join(f.root, "web"), f.root, path.join(f.root, "web")]);
   for (const call of installs) {

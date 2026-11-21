@@ -12,8 +12,9 @@ Use Node from `web/.nvmrc`, start Docker Desktop, and run from the repository ro
 npm run dev
 ```
 
-**Default startup resets local accounts and data.** Use `npm run dev:resume` to
-preserve data and apply pending migrations, or `npm run dev stop` to stop services.
+Default startup preserves local accounts and data and applies pending migrations.
+Use `npm run dev:reset` to **clear local data** and rebuild from migrations and seeds,
+or `npm run dev stop` to stop services.
 See the [root startup guide](../../README.md#run-the-nextjs-application) for daily
 commands and logs. Fill in the root `.env` credentials below on first use.
 

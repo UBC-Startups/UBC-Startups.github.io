@@ -56,9 +56,9 @@ test("setup finishes in the current terminal before the server terminal is opene
   let server;
   let started;
   const ready = new Promise((resolve) => { started = resolve; });
-  await launchDevelopment({ root, resume: true,
+  await launchDevelopment({ root, reset: true,
     prepare: async (options) => {
-      assert.equal(options.resume, true);
+      assert.equal(options.reset, true);
       events.push("setup");
     },
     openTerminal: async ({ token }) => {

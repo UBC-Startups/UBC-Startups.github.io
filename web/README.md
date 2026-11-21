@@ -11,7 +11,7 @@ adding UI. It covers tokens, component APIs, styling conventions, and validation
 
 Use Node 26.12.0 (`.nvmrc`). For Next.js and local Supabase, follow the
 [root startup guide](../README.md#run-the-nextjs-application).
-Root `npm run dev` **resets local data**; `npm run dev:resume` preserves it.
+Root `npm run dev` preserves local data; `npm run dev:reset` **clears and reseeds it**.
 Use root `npm run dev stop` to stop both services.
 
 For app-only development without Supabase, run from this directory:

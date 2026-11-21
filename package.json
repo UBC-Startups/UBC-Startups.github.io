@@ -16,7 +16,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node scripts/local-dev.mjs",
-    "dev:resume": "node scripts/local-dev.mjs --resume",
+    "dev:reset": "node scripts/local-dev.mjs --reset",
     "dev:stop": "node scripts/local-dev.mjs stop",
     "db:reset": "supabase db reset",
     "test:dev": "node --test scripts/local-dev.test.mjs scripts/dev-session.test.mjs",

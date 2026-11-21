@@ -28,7 +28,7 @@ npm run dev
 ```
 
 `npm run dev` installs locked root/web dependencies, restarts Supabase, and
-**resets local accounts and data** from this branch's migrations and seeds.
+applies pending migrations while preserving existing local accounts and data.
 Setup runs in the current terminal; Next.js opens in a separate terminal with
 live logs. Wait for its ready message, then open http://127.0.0.1:3000.
 
@@ -39,16 +39,17 @@ for the callback URL. Local Supabase keys are injected automatically; no manual
 
 | Root command | Behavior |
 | --- | --- |
-| `npm run dev` | Fresh local database, then Next.js in a separate terminal |
-| `npm run dev:resume` | Preserve data, apply pending migrations, then open Next.js |
+| `npm run dev` | Preserve data, apply pending migrations, then open Next.js |
+| `npm run dev:reset` | Reset local data from migrations and seeds, then open Next.js |
 | `npm run dev stop` / `npm run dev:stop` | Stop the managed Next.js session and Supabase; retain data |
 | `npm run db:reset` | Alias for `supabase db reset`; requires Supabase running |
 | `npm run test:dev` | Test the startup runner without Docker or credentials |
 
 Rerunning startup replaces the managed server for this checkout and reloads
-Supabase configuration. Use fresh startup after switching branches or editing
-existing migrations/seeds: resume only applies pending migrations. Capture Studio
-changes in migrations or seeds to share them.
+Supabase configuration. Use `npm run dev:reset` (or `npm run dev -- --reset`) when
+you need a clean database after switching branches or editing existing migrations
+or seeds. **Reset clears local accounts and data.** Normal startup only applies
+pending migrations. Capture Studio changes in migrations or seeds to share them.
 
 Stop with `npm run dev stop`, including during setup. Manually started servers are
 not managed; stop them yourself if they occupy port 3000. Stop Next.js before using

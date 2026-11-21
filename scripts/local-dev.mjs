@@ -99,7 +99,7 @@ export function localAppEnvironment(status, inherited) {
 }
 
 export async function prepareEnvironment({
-  resume = false, root = repositoryRoot, env = process.env, run = runCommand,
+  reset = false, root = repositoryRoot, env = process.env, run = runCommand,
   checkPort = assertAppPortAvailable, signal,
 } = {}) {
   await checkPort();
@@ -122,9 +122,9 @@ export async function prepareEnvironment({
   console.log("Starting local Supabase. Docker must be running and root .env must contain Google OAuth credentials.");
   // The CLI's startup summary contains keys; only its progress on stderr is shown.
   await supabase(["start"], true);
-  console.log(resume ? "Applying pending local migrations..." : "Resetting LOCAL database from this branch. Local accounts and data will be cleared.");
+  console.log(reset ? "Resetting LOCAL database from this branch. Local accounts and data will be cleared." : "Applying pending local migrations (preserving existing data)...");
   // CLI v3 targets the local stack unless --remote is explicitly supplied.
-  await supabase(resume ? ["migration", "up"] : ["db", "reset", "--yes"]);
+  await supabase(reset ? ["db", "reset", "--yes"] : ["migration", "up"]);
   const status = JSON.parse(await supabase(["status", "--output", "json"], true));
   const appEnv = localAppEnvironment(status, env);
   printDevLinks(appEnv.APP_ORIGIN, status.STUDIO_URL);
@@ -183,9 +183,9 @@ export async function launchServerTerminal({
   console.log("Stop everything: npm run dev stop");
 }
 
-export async function launchDevelopment({ root = repositoryRoot, resume = false, prepare = prepareEnvironment, openTerminal = launchServerTerminal } = {}) {
+export async function launchDevelopment({ root = repositoryRoot, reset = false, prepare = prepareEnvironment, openTerminal = launchServerTerminal } = {}) {
   await handoffDevSession(root,
-    (signal) => prepare({ root, resume, signal }),
+    (signal) => prepare({ root, reset, signal }),
     (token, signal) => openTerminal({ root, token, signal }));
 }
 
@@ -193,16 +193,16 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const args = process.argv.slice(2);
   const main = async () => {
     if (args.length === 1 && args[0] === "--help") {
-      console.log("npm run dev shows setup here, then opens Next.js in a separate terminal.\nnpm run dev:resume preserves data.\nnpm run dev stop stops Next.js and Supabase.\nRequires Node from web/.nvmrc, Docker, and root .env Google OAuth credentials.");
+      console.log("npm run dev preserves local data, applies pending migrations, then opens Next.js in a separate terminal.\nnpm run dev:reset resets local data from migrations and seeds.\nnpm run dev stop stops Next.js and Supabase.\nRequires Node from web/.nvmrc, Docker, and root .env Google OAuth credentials.");
     } else if (args.length === 1 && args[0] === "stop") {
       await stopLocalDevelopment();
     } else if (args.length === 2 && args[0] === "--server") {
       process.title = "UBC Startups - Next.js";
       await acceptDevHandoff(repositoryRoot, args[1], (signal) => runNextServer({ signal }));
-    } else if (args.length === 0 || (args.length === 1 && args[0] === "--resume")) {
-      await launchDevelopment({ resume: args.includes("--resume") });
+    } else if (args.length === 0 || (args.length === 1 && args[0] === "--reset")) {
+      await launchDevelopment({ reset: args.includes("--reset") });
     } else {
-      throw new Error("Usage: npm run dev | npm run dev:resume | npm run dev stop");
+      throw new Error("Usage: npm run dev | npm run dev:reset | npm run dev stop");
     }
   };
   main().catch((error) => {

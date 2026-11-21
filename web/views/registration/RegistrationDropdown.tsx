@@ -132,15 +132,14 @@ export function RegistrationDropdown({
 
   useEffect(() => {
     if (!open) return;
-    listboxRef.current?.focus();
-  }, [open]);
+    const listbox = listboxRef.current;
+    if (!listbox) return;
 
-  useEffect(() => {
-    if (!open) return;
-    document
-      .getElementById(`${listboxId}-option-${activeChoiceIndex}`)
+    listbox.focus();
+    listbox
+      .querySelector<HTMLElement>('[role="option"][aria-selected="true"]')
       ?.scrollIntoView({ block: "nearest" });
-  }, [activeChoiceIndex, listboxId, open]);
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -191,6 +190,13 @@ export function RegistrationDropdown({
   function closeAndFocusTrigger() {
     setOpen(false);
     triggerRef.current?.focus();
+  }
+
+  function activateChoice(index: number) {
+    setActiveIndex(index);
+    listboxRef.current?.children
+      .item(index)
+      ?.scrollIntoView({ block: "nearest" });
   }
 
   function choose(choice: EventFormChoice) {
@@ -245,7 +251,7 @@ export function RegistrationDropdown({
     for (let offset = 0; offset < menuChoiceCount; offset += 1) {
       const index = (start + offset) % menuChoiceCount;
       if (menuChoices[index].label.toLowerCase().startsWith(query)) {
-        setActiveIndex(index);
+        activateChoice(index);
         break;
       }
     }
@@ -258,23 +264,25 @@ export function RegistrationDropdown({
     if (typeahead(event)) return;
 
     switch (event.key) {
-      case "ArrowDown":
+      case "ArrowDown": {
         event.preventDefault();
-        setActiveIndex((activeChoiceIndex + 1) % menuChoiceCount);
+        activateChoice((activeChoiceIndex + 1) % menuChoiceCount);
         break;
-      case "ArrowUp":
+      }
+      case "ArrowUp": {
         event.preventDefault();
-        setActiveIndex(
+        activateChoice(
           (activeChoiceIndex - 1 + menuChoiceCount) % menuChoiceCount,
         );
         break;
+      }
       case "Home":
         event.preventDefault();
-        setActiveIndex(0);
+        activateChoice(0);
         break;
       case "End":
         event.preventDefault();
-        setActiveIndex(menuChoiceCount - 1);
+        activateChoice(menuChoiceCount - 1);
         break;
       case "Enter":
       case " ":

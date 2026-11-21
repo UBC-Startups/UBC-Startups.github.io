@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { NextRequest } from "next/server";
-import { updateSession } from "../../lib/supabase/proxy";
+import { updateSession } from "../../../lib/supabase/proxy";
 
 const url = "https://test-project.supabase.co";
 const cookieName = "sb-test-project-auth-token";

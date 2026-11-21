@@ -68,26 +68,26 @@ select throws_ok($$insert into public.events (slug, registration_opens_at, regis
 select throws_ok($$insert into public.events (slug, registration_opens_at, registration_closes_at) values ('reversed-event', now(), now() - interval '1 day')$$, '23514', null, 'reversed window rejected');
 
 -- A confirmed registration, created as the privileged role.
-insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values
- ('33333333-3333-3333-3333-333333333333', '11111111-1111-1111-1111-111111111111', '{}', '[]', 'confirmed');
+insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values
+ ('33333333-3333-3333-3333-333333333333', '11111111-1111-1111-1111-111111111111', '{}', '[]', 'confirmed', now());
 
 -- (event_id, user_id) is the primary key: one registration per edition.
-select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('33333333-3333-3333-3333-333333333333','11111111-1111-1111-1111-111111111111','{}','[]','confirmed')$$, '23505', null, 'duplicate registration rejected');
+select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values ('33333333-3333-3333-3333-333333333333','11111111-1111-1111-1111-111111111111','{}','[]','confirmed',now())$$, '23505', null, 'duplicate registration rejected');
 
 -- Both foreign keys must hold: a real edition, and a completed profile.
-select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('44444444-4444-4444-4444-444444444444','11111111-1111-1111-1111-111111111111','{}','[]','confirmed')$$, '23503', null, 'unknown event rejected');
-select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('33333333-3333-3333-3333-333333333333','99999999-9999-9999-9999-999999999999','{}','[]','confirmed')$$, '23503', null, 'registration for unknown profile rejected');
+select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values ('44444444-4444-4444-4444-444444444444','11111111-1111-1111-1111-111111111111','{}','[]','confirmed',now())$$, '23503', null, 'unknown event rejected');
+select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values ('33333333-3333-3333-3333-333333333333','99999999-9999-9999-9999-999999999999','{}','[]','confirmed',now())$$, '23503', null, 'registration for unknown profile rejected');
 
 -- Payload shapes and the status domain are enforced by the database, so a
 -- buggy writer cannot store malformed answers or an unexpected state.
-select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('33333333-3333-3333-3333-333333333333','11111111-1111-1111-1111-111111111111','[]','[]','confirmed')$$, '23514', null, 'answers must be a json object');
-select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('33333333-3333-3333-3333-333333333333','11111111-1111-1111-1111-111111111111','{}','{}','confirmed')$$, '23514', null, 'agreements must be a json array');
-select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('33333333-3333-3333-3333-333333333333','11111111-1111-1111-1111-111111111111','{}','[]','cancelled')$$, '23514', null, 'unsupported status rejected');
+select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values ('33333333-3333-3333-3333-333333333333','11111111-1111-1111-1111-111111111111','[]','[]','confirmed',now())$$, '23514', null, 'answers must be a json object');
+select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values ('33333333-3333-3333-3333-333333333333','11111111-1111-1111-1111-111111111111','{}','{}','confirmed',now())$$, '23514', null, 'agreements must be a json array');
+select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values ('33333333-3333-3333-3333-333333333333','11111111-1111-1111-1111-111111111111','{}','[]','cancelled',now())$$, '23514', null, 'unsupported status rejected');
 
 -- Pending and declined registrations are valid states for the future trusted
 -- writer; status stays required with no default, so the writer must choose it.
-select lives_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('33333333-3333-3333-3333-333333333333','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa','{}','[]','pending')$$, 'pending status is valid');
-select lives_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('55555555-5555-5555-5555-555555555555','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa','{}','[]','declined')$$, 'declined status is valid');
+select lives_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values ('33333333-3333-3333-3333-333333333333','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa','{}','[]','pending',now())$$, 'pending status is valid');
+select lives_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status, submitted_at) values ('55555555-5555-5555-5555-555555555555','aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa','{}','[]','declined',now())$$, 'declined status is valid');
 select throws_ok($$insert into public.event_registrations (event_id, user_id, answers, accepted_agreements, status) values ('33333333-3333-3333-3333-333333333333','bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb','{}','[]',null)$$, '23502', null, 'missing status rejected');
 
 -- Account deletion must cascade through the profile to the registrations.

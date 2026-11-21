@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { parseBasicProfile, saveBasicProfileRow } from "../../lib/auth/profile-setup";
+import { parseBasicProfile, saveBasicProfileRow } from "../../../lib/auth/profile-setup";
 
 const event = "/events/sample-event/register";
 const userId = "11111111-1111-4111-8111-111111111111";

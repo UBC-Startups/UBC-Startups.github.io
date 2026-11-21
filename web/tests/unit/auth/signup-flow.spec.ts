@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { getSignupDestination, getOnboardingPath } from '../../lib/auth/signup-routing';
+import { getSignupDestination, getOnboardingPath } from '../../../lib/auth/signup-routing';
 
 test('accepts only supported signup destinations', () => {
   const event = '/events/sample-event/register';

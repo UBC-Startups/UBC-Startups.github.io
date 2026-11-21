@@ -111,9 +111,17 @@ async function chooseCasehackEducation(
     .fill(options.major ?? "Computer Science");
 }
 
+const defaultProblemSolution =
+  "Students cannot find free study space. I would build a live room map and explain why it saves time.";
+
 async function fillCasehackBackground(
   page: Page,
-  options: { faculty?: string; major?: string } = {},
+  options: {
+    faculty?: string;
+    major?: string;
+    technicalSkills?: string[];
+    technicalSkillsDetails?: string;
+  } = {},
 ): Promise<void> {
   await chooseCasehackEducation(page, options);
   await chooseSingleOption(
@@ -121,6 +129,17 @@ async function fillCasehackBackground(
     /What year of study are you in\?/,
     "First year",
   );
+
+  await dropdownTrigger(page, /Which technical skills do you have\?/).click();
+  for (const skill of options.technicalSkills ?? ["Python/JavaScript/Java/C++"]) {
+    await page.getByRole("option", { name: skill, exact: true }).click();
+  }
+  await page.keyboard.press("Escape");
+  if (options.technicalSkillsDetails !== undefined) {
+    await page
+      .locator('textarea[name="question:technical_skills_details"]')
+      .fill(options.technicalSkillsDetails);
+  }
 }
 
 async function fillCasehackEventDetails(
@@ -129,13 +148,13 @@ async function fillCasehackEventDetails(
     dietary: string[];
     dietaryDetails?: string;
     referralOther?: string;
-    hackathons?: string;
+    hackathonExperience?: string;
   },
 ): Promise<void> {
   await chooseSingleOption(
     page,
-    /How many hackathons have you participated in before\?/,
-    options.hackathons ?? "0",
+    /What is your hackathon experience\?/,
+    options.hackathonExperience ?? "First hackathon",
   );
 
   if (options.dietary.length > 0) {
@@ -176,6 +195,8 @@ async function fillCasehackApplication(
     includeFinalAgreement?: boolean;
     motivation?: string;
     contribution?: string;
+    problemSolution?: string;
+    preferredTeammates?: string;
   },
 ): Promise<void> {
   await fillCasehackBackground(page);
@@ -188,6 +209,14 @@ async function fillCasehackApplication(
   await page
     .locator('textarea[name="question:team_contribution"]')
     .fill(options.contribution ?? "I bring calm prototyping and frontend skills.");
+  await page
+    .locator('textarea[name="question:problem_solution"]')
+    .fill(options.problemSolution ?? defaultProblemSolution);
+  if (options.preferredTeammates !== undefined) {
+    await page
+      .locator('textarea[name="question:preferred_teammates"]')
+      .fill(options.preferredTeammates);
+  }
   await continueStep(page);
 
   const agreementIds = [
@@ -343,6 +372,9 @@ test("server errors in a hidden earlier step select that panel and keep answers"
     await page
       .locator('textarea[name="question:team_contribution"]')
       .fill("I bring calm prototyping and frontend skills.");
+    await page
+      .locator('textarea[name="question:problem_solution"]')
+      .fill(defaultProblemSolution);
     await continueStep(page);
 
     for (const id of [
@@ -399,8 +431,8 @@ test("server errors in a hidden earlier step select that panel and keep answers"
       page.locator('input[name="question:year_of_study"]'),
     ).toHaveValue("1");
     await expect(
-      page.locator('input[name="question:previous_hackathons"]'),
-    ).toHaveValue("0");
+      page.locator('input[name="question:hackathon_experience"]'),
+    ).toHaveValue("first_hackathon");
     await expect(
       page.locator(
         'input[name="question:dietary_restrictions"][value="food_allergy"]',
@@ -459,6 +491,9 @@ test("valid progression preserves answers, counters, and agreements", async ({
     await page
       .locator('textarea[name="question:team_contribution"]')
       .fill(contribution);
+    await page
+      .locator('textarea[name="question:problem_solution"]')
+      .fill(defaultProblemSolution);
 
     const motivationCounter = page.locator(
       'p[id$="participation_motivation-description-counter"]',
@@ -497,6 +532,9 @@ test("valid progression preserves answers, counters, and agreements", async ({
     await expect(
       page.locator('textarea[name="question:participation_motivation"]'),
     ).toHaveValue(motivation);
+    await expect(
+      page.locator('textarea[name="question:problem_solution"]'),
+    ).toHaveValue(defaultProblemSolution);
     await expect(motivationCounter).toHaveText("150 / 150 words");
 
     await page
@@ -509,6 +547,11 @@ test("valid progression preserves answers, counters, and agreements", async ({
     await expect(
       page.locator('input[name="question:major"]'),
     ).toHaveValue("Computer Science");
+    await expect(
+      page.locator(
+        'input[name="question:technical_skills"][value="programming"]',
+      ),
+    ).toHaveCount(1);
     await expect(
       page.locator('input[name="question:dietary_restrictions"]'),
     ).toHaveCount(1);
@@ -555,6 +598,7 @@ test("a complete application submits as pending and reloads with its receipt", a
       dietary: ["vegetarian", "gluten_free"],
       referralOther: "Met a volunteer",
       includeFinalAgreement: true,
+      preferredTeammates: "Ada Lovelace, Grace Hopper",
     });
     await expect(currentStep(page)).toHaveAccessibleName(/Agreements/);
     await expect(
@@ -609,13 +653,16 @@ test("a complete application submits as pending and reloads with its receipt", a
       faculty: "science",
       major: "Computer Science",
       year_of_study: "1",
-      previous_hackathons: "0",
+      technical_skills: ["programming"],
+      hackathon_experience: "first_hackathon",
       dietary_restrictions: ["vegetarian", "gluten_free"],
       referral_source: "other",
       referral_other: "Met a volunteer",
       participation_motivation:
         "I want to build something useful with a team.",
       team_contribution: "I bring calm prototyping and frontend skills.",
+      problem_solution: defaultProblemSolution,
+      preferred_teammates: "Ada Lovelace, Grace Hopper",
     });
 
     await page.reload();

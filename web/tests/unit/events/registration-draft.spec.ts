@@ -24,12 +24,15 @@ test("restores known draft answers and preserves raw whitespace and long text", 
       faculty: "science",
       major: "  Computer Science\n",
       year_of_study: "2",
-      previous_hackathons: "2_3",
+      technical_skills: ["spreadsheets", "unknown", "spreadsheets"],
+      hackathon_experience: "three_to_five_or_two_top_three",
       dietary_restrictions: ["vegetarian", "unknown", "vegetarian"],
       referral_source: "other",
       referral_other: "\tA friend's poster  ",
       participation_motivation: motivation,
       team_contribution: "Contribution",
+      problem_solution: "Problem response",
+      preferred_teammates: "Ada Lovelace",
       retired_question: "ignore me",
     },
   });
@@ -37,14 +40,52 @@ test("restores known draft answers and preserves raw whitespace and long text", 
   expect(answers.faculty).toBe("science");
   expect(answers.major).toBe("  Computer Science\n");
   expect(answers.year_of_study).toBe("2");
-  expect(answers.previous_hackathons).toBe("2_3");
+  expect(answers.technical_skills).toEqual(["spreadsheets"]);
+  expect(answers.hackathon_experience).toBe(
+    "three_to_five_or_two_top_three",
+  );
   expect(answers.dietary_restrictions).toEqual(["vegetarian"]);
   expect(answers.referral_source).toBe("other");
   expect(answers.referral_other).toBe("\tA friend's poster  ");
   expect(answers.participation_motivation).toBe(motivation);
   expect(answers.team_contribution).toBe("Contribution");
+  expect(answers.problem_solution).toBe("Problem response");
+  expect(answers.preferred_teammates).toBe("Ada Lovelace");
   expect(answers).not.toHaveProperty("dietary_details");
+  expect(answers).not.toHaveProperty("technical_skills_details");
   expect(answers).not.toHaveProperty("retired_question");
+});
+
+test("keeps unrelated answers from an old draft and leaves the new hackathon bracket blank", () => {
+  const answers = restoreAnswers(definition, {
+    answers: {
+      faculty: "science",
+      major: "Computer Science",
+      year_of_study: "2",
+      previous_hackathons: "2_3",
+      technical_skills: ["programming"],
+      dietary_restrictions: ["none"],
+      referral_source: "friend",
+      participation_motivation: "Old motivation",
+      team_contribution: "Old contribution",
+    },
+  });
+
+  expect(answers.hackathon_experience).toBe("");
+  expect(answers).not.toHaveProperty("previous_hackathons");
+  expect(answers.faculty).toBe("science");
+  expect(answers.major).toBe("Computer Science");
+  expect(answers.year_of_study).toBe("2");
+  expect(answers.technical_skills).toEqual(["programming"]);
+  expect(answers.dietary_restrictions).toEqual(["none"]);
+  expect(answers.referral_source).toBe("friend");
+  expect(answers.participation_motivation).toBe("Old motivation");
+  expect(answers.team_contribution).toBe("Old contribution");
+
+  const snapshot = snapshotFromState(definition, answers, {});
+  expect(snapshot.answers).not.toHaveProperty("previous_hackathons");
+  expect(snapshot.answers).not.toHaveProperty("hackathon_experience");
+  expect(snapshot.answers.faculty).toBe("science");
 });
 
 test("drops restored conditional answers whose controlling answer is inactive", () => {
@@ -53,7 +94,9 @@ test("drops restored conditional answers whose controlling answer is inactive", 
       faculty: "arts",
       major: "History",
       year_of_study: "1",
-      previous_hackathons: "0",
+      technical_skills: ["programming"],
+      technical_skills_details: "Stale other skills",
+      hackathon_experience: "first_hackathon",
       dietary_restrictions: ["none"],
       dietary_details: "Stale allergy details",
       referral_source: "instagram",
@@ -61,6 +104,7 @@ test("drops restored conditional answers whose controlling answer is inactive", 
     },
   });
 
+  expect(answers).not.toHaveProperty("technical_skills_details");
   expect(answers).not.toHaveProperty("dietary_details");
   expect(answers).not.toHaveProperty("referral_other");
 });
@@ -85,7 +129,8 @@ test("state snapshots omit cleared fields and inactive conditional answers", () 
       faculty: "science",
       major: "Computer Science",
       year_of_study: "1",
-      previous_hackathons: "0",
+      technical_skills: ["programming"],
+      hackathon_experience: "first_hackathon",
       dietary_restrictions: ["none"],
       dietary_details: "Stale",
       referral_source: "",
@@ -104,7 +149,8 @@ test("state snapshots omit cleared fields and inactive conditional answers", () 
     faculty: "science",
     major: "Computer Science",
     year_of_study: "1",
-    previous_hackathons: "0",
+    technical_skills: ["programming"],
+    hackathon_experience: "first_hackathon",
     dietary_restrictions: ["none"],
   });
   expect(snapshot.agreementKeys).toEqual([
@@ -127,7 +173,10 @@ test("captures the latest raw FormData with active conditions and checked ids", 
   data.set("question:faculty", "science");
   data.set("question:major", "  Computer Science  ");
   data.set("question:year_of_study", "1");
-  data.set("question:previous_hackathons", "0");
+  data.append("question:technical_skills", "programming");
+  data.append("question:technical_skills", "other");
+  data.set("question:technical_skills_details", "  Figma and CAD  ");
+  data.set("question:hackathon_experience", "six_plus_or_four_top_three");
   data.append("question:dietary_restrictions", "food_allergy");
   data.append("question:dietary_restrictions", "vegetarian");
   data.set("question:dietary_details", "  Peanuts\n");
@@ -135,6 +184,8 @@ test("captures the latest raw FormData with active conditions and checked ids", 
   data.set("question:referral_other", "  A poster  ");
   data.set("question:participation_motivation", words(151));
   data.set("question:team_contribution", "  Contribution  ");
+  data.set("question:problem_solution", words(150));
+  data.set("question:preferred_teammates", "  Ada Lovelace  ");
   data.set("question:unknown", "ignored");
   data.set("agreement:application_status", "yes");
   data.set("agreement:participant_conduct", "yes");
@@ -146,13 +197,17 @@ test("captures the latest raw FormData with active conditions and checked ids", 
     faculty: "science",
     major: "  Computer Science  ",
     year_of_study: "1",
-    previous_hackathons: "0",
+    technical_skills: ["programming", "other"],
+    technical_skills_details: "  Figma and CAD  ",
+    hackathon_experience: "six_plus_or_four_top_three",
     dietary_restrictions: ["food_allergy", "vegetarian"],
     dietary_details: "  Peanuts\n",
     referral_source: "other",
     referral_other: "  A poster  ",
     participation_motivation: words(151),
     team_contribution: "  Contribution  ",
+    problem_solution: words(150),
+    preferred_teammates: "  Ada Lovelace  ",
   });
   expect(snapshot.agreementKeys).toEqual([
     "application_status",
@@ -166,7 +221,9 @@ test("FormData capture skips inactive conditional fields", () => {
   data.set("question:faculty", "arts");
   data.set("question:major", "History");
   data.set("question:year_of_study", "1");
-  data.set("question:previous_hackathons", "0");
+  data.set("question:technical_skills", "programming");
+  data.set("question:technical_skills_details", "Should not be included");
+  data.set("question:hackathon_experience", "first_hackathon");
   data.set("question:dietary_restrictions", "none");
   data.set("question:dietary_details", "Should not be included");
   data.set("question:referral_source", "instagram");
@@ -175,6 +232,7 @@ test("FormData capture skips inactive conditional fields", () => {
   const snapshot = snapshotFromFormData(definition, data);
 
   expect(snapshot.answers.dietary_restrictions).toEqual(["none"]);
+  expect(snapshot.answers).not.toHaveProperty("technical_skills_details");
   expect(snapshot.answers).not.toHaveProperty("dietary_details");
   expect(snapshot.answers).not.toHaveProperty("referral_other");
 });
@@ -182,14 +240,26 @@ test("FormData capture skips inactive conditional fields", () => {
 test("serializes a snapshot into the draft action's FormData contract", () => {
   const source = new FormData();
   source.set("question:major", "  Ada\n");
+  source.append("question:technical_skills", "programming");
+  source.set("question:hackathon_experience", "one_or_two");
   source.append("question:dietary_restrictions", "none");
+  source.set("question:preferred_teammates", "  Grace Hopper  ");
   source.set("agreement:application_status", "yes");
 
   const snapshot = snapshotFromFormData(definition, source);
   const serialized = draftSnapshotToFormData(snapshot);
 
   expect(serialized.getAll("question:major")).toEqual(["  Ada\n"]);
+  expect(serialized.getAll("question:technical_skills")).toEqual([
+    "programming",
+  ]);
+  expect(serialized.getAll("question:hackathon_experience")).toEqual([
+    "one_or_two",
+  ]);
   expect(serialized.getAll("question:dietary_restrictions")).toEqual(["none"]);
+  expect(serialized.getAll("question:preferred_teammates")).toEqual([
+    "  Grace Hopper  ",
+  ]);
   expect(serialized.getAll("agreement:application_status")).toEqual(["yes"]);
   expect(serialized.getAll("agreement:participant_conduct")).toEqual([]);
 });

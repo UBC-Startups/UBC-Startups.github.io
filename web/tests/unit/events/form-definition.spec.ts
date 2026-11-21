@@ -124,7 +124,7 @@ for (const [slug, form] of registeredEventForms) {
   });
 }
 
-test("defines the CaseHack education and application contract", () => {
+test("defines the CaseHack background, event, and application contract", () => {
   const form = getEventForm("casehack-2026");
   if (!form) throw new Error("CaseHack form is missing.");
   const questions = new Map(
@@ -132,6 +132,7 @@ test("defines the CaseHack education and application contract", () => {
   );
 
   expect(questions.has("program")).toBe(false);
+  expect(questions.has("previous_hackathons")).toBe(false);
 
   const faculty = questions.get("faculty");
   expect(faculty).toMatchObject({
@@ -151,6 +152,63 @@ test("defines the CaseHack education and application contract", () => {
     maxLength: 120,
   });
   expect(major).not.toHaveProperty("section");
+
+  const technicalSkills = questions.get("technical_skills");
+  expect(technicalSkills).toMatchObject({
+    kind: "multiselect",
+    label: "Which technical skills do you have?",
+    required: true,
+  });
+  expect(technicalSkills).not.toHaveProperty("section");
+  if (technicalSkills?.kind !== "multiselect") {
+    throw new Error("Technical skills must be a multiselect.");
+  }
+  expect(technicalSkills.choices).toEqual([
+    { value: "spreadsheets", label: "Excel or Google Sheets" },
+    {
+      value: "data_visualization",
+      label: "Creating charts/dashboards and interpreting data",
+    },
+    { value: "ui_ux_prototyping", label: "UI/UX design and prototyping" },
+    { value: "programming", label: "Python/JavaScript/Java/C++" },
+    { value: "other", label: "Other" },
+  ]);
+
+  const technicalDetails = questions.get("technical_skills_details");
+  expect(technicalDetails).toMatchObject({
+    kind: "textarea",
+    label: "Please describe your other technical skills.",
+    required: false,
+    maxLength: 500,
+    requiredWhen: {
+      questionId: "technical_skills",
+      includesAny: ["other"],
+    },
+  });
+  expect(technicalDetails).not.toHaveProperty("section");
+
+  const hackathonExperience = questions.get("hackathon_experience");
+  expect(hackathonExperience).toMatchObject({
+    kind: "select",
+    label: "What is your hackathon experience?",
+    required: true,
+    section: "event",
+  });
+  if (hackathonExperience?.kind !== "select") {
+    throw new Error("Hackathon experience must be a select.");
+  }
+  expect(hackathonExperience.choices).toEqual([
+    { value: "first_hackathon", label: "First hackathon" },
+    { value: "one_or_two", label: "1–2" },
+    {
+      value: "three_to_five_or_two_top_three",
+      label: "3–5 (or 2+ top-three finishes)",
+    },
+    {
+      value: "six_plus_or_four_top_three",
+      label: "6+ (or 4+ top-three finishes)",
+    },
+  ]);
 
   const motivation = questions.get("participation_motivation");
   expect(motivation).toMatchObject({
@@ -172,19 +230,54 @@ test("defines the CaseHack education and application contract", () => {
   });
   expect(contribution).not.toHaveProperty("maxLength");
 
-  for (const question of form.questions) {
-    if (question.id === "participation_motivation") continue;
-    if (question.id === "team_contribution") continue;
+  const problemSolution = questions.get("problem_solution");
+  expect(problemSolution).toMatchObject({
+    kind: "textarea",
+    label:
+      "Describe a problem you noticed in everyday life, on campus, or in your community. What would you build to solve it, and why?",
+    required: true,
+    section: "application",
+    maxWords: 149,
+  });
+  expect(problemSolution).not.toHaveProperty("maxLength");
 
-    const expectedSection = [
-      "previous_hackathons",
-      "dietary_restrictions",
-      "dietary_details",
-      "referral_source",
-      "referral_other",
-    ].includes(question.id)
-      ? "event"
-      : "background";
-    expect(question.section ?? "background").toBe(expectedSection);
+  const preferredTeammates = questions.get("preferred_teammates");
+  expect(preferredTeammates).toMatchObject({
+    kind: "textarea",
+    required: false,
+    section: "application",
+    maxLength: 500,
+  });
+  if (preferredTeammates?.kind !== "textarea") {
+    throw new Error("Preferred teammates must be a textarea.");
+  }
+  expect(preferredTeammates.label).toContain("Preferred teammates");
+  expect(preferredTeammates.label).toContain("preference");
+
+  const expectedSections: Record<string, string> = {
+    faculty: "background",
+    major: "background",
+    year_of_study: "background",
+    technical_skills: "background",
+    technical_skills_details: "background",
+    hackathon_experience: "event",
+    dietary_restrictions: "event",
+    dietary_details: "event",
+    referral_source: "event",
+    referral_other: "event",
+    participation_motivation: "application",
+    team_contribution: "application",
+    problem_solution: "application",
+    preferred_teammates: "application",
+  };
+
+  expect([...questions.keys()].sort()).toEqual(
+    Object.keys(expectedSections).sort(),
+  );
+
+  for (const question of form.questions) {
+    expect(question.section ?? "background").toBe(
+      expectedSections[question.id],
+    );
   }
 });

@@ -619,13 +619,16 @@ test("validates a complete CaseHack application against the agreed contract", ()
       "question:faculty": "science",
       "question:major": "Computer Science",
       "question:year_of_study": "3",
-      "question:previous_hackathons": "2_3",
+      "question:technical_skills": ["programming", "spreadsheets"],
+      "question:hackathon_experience": "three_to_five_or_two_top_three",
       "question:dietary_restrictions": ["vegetarian", "food_allergy"],
       "question:dietary_details": "Peanuts",
       "question:referral_source": "other",
       "question:referral_other": "A friend's poster",
       "question:participation_motivation": "I want to build something useful with a team.",
       "question:team_contribution": "I bring calm prototyping and frontend skills.",
+      "question:problem_solution": "Students cannot find free study space. I would build a live room map and explain why it saves time.",
+      "question:preferred_teammates": "Ada Lovelace, Grace Hopper",
       "agreement:application_status": "yes",
       "agreement:participant_conduct": "yes",
       "agreement:application_data": "yes",
@@ -641,13 +644,16 @@ test("validates a complete CaseHack application against the agreed contract", ()
       faculty: "science",
       major: "Computer Science",
       year_of_study: "3",
-      previous_hackathons: "2_3",
+      technical_skills: ["programming", "spreadsheets"],
+      hackathon_experience: "three_to_five_or_two_top_three",
       dietary_restrictions: ["vegetarian", "food_allergy"],
       dietary_details: "Peanuts",
       referral_source: "other",
       referral_other: "A friend's poster",
       participation_motivation: "I want to build something useful with a team.",
       team_contribution: "I bring calm prototyping and frontend skills.",
+      problem_solution: "Students cannot find free study space. I would build a live room map and explain why it saves time.",
+      preferred_teammates: "Ada Lovelace, Grace Hopper",
     },
     acceptedAgreements: [
       {
@@ -689,13 +695,15 @@ test("omits stale CaseHack conditional answers for inactive conditions", () => {
       "question:faculty": "science",
       "question:major": "Computer Science",
       "question:year_of_study": "1",
-      "question:previous_hackathons": "0",
+      "question:technical_skills": ["programming"],
+      "question:hackathon_experience": "first_hackathon",
       "question:dietary_restrictions": ["none"],
       "question:dietary_details": "stale answer",
       "question:referral_source": "friend",
       "question:referral_other": "stale answer",
       "question:participation_motivation": "A short motivation.",
       "question:team_contribution": "A short contribution.",
+      "question:problem_solution": "A short problem response.",
       "agreement:application_status": "yes",
       "agreement:participant_conduct": "yes",
       "agreement:application_data": "yes",
@@ -711,10 +719,156 @@ test("omits stale CaseHack conditional answers for inactive conditions", () => {
     faculty: "science",
     major: "Computer Science",
     year_of_study: "1",
-    previous_hackathons: "0",
+    technical_skills: ["programming"],
+    hackathon_experience: "first_hackathon",
     dietary_restrictions: ["none"],
     referral_source: "friend",
     participation_motivation: "A short motivation.",
     team_contribution: "A short contribution.",
+    problem_solution: "A short problem response.",
+  });
+});
+
+function completeCasehackFields(
+  overrides: Record<string, string | string[]> = {},
+): Record<string, string | string[]> {
+  return {
+    "question:faculty": "science",
+    "question:major": "Computer Science",
+    "question:year_of_study": "1",
+    "question:technical_skills": ["programming"],
+    "question:hackathon_experience": "first_hackathon",
+    "question:dietary_restrictions": ["none"],
+    "question:referral_source": "friend",
+    "question:participation_motivation": "A short motivation.",
+    "question:team_contribution": "A short contribution.",
+    "question:problem_solution": "A short problem response.",
+    "agreement:application_status": "yes",
+    "agreement:participant_conduct": "yes",
+    "agreement:application_data": "yes",
+    "agreement:photo_video_consent": "yes",
+    "agreement:submission_finality": "yes",
+    ...overrides,
+  };
+}
+
+test("requires CaseHack technical skills and an Other description", () => {
+  const form = getEventForm("casehack-2026");
+  if (!form) throw new Error("CaseHack form is missing.");
+
+  const missingSkills = validateRegistration(
+    form,
+    formValues(
+      completeCasehackFields({ "question:technical_skills": [] }),
+    ),
+    acceptedAt,
+  );
+
+  expect(missingSkills).toEqual({
+    ok: false,
+    fieldErrors: {
+      "question:technical_skills": "This field is required.",
+    },
+  });
+
+  const missingOtherDescription = validateRegistration(
+    form,
+    formValues(
+      completeCasehackFields({
+        "question:technical_skills": ["other"],
+      }),
+    ),
+    acceptedAt,
+  );
+
+  expect(missingOtherDescription).toEqual({
+    ok: false,
+    fieldErrors: {
+      "question:technical_skills_details": "This field is required.",
+    },
+  });
+
+  const withOtherDescription = validateRegistration(
+    form,
+    formValues(
+      completeCasehackFields({
+        "question:technical_skills": ["other"],
+        "question:technical_skills_details": "Figma and CAD.",
+      }),
+    ),
+    acceptedAt,
+  );
+
+  expect(withOtherDescription.ok).toBe(true);
+  if (!withOtherDescription.ok) return;
+  expect(withOtherDescription.answers.technical_skills_details).toBe(
+    "Figma and CAD.",
+  );
+});
+
+test("accepts an omitted teammate preference and keeps provided names", () => {
+  const form = getEventForm("casehack-2026");
+  if (!form) throw new Error("CaseHack form is missing.");
+
+  const omitted = validateRegistration(
+    form,
+    formValues(completeCasehackFields()),
+    acceptedAt,
+  );
+
+  expect(omitted.ok).toBe(true);
+  if (!omitted.ok) return;
+  expect(omitted.answers).not.toHaveProperty("preferred_teammates");
+
+  const provided = validateRegistration(
+    form,
+    formValues(
+      completeCasehackFields({
+        "question:preferred_teammates": "Ada Lovelace, Grace Hopper",
+      }),
+    ),
+    acceptedAt,
+  );
+
+  expect(provided.ok).toBe(true);
+  if (!provided.ok) return;
+  expect(provided.answers.preferred_teammates).toBe(
+    "Ada Lovelace, Grace Hopper",
+  );
+});
+
+test("accepts 149 words and rejects 150 words for the CaseHack problem response", () => {
+  const form = getEventForm("casehack-2026");
+  if (!form) throw new Error("CaseHack form is missing.");
+
+  const accepted = validateRegistration(
+    form,
+    formValues(
+      completeCasehackFields({
+        "question:problem_solution": words(149),
+      }),
+    ),
+    acceptedAt,
+  );
+
+  expect(accepted.ok).toBe(true);
+  if (!accepted.ok) return;
+  expect(accepted.answers.problem_solution).toBe(words(149));
+
+  const rejected = validateRegistration(
+    form,
+    formValues(
+      completeCasehackFields({
+        "question:problem_solution": words(150),
+      }),
+    ),
+    acceptedAt,
+  );
+
+  expect(rejected).toEqual({
+    ok: false,
+    fieldErrors: {
+      "question:problem_solution": "Use 149 words or fewer.",
+    },
   });
 });

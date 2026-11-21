@@ -47,17 +47,52 @@ const eventForms = new Map<string, EventForm>([
           ],
         },
         {
-          id: "previous_hackathons",
-          label: "How many hackathons have you participated in before?",
+          id: "technical_skills",
+          label: "Which technical skills do you have?",
+          required: true,
+          kind: "multiselect",
+          choices: [
+            { value: "spreadsheets", label: "Excel or Google Sheets" },
+            {
+              value: "data_visualization",
+              label: "Creating charts/dashboards and interpreting data",
+            },
+            {
+              value: "ui_ux_prototyping",
+              label: "UI/UX design and prototyping",
+            },
+            { value: "programming", label: "Python/JavaScript/Java/C++" },
+            { value: "other", label: "Other" },
+          ],
+        },
+        {
+          id: "technical_skills_details",
+          label: "Please describe your other technical skills.",
+          required: false,
+          kind: "textarea",
+          maxLength: 500,
+          requiredWhen: {
+            questionId: "technical_skills",
+            includesAny: ["other"],
+          },
+        },
+        {
+          id: "hackathon_experience",
+          label: "What is your hackathon experience?",
           required: true,
           kind: "select",
           section: "event",
           choices: [
-            { value: "0", label: "0" },
-            { value: "1", label: "1" },
-            { value: "2_3", label: "2–3" },
-            { value: "4_5", label: "4–5" },
-            { value: "6_plus", label: "6 or more" },
+            { value: "first_hackathon", label: "First hackathon" },
+            { value: "one_or_two", label: "1–2" },
+            {
+              value: "three_to_five_or_two_top_three",
+              label: "3–5 (or 2+ top-three finishes)",
+            },
+            {
+              value: "six_plus_or_four_top_three",
+              label: "6+ (or 4+ top-three finishes)",
+            },
           ],
         },
         {
@@ -130,6 +165,24 @@ const eventForms = new Map<string, EventForm>([
           kind: "textarea",
           section: "application",
           maxWords: 150,
+        },
+        {
+          id: "problem_solution",
+          label:
+            "Describe a problem you noticed in everyday life, on campus, or in your community. What would you build to solve it, and why?",
+          required: true,
+          kind: "textarea",
+          section: "application",
+          maxWords: 149,
+        },
+        {
+          id: "preferred_teammates",
+          label:
+            "Preferred teammates (optional). List the full names of other applicants you’d like to work with. We’ll treat your list as a preference.",
+          required: false,
+          kind: "textarea",
+          section: "application",
+          maxLength: 500,
         },
       ],
       agreements: [

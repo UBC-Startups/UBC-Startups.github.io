@@ -52,7 +52,10 @@ function Timeline({
         duration: reduceMotion ? 0 : 0.8,
         delay: reduceMotion ? 0 : 0.25,
         ease: [0.22, 1, 0.36, 1]
-      }} className={styles.Arrow}><div><img src={figma("timeline-arrow.svg")} alt="" /></div></motion.li>
+      }} className={styles.Arrow}>
+          <div className={styles.ArrowImage}><img src={figma("timeline-arrow.svg")} alt="" /></div>
+          <div aria-hidden className={styles.ArrowLine} />
+        </motion.li>
         {timeline.map((m, index) => {
         // Animate only opacity so the CSS centering transform stays intact.
         const reveal = {
@@ -101,7 +104,7 @@ function Timeline({
 
 export default function Hero() {
   const reduceMotion = usePrefersReducedMotion();
-  return <section aria-labelledby="hero-title" className={`${styles.Section} full-bleed`}>
+  return <section aria-labelledby="hero-title" className={`${styles.Section} full-bleed-inset`}>
       <motion.div aria-hidden {...entrance(reduceMotion, 0, 0)} className={styles.Glows}>
         <Glow $inset="-22.22%" style={{
         left: -200,

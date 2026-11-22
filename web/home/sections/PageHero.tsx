@@ -4,7 +4,7 @@ import { Glow } from "../ui";
 import styles from "./PageHero.module.css";
 
 export default function PageHero({ eyebrow, title, subtitle }: { eyebrow: string; title: string; subtitle: string }) {
-  return <section aria-labelledby="page-title" className="full-bleed relative isolate overflow-hidden bg-inverse font-brand">
+  return <section aria-labelledby="page-title" className="full-bleed-inset relative isolate overflow-hidden rounded-panel bg-inverse font-brand">
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
       <Glow $inset="-22.22%" style={{ left: -200, top: 420, width: 900, height: 900 }}><div><Image src="/figma/page-hero-glow-bottom-left.svg" alt="" fill sizes="1300px" /></div></Glow>
       <Glow $inset="-25%" style={{ left: 900, top: -300, width: 800, height: 800 }}><div><Image src="/figma/page-hero-glow-top-right.svg" alt="" fill sizes="1200px" /></div></Glow>

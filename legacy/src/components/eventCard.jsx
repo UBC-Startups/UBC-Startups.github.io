@@ -240,7 +240,6 @@ const EventCard = ({
     highlight,
     duration,
     format,
-    venue,
     whoFor,
     status,
     signUpLink,
@@ -279,12 +278,6 @@ const EventCard = ({
                         <DetailLabel>FORMAT</DetailLabel>
                         <DetailValue>{format}</DetailValue>
                     </DetailBlock>
-                    {venue && (
-                        <DetailBlock>
-                            <DetailLabel>VENUE</DetailLabel>
-                            <DetailValue>{venue}</DetailValue>
-                        </DetailBlock>
-                    )}
                     <DetailBlock>
                         <DetailLabel>WHO IT'S FOR</DetailLabel>
                         <DetailValue>{whoFor}</DetailValue>

@@ -18,7 +18,7 @@ const ML_IFRAME_NAME = "ml-newsletter-target";
 export default function NewsletterFooter({ title = "Stay in the loop.", year }: { title?: string; year: number }) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  return <footer id="subscription" className="full-bleed relative isolate mt-20 overflow-hidden bg-inverse">
+  return <footer id="subscription" className="full-bleed-inset relative isolate mt-20 overflow-hidden rounded-panel bg-inverse">
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
       <Glow $inset="-31.75%" style={{ left: -65, top: 105, width: 630, height: 630 }}><div><Image src="/figma/footer-glow-left.svg" alt="" fill sizes="1030px" /></div></Glow>
       <Glow $inset="-28.57%" style={{ right: -294, top: -290, width: 700, height: 700 }}><div><Image src="/figma/footer-glow-right.svg" alt="" fill sizes="1100px" /></div></Glow>
@@ -42,7 +42,7 @@ export default function NewsletterFooter({ title = "Stay in the loop.", year }: 
       <iframe name={ML_IFRAME_NAME} title="Newsletter signup" className="hidden" />
       <div className="relative z-1 flex flex-col gap-lg md:flex-row md:items-center md:justify-between">
         <Link href="/" className="flex items-center gap-2.5 text-label-l text-ink-inverse no-underline"><Image src="/figma/logo-mark-inverse.svg" alt="" width={28} height={28} className="block" />UBC Startups</Link>
-        <ul className="m-0 flex list-none flex-wrap gap-x-xxl gap-y-sm p-0">
+        <ul className="m-0 flex list-none flex-nowrap gap-x-md gap-y-sm p-0 sm:gap-x-xxl">
           {footerLinks.map(link => <li key={link.label}><a href={link.href} target="_blank" rel="noreferrer" className="inline-block text-label-m text-ink-inverse no-underline transition-[color,transform] duration-200 hover:scale-[1.12] hover:text-accent">{link.label}</a></li>)}
         </ul>
         <Text variant="label-s" className="text-ink-inverse-muted">© {year} UBC Startups. All rights reserved.</Text>

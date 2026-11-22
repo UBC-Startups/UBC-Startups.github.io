@@ -10,6 +10,16 @@
    wrapper that restores the page's normal max-width + gutters for content. */
 .full-bleed { width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
 
+/* Same trick, but leaves a small fixed gutter on each side instead of
+   touching the viewport edge — for banners that should still show rounded
+   corners against the page background. */
+.full-bleed-inset {
+  --bleed-inset-margin: 16px;
+  width: calc(100vw - (var(--bleed-inset-margin) * 2));
+  margin-left: calc(50% - 50vw + var(--bleed-inset-margin));
+  margin-right: calc(50% - 50vw + var(--bleed-inset-margin));
+}
+
 html { scroll-behavior: smooth; overflow-x: hidden; }
 body { margin: 0; font-family: var(--font-body); }
 @layer base {

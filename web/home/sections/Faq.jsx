@@ -8,7 +8,7 @@ import { faqs } from "../content";
 // Chevron vectors from Figma: open points up, closed points sideways.
 
 export default function Faq() {
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(null);
   return <section id="faq" aria-labelledby="faq-title" className={styles.Section}>
       <div className={styles.Row}>
         <h2 id="faq-title">Frequently asked questions</h2>

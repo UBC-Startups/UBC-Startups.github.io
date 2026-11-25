@@ -239,9 +239,7 @@ const EventCard = ({
     description,
     highlight,
     duration,
-    expected,
     format,
-    venue,
     whoFor,
     status,
     signUpLink,
@@ -276,20 +274,10 @@ const EventCard = ({
                         <DetailLabel>DURATION</DetailLabel>
                         <DetailValue>{duration}</DetailValue>
                     </DetailBlock>
-                    {expected && <DetailBlock>
-                        <DetailLabel>EXPECTED</DetailLabel>
-                        <DetailValue>{expected}</DetailValue>
-                    </DetailBlock>}
                     <DetailBlock>
                         <DetailLabel>FORMAT</DetailLabel>
                         <DetailValue>{format}</DetailValue>
                     </DetailBlock>
-                    {venue && (
-                        <DetailBlock>
-                            <DetailLabel>VENUE</DetailLabel>
-                            <DetailValue>{venue}</DetailValue>
-                        </DetailBlock>
-                    )}
                     <DetailBlock>
                         <DetailLabel>WHO IT'S FOR</DetailLabel>
                         <DetailValue>{whoFor}</DetailValue>

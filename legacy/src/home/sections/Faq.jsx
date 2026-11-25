@@ -79,7 +79,7 @@ const ChevronBox = styled.span`
 `;
 
 export default function Faq() {
-  const [open, setOpen] = useState(0);
+  const [open, setOpen] = useState(null);
   return (
     <Section id="faq" aria-labelledby="faq-title">
       <Row>

@@ -21,5 +21,6 @@ export default function Offerings() {
             </div>
           </li>)}
       </ul>
+      <p className={styles.SwipeHint}>Swipe for next →</p>
     </section>;
 }

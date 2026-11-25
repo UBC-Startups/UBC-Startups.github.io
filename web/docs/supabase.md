@@ -1,36 +1,82 @@
 # Supabase integration
 
-The shared clients and session-refresh proxy are installed. Feature owners still
-implement signup/login, callbacks, authorization, schemas, migrations, RLS, and
-generated database types. No sample `todos` table or route is required.
+The shared clients, session-refresh proxy, Google sign-in, and profile setup are
+installed. Feature schemas live in root `supabase/migrations` with RLS and pgTAP
+tests; new features still own their migrations, policies, and database tests.
 
 ## First-time local setup
 
-Install and start Docker Desktop (or another supported Docker-compatible runtime).
-Use Node from `web/.nvmrc`. From the repository root:
+Use Node from `web/.nvmrc`, start Docker Desktop, and run from the repository root:
 
 ```sh
-npm ci
-npx supabase start
-npx supabase status
+npm run dev
 ```
 
-The root package pins the CLI version. Each developer gets an isolated local
-database; hosted linking is optional for local feature work. Do not rerun
-`supabase init` in a clone that already has `supabase/config.toml`. Install the
-web application's dependencies separately with `npm ci` from `web/`.
+Default startup preserves local accounts and data and applies pending migrations.
+Use `npm run dev:reset` to **clear local data** and rebuild from migrations and seeds,
+or `npm run dev stop` to stop services.
+See the [root startup guide](../../README.md#run-the-nextjs-application) for daily
+commands and logs. Fill in the root `.env` credentials below on first use.
 
-Use `npx supabase stop` from the root to stop local services. Coordinate reviewed
-migrations to hosted staging through one designated maintainer. Linking a hosted
-project alone does not apply migrations. No feature schemas are included yet.
+The runner injects local URLs and keys into Next.js, overriding hosted values in
+the parent environment or `web/.env.local` without editing that file. No manual
+web environment setup or hosted project link is required.
+
+For manual CLI work, run root `npm ci`, `npx supabase start`, and
+`npx supabase status`. The existing `supabase/config.toml` is ready to use; do not
+rerun `supabase init`. Migrations and pgTAP tests live in `supabase/migrations`
+and `supabase/tests/database`.
+
+The pinned CLI **3.1.0** targets the local database by default. Hosted work requires
+`--remote`, plus `--yes` for unattended changes. The startup runner never passes
+`--remote`. Keep the CLI pin and root lockfile together when upgrading. See the
+[v3 migration guide](https://supabase.com/docs/guides/local-development/cli/migrating-to-v3).
+
+## Shared development database
+
+Use the Supabase GitHub integration to deploy committed migrations to the shared
+development project. Set its working directory to `.` and its production branch
+name to `development`. In this integration, production means the connected
+Supabase project's primary database.
+
+`Supabase CI` separately rebuilds a disposable database and runs pgTAP tests on PRs.
+Require its `database checks` status check alongside the application checks.
+No hosted credentials are needed by this workflow.
+
+Commit schema changes as new migrations; do not edit migrations already deployed.
+Reverting a PR does not undo applied migrations; add a corrective migration.
 
 ## Environment
 
-Copy `web/.env.example` to `web/.env.local` and fill in:
+### Supabase CLI
+
+The root runner creates `.env` if missing. For manual setup, copy the root
+`.env.example` to `.env` and fill in the Google OAuth client:
+
+```sh
+cp .env.example .env
+```
+
+```dotenv
+SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID=
+SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET=
+```
+
+`supabase/config.toml` reads these through `env(...)` when the Google provider is
+enabled, so create the root `.env` before `npx supabase start`. In the Google OAuth
+client, allow `http://127.0.0.1:54321/auth/v1/callback` as an authorized redirect URI.
+The client secret stays local and is never committed. The root `.env` configures
+the Supabase CLI; the Next.js app does not read it.
+
+### Web application
+
+When using the root runner, these values are injected into Next.js automatically.
+For manual app startup, copy `web/.env.example` to `web/.env.local` and fill in:
 
 ```dotenv
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+APP_ORIGIN=http://127.0.0.1:3000
 ```
 
 For isolated development, run `npx supabase start` and `npx supabase status` from
@@ -38,10 +84,11 @@ the repository root. Use the local API URL and publishable key (or local legacy
 anon key). Use the hosted URL and its matching publishable key when intentionally
 testing against staging. Never mix keys and URLs from different instances.
 
-`.env.local` is ignored; `.env.example` contains committed placeholders. Restart
-the Next.js development server after editing environment values. `NEXT_PUBLIC_`
-values are included in browser bundles at build time. Never put a secret or
-service-role key there. No privileged client is included in this foundation.
+Both root `.env` and `web/.env.local` are ignored; the matching `.env.example`
+files contain committed placeholders. Restart the Next.js development server
+after editing environment values. `NEXT_PUBLIC_` values are included in browser
+bundles at build time. Never put a secret or service-role key there. No privileged
+client is included in this foundation.
 
 ## Client helpers
 
@@ -52,6 +99,8 @@ service-role key there. No privileged client is included in this foundation.
   `const supabase = await createClient()`.
 - The server helper is marked `server-only` and creates a new user-scoped client
   per call. Do not share it across requests or wrap it in `use cache`.
+
+Use the same local origin in the browser and OAuth redirect allowlist. Set `APP_ORIGIN` to the application origin for each environment. Google must redirect to the Supabase OAuth callback, and the Supabase allowlist must include the application `/auth/callback`.
 
 The server helper reads cookies internally; callers do not pass a cookie store.
 With Cache Components enabled, place components reading request cookies inside

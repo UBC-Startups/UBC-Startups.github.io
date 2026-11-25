@@ -44,9 +44,9 @@ export const timeline = [
   { name: "Founder’s Circle", date: "Sept. 24th", x: 0.1158, side: "above", slug: "founders-circle" },
   { name: "Diagram Ventures", date: "Oct 15", x: 0.24, side: "below", slug: "diagram-ventures-2026" },
   { name: "Pitch & Propel", date: "Oct 29th", x: 0.365, side: "above", slug: "pitch-propel" },
-  { name: "CaseHack", date: "Nov 28-29", x: 0.49, side: "below", slug: "casehack" },
+  { name: "Capital Connect", date: "Dec 3", x: 0.49, side: "below", slug: "capital-connect" },
   { name: "LaunchLink", date: "Jan 14", x: 0.615, side: "above", slug: "launchlink" },
-  { name: "Capital Connect", date: "Feb 25", x: 0.74, side: "below", slug: "capital-connect" },
+  { name: "CaseHack", date: "Feb 6-7", x: 0.74, side: "below", slug: "casehack" },
   { name: "SOAR", date: "March 21", x: 0.8717, side: "above", slug: "soar" },
 ];
 
@@ -178,7 +178,7 @@ export const faqs = [
   },
   {
     q: "How can I join UBC Startups?",
-    a: "You can join by attending our events, signing up for our newsletter, or applying for our membership program. Check our website for upcoming recruitment periods.",
+    a: "You can join by attending our events, signing up for our newsletter, or applying for our membership program (free for all - coming soon).",
   },
   {
     q: "Do I need to have a startup idea to join?",
@@ -186,7 +186,7 @@ export const faqs = [
   },
   {
     q: "What kind of events do you host?",
-    a: "We host workshops, networking events, pitch competitions, speaker series with successful entrepreneurs, and social gatherings for our community.",
+    a: "We host workshops, networking events, pitch competitions, speaker series with successful entrepreneurs, founders and alumni.",
   },
   { q: "Is there a membership fee?", a: "All of our events are free for UBC students!" },
   {

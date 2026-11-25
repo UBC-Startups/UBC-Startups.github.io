@@ -30,6 +30,6 @@ export function TextField({ id, label, hideLabel = false, tone = "light", hint, 
         tones[tone], className,
       ].filter(Boolean).join(" ")}
     />
-    {description && <p id={descriptionId} className="mt-xs mb-0 font-brand text-body-s" role={error ? "alert" : undefined}>{description}</p>}
+    {description && <p id={descriptionId} className={["mt-xs mb-0 font-brand text-body-s", error && tone === "light" ? "text-brand-red" : null].filter(Boolean).join(" ")} role={error ? "alert" : undefined}>{description}</p>}
   </div>;
 }

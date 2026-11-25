@@ -9,14 +9,19 @@ adding UI. It covers tokens, component APIs, styling conventions, and validation
 
 ## Development
 
-Use Node 26.12.0 (`.nvmrc`). From this directory:
+Use Node 26.12.0 (`.nvmrc`). For Next.js and local Supabase, follow the
+[root startup guide](../README.md#run-the-nextjs-application).
+Root `npm run dev` preserves local data; `npm run dev:reset` **clears and reseeds it**.
+Use root `npm run dev stop` to stop both services.
+
+For app-only development without Supabase, run from this directory:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Open http://localhost:3000. The public pages need no environment variables or
+Open http://127.0.0.1:3000. The public pages need no environment variables or
 backend services. To run alongside the legacy development server, choose another
 port with `npm run dev -- --port 3001`.
 

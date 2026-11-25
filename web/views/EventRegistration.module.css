@@ -1,0 +1,47 @@
+/* Decorative glow for the registration brand panel. Layout, type, and color
+   decisions remain in Tailwind and the shared tokens. */
+.brandPanel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.brandPanel::before,
+.brandPanel::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(26px);
+  pointer-events: none;
+}
+
+.brandPanel::before {
+  right: -55%;
+  bottom: -42%;
+  width: 150%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle at 45% 45%,
+    color-mix(in srgb, var(--color-accent) 55%, transparent) 0%,
+    color-mix(in srgb, var(--color-brand-red) 32%, transparent) 36%,
+    transparent 68%
+  );
+}
+
+.brandPanel::after {
+  left: -40%;
+  bottom: -55%;
+  width: 110%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent) 26%, transparent) 0%,
+    transparent 66%
+  );
+}
+
+.brandPanel > * {
+  position: relative;
+  z-index: 1;
+}

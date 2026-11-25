@@ -4,6 +4,7 @@ import styles from "./Values.module.css";
 import { useState } from "react";
 import { color } from "../theme";
 import { values } from "../content";
+import { useMediaQuery } from "../../lib/use-media-query";
 // Each card stays in its original position; the active one grows in place.
 
 /**
@@ -12,6 +13,8 @@ import { values } from "../content";
  */
 export default function Values() {
   const [active, setActive] = useState(0);
+  // Below tablet width, every card stays the same size — no "zoomed in" card.
+  const isMobile = useMediaQuery("(max-width: 639px)");
   return <section aria-labelledby="values-title" className={styles.Section}>
       <h2 id="values-title">Our values</h2>
       <div className={styles.Stack}>
@@ -25,7 +28,7 @@ export default function Values() {
 
         <ul className={styles.List}>
           {values.map((v, i) => {
-          const big = i === active;
+          const big = !isMobile && i === active;
           const [w, h] = big ? v.iconSize.active : v.iconSize.idle;
           return <li key={v.name}>
                 <button type="button" aria-pressed={big} onClick={() => setActive(i)} className={styles.Card} style={{

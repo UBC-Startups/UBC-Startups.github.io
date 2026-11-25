@@ -65,11 +65,11 @@ export const timeline = [{
   side: "above",
   slug: "pitch-propel"
 }, {
-  name: "CaseHack",
-  date: "Nov 28-29",
+  name: "Capital Connect",
+  date: "Dec 3",
   x: 0.49,
   side: "below",
-  slug: "casehack"
+  slug: "capital-connect"
 }, {
   name: "LaunchLink",
   date: "Jan 14",
@@ -77,11 +77,11 @@ export const timeline = [{
   side: "above",
   slug: "launchlink"
 }, {
-  name: "Capital Connect",
-  date: "Feb 25",
+  name: "CaseHack",
+  date: "Feb 6-7",
   x: 0.74,
   side: "below",
-  slug: "capital-connect"
+  slug: "casehack"
 }, {
   name: "SOAR",
   date: "March 21",
@@ -266,13 +266,13 @@ export const faqs = [{
   a: "UBC Startups is a student-run organization that connects UBC students with startup opportunities, resources, and a supportive entrepreneurial community."
 }, {
   q: "How can I join UBC Startups?",
-  a: "You can join by attending our events, signing up for our newsletter, or applying for our membership program. Check our website for upcoming recruitment periods."
+  a: "You can join by attending our events, signing up for our newsletter, or applying for our membership program (free for all - coming soon)."
 }, {
   q: "Do I need to have a startup idea to join?",
   a: "No! We welcome students at all stages of their entrepreneurial journey, whether you have an idea or are just curious about startups."
 }, {
   q: "What kind of events do you host?",
-  a: "We host workshops, networking events, pitch competitions, speaker series with successful entrepreneurs, and social gatherings for our community."
+  a: "We host workshops, networking events, pitch competitions, speaker series with successful entrepreneurs, founders and alumni."
 }, {
   q: "Is there a membership fee?",
   a: "All of our events are free for UBC students!"

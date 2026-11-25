@@ -1,14 +1,21 @@
 .Section {
   position: relative;
   isolation: isolate;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
   border-radius: var(--radius-panel);
   background: var(--color-inverse);
-  padding: 40px 20px;
-  @media (min-width: 640px) { padding: 51px 36px 40px; }
-  @media (min-width: 1024px) { min-height: 947px; padding-bottom: 48px; }
+
+}
+
+.Inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  max-width: var(--container-site);
+  margin: 0 auto;
+  padding: 40px var(--spacing-page-gutter);
+  @media (min-width: 640px) { padding: 51px var(--spacing-page-gutter-sm) 40px; }
+  @media (min-width: 1024px) { min-height: 947px; padding-bottom: 48px; padding-left: var(--spacing-page-gutter-lg); padding-right: var(--spacing-page-gutter-lg); }
 
 }
 
@@ -73,6 +80,7 @@
   margin: 60px -20px 0;
   padding: 0 20px;
   overflow-x: auto;
+  @media (max-width: 639px) { overflow-x: visible; }
   @media (min-width: 640px) { margin: 60px -36px 0; padding: 0 36px; }
   @media (min-width: 1024px) { margin-top: 70px; }
 
@@ -85,6 +93,7 @@
   padding: 0;
   height: 190px;
   min-width: 860px;
+  @media (max-width: 639px) { min-width: 0; width: 100%; margin: 0 14px; height: 240px; }
 
 }
 
@@ -95,8 +104,46 @@
   top: 95px;
   height: 0;
   transform-origin: left center;
-  div { position: absolute; inset: -7.36px 0; }
+
+}
+
+.ArrowImage {
+  position: absolute;
+  inset: -7.36px 0;
   img { display: block; width: 100%; height: 100%; max-width: none; }
+
+  /* The source asset's arrowhead is a thin sliver of its very wide, fixed-
+     height viewBox — below its originally-designed width range, stretching
+     to a fixed height shrinks it to the point of being unreadable. Hide it
+     in favor of .ArrowLine, a CSS arrow sized independently of line length. */
+  @media (max-width: 639px) { display: none; }
+
+}
+
+.ArrowLine {
+  display: none;
+
+  @media (max-width: 639px) {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 20px;
+    top: -1px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.9);
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      border-top: 3px solid rgba(255, 255, 255, 0.9);
+      border-right: 3px solid rgba(255, 255, 255, 0.9);
+      transform: translate(1px, -50%) rotate(45deg);
+    }
+  }
 
 }
 
@@ -146,6 +193,15 @@
 
   .MilestoneLink:hover & {
     background: rgba(255, 90, 31, 0.14);
+  }
+
+  @media (max-width: 639px) {
+    font-size: 9px;
+    line-height: 1.2;
+    white-space: normal;
+    width: max-content;
+    max-width: 68px;
+    padding: 3px 4px;
   }
 
 }

@@ -12,7 +12,7 @@ const Events = () => {
             <section className={styles.Term}>
                 <div className={styles.TermHeader}>
                     <p className={styles.TermTitle}>Term 1</p>
-                    <p className={styles.TermDates}>September to November 2026</p>
+                    <p className={styles.TermDates}>September to December 2026</p>
                 </div>
                 <div className={styles.EventList}>
                     {term1Events.map(event => <div id={event.slug} key={event.title} className={styles.EventAnchor}>

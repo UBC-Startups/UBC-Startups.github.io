@@ -3,7 +3,6 @@
 import styles from "./SocialFeed.module.css";
 import { useEffect, useRef } from "react";
 import { links, socialFeed } from "../content";
-import { SectionLabel } from "../ui";
 
 /** Shared height for both native embeds so the two cards line up. */
 const EMBED_HEIGHT = 460;
@@ -113,7 +112,6 @@ function Fallback({
 }
 export default function SocialFeed() {
   const {
-    label,
     title,
     body,
     linkedin,
@@ -122,7 +120,6 @@ export default function SocialFeed() {
   const linkedinSrc = linkedInEmbedSrc(linkedin);
   return <section aria-labelledby="social-feed-title" className={styles.Section}>
       <div className={styles.Head}>
-        <SectionLabel label={label} />
         <div className={styles.TitleRow}>
           <h2 id="social-feed-title">{title}</h2>
           <div className={styles.PlatformLinks}>

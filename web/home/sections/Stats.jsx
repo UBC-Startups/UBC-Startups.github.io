@@ -65,16 +65,28 @@ export default function Stats() {
       const frame = requestAnimationFrame(() => setVisible(true));
       return () => cancelAnimationFrame(frame);
     }
+    // A fast mobile fling can satisfy the threshold and scroll past again before
+    // paint; only start once the section has stayed in view for a moment, so a
+    // quick scroll-through doesn't finish the animation before it's looked at.
+    let dwell;
     const io = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        setVisible(true);
-        io.disconnect();
+        dwell = setTimeout(() => {
+          setVisible(true);
+          io.disconnect();
+        }, 150);
+      } else if (dwell) {
+        clearTimeout(dwell);
+        dwell = undefined;
       }
     }, {
       threshold: 0.4
     });
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      if (dwell) clearTimeout(dwell);
+    };
   }, []);
   return <section aria-label="UBC Startups in numbers" ref={ref} className={styles.Section}>
       <ul className={styles.List}>

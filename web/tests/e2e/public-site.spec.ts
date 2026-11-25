@@ -37,9 +37,12 @@ for (const [path, title] of routes) {
 test("navigation and cross-page hash links", async ({ page }, testInfo) => {
   const clickSection = async (name: string) => {
     if (testInfo.project.name === "mobile") {
-      await page.getByRole("button", { name: "Menu", exact: true }).click();
-      await expect(page.getByRole("button", { name: "Close", exact: true })).toHaveAttribute("aria-expanded", "true");
-      await page.locator("#home-mobile-menu").getByRole("link", { name, exact: true }).click();
+      await page.getByRole("button", { name: "Open menu", exact: true }).click();
+      // A previous page's panel can still be mid-exit-transition with the same
+      // id, so target the one that's actually open rather than "the" element.
+      const openPanel = page.locator('#home-mobile-menu[aria-hidden="false"]');
+      await expect(openPanel).toBeVisible();
+      await openPanel.getByRole("link", { name, exact: true }).click();
     } else {
       await page.getByRole("navigation", { name: "Main", exact: true }).getByRole("link", { name, exact: true }).click();
     }
@@ -74,12 +77,14 @@ test("homepage section direct links and refresh scroll to the destination", asyn
 test("FAQ, carousel, and newsletter keep working", async ({ page }) => {
   await page.goto("/#faq");
   const first = page.locator("#faq-q-0");
-  await expect(first).toHaveAttribute("aria-expanded", "true");
-  await first.click();
   await expect(first).toHaveAttribute("aria-expanded", "false");
+  await first.click();
+  await expect(first).toHaveAttribute("aria-expanded", "true");
+  await expect(page.locator("#faq-a-0")).toBeVisible();
   const second = page.locator("#faq-q-1");
   await second.click();
   await expect(second).toHaveAttribute("aria-expanded", "true");
+  await expect(first).toHaveAttribute("aria-expanded", "false");
   await expect(page.locator("#faq-a-1")).toBeVisible();
   const photo = page.getByRole("button", { name: "Next photo", exact: true });
   await photo.click();

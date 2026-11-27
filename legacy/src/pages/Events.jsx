@@ -150,6 +150,7 @@ const events = [
         format: "Icebreaker game, panel or fireside chat, open networking",
         whoFor: "Students interested in startups, venture capital, investing, and entrepreneurship, plus founders looking to grow their network.",
         status: "default",
+        signUpLink: "https://docs.google.com/forms/d/e/1FAIpQLSepji6E4EBtAXHj6t-VnsPLR5XNJxrsh47ZHTuEAk-Tf-ao_g/viewform",
         image: capitalConnectImg,
     },
     {

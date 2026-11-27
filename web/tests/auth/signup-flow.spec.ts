@@ -4,9 +4,11 @@ import { getSignupDestination, getOnboardingPath } from '../../lib/auth/signup-r
 test('accepts only supported signup destinations', () => {
   const event = '/events/sample-event/register';
   expect(getSignupDestination(event)).toBe(event);
+  expect(getSignupDestination('/members')).toBe('/members');
+  expect(getOnboardingPath('/members', false)).toBe('/profile/setup?next=%2Fmembers');
   expect(getSignupDestination('/members/profile')).toBe('/members/profile');
   expect(getOnboardingPath('/members/profile', true)).toBe('/members/profile');
-  for (const invalid of [null, '//example.org', '/%2fexample.org', 'https://example.org', '/events/a/register?x=1', '/events/a/register#fragment', '/events/a/register/extra', '/events/a%2fb/register', '/events/a\\register', '/events/sample-event/register\n', '/events/sample-event/register\r\n']) {
+  for (const invalid of [null, '//example.org', '/%2fexample.org', 'https://example.org', '/events/a/register?x=1', '/events/a/register#fragment', '/events/a/register/extra', '/events/a%2fb/register', '/events/a\\register', '/events/sample-event/register\n', '/events/sample-event/register\r\n', '/members/', '/members?x=1', '/membersx']) {
     expect(getSignupDestination(invalid)).toBe('/events');
   }
   expect(getOnboardingPath(event, false)).toBe('/profile/setup?next=%2Fevents%2Fsample-event%2Fregister');

@@ -40,6 +40,9 @@ export const navLinks = [{
   label: "Team",
   to: "/meetOurTeam"
 }, {
+  label: "Members",
+  to: "/members"
+}, {
   label: "FAQ",
   hash: "/#faq"
 }];

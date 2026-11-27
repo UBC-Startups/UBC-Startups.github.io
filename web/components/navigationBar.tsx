@@ -8,7 +8,7 @@ import styles from "./navigationBar.module.css";
 
 const navigation = [
   ["Home", "/"], ["About Us", "/#aboutUs"], ["Events", "/events"],
-  ["Team", "/meetOurTeam"], ["FAQ", "/#faq"],
+  ["Team", "/meetOurTeam"], ["Members", "/members"], ["FAQ", "/#faq"],
 ];
 const socials = [
   ["LinkedIn", links.linkedin, "linkedin-c.png"],
